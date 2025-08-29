@@ -584,9 +584,9 @@ class UCB_trainer:
         config.update_config({'device': selected_device}, dev_mode=True)
 
         if self._runs_parent is not None:
-            run_dir = Path(self._runs_parent) / str(config.experiment_name)
-            run_dir.mkdir(parents=True, exist_ok=True)
-            config.update_config({'run_dir': run_dir}, dev_mode=True)
+            run_base = Path(self._runs_parent).resolve()
+            run_base.mkdir(parents=True, exist_ok=True)
+            config.update_config({'run_dir': run_base}, dev_mode=True)
 
             if self._run_label is not None:
                 config.update_config({'run_label': self._run_label}, dev_mode=True)

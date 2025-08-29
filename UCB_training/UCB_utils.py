@@ -107,7 +107,7 @@ def open_tensorboard(logdir: str, port: int = 6006):
 def fractional_multi_lr(epochs: int, fractions: list[float], lrs: list[float], round_up: bool = True) -> dict[
     int, float]:
     """
-    Build a dictionary for an flexible piecewise learning-rate schedule.
+    Build a dictionary for a flexible piecewise learning-rate schedule.
 
       - 'fractions': N fractional breakpoints summing to <= 1.0
       - 'lrs': N+1 learning rates
@@ -119,10 +119,8 @@ def fractional_multi_lr(epochs: int, fractions: list[float], lrs: list[float], r
       schedule like {0: 0.01, 7: 0.005, 11: 0.001} if round_up=True
     """
     if len(lrs) != len(fractions) + 1:
-        raise ValueError(
-            "Number of learning rates must be len(fractions) + 1. "
-            f"Got {len(lrs)} LRs and {len(fractions)} fractions."
-        )
+        raise ValueError("Number of learning rates must be len(fractions) + 1. "
+                         f"Got {len(lrs)} LRs and {len(fractions)} fractions.")
     if any(f < 0 for f in fractions):
         raise ValueError("Fractions must be non-negative.")
     if sum(fractions) > 1.0 + 1e-9:
@@ -141,19 +139,24 @@ def fractional_multi_lr(epochs: int, fractions: list[float], lrs: list[float], r
 
 
 def write_paths(tag: str, trainer, *, filename: str = "stored_runs.json") -> None:
+    """
+    Store only the experiment folder names (not absolute paths).
+    Example JSON: { "no_physics": ["testing_run_3006_120131"], "physics": ["testing_run_3006_120351"]}
+    """
     if trainer is None:
         print(f"trainer for tag '{tag}' is None – nothing written.")
         return
 
-    run_dirs: Union[Path, List[Path]] = trainer._model
-    paths = run_dirs if isinstance(run_dirs, list) else [run_dirs]
-    paths = [str(Path(p)) for p in paths]
+    run_dirs = trainer._model if isinstance(trainer._model, list) else [trainer._model]
+    names = [Path(p).name for p in run_dirs]
 
     reg_file = Path(filename)
     data = json.loads(reg_file.read_text()) if reg_file.exists() else {}
-    data[tag] = paths
+    data[tag] = names
+    reg_file.parent.mkdir(parents=True, exist_ok=True)
     reg_file.write_text(json.dumps(data, indent=2))
-    print(f"stored paths for '{tag}' in {reg_file.name}: {paths}")
+
+    print(f"stored experiments for '{tag}' in {reg_file.name}: {names}")
 
 
 def to_path_or_list(seq) -> Union[Path, List[Path]]:
@@ -214,7 +217,20 @@ def get_output_dir(basin: str, resolution: str) -> Path:
 
 
 def ensure_output_tree(basin: str, resolution: str) -> Path:
-    """Create the expected folder layout under outputs/<basin>/<resolution>/..."""
+    """
+    Create the expected folder layout under outputs/<basin>/<resolution>/...
+
+    NOTE:
+    - When resolution == 'mts' we DO NOT create a tree. 'mts' is a mode alias; only
+      'mts_shared', 'mts_daily', and 'mts_hourly' should exist on disk.
+    """
+    res = resolution.strip().lower()
+
+    # No-op for the synthetic 'mts' alias.
+    if res == "mts":
+        # Return the logical path for completeness, but don't create anything.
+        return get_output_dir(basin, resolution)
+
     root = get_output_dir(basin, resolution)
     subdirs = [
         f"{_TS_DIR}/train_val",
@@ -229,8 +245,8 @@ def ensure_output_tree(basin: str, resolution: str) -> Path:
         "plots/gridded_scatterplots",
         "plots/gridded_timeseries",
         "hyperparams",
-        "logs"]
-
+        "logs",
+    ]
     for sub in subdirs:
         (root / sub).mkdir(parents=True, exist_ok=True)
     return root
@@ -332,7 +348,7 @@ def prepare_out_path(name_or_path, *, kind: str, period: str | None = None) -> P
 
 
 def switch_ctx_explicit(basin: str, resolution: str, *, run_stamp: str | None = None, run_label: str | None = None,
-        append_stamp_to_filenames: bool = False) -> Path:
+                        append_stamp_to_filenames: bool = False) -> Path:
     """
     Set active basin+resolution context, ensure output tree, chdir into it, and return the output dir.
     """
@@ -353,12 +369,8 @@ def ctx_for(basin: str, *, run_stamp: str | None = None, run_label: str | None =
     """
 
     def _switch(resolution: str) -> Path:
-        return switch_ctx_explicit(
-            basin,
-            resolution,
-            run_stamp=run_stamp,
-            run_label=run_label,
-            append_stamp_to_filenames=append_stamp_to_filenames)
+        return switch_ctx_explicit(basin, resolution, run_stamp=run_stamp, run_label=run_label,
+                                   append_stamp_to_filenames=append_stamp_to_filenames)
 
     return _switch
 
@@ -395,29 +407,56 @@ def _midnight_stamp_utc() -> str:
     return f"{today.strftime('%Y%m%d')}T000000Z"
 
 
-def hparams_exists(basin: str, mode: str, label: str = "BASELINE") -> bool:
-    """ Check if the best-params CSV exists in LATEST for the given basin+mode+label"""
-    root = _artifact_root(basin, mode)
-    prefix = f"{basin}_{mode}_{label}"
-    return (root / "hyperparams" / f"{prefix}_hyperparams.csv").exists()
-
-
-def load_hparams(basin: str, mode: str, label: str = "BASELINE") -> pd.DataFrame:
-    """Load the best-params CSV from LATEST; if missing, fall back to the newest ARCHIVE match
-    Note: Feel free to make this function more restrictive if you want! You can get rid of the fallback"""
-
+def hparams_exists(basin: str, mode: str, label: str = "BASELINE", stamp: str | None = None) -> bool:
+    """ Check if the best-params CSV exists in LATEST for the given basin+mode+label.
+    If 'stamp' is provided, check the archive file with that stamp. Otherwise, check the LATEST file.
+    """
     root = _artifact_root(basin, mode)
     hp_dir = root / "hyperparams"
     arch = hp_dir / "archive"
     prefix = f"{basin}_{mode}_{label}"
 
+    if stamp:
+        return (arch / f"{prefix}_hyperparams_{stamp}.csv").exists()
+    return (hp_dir / f"{prefix}_hyperparams.csv").exists()
+
+
+def load_hparams(basin: str, mode: str, label: str = "BASELINE", stamp: str | None = None,
+                 strict_archive: bool = True) -> pd.DataFrame:
+    """
+    Load best-params CSV.
+
+    Behavior:
+    - If 'stamp' is provided: load from archive/<prefix>_hyperparams_{stamp}.csv.
+      If missing:
+        - strict_archive=True  -> raise FileNotFoundError
+        - strict_archive=False -> fall back to LATEST, then to newest archive.
+    - If 'stamp' is None: load LATEST. If missing, fall back to newest archive.
+    """
+    root = _artifact_root(basin, mode)
+    hp_dir = root / "hyperparams"
+    arch = hp_dir / "archive"
+    prefix = f"{basin}_{mode}_{label}"
+
+    if stamp:
+        stamped = arch / f"{prefix}_hyperparams_{stamp}.csv"
+        if stamped.exists():
+            print(stamped)
+            return pd.read_csv(stamped)
+        if strict_archive:
+            raise FileNotFoundError(
+                f"Expected stamped hyperparams not found: {stamped}\n"
+                f"(You can set strict_archive=False to fall back to latest.)")
+
     latest = hp_dir / f"{prefix}_hyperparams.csv"
     if latest.exists():
+        print(latest)
         return pd.read_csv(latest)
 
-    matches = sorted(
-        arch.glob(f"{prefix}_hyperparams_*.csv"), key=lambda p: p.stat().st_mtime, reverse=True)
+    matches = sorted(arch.glob(f"{prefix}_hyperparams_*.csv"),
+                     key=lambda p: p.stat().st_mtime, reverse=True)
     if matches:
+        print(matches[0])
         return pd.read_csv(matches[0])
 
     raise FileNotFoundError(f"No best‑params CSV for {prefix} in {hp_dir} or {arch}")
@@ -491,3 +530,85 @@ def read_csv_artifact(name: str, *, kind: str, period: str | None = None, index_
     if not cands:
         raise FileNotFoundError(f"Couldn't find {name} under {p.parent}")
     return pd.read_csv(cands[0], index_col=index_col)
+
+
+def runs_parent_dir(basin: str, mode: str, label: str, stamp: str | None = None) -> Path:
+    """
+    Return the parent folder that holds experiment run folders for a (basin, mode, label[, stamp]).
+    Layout: outputs/<basin>/<mode>_shared/runs/<label>[_<stamp>]
+    """
+    # get_shared_dir(basin, mode) → outputs/<basin>/<mode>_shared
+    base = get_shared_dir(basin, mode) / "runs"
+    parent = base / (f"{label}_{stamp}" if stamp else label)
+    return parent
+
+
+def resolve_run_dirs(filename: str | Path, *, basin: str, mode: str, label: str, stamp: str | None = None,
+                     tags: tuple[str, ...] = ("no_physics", "physics")) -> dict[str, list[Path]]:
+    p = Path(filename)
+    data = json.loads(p.read_text()) if p.exists() else {}
+
+    parent = runs_parent_dir(basin, mode, label, stamp)
+    out: dict[str, list[Path]] = {}
+    for tag in tags:
+        names = data.get(tag, [])
+        out[tag] = [parent / str(name) for name in names]
+    return out
+
+
+def resolve_basin_file(basin: str, *, must_exist: bool = True) -> Path:
+    """
+    Return the absolute path to the basin list file for NeuralHydrology.
+      resolve_basin_file('calpella') -> .../notebooks/basins/calpella/calpella
+    """
+    base = (repo_root() / "notebooks" / "basins" / basin.lower()).resolve()
+    name = "warm springs" if basin.lower() == "warm_springs" else basin.lower()
+    candidates = [base / name, base / f"{name}.txt"]
+
+    for p in candidates:
+        if p.exists():
+            return p.resolve()
+
+    if must_exist:
+        existing = ", ".join(sorted(p.name for p in base.iterdir())) if base.exists() else "<<folder missing>>"
+        tried = ", ".join(c.name for c in candidates)
+        raise FileNotFoundError(
+            f"Could not find basin list for '{basin}'. Looked for [{tried}] in {base}. Existing: {existing}")
+
+    return (candidates[0]).resolve()
+
+
+def ensure_absolute_basin_files(trainer_or_cfg, basin: str,
+                                keys: tuple[str, ...] = (
+                                        "train_basin_file", "validation_basin_file", "test_basin_file")) -> Path:
+    """
+    Ensure the given NH config (or UCB_trainer instance) has ABSOLUTE paths for the basin list entries.
+    If any is missing or relative, set all to the resolved absolute basin list path for the given basin.
+    """
+
+    cfg = getattr(trainer_or_cfg, "_config", trainer_or_cfg)
+    needs_patch = False
+    for k in keys:
+        val = getattr(cfg, k, None)
+        if val is None:
+            needs_patch = True
+            break
+        try:
+            if not Path(val).is_absolute():
+                needs_patch = True
+                break
+        except TypeError:
+            needs_patch = True
+            break
+
+    if not needs_patch:
+        for k in keys:
+            v = getattr(cfg, k, None)
+            if v is not None:
+                try:
+                    return Path(v).resolve()
+                except Exception:
+                    break
+    p = resolve_basin_file(basin)
+    cfg.update_config({k: p for k in keys}, dev_mode=True)
+    return p
