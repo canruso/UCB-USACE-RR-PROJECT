@@ -139,16 +139,25 @@ def fractional_multi_lr(epochs: int, fractions: list[float], lrs: list[float], r
 
 
 def write_paths(tag: str, trainer, *, filename: str = "stored_runs.json") -> None:
-    """
-    Store only the experiment folder names (not absolute paths).
-    Example JSON: { "no_physics": ["testing_run_3006_120131"], "physics": ["testing_run_3006_120351"]}
-    """
     if trainer is None:
         print(f"trainer for tag '{tag}' is None – nothing written.")
         return
 
     run_dirs = trainer._model if isinstance(trainer._model, list) else [trainer._model]
-    names = [Path(p).name for p in run_dirs]
+    run_dirs = [Path(p).resolve() for p in run_dirs]
+
+    def _infer_runs_parent(p: Path) -> Path:
+        parts = p.parts
+        try:
+            i = parts.index("runs")
+        except ValueError:
+            return p.parent
+        if i + 1 < len(parts):
+            return Path(*parts[: i + 2])
+        return Path(*parts[: i + 1])
+
+    runs_parent = _infer_runs_parent(run_dirs[0])
+    names = [p.relative_to(runs_parent).as_posix() for p in run_dirs]
 
     reg_file = Path(filename)
     data = json.loads(reg_file.read_text()) if reg_file.exists() else {}
@@ -220,18 +229,25 @@ def ensure_output_tree(basin: str, resolution: str) -> Path:
     """
     Create the expected folder layout under outputs/<basin>/<resolution>/...
 
-    NOTE:
-    - When resolution == 'mts' we DO NOT create a tree. 'mts' is a mode alias; only
-      'mts_shared', 'mts_daily', and 'mts_hourly' should exist on disk.
+    Rules:
+    - 'mts'            → NO-OP (logical alias only; nothing on disk)
+    - 'mts_daily/_hourly' → create ONLY the resolution root; do NOT pre-create
+                            timeseries/metrics/plots subtrees
+    - 'daily'/'hourly' → pre-create the full tree (legacy behavior)
     """
     res = resolution.strip().lower()
-
-    # No-op for the synthetic 'mts' alias.
-    if res == "mts":
-        # Return the logical path for completeness, but don't create anything.
-        return get_output_dir(basin, resolution)
-
     root = get_output_dir(basin, resolution)
+
+    # Synthetic alias: never create a tree for 'mts'
+    if res == "mts":
+        return root
+
+    # For MTS resolutions, only ensure the root exists (no subtrees).
+    if res in {"mts_daily", "mts_hourly"}:
+        root.mkdir(parents=True, exist_ok=True)
+        return root
+
+    # Legacy single-resolution modes: keep the full layout.
     subdirs = [
         f"{_TS_DIR}/train_val",
         f"{_TS_DIR}/validation",
@@ -537,7 +553,7 @@ def runs_parent_dir(basin: str, mode: str, label: str, stamp: str | None = None)
     Return the parent folder that holds experiment run folders for a (basin, mode, label[, stamp]).
     Layout: outputs/<basin>/<mode>_shared/runs/<label>[_<stamp>]
     """
-    # get_shared_dir(basin, mode) → outputs/<basin>/<mode>_shared
+    # get_shared_dir(basin, mode) - outputs/<basin>/<mode>_shared
     base = get_shared_dir(basin, mode) / "runs"
     parent = base / (f"{label}_{stamp}" if stamp else label)
     return parent
@@ -552,7 +568,7 @@ def resolve_run_dirs(filename: str | Path, *, basin: str, mode: str, label: str,
     out: dict[str, list[Path]] = {}
     for tag in tags:
         names = data.get(tag, [])
-        out[tag] = [parent / str(name) for name in names]
+        out[tag] = [parent / Path(name) for name in names]
     return out
 
 
