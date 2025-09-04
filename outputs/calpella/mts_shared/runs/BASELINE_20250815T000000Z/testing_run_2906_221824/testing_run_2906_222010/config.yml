@@ -1,0 +1,85 @@
+batch_size: 64
+clip_gradient_norm: 1
+clip_targets_to_zero:
+- - NR CALPELLA FLOW COE CPL
+commit_hash: a243db4
+data_dir: /Users/canruso/Desktop/UCB-USACE-LSTMs/russian_river_data
+dataset: russian_river
+dev_mode: true
+device: cpu
+dynamic_inputs:
+- EF RUSSIAN 20 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR
+- EF RUSSIAN 20 PRECIP-INC SCREENED
+- POTTER VALLEY CA FLOW USGS_ADJUSTED
+- UKIAH CA HUMIDITY USAF-NOAA
+- UKIAH CA SOLAR RADIATION USAF-NOAA
+- UKIAH CA TEMPERATURE USAF-NOAA
+- UKIAH CA WINDSPEED USAF-NOAA
+- Capella Gage FLOW
+- EF Russian 20 ET-POTENTIAL
+- EF Russian 20 FLOW
+- EF Russian 20 FLOW-BASE
+- EF Russian 20 INFILTRATION
+- EF Russian 20 PERC-SOIL
+- EF Russian 20 SATURATION FRACTION
+epochs: 32
+experiment_name: testing_run
+head: regression
+hidden_size: 64
+hourly: true
+img_log_dir: /Users/canruso/Desktop/UCB-USACE-LSTMs/UCB_training/models/calpella_all/runs/testing_run_2906_221824/testing_run_2906_222010/img_log
+initial_forget_bias: 3
+is_mts: true
+is_mts_data: false
+learning_rate:
+  0: 0.01
+  30: 0.005
+  40: 0.001
+log_interval: 16
+log_n_figures: 1
+log_tensorboard: true
+loss: NSE
+metrics:
+- NSE
+- MSE
+model: mtslstm
+num_layers: 1
+number_of_basins: 1
+optimizer: Adam
+output_activation: linear
+output_dropout: 0.5
+package_version: 1.11.0
+physics_data_file: /Users/canruso/Desktop/UCB-USACE-LSTMs/russian_river_data/Calpella_hourly.csv
+physics_informed: true
+predict_last_n:
+  1D: 1
+  1H: 24
+run_dir: /Users/canruso/Desktop/UCB-USACE-LSTMs/UCB_training/models/calpella_all/runs/testing_run_2906_221824/testing_run_2906_222010
+save_validation_results: true
+save_weights_every: 32
+seed: 864319
+seq_length:
+  1D: 90
+  1H: 168
+shared_mtslstm: false
+target_variables:
+- NR CALPELLA FLOW COE CPL
+test_basin_file: calpella
+test_end_date: 30/09/2009
+test_start_date: 01/10/2005
+train_basin_file: calpella
+train_dir: /Users/canruso/Desktop/UCB-USACE-LSTMs/UCB_training/models/calpella_all/runs/testing_run_2906_221824/testing_run_2906_222010/train_data
+train_end_date: 30/09/2005
+train_start_date: 01/10/1994
+transfer_mtslstm_states:
+  h: linear
+  c: linear
+use_frequencies:
+- 1H
+- 1D
+validate_every: 5
+validate_n_random_basins: 1
+validation_basin_file: calpella
+validation_end_date: 30/09/2005
+validation_start_date: 01/10/2002
+verbose: false
