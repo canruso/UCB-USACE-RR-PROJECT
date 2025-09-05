@@ -11,6 +11,8 @@ from neuralhydrology.nh_run import eval_run
 from neuralhydrology.utils.nh_results_ensemble import create_results_ensemble
 from neuralhydrology.evaluation.metrics import calculate_all_metrics
 import xarray as xr
+import yaml
+from UCB_training.UCB_utils import data_dir as _ucb_data_dir, resolve_basin_file as _ucb_resolve_basin_file
 
 
 class UCB_trainer:
@@ -141,6 +143,7 @@ class UCB_trainer:
 
         def _read_single(run_dir: Path, per: str):
             self._dbg(self, "_read_single", run_dir, per)
+            replace_run_config_paths(run_dir, verbose=self._verbose)
             eval_run(run_dir, period=per, epoch=epoch, gpu=gpu)
             cfg = Config(run_dir / "config.yml")
             ep = epoch or cfg.epochs
@@ -160,7 +163,9 @@ class UCB_trainer:
         def _read_ensemble(per: str):
             self._dbg(self, "_read_ensemble", per)
             rds = [Path(p) for p in self._model]
+
             for rd in rds:
+                replace_run_config_paths(rd, verbose=self._verbose)
                 eval_run(rd, period=per, epoch=epoch, gpu=gpu)
 
             ens = create_results_ensemble(rds, period=per, epoch=epoch)
@@ -659,3 +664,158 @@ class UCB_trainer:
         tidy = (df[[flow_col]].apply(pd.to_numeric, errors="coerce").rename(columns={flow_col: "HMS_Predicted"}))
 
         return tidy
+
+def replace_run_config_paths(run_dir: Path, verbose: bool = False) -> None:
+    """
+    Make a run's on-disk config.yml portable on the current machine by fixing data_dir if it does not exist,
+    rewriting basin list files to absolute paths, aligning run_dir to the actual run_dir we are evaluating and
+    if physics_informed, fixing physics_data_file if invalid, searching local data_dir for reasonable candidates
+    """
+    yml = run_dir / "config.yml"
+    if not yml.exists():
+        if verbose:
+            print(f"[portability] missing config.yml under {run_dir}")
+        return
+
+    try:
+        with open(yml, "r") as f:
+            cfg = yaml.safe_load(f) or {}
+    except Exception as e:
+        if verbose:
+            print(f"[portability] could not read {yml}: {e}")
+        return
+
+    changed = False
+
+    dd = cfg.get("data_dir")
+    dd_ok = isinstance(dd, (str, Path)) and str(dd) and Path(str(dd)).exists()
+    if not dd_ok:
+        new_dd = str(_ucb_data_dir().resolve())
+        cfg["data_dir"] = new_dd
+        changed = True
+        if verbose:
+            print(f"[portability] data_dir → {new_dd}")
+    data_root = Path(cfg.get("data_dir")).resolve()
+
+    for key in ("train_basin_file", "validation_basin_file", "test_basin_file"):
+        v = cfg.get(key)
+        if v is None:
+            continue
+        try:
+            p = Path(v)
+            need = (not p.is_absolute()) or (not p.exists())
+        except Exception:
+            need = True
+        if need:
+            basin_token = str(v)
+            try:
+                abs_file = _ucb_resolve_basin_file(basin_token, must_exist=True)
+                cfg[key] = str(abs_file)
+                changed = True
+                if verbose:
+                    print(f"[portability] {key} → {abs_file}")
+            except Exception as e:
+                if verbose:
+                    print(f"[portability] WARNING: could not resolve '{key}'='{v}': {e}")
+
+    rd = run_dir.resolve()
+    if not cfg.get("run_dir") or Path(str(cfg.get("run_dir"))).resolve() != rd:
+        cfg["run_dir"] = str(rd)
+        changed = True
+        if verbose:
+            print(f"[portability] run_dir → {rd}")
+
+    for key, sub in (("img_log_dir", "img_log"), ("train_dir", "train_data")):
+        if key in cfg:
+            expected = rd / sub
+            cur = cfg.get(key)
+            try:
+                same = Path(str(cur)).resolve() == expected
+            except Exception:
+                same = False
+            if not same:
+                cfg[key] = str(expected)
+                changed = True
+                if verbose:
+                    print(f"[portability] {key} → {expected}")
+
+    def _guess_basin_prefix() -> str | None:
+        src = cfg.get("train_basin_file") or cfg.get("validation_basin_file") or cfg.get("test_basin_file")
+        if not src:
+            return None
+        name = Path(str(src)).name.lower().replace(".txt", "")
+        name = name.replace("_", " ").strip()
+        if "warm" in name and "spring" in name:
+            return "WarmSprings_Inflow"
+        return name.title().replace(" ", "")
+
+    try:
+        phys_on = bool(cfg.get("physics_informed", False))
+    except Exception:
+        phys_on = False
+
+    phys_path = cfg.get("physics_data_file")
+    phys_missing = (phys_path in (None, "None", "", "none", "null"))
+
+    def _choose_candidates() -> list[Path]:
+        prefix = _guess_basin_prefix()
+        hourly = bool(cfg.get("hourly", False))
+        cands: list[str] = []
+        if hourly:
+            if prefix:
+                cands += [f"{prefix}_hourly.csv", f"{prefix.lower()}_hourly.csv"]
+            cands += ["hourly.csv"]
+        else:
+            if prefix:
+                cands += [f"{prefix}_daily_shift.csv", f"{prefix}_daily.csv",
+                          f"{prefix.lower()}_daily_shift.csv", f"{prefix.lower()}_daily.csv"]
+            cands += ["daily_shift.csv", "daily.csv"]
+        return [data_root / c for c in cands]
+
+    def _exists_case_insensitive(p: Path) -> Path | None:
+        if p.exists():
+            return p
+        if p.parent.exists():
+            target = p.name.lower()
+            for child in p.parent.iterdir():
+                if child.name.lower() == target:
+                    return child
+        return None
+
+    if phys_on:
+        need_fix = False
+        if phys_missing:
+            need_fix = True
+        else:
+            try:
+                if not Path(str(phys_path)).exists():
+                    need_fix = True
+            except Exception:
+                need_fix = True
+
+        if need_fix:
+            chosen: Path | None = None
+            for cand in _choose_candidates():
+                hit = _exists_case_insensitive(cand)
+                if hit is not None:
+                    chosen = hit
+                    break
+            if chosen is not None:
+                cfg["physics_data_file"] = str(chosen.resolve())
+                changed = True
+                if verbose:
+                    print(f"[portability] physics_data_file → {chosen.resolve()}")
+            else:
+                cfg["physics_informed"] = False
+                changed = True
+                if verbose:
+                    print("[portability] WARNING: could not find physics_data_file locally; disabling physics_informed")
+
+    if changed:
+        try:
+            with open(yml, "w") as f:
+                yaml.safe_dump(cfg, f, sort_keys=False)
+        except Exception as e:
+            if verbose:
+                print(f"[portability] could not write patched config to {yml}: {e}")
+
