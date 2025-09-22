@@ -1001,3 +1001,114 @@ def four_basin_trainval_strip(models_dir: Path | str, *, resolution: str = "hour
     fig.savefig(out_png, dpi=dpi, bbox_inches="tight")
     plt.close(fig)
     return out_png
+
+
+def plot_lstm_vs_pilstm(source, title: str, *, start_date: str | None = None, end_date: str | None = None,
+                        metrics: tuple[str, ...] = ("NSE","PBIAS"), metrics_out: str | None = None,
+                        ts_out: str | None = None, fig_out: str | None = None,
+                        figsize=(18,6), linewidth: float = 2.0, alpha_pred: float = 0.8,
+                        legend_font: int = 14, axis_font: int = 14, period: str = "test"):
+
+    from neuralhydrology.evaluation.metrics import calculate_all_metrics
+
+    if isinstance(source, (list, tuple)):
+        lstm_p, pil_p = map(Path, source)
+        lstm = pd.read_csv(lstm_p).rename(columns={"Predicted":"LSTM_Predicted"})
+        pil  = pd.read_csv(pil_p).rename(columns={"Predicted":"PLSTM_Predicted"})
+        pil.drop(columns=["Observed"], errors="ignore", inplace=True)
+        for d in (lstm, pil):
+            d["Date"] = pd.to_datetime(d["Date"], errors="coerce").dt.floor("D")
+        df = lstm.merge(pil, on="Date", how="inner")
+    else:
+        df = source.copy()
+        df["Date"] = pd.to_datetime(df["Date"], errors="coerce").dt.floor("D")
+    if start_date:
+        df = df[df["Date"] >= pd.to_datetime(start_date, dayfirst=True)]
+    if end_date:
+        df = df[df["Date"] <= pd.to_datetime(end_date, dayfirst=True)]
+    for c in ["Observed","LSTM_Predicted","PLSTM_Predicted"]:
+        if c in df.columns:
+            df[c] = pd.to_numeric(df[c], errors="coerce")
+    for c in ["LSTM_Predicted","PLSTM_Predicted"]:
+        if c in df.columns:
+            df.loc[df[c] < 0, c] = 0
+    obs = xr.DataArray(df["Observed"].values, dims=["date"], coords={"date": df["Date"]})
+    lstm = xr.DataArray(df["LSTM_Predicted"].values, dims=["date"], coords={"date": df["Date"]})
+    pil  = xr.DataArray(df["PLSTM_Predicted"].values, dims=["date"], coords={"date": df["Date"]})
+    m_l = calculate_all_metrics(obs, lstm); m_p = calculate_all_metrics(obs, pil)
+    m_l["PBIAS"] = float(((obs - lstm).sum() / obs.sum()) * 100)
+    m_p["PBIAS"] = float(((obs - pil).sum() / obs.sum()) * 100)
+    if metrics_out:
+        mp = prepare_out_path(metrics_out, kind="metrics", period=period)
+        mp.parent.mkdir(parents=True, exist_ok=True)
+        pd.DataFrame({"LSTM": m_l, "PILSTM": m_p}).to_csv(mp)
+    if ts_out:
+        tp = prepare_out_path(ts_out, kind="csv", period=period)
+        tp.parent.mkdir(parents=True, exist_ok=True)
+        df.to_csv(tp, index=False)
+    plt.figure(figsize=figsize)
+    plt.rcParams.update({"axes.labelsize": axis_font, "xtick.labelsize": axis_font-2,
+                         "ytick.labelsize": axis_font-2, "legend.fontsize": legend_font})
+    def _fmt(m): return ", ".join(f"{k}={m[k]:.3f}" for k in metrics if k in m)
+    plt.plot(df["Date"], df["Observed"], lw=linewidth, label="Observed")
+    plt.plot(df["Date"], df["LSTM_Predicted"], lw=linewidth, alpha=alpha_pred, label=f"LSTM ({_fmt(m_l)})")
+    plt.plot(df["Date"], df["PLSTM_Predicted"], lw=linewidth, alpha=alpha_pred, label=f"PILSTM ({_fmt(m_p)})")
+    plt.title(title, fontsize=axis_font+2); plt.xlabel("Date"); plt.ylabel("Inflow (cfs)")
+    plt.grid(alpha=.4); plt.legend(loc="upper right"); plt.tight_layout()
+    if fig_out:
+        fp = prepare_out_path(fig_out, kind="plot_timeseries", period=period)
+        fp.parent.mkdir(parents=True, exist_ok=True); plt.savefig(fp, dpi=300, bbox_inches="tight")
+    plt.show()
+    return pd.DataFrame({"LSTM": m_l, "PILSTM": m_p})
+
+
+def plot_forecasts(sources, title: str, *, start_date: str | None = None, end_date: str | None = None,
+                   fig_out: str | None = None, ts_out: str | None = None,
+                   period: str = "test", figsize=(18,6), linewidth: float = 2.0,
+                   legend_font: int = 14, axis_font: int = 14, alpha_pred: float = 0.9):
+    """
+    sources: either a DataFrame with ['Date','LSTM_Predicted','PLSTM_Predicted']
+             or a tuple/list of two CSVs (lstm_csv, pilstm_csv) with ['Date','Predicted'] each.
+    """
+    if isinstance(sources, (list, tuple)):
+        lstm_p, pil_p = map(Path, sources)
+        lstm = pd.read_csv(lstm_p).rename(columns={"Predicted": "LSTM_Predicted"})
+        pil  = pd.read_csv(pil_p).rename(columns={"Predicted": "PLSTM_Predicted"})
+        for d in (lstm, pil):
+            d["Date"] = pd.to_datetime(d["Date"], errors="coerce")
+        df = lstm.merge(pil, on="Date", how="outer").sort_values("Date")
+    else:
+        df = sources.copy()
+        df["Date"] = pd.to_datetime(df["Date"], errors="coerce")
+
+    if start_date:
+        df = df[df["Date"] >= pd.to_datetime(start_date, dayfirst=True)]
+    if end_date:
+        df = df[df["Date"] <= pd.to_datetime(end_date, dayfirst=True)]
+
+    for c in ["LSTM_Predicted", "PLSTM_Predicted"]:
+        if c in df.columns:
+            df[c] = pd.to_numeric(df[c], errors="coerce")
+            df.loc[df[c] < 0, c] = 0
+
+    if ts_out:
+        tp = prepare_out_path(ts_out, kind="csv", period=period)
+        tp.parent.mkdir(parents=True, exist_ok=True)
+        df.to_csv(tp, index=False)
+
+    plt.figure(figsize=figsize)
+    plt.rcParams.update({"axes.labelsize": axis_font, "xtick.labelsize": axis_font-2,
+                         "ytick.labelsize": axis_font-2, "legend.fontsize": legend_font})
+    if "LSTM_Predicted" in df:
+        plt.plot(df["Date"], df["LSTM_Predicted"], lw=linewidth, alpha=alpha_pred, label="LSTM Forecast")
+    if "PLSTM_Predicted" in df:
+        plt.plot(df["Date"], df["PLSTM_Predicted"], lw=linewidth, alpha=alpha_pred, label="PILSTM Forecast")
+    plt.title(title, fontsize=axis_font+2)
+    plt.xlabel("Date"); plt.ylabel("Forecast (cfs)")
+    plt.grid(alpha=.4); plt.legend(loc="upper right"); plt.tight_layout()
+
+    if fig_out:
+        fp = prepare_out_path(fig_out, kind="plot_timeseries", period=period)
+        fp.parent.mkdir(parents=True, exist_ok=True)
+        plt.savefig(fp, dpi=300, bbox_inches="tight")
+    plt.show()

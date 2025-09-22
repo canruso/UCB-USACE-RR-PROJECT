@@ -628,3 +628,46 @@ def ensure_absolute_basin_files(trainer_or_cfg, basin: str,
     p = resolve_basin_file(basin)
     cfg.update_config({k: p for k in keys}, dev_mode=True)
     return p
+
+def basin_prefix(basin: str) -> str:
+    if basin.lower() == "warm_springs":
+        return "WarmSprings_Inflow"
+    return basin.replace("_", " ").title().replace(" ", "")
+
+
+def read_hec_table(path: Path) -> tuple[pd.DataFrame, dict]:
+    raw = pd.read_csv(path, header=None, dtype=str, low_memory=False)
+    has_date = raw.apply(lambda r: r.astype(str).str.contains(r"\bdate\b", case=False, na=False).any(), axis=1)
+    if not bool(has_date.any()):
+        raise RuntimeError(f"'Date' header row not found in {path}")
+    hdr = int(has_date.idxmax())
+    header = raw.iloc[hdr].tolist()
+    units  = raw.iloc[hdr + 1].tolist()
+    types  = raw.iloc[hdr + 2].tolist()
+    colnum = raw.iloc[0].tolist() if raw.iloc[0].astype(str).str.contains("col num", case=False, na=False).any() else None
+    data_start = hdr + 3
+    df = raw.iloc[data_start:].copy()
+    df.columns = header
+    meta = {"header": header, "units": units, "types": types, "colnum": colnum, "data_start": data_start}
+    return df, meta
+
+def write_hec_table(df: pd.DataFrame, meta: dict, out_path: Path) -> None:
+    cols = list(df.columns)
+    def _row(vals: list[str]) -> pd.DataFrame:
+        v = list(vals)[:len(cols)]
+        if len(v) < len(cols):
+            v += [""] * (len(cols) - len(v))
+        return pd.DataFrame([v], columns=cols)
+    parts = []
+    if meta.get("colnum") is not None:
+        parts.append(_row(meta["colnum"]))
+    parts += [_row(meta["header"]), _row(meta["units"]), _row(meta["types"]), df[cols].astype(str)]
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    pd.concat(parts, ignore_index=True).to_csv(out_path, index=False, header=False)
+
+def find_label(df: pd.DataFrame, name: str) -> str:
+    want = name.strip().lower()
+    for c in df.columns:
+        if str(c).strip().lower() == want:
+            return c
+    raise KeyError(f"Column not found: {name}")
