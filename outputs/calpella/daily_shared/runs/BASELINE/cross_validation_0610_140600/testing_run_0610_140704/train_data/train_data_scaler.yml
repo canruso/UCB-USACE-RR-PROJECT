@@ -1,0 +1,74 @@
+xarray_feature_scale:
+  coords: {}
+  attrs: {}
+  dims: {}
+  data_vars:
+    EF RUSSIAN 20 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR:
+      dims: []
+      attrs: {}
+      data: 0.08297063410282135
+    EF RUSSIAN 20 PRECIP-INC SCREENED:
+      dims: []
+      attrs: {}
+      data: 0.34433117508888245
+    NR CALPELLA FLOW COE CPL:
+      dims: []
+      attrs: {}
+      data: 468.2134094238281
+    POTTER VALLEY CA FLOW USGS_ADJUSTED:
+      dims: []
+      attrs: {}
+      data: 97.96170043945312
+    UKIAH CA HUMIDITY USAF-NOAA:
+      dims: []
+      attrs: {}
+      data: 15.4593505859375
+    UKIAH CA SOLAR RADIATION USAF-NOAA:
+      dims: []
+      attrs: {}
+      data: 107.07374572753906
+    UKIAH CA TEMPERATURE USAF-NOAA:
+      dims: []
+      attrs: {}
+      data: 11.100977897644043
+    UKIAH CA WINDSPEED USAF-NOAA:
+      dims: []
+      attrs: {}
+      data: 2.2433667182922363
+xarray_feature_center:
+  coords: {}
+  attrs: {}
+  dims: {}
+  data_vars:
+    EF RUSSIAN 20 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR:
+      dims: []
+      attrs: {}
+      data: 0.1306518018245697
+    EF RUSSIAN 20 PRECIP-INC SCREENED:
+      dims: []
+      attrs: {}
+      data: 0.10369342565536499
+    NR CALPELLA FLOW COE CPL:
+      dims: []
+      attrs: {}
+      data: 331.5534973144531
+    POTTER VALLEY CA FLOW USGS_ADJUSTED:
+      dims: []
+      attrs: {}
+      data: 173.147705078125
+    UKIAH CA HUMIDITY USAF-NOAA:
+      dims: []
+      attrs: {}
+      data: 65.56241607666016
+    UKIAH CA SOLAR RADIATION USAF-NOAA:
+      dims: []
+      attrs: {}
+      data: 205.0614471435547
+    UKIAH CA TEMPERATURE USAF-NOAA:
+      dims: []
+      attrs: {}
+      data: 57.9716682434082
+    UKIAH CA WINDSPEED USAF-NOAA:
+      dims: []
+      attrs: {}
+      data: 3.8769290447235107
