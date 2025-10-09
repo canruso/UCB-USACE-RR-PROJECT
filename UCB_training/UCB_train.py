@@ -13,6 +13,7 @@ from neuralhydrology.evaluation.metrics import calculate_all_metrics
 import xarray as xr
 import yaml
 from UCB_training.UCB_utils import data_dir as _ucb_data_dir, resolve_basin_file as _ucb_resolve_basin_file
+from UCB_training.plot_loss_curves import plot_loss_curves
 
 
 class UCB_trainer:
@@ -63,10 +64,28 @@ class UCB_trainer:
             path = self._train_model()
             self._eval_model(path, period="validation")
             self._model = path
+
+            # Generate loss curve visualization
+            try:
+                plot_loss_curves(path)
+                if self._verbose:
+                    print(f"[UCB Trainer] Loss curves saved to {path}/loss_curves.png")
+            except Exception as e:
+                if self._verbose:
+                    print(f"[UCB Trainer] Warning: Could not generate loss curves: {e}")
         else:
             self._model = self._train_ensemble()
             for model_path in self._model:
                 self._eval_model(model_path, period="validation")
+
+                # Generate loss curve visualization for each ensemble member
+                try:
+                    plot_loss_curves(model_path)
+                    if self._verbose:
+                        print(f"[UCB Trainer] Loss curves saved to {model_path}/loss_curves.png")
+                except Exception as e:
+                    if self._verbose:
+                        print(f"[UCB Trainer] Warning: Could not generate loss curves: {e}")
 
         return self._model
 

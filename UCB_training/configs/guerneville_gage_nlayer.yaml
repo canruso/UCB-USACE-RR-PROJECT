@@ -111,6 +111,19 @@ log_n_figures: 1
 # Save model weights every n epochs
 save_weights_every: 16
 
+
+# --- Early Stopping Configuration (NeuralHydrology built-in) -------------------------------------
+# Enable early stopping based on validation performance
+early_stopping: True
+
+# Number of validation epochs with no improvement before stopping training
+# With validate_every=5, patience=5 means stopping after 25 epochs of no improvement
+patience_early_stopping: 3
+
+# Minimum number of epochs before early stopping can be triggered
+# This ensures the model trains for at least this many epochs regardless of validation performance
+minimum_epochs_before_early_stopping: 10
+
 # --- Data configurations --------------------------------------------------------------------------
 
 # which data set to use [camels_us, camels_gb, global, hourly_camels_us]

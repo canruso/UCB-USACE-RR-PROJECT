@@ -166,3 +166,16 @@ target_variables:
 
 clip_targets_to_zero:
   - [NR GUERNEVILLE FLOW COE GRN]
+
+# --- Early Stopping Configuration (NeuralHydrology built-in) -------------------------------------
+# Enable early stopping based on validation performance
+early_stopping: True
+
+# Number of validation epochs with no improvement before stopping training
+# With validate_every=5, patience=5 means stopping after 25 epochs of no improvement
+patience_early_stopping: 3
+
+# Minimum number of epochs before early stopping can be triggered
+# This ensures the model trains for at least this many epochs regardless of validation performance
+minimum_epochs_before_early_stopping: 10
+
