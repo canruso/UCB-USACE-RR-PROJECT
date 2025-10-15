@@ -662,7 +662,7 @@ class UCB_trainer:
         return tidy
 
 
-    def cross_validate(self, intervalMonth='October', intervalLength=2, validationLength=1, gap=False, run_path=None) -> dict:
+    def cross_validate(self, intervalMonth='October', intervalLength=2, validationLength=1, no_leak=True, run_path=None) -> dict:
         """
         This method performs an i fold cross validation where i = ([number of years in dataset] // intervalLength) - validationLength.
         This method is currently configured to train from the start of the test set to the end of the validation set in the corresponding CSV. 
@@ -673,8 +673,6 @@ class UCB_trainer:
             intervalLength: optional, int, the length of the initial fold in years, default is 2
 
             validationLength: optional, int, the length of the validation period in years, default is 1
-
-            gap: optional, bool, whether to include a one-year gap between the training and validation periods. Default is False.
         """
         #create a crossval run folder
         now = datetime.now()
@@ -690,54 +688,74 @@ class UCB_trainer:
         run_dir.mkdir(parents=True, exist_ok=True)
 
 
-        MonthsLib = {'january': 'Jan', 'febuary': 'Feb', 'march': 'Mar', 'april' : 'Apr', 'may' : 'May', 'june' : 'Jun', 'july' : 'Jul', 'august': 'Aug', 'september': 'Sep', 'october': 'Oct', 'december': 'Dec'}
+        MonthsLib = {'january': 'Jan', 'february': 'Feb', 'march': 'Mar', 'april' : 'Apr', 'may' : 'May', 'june' : 'Jun', 'july' : 'Jul', 'august': 'Aug', 'september': 'Sep', 'october': 'Oct', 'november': 'Nov', 'december': 'Dec'}
         interval = MonthsLib[intervalMonth.lower()]
 
         cross_val_results = {}
 
-        gap = int(gap)
-
-        #optionally adjust start and end dates based on the YAML configuration
         original_start = getattr(self._config, "train_start_date", None)
         original_start_year = int(original_start.year)
 
         original_end = getattr(self._config, "validation_end_date", None)
         original_end_year = int(original_end.year)
 
-        original_validation_end = getattr(self._config, "validation_end_date", None)
+        original_train_start = getattr(self._config, "train_start_date", None)
+        original_train_end = getattr(self._config, "train_end_date", None)
+        original_val_start = getattr(self._config, "validation_start_date", None)
+        original_val_end = getattr(self._config, "validation_end_date", None)
+
 
         n_years = original_end_year - original_start_year + 1
-        max_fold = (n_years - 2 - int(gap)) // 2 - validationLength
+        max_fold = (n_years - 2) // 2 - validationLength
+
+        seq_length = getattr(self._config, "seq_length", None)
+        lookback = int(seq_length)
 
         i = 1
         while i <= max_fold:
-            self._config.update_config({'train_start_date': pd.to_datetime(f"{str(original_start_year)}-{interval}-01", format="%Y-%b-%d")}, dev_mode=True)
-            self._config.update_config({'train_end_date': pd.to_datetime(f"{str(original_start_year + (intervalLength * i))}-{interval}-01", format="%Y-%b-%d")}, dev_mode=True)
-            self._config.update_config({'validation_start_date': pd.to_datetime(f"{str(original_start_year + (intervalLength * i) + gap)}-{interval}-02", format="%Y-%b-%d")}, dev_mode=True)
-            self._config.update_config({'validation_end_date': pd.to_datetime(f"{str(original_start_year + (intervalLength * i + validationLength) + gap)}-{interval}-01", format="%Y-%b-%d")}, dev_mode=True)
+            fold_train_start_date = pd.to_datetime(f"{str(original_start_year)}-{interval}-01", format="%Y-%b-%d")
+            fold_train_end_date = pd.to_datetime(f"{original_start_year + (intervalLength * i)}-{interval}-01", format="%Y-%b-%d")
+            val_eval_start = fold_train_end_date + pd.Timedelta(days=1)
+            fold_val_end_date = pd.to_datetime(f"{original_start_year + (intervalLength * i + validationLength)}-{interval}-01", format="%Y-%b-%d")
+
+            if no_leak:
+                val_leak_start = val_eval_start
+            else:
+                val_leak_start = val_eval_start - pd.Timedelta(days=lookback-1)
+
+
+            self._config.update_config({'train_start_date': fold_train_start_date}, dev_mode=True)
+            self._config.update_config({'train_end_date': fold_train_end_date}, dev_mode=True)
+            self._config.update_config({'validation_start_date': val_leak_start}, dev_mode=True)
+            self._config.update_config({'validation_end_date': fold_val_end_date}, dev_mode=True)
             self._config.update_config({'run_dir': run_dir}, dev_mode=True)
             
             self.train()
 
             time_resolution_key = '1h' if self._hourly else '1D'
             self._get_predictions(time_resolution_key, 'validation')
-            metrics = calculate_all_metrics(self._observed, self._predictions)
+            pred = self._predictions.loc[val_eval_start:fold_val_end_date]
+            obs  = self._observed.loc[val_eval_start:fold_val_end_date]
+            metrics = calculate_all_metrics(obs, pred)
             
             cross_val_results[i] = metrics
 
             i += 1
 
-        if original_start:
-            self._config.update_config({'train_start_date': original_start})
-        if original_end:
-            self._config.update_config({'train_end_date': original_end})
-        if original_validation_end:
-            self._config.update_config({'validation_end_date': original_validation_end})
+        if original_train_start:
+            self._config.update_config({'train_start_date': original_train_start}, dev_mode=True)
+        if original_train_end:
+            self._config.update_config({'train_end_date': original_train_end}, dev_mode=True)
+        if original_val_start:
+            self._config.update_config({'validation_start_date': original_val_start}, dev_mode=True)
+        if original_val_end:
+            self._config.update_config({'validation_end_date': original_val_end}, dev_mode=True)
 
-        for j in range(1, len(cross_val_results) + 1):
-            print(f"Fold {j} results")
-            print(cross_val_results[j])
-            print("\n") 
+        if self._verbose:
+            for j in range(1, len(cross_val_results) + 1):
+                print(f"Fold {j} results")
+                print(cross_val_results[j])
+                print("\n") 
 
         output = {}
         for j in cross_val_results:
