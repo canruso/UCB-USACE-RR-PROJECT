@@ -1,0 +1,70 @@
+batch_size: 256
+clip_gradient_norm: 1
+clip_targets_to_zero:
+- - NR CALPELLA FLOW COE CPL
+commit_hash: '1e15358'
+data_dir: C:\Users\arman\Dropbox\The University\Projects\UCB-USACE-RR-PROJECT\russian_river_data
+dataset: russian_river
+dev_mode: true
+device: cpu
+dynamic_inputs:
+- EF RUSSIAN 20 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR
+- EF RUSSIAN 20 PRECIP-INC SCREENED
+- POTTER VALLEY CA FLOW USGS_ADJUSTED
+- UKIAH CA HUMIDITY USAF-NOAA
+- UKIAH CA SOLAR RADIATION USAF-NOAA
+- UKIAH CA TEMPERATURE USAF-NOAA
+- UKIAH CA WINDSPEED USAF-NOAA
+epochs: 16
+experiment_name: testing_run
+head: regression
+hidden_size: 64
+hourly: false
+img_log_dir: C:\Users\arman\Dropbox\The 
+  University\Projects\UCB-USACE-RR-PROJECT\outputs\calpella\daily_shared\runs\BASELINE\cross_validation_1610_112605\testing_run_1610_112618\img_log
+initial_forget_bias: 3
+is_mts: false
+is_mts_data: false
+learning_rate:
+  0: 0.01
+  8: 0.005
+  12: 0.001
+log_interval: 16
+log_n_figures: 1
+log_tensorboard: true
+loss: NSE
+metrics:
+- NSE
+- MSE
+model: cudalstm
+num_layers: 1
+number_of_basins: 1
+optimizer: Adam
+output_activation: linear
+output_dropout: 0.5
+package_version: 1.11.0
+physics_data_file: None
+physics_informed: false
+predict_last_n: 1
+run_dir: C:\Users\arman\Dropbox\The 
+  University\Projects\UCB-USACE-RR-PROJECT\outputs\calpella\daily_shared\runs\BASELINE\cross_validation_1610_112605\testing_run_1610_112618
+run_label: BASELINE
+save_weights_every: 16
+seed: 842871
+seq_length: 365
+target_variables:
+- NR CALPELLA FLOW COE CPL
+test_basin_file: calpella
+test_end_date: 29/09/2009
+test_start_date: 01/10/2005
+train_basin_file: calpella
+train_dir: C:\Users\arman\Dropbox\The 
+  University\Projects\UCB-USACE-RR-PROJECT\outputs\calpella\daily_shared\runs\BASELINE\cross_validation_1610_112605\testing_run_1610_112618\train_data
+train_end_date: 01/10/1998
+train_start_date: 01/10/1994
+validate_every: 5
+validate_n_random_basins: 1
+validation_basin_file: calpella
+validation_end_date: 01/10/1999
+validation_start_date: 02/10/1998
+verbose: false

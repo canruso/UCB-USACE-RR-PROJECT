@@ -673,8 +673,11 @@ class UCB_trainer:
             intervalLength: optional, int, the length of the initial fold in years, default is 2
 
             validationLength: optional, int, the length of the validation period in years, default is 1
+
+            no_leak: optional, bool, if True the validation period will not include any lookback data from the training period. Default is True.
+
+            run_path: optional, Path, if provided the cross validation runs will be stored in a subdirectory of this path. Default is None, which will create a 'runs' directory in the current working directory.
         """
-        #create a crossval run folder
         now = datetime.now()
         day = f"{now.day}".zfill(2)
         month = f"{now.month}".zfill(2)
