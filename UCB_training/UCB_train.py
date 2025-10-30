@@ -662,7 +662,7 @@ class UCB_trainer:
         return tidy
 
 
-    def cross_validate(self, intervalMonth='October', intervalLength=2, validationLength=1, no_leak=True, run_path=None) -> dict:
+    def cross_validate(self, intervalMonth='October', intervalLength=2, validationLength=1, no_leak=False, run_path=None) -> dict:
         """
         This method performs an i fold cross validation where i = ([number of years in dataset] // intervalLength) - validationLength.
         This method is currently configured to train from the start of the test set to the end of the validation set in the corresponding CSV. 
@@ -679,22 +679,23 @@ class UCB_trainer:
             run_path: optional, Path, if provided the cross validation runs will be stored in a subdirectory of this path. Default is None, which will create a 'runs' directory in the current working directory.
         """
         now = datetime.now()
-        day = f"{now.day}".zfill(2)
-        month = f"{now.month}".zfill(2)
-        hour = f"{now.hour}".zfill(2)
-        minute = f"{now.minute}".zfill(2)
-        second = f"{now.second}".zfill(2)
-        if not run_path:
-            run_dir = Path().cwd() / "runs" / f"cross_validation_{day}{month}_{hour}{minute}{second}"
-        else:
-            run_dir = run_path / f"cross_validation_{day}{month}_{hour}{minute}{second}"
+        ts = f"{now.day:02d}{now.month:02d}_{now.hour:02d}{now.minute:02d}{now.second:02d}"
+
+        root = (run_path if run_path else Path.cwd() / "runs")
+        run_dir = root / f"cross_validation_{ts}"
         run_dir.mkdir(parents=True, exist_ok=True)
 
 
         MonthsLib = {'january': 'Jan', 'february': 'Feb', 'march': 'Mar', 'april' : 'Apr', 'may' : 'May', 'june' : 'Jun', 'july' : 'Jul', 'august': 'Aug', 'september': 'Sep', 'october': 'Oct', 'november': 'Nov', 'december': 'Dec'}
         interval = MonthsLib[intervalMonth.lower()]
 
-        cross_val_results = {}
+        is_mts = getattr(self._config, "is_mts", False)
+
+        if not is_mts:
+            cross_val_results = {}
+        else:
+            daily_results = {}
+            hourly_results = {}
 
         original_start = getattr(self._config, "train_start_date", None)
         original_start_year = int(original_start.year)
@@ -702,6 +703,7 @@ class UCB_trainer:
         original_end = getattr(self._config, "validation_end_date", None)
         original_end_year = int(original_end.year)
 
+        #repeated for neatness, restore OG end dates when the fxn finishes executing
         original_train_start = getattr(self._config, "train_start_date", None)
         original_train_end = getattr(self._config, "train_end_date", None)
         original_val_start = getattr(self._config, "validation_start_date", None)
@@ -712,7 +714,10 @@ class UCB_trainer:
         max_fold = (n_years - 2) // 2 - validationLength
 
         seq_length = getattr(self._config, "seq_length", None)
-        lookback = int(seq_length)
+        if not is_mts:
+            lookback = int(seq_length)
+        else:
+            lookback_dict = seq_length
 
         i = 1
         while i <= max_fold:
@@ -724,24 +729,46 @@ class UCB_trainer:
             if no_leak:
                 val_leak_start = val_eval_start
             else:
-                val_leak_start = val_eval_start - pd.Timedelta(days=lookback-1)
+                if not is_mts:
+                    val_leak_start = val_eval_start - pd.Timedelta(days=lookback-1)
+                else:
+                    val_leak_start = val_eval_start - pd.Timedelta(days=lookback_dict['1D']-1)
 
 
-            self._config.update_config({'train_start_date': fold_train_start_date}, dev_mode=True)
-            self._config.update_config({'train_end_date': fold_train_end_date}, dev_mode=True)
-            self._config.update_config({'validation_start_date': val_leak_start}, dev_mode=True)
-            self._config.update_config({'validation_end_date': fold_val_end_date}, dev_mode=True)
-            self._config.update_config({'run_dir': run_dir}, dev_mode=True)
+            fold_dir = run_dir / f"fold_{i:02d}"
+            fold_dir.mkdir(parents=True, exist_ok=True)
+
+
+            self._config.update_config({
+                "train_start_date": fold_train_start_date,
+                "train_end_date": fold_train_end_date,
+                "validation_start_date": val_leak_start,
+                "validation_end_date": fold_val_end_date,
+                "run_dir": fold_dir
+            }, dev_mode=True)
             
             self.train()
 
-            time_resolution_key = '1h' if self._hourly else '1D'
-            self._get_predictions(time_resolution_key, 'validation')
-            pred = self._predictions.loc[val_eval_start:fold_val_end_date]
-            obs  = self._observed.loc[val_eval_start:fold_val_end_date]
-            metrics = calculate_all_metrics(obs, pred)
-            
-            cross_val_results[i] = metrics
+            if not is_mts:
+                time_resolution_key = '1h' if self._hourly else '1D'
+                self._get_predictions(time_resolution_key, 'validation')
+                pred = self._predictions.loc[val_eval_start:fold_val_end_date]
+                obs  = self._observed.loc[val_eval_start:fold_val_end_date]
+                metrics = calculate_all_metrics(obs, pred)
+                
+                cross_val_results[i] = metrics
+            else:
+                self._get_predictions('1D', 'validation')
+                pred = self._predictions.loc[val_eval_start:fold_val_end_date]
+                obs  = self._observed.loc[val_eval_start:fold_val_end_date]
+                day_metrics = calculate_all_metrics(obs, pred)
+                self._get_predictions('1H', 'validation')
+                pred = self._predictions.loc[val_eval_start:fold_val_end_date]
+                obs  = self._observed.loc[val_eval_start:fold_val_end_date]
+                hour_metrics = calculate_all_metrics(obs, pred)
+
+                daily_results[i] = day_metrics
+                hourly_results[i] = hour_metrics
 
             i += 1
 
@@ -754,21 +781,47 @@ class UCB_trainer:
         if original_val_end:
             self._config.update_config({'validation_end_date': original_val_end}, dev_mode=True)
 
-        if self._verbose:
+        if self._verbose and not is_mts:
             for j in range(1, len(cross_val_results) + 1):
                 print(f"Fold {j} results")
                 print(cross_val_results[j])
                 print("\n") 
 
-        output = {}
-        for j in cross_val_results:
-            for metric in cross_val_results[j]:
-                key = f"avg {metric}"
-                if key not in output:
-                    output[key] = []
-                output[key].append(cross_val_results[j][metric])
+        if not is_mts:
+            output = {}
+            for j in cross_val_results:
+                for metric in cross_val_results[j]:
+                    key = f"avg {metric}"
+                    if key not in output:
+                        output[key] = []
+                    output[key].append(cross_val_results[j][metric])
+        else:
+            output_daily = {}
+            for j in daily_results:
+                for metric in daily_results[j]:
+                    key = f"daily avg {metric}"
+                    if key not in output_daily:
+                        output_daily[key] = []
+                    output_daily[key].append(daily_results[j][metric])
+            output_hourly = {}
+            for j in hourly_results:
+                for metric in hourly_results[j]:
+                    key = f"hourly avg {metric}"
+                    if key not in output_hourly:
+                        output_hourly[key] = []
+                    output_hourly[key].append(hourly_results[j][metric])
         
-        for key in output:
-            output[key] = sum(output[key]) / len(output[key])
+        if not is_mts:
+            for key in output:
+                output[key] = sum(output[key]) / len(output[key])
+        
+        else:
+            for key in output_daily:
+                output_daily[key] = sum(output_daily[key]) / len(output_daily[key])
+            for key in output_hourly:
+                output_hourly[key] = sum(output_hourly[key]) / len(output_hourly[key])
+            output = {output_daily, output_hourly}
+
         
         return output
+    
