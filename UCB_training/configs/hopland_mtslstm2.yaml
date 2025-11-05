@@ -109,15 +109,55 @@ target_variables:
 clip_targets_to_zero:
   - [NR HOPLAND FLOW COE HOP]
 
-# --- Early Stopping Configuration (NeuralHydrology built-in) -------------------------------------
+# --- Early Stopping Configuration ------------------------------------------------------------
 # Enable early stopping based on validation performance
 early_stopping: True
 
+# Early stopping mode: "patience", "slope", or "none"
+# - "patience": Traditional approach (stops after N validations without improvement)
+# - "slope": Trend-based approach (stops when loss trend shows no improvement)
+# - "none": Disables early stopping
+early_stopping_mode: "patience"
+
+# --- Patience Mode Settings ---
 # Number of validation epochs with no improvement before stopping training
-# With validate_every=5, patience=5 means stopping after 25 epochs of no improvement
+# With validate_every=5, patience=3 means stopping after 15 epochs of no improvement
 patience_early_stopping: 3
 
-# Minimum number of epochs before early stopping can be triggered
-# This ensures the model trains for at least this many epochs regardless of validation performance
+# Minimum change to qualify as improvement (default: 0.0)
+min_delta_early_stopping: 0.0
+
+# Minimum number of epochs before early stopping can trigger
 minimum_epochs_before_early_stopping: 10
+
+# --- Slope Mode Settings (only used if early_stopping_mode: "slope") ---
+# Number of epochs in rolling window for trend analysis
+early_stopping_slope_window: 7
+
+# Consecutive non-improving trend checks before stopping
+early_stopping_slope_patience: 2
+
+# Minimum epoch before slope checks begin
+early_stopping_slope_min_epoch: 8
+
+# EMA smoothing factor in (0,1]; higher = more reactive
+early_stopping_slope_ema_alpha: 0.4
+
+# Apply log transform to smoothed loss (makes thresholds represent % changes)
+early_stopping_slope_use_log: True
+
+# Epsilon added before log if loss <= 0
+early_stopping_slope_log_eps: 1.0e-12
+
+# Per-epoch improvement threshold in log space (~% change/epoch; 1e-3 ≈ 0.1%)
+early_stopping_slope_eps_slope: 1.0e-3
+
+# Required total improvement across window in log space (~%; 0.01 ≈ 1%)
+early_stopping_slope_min_window_gain: 0.01
+
+# Check window stability before acting
+early_stopping_slope_variance_guard: True
+
+# Max coefficient of variation to consider stable (~%; 0.01 ≈ 1%)
+early_stopping_slope_variance_cv_max: 0.01
 

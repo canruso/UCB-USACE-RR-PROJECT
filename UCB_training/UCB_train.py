@@ -13,7 +13,7 @@ from neuralhydrology.evaluation.metrics import calculate_all_metrics
 import xarray as xr
 import yaml
 from UCB_training.UCB_utils import data_dir as _ucb_data_dir, resolve_basin_file as _ucb_resolve_basin_file
-from UCB_training.plot_loss_curves import plot_loss_curves
+from UCB_training.UCB_plotting import plot_loss_curves
 
 
 class UCB_trainer:
@@ -312,10 +312,22 @@ class UCB_trainer:
 
         return lstm_da, obs_da, pd.DataFrame([m_lstm])
 
+    def _get_last_epoch(self, run_directory: Path) -> int:
+        """Find the actual last epoch that was saved (in case early stopping occurred)."""
+        model_files = sorted(list(run_directory.glob('model_epoch*.pt')))
+        if not model_files:
+            # No checkpoint found, return configured epochs as fallback
+            return self._config.epochs
+        # Extract epoch number from last checkpoint filename (e.g., model_epoch025.pt -> 25)
+        last_file = model_files[-1]
+        epoch_str = last_file.stem.replace('model_epoch', '')
+        return int(epoch_str)
+
     def _eval_model(self, run_directory: Path, period="validation"):
         eval_run(run_dir=run_directory, period=period)
 
-        results_file = run_directory / period / f"model_epoch{str(self._config.epochs).zfill(3)}" / f"{period}_results.p"
+        actual_epoch = self._get_last_epoch(run_directory)
+        results_file = run_directory / period / f"model_epoch{str(actual_epoch).zfill(3)}" / f"{period}_results.p"
         if results_file.exists():
             with open(results_file, "rb") as fp:
                 results = pickle.load(fp)
@@ -335,8 +347,9 @@ class UCB_trainer:
             Otherwise, keep old behavior.
             """
         if self._num_ensemble_members == 1:
+            actual_epoch = self._get_last_epoch(self._model)
             results_file = self._model / period / (f"model_"
-                                                   f"epoch{str(self._config.epochs).zfill(3)}") / f"{period}_results.p"
+                                                   f"epoch{str(actual_epoch).zfill(3)}") / f"{period}_results.p"
             if not results_file.exists():
                 self._eval_model(self._model, period)
             if not results_file.exists():
