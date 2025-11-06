@@ -1,0 +1,216 @@
+2025-11-04 23:55:09,208: Logging to C:\Users\arthu\OneDrive\Documents\GitHub\UCB-USACE-RR-PROJECT\outputs\calpella\daily_shared\runs\BASELINE\testing_run_0411_235509\output.log initialized.
+2025-11-04 23:55:09,209: ### Folder structure created at C:\Users\arthu\OneDrive\Documents\GitHub\UCB-USACE-RR-PROJECT\outputs\calpella\daily_shared\runs\BASELINE\testing_run_0411_235509
+2025-11-04 23:55:09,210: ### Run configurations for testing_run
+2025-11-04 23:55:09,211: experiment_name: testing_run
+2025-11-04 23:55:09,212: train_basin_file: calpella
+2025-11-04 23:55:09,214: validation_basin_file: calpella
+2025-11-04 23:55:09,215: test_basin_file: calpella
+2025-11-04 23:55:09,216: train_start_date: 1994-10-01 00:00:00
+2025-11-04 23:55:09,217: train_end_date: 2002-09-30 00:00:00
+2025-11-04 23:55:09,218: validation_start_date: 2002-10-01 00:00:00
+2025-11-04 23:55:09,220: validation_end_date: 2005-09-30 00:00:00
+2025-11-04 23:55:09,221: test_start_date: 2005-10-01 00:00:00
+2025-11-04 23:55:09,221: test_end_date: 2009-09-29 00:00:00
+2025-11-04 23:55:09,222: device: cuda:0
+2025-11-04 23:55:09,223: physics_informed: False
+2025-11-04 23:55:09,224: physics_data_file: None
+2025-11-04 23:55:09,225: validate_every: 5
+2025-11-04 23:55:09,225: validate_n_random_basins: 1
+2025-11-04 23:55:09,226: metrics: ['NSE', 'MSE']
+2025-11-04 23:55:09,227: model: cudalstm
+2025-11-04 23:55:09,228: head: regression
+2025-11-04 23:55:09,229: output_activation: linear
+2025-11-04 23:55:09,230: hidden_size: 64
+2025-11-04 23:55:09,231: initial_forget_bias: 3
+2025-11-04 23:55:09,232: output_dropout: 0.4
+2025-11-04 23:55:09,232: num_layers: 1
+2025-11-04 23:55:09,233: dev_mode: True
+2025-11-04 23:55:09,234: optimizer: Adam
+2025-11-04 23:55:09,235: loss: NSE
+2025-11-04 23:55:09,236: learning_rate: {0: 0.01, 8: 0.005, 12: 0.001}
+2025-11-04 23:55:09,236: batch_size: 64
+2025-11-04 23:55:09,237: epochs: 16
+2025-11-04 23:55:09,238: clip_gradient_norm: 1
+2025-11-04 23:55:09,239: predict_last_n: 1
+2025-11-04 23:55:09,240: seq_length: 90
+2025-11-04 23:55:09,241: log_interval: 16
+2025-11-04 23:55:09,242: log_tensorboard: True
+2025-11-04 23:55:09,243: log_n_figures: 1
+2025-11-04 23:55:09,243: save_weights_every: 16
+2025-11-04 23:55:09,244: early_stopping: True
+2025-11-04 23:55:09,245: early_stopping_mode: patience
+2025-11-04 23:55:09,246: patience_early_stopping: 3
+2025-11-04 23:55:09,247: min_delta_early_stopping: 0.0
+2025-11-04 23:55:09,247: minimum_epochs_before_early_stopping: 10
+2025-11-04 23:55:09,248: early_stopping_slope_window: 7
+2025-11-04 23:55:09,249: early_stopping_slope_patience: 2
+2025-11-04 23:55:09,249: early_stopping_slope_min_epoch: 8
+2025-11-04 23:55:09,250: early_stopping_slope_ema_alpha: 0.4
+2025-11-04 23:55:09,251: early_stopping_slope_use_log: True
+2025-11-04 23:55:09,252: early_stopping_slope_log_eps: 1e-12
+2025-11-04 23:55:09,253: early_stopping_slope_eps_slope: 0.001
+2025-11-04 23:55:09,253: early_stopping_slope_min_window_gain: 0.01
+2025-11-04 23:55:09,255: early_stopping_slope_variance_guard: True
+2025-11-04 23:55:09,255: early_stopping_slope_variance_cv_max: 0.01
+2025-11-04 23:55:09,256: dataset: russian_river
+2025-11-04 23:55:09,257: data_dir: C:\Users\arthu\OneDrive\Documents\GitHub\UCB-USACE-RR-PROJECT\russian_river_data
+2025-11-04 23:55:09,258: dynamic_inputs: ['EF RUSSIAN 20 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'EF RUSSIAN 20 PRECIP-INC SCREENED', 'POTTER VALLEY CA FLOW USGS_ADJUSTED', 'UKIAH CA HUMIDITY USAF-NOAA', 'UKIAH CA SOLAR RADIATION USAF-NOAA', 'UKIAH CA TEMPERATURE USAF-NOAA', 'UKIAH CA WINDSPEED USAF-NOAA']
+2025-11-04 23:55:09,258: target_variables: ['NR CALPELLA FLOW COE CPL']
+2025-11-04 23:55:09,259: clip_targets_to_zero: [['NR CALPELLA FLOW COE CPL']]
+2025-11-04 23:55:09,259: hourly: False
+2025-11-04 23:55:09,260: is_mts: False
+2025-11-04 23:55:09,261: is_mts_data: False
+2025-11-04 23:55:09,262: verbose: True
+2025-11-04 23:55:09,263: run_dir: C:\Users\arthu\OneDrive\Documents\GitHub\UCB-USACE-RR-PROJECT\outputs\calpella\daily_shared\runs\BASELINE\testing_run_0411_235509
+2025-11-04 23:55:09,263: run_label: BASELINE
+2025-11-04 23:55:09,264: number_of_basins: 1
+2025-11-04 23:55:09,265: train_dir: C:\Users\arthu\OneDrive\Documents\GitHub\UCB-USACE-RR-PROJECT\outputs\calpella\daily_shared\runs\BASELINE\testing_run_0411_235509\train_data
+2025-11-04 23:55:09,266: img_log_dir: C:\Users\arthu\OneDrive\Documents\GitHub\UCB-USACE-RR-PROJECT\outputs\calpella\daily_shared\runs\BASELINE\testing_run_0411_235509\img_log
+2025-11-04 23:55:09,775: ### Device cuda:0 will be used for training
+2025-11-04 23:55:09,776: Loading basin data into xarray data set.
+2025-11-04 23:55:09,909: Calculating target variable stds per basin
+2025-11-04 23:55:09,922: Create lookup table and convert to pytorch tensor
+2025-11-04 23:57:37,868: Logging to C:\Users\arthu\OneDrive\Documents\GitHub\UCB-USACE-RR-PROJECT\outputs\calpella\daily_shared\runs\BASELINE\testing_run_0411_235737\output.log initialized.
+2025-11-04 23:57:37,869: ### Folder structure created at C:\Users\arthu\OneDrive\Documents\GitHub\UCB-USACE-RR-PROJECT\outputs\calpella\daily_shared\runs\BASELINE\testing_run_0411_235737
+2025-11-04 23:57:37,869: ### Run configurations for testing_run
+2025-11-04 23:57:37,871: experiment_name: testing_run
+2025-11-04 23:57:37,872: train_basin_file: calpella
+2025-11-04 23:57:37,872: validation_basin_file: calpella
+2025-11-04 23:57:37,873: test_basin_file: calpella
+2025-11-04 23:57:37,874: train_start_date: 1994-10-01 00:00:00
+2025-11-04 23:57:37,875: train_end_date: 2002-09-30 00:00:00
+2025-11-04 23:57:37,875: validation_start_date: 2002-10-01 00:00:00
+2025-11-04 23:57:37,876: validation_end_date: 2005-09-30 00:00:00
+2025-11-04 23:57:37,877: test_start_date: 2005-10-01 00:00:00
+2025-11-04 23:57:37,878: test_end_date: 2009-09-29 00:00:00
+2025-11-04 23:57:37,879: device: cuda:0
+2025-11-04 23:57:37,879: physics_informed: False
+2025-11-04 23:57:37,881: physics_data_file: None
+2025-11-04 23:57:37,881: validate_every: 5
+2025-11-04 23:57:37,882: validate_n_random_basins: 1
+2025-11-04 23:57:37,883: metrics: ['NSE', 'MSE']
+2025-11-04 23:57:37,884: model: cudalstm
+2025-11-04 23:57:37,885: head: regression
+2025-11-04 23:57:37,886: output_activation: linear
+2025-11-04 23:57:37,887: hidden_size: 64
+2025-11-04 23:57:37,887: initial_forget_bias: 3
+2025-11-04 23:57:37,888: output_dropout: 0.4
+2025-11-04 23:57:37,888: num_layers: 1
+2025-11-04 23:57:37,889: dev_mode: True
+2025-11-04 23:57:37,890: optimizer: Adam
+2025-11-04 23:57:37,891: loss: NSE
+2025-11-04 23:57:37,892: learning_rate: {0: 0.01, 8: 0.005, 12: 0.001}
+2025-11-04 23:57:37,892: batch_size: 64
+2025-11-04 23:57:37,894: epochs: 16
+2025-11-04 23:57:37,894: clip_gradient_norm: 1
+2025-11-04 23:57:37,895: predict_last_n: 1
+2025-11-04 23:57:37,896: seq_length: 90
+2025-11-04 23:57:37,896: log_interval: 16
+2025-11-04 23:57:37,897: log_tensorboard: True
+2025-11-04 23:57:37,898: log_n_figures: 1
+2025-11-04 23:57:37,899: save_weights_every: 16
+2025-11-04 23:57:37,900: early_stopping: True
+2025-11-04 23:57:37,900: early_stopping_mode: patience
+2025-11-04 23:57:37,901: patience_early_stopping: 3
+2025-11-04 23:57:37,902: min_delta_early_stopping: 0.0
+2025-11-04 23:57:37,903: minimum_epochs_before_early_stopping: 10
+2025-11-04 23:57:37,904: early_stopping_slope_window: 7
+2025-11-04 23:57:37,904: early_stopping_slope_patience: 2
+2025-11-04 23:57:37,905: early_stopping_slope_min_epoch: 8
+2025-11-04 23:57:37,906: early_stopping_slope_ema_alpha: 0.4
+2025-11-04 23:57:37,906: early_stopping_slope_use_log: True
+2025-11-04 23:57:37,907: early_stopping_slope_log_eps: 1e-12
+2025-11-04 23:57:37,907: early_stopping_slope_eps_slope: 0.001
+2025-11-04 23:57:37,908: early_stopping_slope_min_window_gain: 0.01
+2025-11-04 23:57:37,909: early_stopping_slope_variance_guard: True
+2025-11-04 23:57:37,909: early_stopping_slope_variance_cv_max: 0.01
+2025-11-04 23:57:37,910: dataset: russian_river
+2025-11-04 23:57:37,911: data_dir: C:\Users\arthu\OneDrive\Documents\GitHub\UCB-USACE-RR-PROJECT\russian_river_data
+2025-11-04 23:57:37,912: dynamic_inputs: ['EF RUSSIAN 20 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'EF RUSSIAN 20 PRECIP-INC SCREENED', 'POTTER VALLEY CA FLOW USGS_ADJUSTED', 'UKIAH CA HUMIDITY USAF-NOAA', 'UKIAH CA SOLAR RADIATION USAF-NOAA', 'UKIAH CA TEMPERATURE USAF-NOAA', 'UKIAH CA WINDSPEED USAF-NOAA']
+2025-11-04 23:57:37,913: target_variables: ['NR CALPELLA FLOW COE CPL']
+2025-11-04 23:57:37,913: clip_targets_to_zero: [['NR CALPELLA FLOW COE CPL']]
+2025-11-04 23:57:37,914: hourly: False
+2025-11-04 23:57:37,915: is_mts: False
+2025-11-04 23:57:37,916: is_mts_data: False
+2025-11-04 23:57:37,917: verbose: True
+2025-11-04 23:57:37,918: run_dir: C:\Users\arthu\OneDrive\Documents\GitHub\UCB-USACE-RR-PROJECT\outputs\calpella\daily_shared\runs\BASELINE\testing_run_0411_235737
+2025-11-04 23:57:37,918: run_label: BASELINE
+2025-11-04 23:57:37,919: number_of_basins: 1
+2025-11-04 23:57:37,920: train_dir: C:\Users\arthu\OneDrive\Documents\GitHub\UCB-USACE-RR-PROJECT\outputs\calpella\daily_shared\runs\BASELINE\testing_run_0411_235737\train_data
+2025-11-04 23:57:37,921: img_log_dir: C:\Users\arthu\OneDrive\Documents\GitHub\UCB-USACE-RR-PROJECT\outputs\calpella\daily_shared\runs\BASELINE\testing_run_0411_235737\img_log
+2025-11-04 23:57:37,925: ### Device cuda:0 will be used for training
+2025-11-04 23:57:37,926: Loading basin data into xarray data set.
+2025-11-04 23:57:38,053: Calculating target variable stds per basin
+2025-11-04 23:57:38,064: Create lookup table and convert to pytorch tensor
+2025-11-04 23:57:52,033: Logging to C:\Users\arthu\OneDrive\Documents\GitHub\UCB-USACE-RR-PROJECT\outputs\calpella\daily_shared\runs\BASELINE\testing_run_0411_235752\output.log initialized.
+2025-11-04 23:57:52,034: ### Folder structure created at C:\Users\arthu\OneDrive\Documents\GitHub\UCB-USACE-RR-PROJECT\outputs\calpella\daily_shared\runs\BASELINE\testing_run_0411_235752
+2025-11-04 23:57:52,035: ### Run configurations for testing_run
+2025-11-04 23:57:52,036: experiment_name: testing_run
+2025-11-04 23:57:52,037: train_basin_file: calpella
+2025-11-04 23:57:52,038: validation_basin_file: calpella
+2025-11-04 23:57:52,039: test_basin_file: calpella
+2025-11-04 23:57:52,040: train_start_date: 1994-10-01 00:00:00
+2025-11-04 23:57:52,041: train_end_date: 2002-09-30 00:00:00
+2025-11-04 23:57:52,043: validation_start_date: 2002-10-01 00:00:00
+2025-11-04 23:57:52,043: validation_end_date: 2005-09-30 00:00:00
+2025-11-04 23:57:52,044: test_start_date: 2005-10-01 00:00:00
+2025-11-04 23:57:52,045: test_end_date: 2009-09-29 00:00:00
+2025-11-04 23:57:52,046: device: cuda:0
+2025-11-04 23:57:52,047: physics_informed: False
+2025-11-04 23:57:52,048: physics_data_file: None
+2025-11-04 23:57:52,049: validate_every: 5
+2025-11-04 23:57:52,050: validate_n_random_basins: 1
+2025-11-04 23:57:52,051: metrics: ['NSE', 'MSE']
+2025-11-04 23:57:52,052: model: cudalstm
+2025-11-04 23:57:52,052: head: regression
+2025-11-04 23:57:52,053: output_activation: linear
+2025-11-04 23:57:52,054: hidden_size: 64
+2025-11-04 23:57:52,055: initial_forget_bias: 3
+2025-11-04 23:57:52,056: output_dropout: 0.4
+2025-11-04 23:57:52,056: num_layers: 1
+2025-11-04 23:57:52,057: dev_mode: True
+2025-11-04 23:57:52,058: optimizer: Adam
+2025-11-04 23:57:52,058: loss: NSE
+2025-11-04 23:57:52,059: learning_rate: {0: 0.01, 8: 0.005, 12: 0.001}
+2025-11-04 23:57:52,060: batch_size: 64
+2025-11-04 23:57:52,061: epochs: 16
+2025-11-04 23:57:52,061: clip_gradient_norm: 1
+2025-11-04 23:57:52,062: predict_last_n: 1
+2025-11-04 23:57:52,063: seq_length: 90
+2025-11-04 23:57:52,064: log_interval: 16
+2025-11-04 23:57:52,064: log_tensorboard: True
+2025-11-04 23:57:52,065: log_n_figures: 1
+2025-11-04 23:57:52,066: save_weights_every: 16
+2025-11-04 23:57:52,066: early_stopping: True
+2025-11-04 23:57:52,068: early_stopping_mode: patience
+2025-11-04 23:57:52,068: patience_early_stopping: 3
+2025-11-04 23:57:52,069: min_delta_early_stopping: 0.0
+2025-11-04 23:57:52,070: minimum_epochs_before_early_stopping: 10
+2025-11-04 23:57:52,071: early_stopping_slope_window: 7
+2025-11-04 23:57:52,072: early_stopping_slope_patience: 2
+2025-11-04 23:57:52,072: early_stopping_slope_min_epoch: 8
+2025-11-04 23:57:52,073: early_stopping_slope_ema_alpha: 0.4
+2025-11-04 23:57:52,074: early_stopping_slope_use_log: True
+2025-11-04 23:57:52,075: early_stopping_slope_log_eps: 1e-12
+2025-11-04 23:57:52,075: early_stopping_slope_eps_slope: 0.001
+2025-11-04 23:57:52,076: early_stopping_slope_min_window_gain: 0.01
+2025-11-04 23:57:52,077: early_stopping_slope_variance_guard: True
+2025-11-04 23:57:52,078: early_stopping_slope_variance_cv_max: 0.01
+2025-11-04 23:57:52,078: dataset: russian_river
+2025-11-04 23:57:52,079: data_dir: C:\Users\arthu\OneDrive\Documents\GitHub\UCB-USACE-RR-PROJECT\russian_river_data
+2025-11-04 23:57:52,080: dynamic_inputs: ['EF RUSSIAN 20 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'EF RUSSIAN 20 PRECIP-INC SCREENED', 'POTTER VALLEY CA FLOW USGS_ADJUSTED', 'UKIAH CA HUMIDITY USAF-NOAA', 'UKIAH CA SOLAR RADIATION USAF-NOAA', 'UKIAH CA TEMPERATURE USAF-NOAA', 'UKIAH CA WINDSPEED USAF-NOAA']
+2025-11-04 23:57:52,081: target_variables: ['NR CALPELLA FLOW COE CPL']
+2025-11-04 23:57:52,082: clip_targets_to_zero: [['NR CALPELLA FLOW COE CPL']]
+2025-11-04 23:57:52,082: hourly: False
+2025-11-04 23:57:52,083: is_mts: False
+2025-11-04 23:57:52,084: is_mts_data: False
+2025-11-04 23:57:52,085: verbose: True
+2025-11-04 23:57:52,085: run_dir: C:\Users\arthu\OneDrive\Documents\GitHub\UCB-USACE-RR-PROJECT\outputs\calpella\daily_shared\runs\BASELINE\testing_run_0411_235752
+2025-11-04 23:57:52,086: run_label: BASELINE
+2025-11-04 23:57:52,087: number_of_basins: 1
+2025-11-04 23:57:52,088: train_dir: C:\Users\arthu\OneDrive\Documents\GitHub\UCB-USACE-RR-PROJECT\outputs\calpella\daily_shared\runs\BASELINE\testing_run_0411_235752\train_data
+2025-11-04 23:57:52,088: img_log_dir: C:\Users\arthu\OneDrive\Documents\GitHub\UCB-USACE-RR-PROJECT\outputs\calpella\daily_shared\runs\BASELINE\testing_run_0411_235752\img_log
+2025-11-04 23:57:52,091: ### Device cuda:0 will be used for training
+2025-11-04 23:57:52,092: Loading basin data into xarray data set.
+2025-11-04 23:57:52,214: Calculating target variable stds per basin
+2025-11-04 23:57:52,222: Create lookup table and convert to pytorch tensor

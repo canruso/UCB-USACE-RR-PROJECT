@@ -1112,3 +1112,347 @@ def plot_forecasts(sources, title: str, *, start_date: str | None = None, end_da
         fp.parent.mkdir(parents=True, exist_ok=True)
         plt.savefig(fp, dpi=300, bbox_inches="tight")
     plt.show()
+
+
+# ====== Loss Curve Plotting Functions (originally from plot_loss_curves.py) ======
+
+def extract_metrics_from_csvs(run_dir: Path) -> tuple[pd.DataFrame, pd.DataFrame]:
+    """
+    Extract training and validation metrics from CSV files in the run directory.
+
+    Parameters
+    ----------
+    run_dir : Path
+        Path to the run directory containing validation/model_epoch* folders
+
+    Returns
+    -------
+    train_df : pd.DataFrame
+        DataFrame with columns [epoch, metric_name, value] for training
+    valid_df : pd.DataFrame
+        DataFrame with columns [epoch, metric_name, value] for validation
+    """
+    validation_dir = run_dir / "validation"
+    train_dir = run_dir / "train"
+
+    valid_data = []
+    train_data = []
+
+    # Extract validation metrics
+    if validation_dir.exists():
+        for epoch_dir in sorted(validation_dir.glob("model_epoch*")):
+            epoch_num = int(epoch_dir.name.replace("model_epoch", ""))
+            metrics_file = epoch_dir / "validation_metrics.csv"
+
+            if metrics_file.exists():
+                df = pd.read_csv(metrics_file)
+                # Skip basin column, get all metric columns
+                for col in df.columns:
+                    if col.lower() != 'basin':
+                        valid_data.append({
+                            'epoch': epoch_num,
+                            'metric': col,
+                            'value': df[col].values[0]
+                        })
+
+    # Extract training metrics (if available)
+    if train_dir.exists():
+        for epoch_dir in sorted(train_dir.glob("model_epoch*")):
+            epoch_num = int(epoch_dir.name.replace("model_epoch", ""))
+            metrics_file = epoch_dir / "train_metrics.csv"
+
+            if metrics_file.exists():
+                df = pd.read_csv(metrics_file)
+                for col in df.columns:
+                    if col.lower() != 'basin':
+                        train_data.append({
+                            'epoch': epoch_num,
+                            'metric': col,
+                            'value': df[col].values[0]
+                        })
+
+    train_df = pd.DataFrame(train_data) if train_data else pd.DataFrame(columns=['epoch', 'metric', 'value'])
+    valid_df = pd.DataFrame(valid_data) if valid_data else pd.DataFrame(columns=['epoch', 'metric', 'value'])
+
+    return train_df, valid_df
+
+
+def extract_losses_from_tensorboard(run_dir: Path) -> dict[str, list[tuple[int, float]]]:
+    """
+    Extract training and validation losses from TensorBoard event files.
+
+    Parameters
+    ----------
+    run_dir : Path
+        Path to the run directory containing TensorBoard event files
+
+    Returns
+    -------
+    losses : Dict[str, List[Tuple[int, float]]]
+        Dictionary with keys 'train_loss' and 'valid_loss', values are lists of (epoch, loss) tuples
+    """
+    from tensorboard.backend.event_processing.event_accumulator import EventAccumulator
+
+    event_files = list(run_dir.glob("events.out.tfevents.*"))
+
+    if not event_files:
+        return {'train_loss': [], 'valid_loss': []}
+
+    # Use the most recent event file
+    event_file = sorted(event_files, key=lambda x: x.stat().st_mtime)[-1]
+
+    try:
+        ea = EventAccumulator(str(event_file))
+        ea.Reload()
+
+        losses = {}
+
+        # Extract training loss
+        if 'train/avg_total_loss' in ea.Tags()['scalars']:
+            train_loss = ea.Scalars('train/avg_total_loss')
+            losses['train_loss'] = [(int(s.step), s.value) for s in train_loss]
+        else:
+            losses['train_loss'] = []
+
+        # Extract validation loss
+        if 'valid/avg_total_loss' in ea.Tags()['scalars']:
+            valid_loss = ea.Scalars('valid/avg_total_loss')
+            losses['valid_loss'] = [(int(s.step), s.value) for s in valid_loss]
+        else:
+            losses['valid_loss'] = []
+
+        return losses
+    except Exception as e:
+        print(f"Warning: Could not read TensorBoard file {event_file}: {e}")
+        return {'train_loss': [], 'valid_loss': []}
+
+
+def _simulate_slope_stopping(tb_losses: dict, window: int = 7, patience: int = 2,
+                             min_epoch: int = 8, ema_alpha: float = 0.4, eps_slope: float = 1e-3,
+                             min_window_gain: float = 0.01) -> int | None:
+    """
+    Simulate where slope-based early stopping would have triggered.
+
+    Parameters
+    ----------
+    tb_losses : Dict
+        Dictionary with 'valid_loss' key containing list of (epoch, loss) tuples
+    window : int
+        Rolling window size for trend analysis
+    patience : int
+        Consecutive non-improving checks before stopping
+    min_epoch : int
+        Minimum epoch before checking
+    ema_alpha : float
+        EMA smoothing factor
+    eps_slope : float
+        Per-epoch improvement threshold in log space
+    min_window_gain : float
+        Required total improvement across window
+
+    Returns
+    -------
+    Optional[int]
+        Epoch where slope stopping would have triggered, or None
+    """
+    if not tb_losses['valid_loss']:
+        return None
+
+    from collections import deque
+    valid_data = tb_losses['valid_loss']
+    if len(valid_data) < max(min_epoch, 2):
+        return None
+
+    # Compute EMA
+    ema_vals = deque()
+    for _, loss in valid_data:
+        if len(ema_vals) == 0:
+            ema_val = loss
+        else:
+            ema_val = ema_alpha * loss + (1 - ema_alpha) * ema_vals[-1]
+        ema_vals.append(ema_val)
+
+    # Convert to log space
+    ema_arr = np.array(list(ema_vals))
+    if np.all(ema_arr > 0):
+        y = np.log(ema_arr)
+    else:
+        y = np.log(ema_arr + 1e-12)
+
+    epochs = np.array([e for e, _ in valid_data])
+
+    # Simulate checking at each validation epoch
+    bad_checks = 0
+    for i in range(max(min_epoch - 1, 1), len(epochs)):
+        k = min(window, i + 1)
+        epochs_w = epochs[i - k + 1:i + 1]
+        y_w = y[i - k + 1:i + 1]
+
+        # Compute slope
+        slopes = []
+        for ii in range(len(epochs_w)):
+            for jj in range(ii + 1, len(epochs_w)):
+                dx = epochs_w[jj] - epochs_w[ii]
+                if abs(dx) > 1e-12:
+                    slopes.append((y_w[jj] - y_w[ii]) / dx)
+        slope = float(np.median(slopes)) if slopes else 0.0
+
+        # Compute window gain
+        delta_window = (y_w[-1] - y_w[0]) / (abs(y_w[0]) + 1e-12)
+
+        # Check improvement
+        improving_slope = (slope < -eps_slope)
+        improving_gain = (delta_window < -min_window_gain)
+
+        if improving_slope and improving_gain:
+            bad_checks = 0
+        else:
+            bad_checks += 1
+            if bad_checks >= patience:
+                return int(epochs[i])
+
+    return None
+
+
+def plot_loss_curves(run_dir: Path, save_path: Path | None = None,
+                     show_metrics: bool = False, figsize: tuple[int, int] = (12, 6),
+                     annotate_slope_stop: bool = False) -> Path:
+    """
+    Generate and save a simplified loss curve plot for a NeuralHydrology run.
+
+    Creates a single plot showing training and validation loss over epochs,
+    with the best validation epoch clearly marked.
+
+    Parameters
+    ----------
+    run_dir : Path
+        Path to the run directory
+    save_path : Path, optional
+        Where to save the plot. If None, saves to run_dir/loss_curves.png
+    show_metrics : bool, optional
+        Whether to include validation metrics (default: False for simplicity)
+    figsize : Tuple[int, int], optional
+        Figure size (width, height) in inches
+    annotate_slope_stop : bool, optional
+        If True, annotate where slope-based early stopping would have triggered
+
+    Returns
+    -------
+    Path
+        Path where the plot was saved
+    """
+    run_dir = Path(run_dir)
+
+    if save_path is None:
+        save_path = run_dir / "loss_curves.png"
+
+    # Extract data from TensorBoard
+    tb_losses = extract_losses_from_tensorboard(run_dir)
+
+    if not tb_losses['train_loss'] and not tb_losses['valid_loss']:
+        # No TensorBoard data, try to extract from CSVs
+        print(f"Warning: No TensorBoard data found for {run_dir.name}, attempting CSV extraction")
+        train_df, valid_df = extract_metrics_from_csvs(run_dir)
+
+        if valid_df.empty:
+            print(f"Error: No training data found for {run_dir.name}")
+            return None
+
+    # Create single plot
+    fig, ax = plt.subplots(1, 1, figsize=figsize)
+
+    # Plot training loss
+    if tb_losses['train_loss']:
+        train_epochs, train_losses = zip(*tb_losses['train_loss'])
+        ax.plot(train_epochs, train_losses, 'b-', label='Training Loss',
+                linewidth=2.5, alpha=0.8)
+
+    # Plot validation loss
+    if tb_losses['valid_loss']:
+        valid_epochs, valid_losses = zip(*tb_losses['valid_loss'])
+        ax.plot(valid_epochs, valid_losses, 'r-', label='Validation Loss',
+                linewidth=2.5, alpha=0.8)
+
+        # Mark the best validation loss
+        best_idx = np.argmin(valid_losses)
+        best_epoch = valid_epochs[best_idx]
+        best_loss = valid_losses[best_idx]
+
+        # Vertical line at best epoch
+        ax.axvline(x=best_epoch, color='darkgreen', linestyle='--',
+                   linewidth=2, alpha=0.6, label=f'Best Epoch ({best_epoch})')
+
+        # Star marker at best point
+        # Format loss value appropriately (use scientific notation if < 0.01)
+        if abs(best_loss) < 0.01:
+            loss_label = f'Best Val Loss: {best_loss:.2e}'
+        else:
+            loss_label = f'Best Val Loss: {best_loss:.4f}'
+
+        ax.plot(best_epoch, best_loss, 'g*', markersize=20, markeredgecolor='darkgreen',
+                markeredgewidth=1.5, label=loss_label)
+
+        # Annotate slope-based early stopping if requested
+        if annotate_slope_stop:
+            try:
+                slope_stop_epoch = _simulate_slope_stopping(tb_losses)
+                if slope_stop_epoch is not None:
+                    # Find the loss value at that epoch
+                    slope_loss = None
+                    for e, l in zip(valid_epochs, valid_losses):
+                        if e == slope_stop_epoch:
+                            slope_loss = l
+                            break
+
+                    if slope_loss is not None:
+                        ax.axvline(x=slope_stop_epoch, color='orange', linestyle=':',
+                                   linewidth=2, alpha=0.7, label=f'Slope-Stop (epoch {slope_stop_epoch})')
+                        ax.plot(slope_stop_epoch, slope_loss, 'o', color='orange',
+                                markersize=12, markeredgecolor='darkorange', markeredgewidth=1.5)
+            except Exception as e:
+                print(f"Warning: Could not annotate slope stopping: {e}")
+
+    # Styling
+    ax.set_xlabel('Epoch', fontsize=13, fontweight='bold')
+    ax.set_ylabel('Loss', fontsize=13, fontweight='bold')
+    ax.set_title('Training Progress: Loss Over Epochs', fontsize=15, fontweight='bold', pad=15)
+    ax.legend(fontsize=11, loc='best', framealpha=0.95)
+    ax.grid(True, alpha=0.3, linestyle='--')
+    ax.spines['top'].set_visible(False)
+    ax.spines['right'].set_visible(False)
+
+    plt.tight_layout()
+    plt.savefig(save_path, dpi=300, bbox_inches='tight')
+    plt.close()
+
+    print(f"Loss curve saved to: {save_path}")
+    return save_path
+
+
+def plot_all_runs_in_directory(parent_dir: Path, recursive: bool = True):
+    """
+    Generate loss curve plots for all run directories in a parent directory.
+
+    Parameters
+    ----------
+    parent_dir : Path
+        Parent directory containing run folders
+    recursive : bool, optional
+        Whether to search recursively for run directories
+    """
+    parent_dir = Path(parent_dir)
+
+    # Find all directories with config.yml (indicating a run directory)
+    if recursive:
+        run_dirs = [p.parent for p in parent_dir.rglob("config.yml")]
+    else:
+        run_dirs = [p.parent for p in parent_dir.glob("*/config.yml")]
+
+    print(f"Found {len(run_dirs)} run directories")
+
+    for run_dir in run_dirs:
+        try:
+            plot_loss_curves(run_dir)
+            print(f"  Processed: {run_dir.relative_to(parent_dir)}")
+        except Exception as e:
+            print(f"  Error processing {run_dir.relative_to(parent_dir)}: {e}")
