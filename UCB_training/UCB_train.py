@@ -689,8 +689,8 @@ class UCB_trainer:
         MonthsLib = {'january': 'Jan', 'february': 'Feb', 'march': 'Mar', 'april' : 'Apr', 'may' : 'May', 'june' : 'Jun', 'july' : 'Jul', 'august': 'Aug', 'september': 'Sep', 'october': 'Oct', 'november': 'Nov', 'december': 'Dec'}
         interval = MonthsLib[intervalMonth.lower()]
 
-        is_mts = getattr(self._config, "is_mts", False)
-
+        is_mts = self._is_mts
+        
         if not is_mts:
             cross_val_results = {}
         else:
@@ -719,33 +719,63 @@ class UCB_trainer:
         else:
             lookback_dict = seq_length
 
+            
+        def round_timedelta_up_to_day(delta: pd.Timedelta) -> pd.Timedelta:
+            """Round a Timedelta up to the next whole day (ceiling to 24h multiples)."""
+            # Convert to days as float
+            days = delta / pd.Timedelta(days=1)
+            # Ceiling to next integer day
+            days_ceiled = np.ceil(days)
+            return pd.Timedelta(days=int(days_ceiled))
+        
+        def iso_date(dt) -> str:
+            """Return DD-MM-YYYY string. Accepts str/pd.Timestamp/datetime/np.datetime64."""
+            ts = pd.to_datetime(dt)
+            return ts.strftime("%d/%m/%Y")
+
         i = 1
         while i <= max_fold:
             fold_train_start_date = pd.to_datetime(f"{str(original_start_year)}-{interval}-01", format="%Y-%b-%d")
             fold_train_end_date = pd.to_datetime(f"{original_start_year + (intervalLength * i)}-{interval}-01", format="%Y-%b-%d")
-            val_eval_start = fold_train_end_date + pd.Timedelta(days=1)
+            val_eval_start = pd.to_datetime(fold_train_end_date) + pd.Timedelta(days=1)
             fold_val_end_date = pd.to_datetime(f"{original_start_year + (intervalLength * i + validationLength)}-{interval}-01", format="%Y-%b-%d")
 
             if no_leak:
-                val_leak_start = val_eval_start
+                if not is_mts:
+                    val_leak_start = val_eval_start
+                else:
+                    val_leak_start_d = val_eval_start
+                    val_leak_start_h = val_eval_start
             else:
                 if not is_mts:
                     val_leak_start = val_eval_start - pd.Timedelta(days=lookback-1)
                 else:
-                    val_leak_start = val_eval_start - pd.Timedelta(days=lookback_dict['1D']-1)
+                    val_leak_start_d = val_eval_start - pd.Timedelta(days=lookback_dict['1D']-1)
+                    val_leak_start_h = val_eval_start - round_timedelta_up_to_day(pd.Timedelta(hours=lookback_dict['1H']))
 
 
             fold_dir = run_dir / f"fold_{i:02d}"
             fold_dir.mkdir(parents=True, exist_ok=True)
 
 
-            self._config.update_config({
-                "train_start_date": fold_train_start_date,
-                "train_end_date": fold_train_end_date,
-                "validation_start_date": val_leak_start,
-                "validation_end_date": fold_val_end_date,
-                "run_dir": fold_dir
-            }, dev_mode=True)
+            if not is_mts:
+                self._config.update_config({
+                    "train_start_date": iso_date(fold_train_start_date),
+                    "train_end_date": iso_date(fold_train_end_date),
+                    "validation_start_date": iso_date(val_leak_start),
+                    "validation_end_date": iso_date(fold_val_end_date),
+                    "run_dir": fold_dir
+                }, dev_mode=True)
+            else:
+                self._config.update_config({
+                    "train_start_date": iso_date(fold_train_start_date),
+                    "train_end_date": iso_date(fold_train_end_date),
+                    "validation_start_per_frequency": {'1D': iso_date(val_leak_start_d), '1H': iso_date(val_leak_start_h)},
+                    "validation_start_date": "01/01/1900",
+                    "validation_end_date": iso_date(fold_val_end_date),
+                    "run_dir": fold_dir
+                }, dev_mode=True)                
+            
             
             self.train()
 
@@ -780,6 +810,8 @@ class UCB_trainer:
             self._config.update_config({'validation_start_date': original_val_start}, dev_mode=True)
         if original_val_end:
             self._config.update_config({'validation_end_date': original_val_end}, dev_mode=True)
+        if is_mts:
+            self._config.update_config({'validation_start_per_frequency': None}, dev_mode=True)
 
         if self._verbose and not is_mts:
             for j in range(1, len(cross_val_results) + 1):
