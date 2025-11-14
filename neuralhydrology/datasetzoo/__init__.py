@@ -12,6 +12,7 @@ from neuralhydrology.datasetzoo.russianriver import RussianRiver
 from neuralhydrology.datasetzoo.tuler import Tuler
 from neuralhydrology.utils.config import Config
 
+from neuralhydrology.datasetzoo.synthetic_russian_river import SyntheticRussianRiver
 
 def get_dataset(cfg: Config,
                 is_train: bool,
@@ -83,6 +84,8 @@ def get_dataset(cfg: Config,
         Dataset = LamaH
     elif cfg.dataset.lower() == "caravan":
         Dataset = Caravan
+    elif cfg.dataset.lower() == "synthetic_russian_river":
+        Dataset = SyntheticRussianRiver
     else:
         raise NotImplementedError(f"No dataset class implemented for dataset {cfg.dataset}")
 

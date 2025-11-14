@@ -553,6 +553,42 @@ class UCB_trainer:
 
         config = Config(self._yaml_path, dev_mode=True)
 
+        # --- Pad values for synthetic START ---
+
+        # check if standard ranges don't exist
+        explicit_missing = (
+            not config._cfg.get("train_start_date") and
+            not config._cfg.get("train_end_date") and
+            not config._cfg.get("validation_start_date") and
+            not config._cfg.get("validation_end_date") and
+            not config._cfg.get("test_start_date") and
+            not config._cfg.get("test_end_date")
+        )
+
+        # check if synthetic ranges exist
+        ranges_exist = (
+            "train_ranges" in config._cfg and config._cfg["train_ranges"] and
+            "validation_ranges" in config._cfg and config._cfg["validation_ranges"] and
+            "test_ranges" in config._cfg and config._cfg["test_ranges"]
+        )
+
+        if explicit_missing and ranges_exist:
+            dummy_start = "01/01/1900"
+            dummy_end   = "01/01/1901"
+            required_keys = [
+                "train_start_date", "train_end_date",
+                "validation_start_date", "validation_end_date",
+                "test_start_date", "test_end_date",
+            ]
+
+            for key in required_keys:
+                if key not in config._cfg or config._cfg[key] is None:
+                    config._cfg[key] = dummy_start if "start" in key else dummy_end
+                    if self._verbose:
+                        print(f"[UCB_trainer:_create_config] Injected missing {key} → {config._cfg[key]}")
+        # --- Pad values for synthetic END ---
+
+
         if 'save_weights_every' not in self._hyperparams:
             self._hyperparams['save_weights_every'] = self._hyperparams['epochs']
 
