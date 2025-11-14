@@ -1,8 +1,0 @@
-#!/Users/maxwellfung/UCB-USACE-RR-PROJECT/venv/bin/python3.11
-# -*- coding: utf-8 -*-
-import re
-import sys
-from neuralhydrology.nh_run_scheduler import _main
-if __name__ == '__main__':
-    sys.argv[0] = re.sub(r'(-script\.pyw|\.exe)?$', '', sys.argv[0])
-    sys.exit(_main())

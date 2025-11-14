@@ -650,3 +650,45 @@
 2025-11-14 13:21:30,858: Calculating target variable stds per basin
 2025-11-14 13:21:30,883: Create lookup table and convert to pytorch tensor
 2025-11-14 13:21:31,233: No specific hidden size for frequencies are specified. Same hidden size is used for all.
+2025-11-14 13:21:40,272: Epoch 1 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-14 13:21:49,221: Epoch 2 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-14 13:21:58,617: Epoch 3 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-14 13:22:07,780: Epoch 4 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-14 13:22:16,908: Epoch 5 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-14 13:22:19,846: Stored metrics at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251114T204725Z/testing_run_1411_130555/testing_run_1411_131403/testing_run_1411_132129/validation/model_epoch005/validation_metrics.csv
+2025-11-14 13:22:19,849: Stored results at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251114T204725Z/testing_run_1411_130555/testing_run_1411_131403/testing_run_1411_132129/validation/model_epoch005/validation_results.p
+2025-11-14 13:22:19,850: Epoch 5 average validation loss: 0.00000 -- Median validation metrics: avg_loss: 0.00000, NSE_1H: 0.82123, MSE_1H: 4651778.00000, NSE_1D: 0.67335, MSE_1D: 8095333.50000
+2025-11-14 13:22:29,095: Epoch 6 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-14 13:22:38,270: Epoch 7 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-14 13:22:47,561: Epoch 8 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-14 13:22:57,046: Epoch 9 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-14 13:23:06,628: Epoch 10 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-14 13:23:08,567: Stored metrics at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251114T204725Z/testing_run_1411_130555/testing_run_1411_131403/testing_run_1411_132129/validation/model_epoch010/validation_metrics.csv
+2025-11-14 13:23:08,568: Stored results at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251114T204725Z/testing_run_1411_130555/testing_run_1411_131403/testing_run_1411_132129/validation/model_epoch010/validation_results.p
+2025-11-14 13:23:08,569: Epoch 10 average validation loss: 0.00000 -- Median validation metrics: avg_loss: 0.00000, NSE_1H: 0.77988, MSE_1H: 5727788.00000, NSE_1D: 0.65369, MSE_1D: 8582737.00000
+2025-11-14 13:23:17,502: Epoch 11 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-14 13:23:26,344: Epoch 12 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-14 13:23:34,850: Epoch 13 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-14 13:23:44,157: Epoch 14 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-14 13:23:53,188: Epoch 15 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-14 13:23:54,942: Stored metrics at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251114T204725Z/testing_run_1411_130555/testing_run_1411_131403/testing_run_1411_132129/validation/model_epoch015/validation_metrics.csv
+2025-11-14 13:23:54,943: Stored results at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251114T204725Z/testing_run_1411_130555/testing_run_1411_131403/testing_run_1411_132129/validation/model_epoch015/validation_results.p
+2025-11-14 13:23:54,944: Epoch 15 average validation loss: 0.00000 -- Median validation metrics: avg_loss: 0.00000, NSE_1H: 0.84897, MSE_1H: 3930052.00000, NSE_1D: 0.71964, MSE_1D: 6948144.00000
+2025-11-14 13:24:04,378: Epoch 16 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-14 13:24:12,972: Epoch 17 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-14 13:24:21,816: Epoch 18 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-14 13:24:30,989: Epoch 19 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-14 13:24:39,592: Epoch 20 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-14 13:24:41,252: Stored metrics at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251114T204725Z/testing_run_1411_130555/testing_run_1411_131403/testing_run_1411_132129/validation/model_epoch020/validation_metrics.csv
+2025-11-14 13:24:41,253: Stored results at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251114T204725Z/testing_run_1411_130555/testing_run_1411_131403/testing_run_1411_132129/validation/model_epoch020/validation_results.p
+2025-11-14 13:24:41,254: Epoch 20 average validation loss: 0.00000 -- Median validation metrics: avg_loss: 0.00000, NSE_1H: 0.80654, MSE_1H: 5034189.00000, NSE_1D: 0.75275, MSE_1D: 6127692.00000
+2025-11-14 13:24:49,761: Epoch 21 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-14 13:24:58,519: Epoch 22 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-14 13:25:06,976: Epoch 23 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-14 13:25:06,976: Setting learning rate to 0.005
+2025-11-14 13:25:15,427: Epoch 24 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-14 13:25:23,916: Epoch 25 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-14 13:25:25,573: Stored metrics at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251114T204725Z/testing_run_1411_130555/testing_run_1411_131403/testing_run_1411_132129/validation/model_epoch025/validation_metrics.csv
+2025-11-14 13:25:25,574: Stored results at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251114T204725Z/testing_run_1411_130555/testing_run_1411_131403/testing_run_1411_132129/validation/model_epoch025/validation_results.p
+2025-11-14 13:25:25,575: Epoch 25 average validation loss: 0.00000 -- Median validation metrics: avg_loss: 0.00000, NSE_1H: 0.85864, MSE_1H: 3678527.25000, NSE_1D: 0.77103, MSE_1D: 5674631.00000
+2025-11-14 13:25:34,066: Epoch 26 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
