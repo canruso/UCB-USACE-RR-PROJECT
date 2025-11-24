@@ -690,7 +690,7 @@ class UCB_trainer:
         interval = MonthsLib[intervalMonth.lower()]
 
         is_mts = self._is_mts
-        
+
         if not is_mts:
             cross_val_results = {}
         else:
@@ -784,21 +784,34 @@ class UCB_trainer:
                 self._get_predictions(time_resolution_key, 'validation')
                 pred = self._predictions.loc[val_eval_start:fold_val_end_date]
                 obs  = self._observed.loc[val_eval_start:fold_val_end_date]
-                metrics = calculate_all_metrics(obs, pred)
+                metrics = calculate_all_metrics(obs, pred, resolution=time_resolution_key.upper())
                 
                 cross_val_results[i] = metrics
             else:
                 self._get_predictions('1D', 'validation')
                 pred = self._predictions.loc[val_eval_start:fold_val_end_date]
                 obs  = self._observed.loc[val_eval_start:fold_val_end_date]
-                day_metrics = calculate_all_metrics(obs, pred)
+                day_metrics = calculate_all_metrics(obs, pred, resolution='1D')
+
                 self._get_predictions('1H', 'validation')
-                pred = self._predictions.loc[val_eval_start:fold_val_end_date]
-                obs  = self._observed.loc[val_eval_start:fold_val_end_date]
-                hour_metrics = calculate_all_metrics(obs, pred)
+
+                obs_fixed = obs.assign_coords(
+                    date=(list(obs.dims)[0], pd.date_range(start=val_eval_start,
+                                                    periods=obs.sizes[list(obs.dims)[0]],
+                                                    freq='H'))
+                )
+
+                pred_fixed = pred.assign_coords(
+                    date=(list(pred.dims)[0], pd.date_range(start=val_eval_start,
+                                                    periods=pred.sizes[list(pred.dims)[0]],
+                                                    freq='H'))
+                )
+
+                hour_metrics = calculate_all_metrics(obs_fixed, pred_fixed, resolution='1H', datetime_coord='date')
 
                 daily_results[i] = day_metrics
                 hourly_results[i] = hour_metrics
+
 
             i += 1
 
@@ -852,7 +865,7 @@ class UCB_trainer:
                 output_daily[key] = sum(output_daily[key]) / len(output_daily[key])
             for key in output_hourly:
                 output_hourly[key] = sum(output_hourly[key]) / len(output_hourly[key])
-            output = {output_daily, output_hourly}
+            output = (output_daily, output_hourly)
 
         
         return output
