@@ -1,0 +1,5 @@
+Period: validation
+Custom ranges: [('01/10/2005', '30/09/2009')]
+Subset index min: 2005-01-10 00:00:00
+Subset index max: 2009-09-29 23:00:00
+Rows: 41376

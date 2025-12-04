@@ -56,7 +56,7 @@ learning_rate:
   40: 1e-3
 
 batch_size: 64
-epochs: 32
+epochs: 3
 clip_gradient_norm: 1
 
 predict_last_n:

@@ -74,19 +74,40 @@ class SyntheticRussianRiver(BaseDataset):
             if key in cfg._cfg:
                 cfg._cfg[key] = value
 
-        train_first = self.custom_ranges["train"][0] if self.custom_ranges["train"] else None
-        val_first = self.custom_ranges["validation"][0] if self.custom_ranges["validation"] else None
-        test_first = self.custom_ranges["test"][0] if self.custom_ranges["test"] else None
+        # Build synthetic unified NH period bounds from *all* custom ranges
+        all_train_starts = []
+        all_train_ends   = []
 
-        if train_first:
-            _assign_if_exists("train_start_date", _safe_parse(train_first[0]))
-            _assign_if_exists("train_end_date", _safe_parse(train_first[1]))
-        if val_first:
-            _assign_if_exists("validation_start_date", _safe_parse(val_first[0]))
-            _assign_if_exists("validation_end_date", _safe_parse(val_first[1]))
-        if test_first:
-            _assign_if_exists("test_start_date", _safe_parse(test_first[0]))
-            _assign_if_exists("test_end_date", _safe_parse(test_first[1]))
+        for start, end in self.custom_ranges["train"]:
+            all_train_starts.append(pd.to_datetime(start, dayfirst=True))
+            all_train_ends.append(pd.to_datetime(end,   dayfirst=True))
+
+        # Only assign if ranges exist
+        if all_train_starts:
+            cfg._cfg["train_start_date"] = min(all_train_starts)
+            cfg._cfg["train_end_date"]   = max(all_train_ends)
+
+        # Same for validation
+        all_val_starts = []
+        all_val_ends   = []
+        for start, end in self.custom_ranges["validation"]:
+            all_val_starts.append(pd.to_datetime(start, dayfirst=True))
+            all_val_ends.append(pd.to_datetime(end,   dayfirst=True))
+
+        if all_val_starts:
+            cfg._cfg["validation_start_date"] = min(all_val_starts)
+            cfg._cfg["validation_end_date"]   = max(all_val_ends)
+
+        # Same for test
+        all_test_starts = []
+        all_test_ends   = []
+        for start, end in self.custom_ranges["test"]:
+            all_test_starts.append(pd.to_datetime(start, dayfirst=True))
+            all_test_ends.append(pd.to_datetime(end,   dayfirst=True))
+
+        if all_test_starts:
+            cfg._cfg["test_start_date"] = min(all_test_starts)
+            cfg._cfg["test_end_date"]   = max(all_test_ends)
 
         print("[SyntheticRussianRiver] Overrode cfg date fields with first synthetic ranges.")
 
@@ -142,7 +163,11 @@ class SyntheticRussianRiver(BaseDataset):
         ranges = self.custom_ranges.get(self.period, [])
         if ranges:
             merged = pd.concat([
-                pd.Series(pd.date_range(pd.to_datetime(start), pd.to_datetime(end), freq="H"))
+                pd.Series(pd.date_range(
+                    pd.to_datetime(start, dayfirst=True), 
+                    pd.to_datetime(end, dayfirst=True), 
+                    freq="H"
+                ))
                 for start, end in ranges
             ]).drop_duplicates().sort_values().reset_index(drop=True)
 
@@ -208,7 +233,8 @@ class SyntheticRussianRiver(BaseDataset):
                 return df
             subset_dfs = []
             for start, end in ranges:
-                start_dt, end_dt = pd.to_datetime(start), pd.to_datetime(end)
+                # Force dayfirst parsing here to prevent 01/10 becoming Jan 10th
+                start_dt, end_dt = pd.to_datetime(start, dayfirst=True), pd.to_datetime(end, dayfirst=True)
                 mask = (df.index >= start_dt) & (df.index <= end_dt)
                 subset_dfs.append(df.loc[mask])
                 print(f"[DEBUG] Included {start_dt.date()} → {end_dt.date()}, {mask.sum()} rows")
