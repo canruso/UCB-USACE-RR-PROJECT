@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 import pickle
 import numpy as np
 import pandas as pd
+from datetime import datetime
 from typing import List, Optional
 from neuralhydrology.utils.config import Config
 from neuralhydrology.training.train import start_training
@@ -697,11 +698,205 @@ class UCB_trainer:
 
         return tidy
 
+    def cross_validate(self, intervalMonth='October', intervalLength=2, validationLength=1, no_leak=False, run_path=None) -> dict:
+        """
+        Expanding-window time-series cross-validation.
+
+        Performs i-fold CV where i = ([number of years in dataset] // intervalLength) - validationLength.
+        Training window expands each fold; validation window slides forward.
+
+        Arguments:
+            intervalMonth: str, month boundary for water year (default 'October')
+            intervalLength: int, years per training expansion (default 2)
+            validationLength: int, validation window in years (default 1)
+            no_leak: bool, if True validation excludes seq_length lookback (default False)
+            run_path: Path, output directory (default: cwd/runs)
+
+        Returns:
+            dict of averaged metrics across folds (or tuple of daily/hourly dicts for MTS)
+        """
+        now = datetime.now()
+        ts = f"{now.day:02d}{now.month:02d}_{now.hour:02d}{now.minute:02d}{now.second:02d}"
+
+        root = (run_path if run_path else Path.cwd() / "runs")
+        run_dir = root / f"cross_validation_{ts}"
+        run_dir.mkdir(parents=True, exist_ok=True)
+
+        MonthsLib = {'january': 'Jan', 'february': 'Feb', 'march': 'Mar', 'april': 'Apr', 'may': 'May', 'june': 'Jun', 'july': 'Jul', 'august': 'Aug', 'september': 'Sep', 'october': 'Oct', 'november': 'Nov', 'december': 'Dec'}
+        interval = MonthsLib[intervalMonth.lower()]
+
+        is_mts = self._is_mts
+
+        if not is_mts:
+            cross_val_results = {}
+        else:
+            daily_results = {}
+            hourly_results = {}
+
+        original_start = getattr(self._config, "train_start_date", None)
+        original_start_year = int(original_start.year)
+
+        original_end = getattr(self._config, "validation_end_date", None)
+        original_end_year = int(original_end.year)
+
+        # Store original dates to restore after CV completes
+        original_train_start = getattr(self._config, "train_start_date", None)
+        original_train_end = getattr(self._config, "train_end_date", None)
+        original_val_start = getattr(self._config, "validation_start_date", None)
+        original_val_end = getattr(self._config, "validation_end_date", None)
+
+        n_years = original_end_year - original_start_year + 1
+        max_fold = (n_years - 2) // 2 - validationLength
+
+        seq_length = getattr(self._config, "seq_length", None)
+        if not is_mts:
+            lookback = int(seq_length)
+        else:
+            lookback_dict = seq_length
+
+        def round_timedelta_up_to_day(delta: pd.Timedelta) -> pd.Timedelta:
+            """Round a Timedelta up to the next whole day (ceiling to 24h multiples)."""
+            days = delta / pd.Timedelta(days=1)
+            days_ceiled = np.ceil(days)
+            return pd.Timedelta(days=int(days_ceiled))
+
+        def iso_date(dt) -> str:
+            """Return DD/MM/YYYY string."""
+            ts = pd.to_datetime(dt)
+            return ts.strftime("%d/%m/%Y")
+
+        i = 1
+        while i <= max_fold:
+            fold_train_start_date = pd.to_datetime(f"{str(original_start_year)}-{interval}-01", format="%Y-%b-%d")
+            fold_train_end_date = pd.to_datetime(f"{original_start_year + (intervalLength * i)}-{interval}-01", format="%Y-%b-%d")
+            val_eval_start = pd.to_datetime(fold_train_end_date) + pd.Timedelta(days=1)
+            fold_val_end_date = pd.to_datetime(f"{original_start_year + (intervalLength * i + validationLength)}-{interval}-01", format="%Y-%b-%d")
+
+            if no_leak:
+                if not is_mts:
+                    val_leak_start = val_eval_start
+                else:
+                    val_leak_start_d = val_eval_start
+                    val_leak_start_h = val_eval_start
+            else:
+                if not is_mts:
+                    val_leak_start = val_eval_start - pd.Timedelta(days=lookback - 1)
+                else:
+                    val_leak_start_d = val_eval_start - pd.Timedelta(days=lookback_dict['1D'] - 1)
+                    val_leak_start_h = val_eval_start - round_timedelta_up_to_day(pd.Timedelta(hours=lookback_dict['1H']))
+
+            fold_dir = run_dir / f"fold_{i:02d}"
+            fold_dir.mkdir(parents=True, exist_ok=True)
+
+            if not is_mts:
+                self._config.update_config({
+                    "train_start_date": iso_date(fold_train_start_date),
+                    "train_end_date": iso_date(fold_train_end_date),
+                    "validation_start_date": iso_date(val_leak_start),
+                    "validation_end_date": iso_date(fold_val_end_date),
+                    "run_dir": fold_dir
+                }, dev_mode=True)
+            else:
+                self._config.update_config({
+                    "train_start_date": iso_date(fold_train_start_date),
+                    "train_end_date": iso_date(fold_train_end_date),
+                    "validation_start_per_frequency": {'1D': iso_date(val_leak_start_d), '1H': iso_date(val_leak_start_h)},
+                    "validation_start_date": "01/01/1900",
+                    "validation_end_date": iso_date(fold_val_end_date),
+                    "run_dir": fold_dir
+                }, dev_mode=True)
+
+            self.train()
+
+            if not is_mts:
+                time_resolution_key = '1h' if self._hourly else '1D'
+                self._get_predictions(time_resolution_key, 'validation')
+                pred = self._predictions.loc[val_eval_start:fold_val_end_date]
+                obs = self._observed.loc[val_eval_start:fold_val_end_date]
+                metrics = calculate_all_metrics(obs, pred, resolution=time_resolution_key.upper())
+                cross_val_results[i] = metrics
+            else:
+                self._get_predictions('1D', 'validation')
+                pred = self._predictions.loc[val_eval_start:fold_val_end_date]
+                obs = self._observed.loc[val_eval_start:fold_val_end_date]
+                day_metrics = calculate_all_metrics(obs, pred, resolution='1D')
+
+                self._get_predictions('1H', 'validation')
+                obs_fixed = obs.assign_coords(
+                    date=(list(obs.dims)[0], pd.date_range(start=val_eval_start,
+                                                           periods=obs.sizes[list(obs.dims)[0]],
+                                                           freq='H'))
+                )
+                pred_fixed = pred.assign_coords(
+                    date=(list(pred.dims)[0], pd.date_range(start=val_eval_start,
+                                                            periods=pred.sizes[list(pred.dims)[0]],
+                                                            freq='H'))
+                )
+                hour_metrics = calculate_all_metrics(obs_fixed, pred_fixed, resolution='1H', datetime_coord='date')
+
+                daily_results[i] = day_metrics
+                hourly_results[i] = hour_metrics
+
+            i += 1
+
+        # Restore original config dates
+        if original_train_start:
+            self._config.update_config({'train_start_date': original_train_start}, dev_mode=True)
+        if original_train_end:
+            self._config.update_config({'train_end_date': original_train_end}, dev_mode=True)
+        if original_val_start:
+            self._config.update_config({'validation_start_date': original_val_start}, dev_mode=True)
+        if original_val_end:
+            self._config.update_config({'validation_end_date': original_val_end}, dev_mode=True)
+        if is_mts:
+            self._config.update_config({'validation_start_per_frequency': None}, dev_mode=True)
+
+        if self._verbose and not is_mts:
+            for j in range(1, len(cross_val_results) + 1):
+                print(f"Fold {j} results")
+                print(cross_val_results[j])
+                print("\n")
+
+        # Aggregate metrics across folds
+        if not is_mts:
+            output = {}
+            for j in cross_val_results:
+                for metric in cross_val_results[j]:
+                    key = f"avg {metric}"
+                    if key not in output:
+                        output[key] = []
+                    output[key].append(cross_val_results[j][metric])
+            for key in output:
+                output[key] = sum(output[key]) / len(output[key])
+        else:
+            output_daily = {}
+            for j in daily_results:
+                for metric in daily_results[j]:
+                    key = f"daily avg {metric}"
+                    if key not in output_daily:
+                        output_daily[key] = []
+                    output_daily[key].append(daily_results[j][metric])
+            output_hourly = {}
+            for j in hourly_results:
+                for metric in hourly_results[j]:
+                    key = f"hourly avg {metric}"
+                    if key not in output_hourly:
+                        output_hourly[key] = []
+                    output_hourly[key].append(hourly_results[j][metric])
+            for key in output_daily:
+                output_daily[key] = sum(output_daily[key]) / len(output_daily[key])
+            for key in output_hourly:
+                output_hourly[key] = sum(output_hourly[key]) / len(output_hourly[key])
+            output = (output_daily, output_hourly)
+
+        return output
+
+
 def replace_run_config_paths(run_dir: Path, verbose: bool = False) -> None:
     """
     Make a run's on-disk config.yml portable on the current machine by fixing data_dir if it does not exist,
     rewriting basin list files to absolute paths, aligning run_dir to the actual run_dir we are evaluating and
-    if physics_informed, fixing physics_data_file if invalid, searching local data_dir for reasonable candidates
+    if physics_informed, fixing physics_data_file if invalid, searching local data_dir for reasonable candidates.
     """
     yml = run_dir / "config.yml"
     if not yml.exists():
@@ -850,4 +1045,3 @@ def replace_run_config_paths(run_dir: Path, verbose: bool = False) -> None:
         except Exception as e:
             if verbose:
                 print(f"[portability] could not write patched config to {yml}: {e}")
-

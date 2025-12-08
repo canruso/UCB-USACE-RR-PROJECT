@@ -1,0 +1,42 @@
+xarray_feature_scale:
+  coords: {}
+  attrs: {}
+  dims: {}
+  data_vars:
+    ReservoirInflow_FLOW_CFS:
+      dims: []
+      attrs: {}
+      data: 382.4921875
+    TuleR_S10_PRECIP_INC_IN:
+      dims: []
+      attrs: {}
+      data: 0.013535508885979652
+    TuleR_S10_SWE_OBSERVED_IN:
+      dims: []
+      attrs: {}
+      data: 8.498648094246164e-05
+    TuleR_S10_TEMPERATURE_AIR_DEGF:
+      dims: []
+      attrs: {}
+      data: 12.81035041809082
+xarray_feature_center:
+  coords: {}
+  attrs: {}
+  dims: {}
+  data_vars:
+    ReservoirInflow_FLOW_CFS:
+      dims: []
+      attrs: {}
+      data: 220.6553192138672
+    TuleR_S10_PRECIP_INC_IN:
+      dims: []
+      attrs: {}
+      data: 0.004609770607203245
+    TuleR_S10_SWE_OBSERVED_IN:
+      dims: []
+      attrs: {}
+      data: 2.0618167582142632e-06
+    TuleR_S10_TEMPERATURE_AIR_DEGF:
+      dims: []
+      attrs: {}
+      data: 63.444034576416016
