@@ -114,7 +114,7 @@ save_weights_every: 16
 
 # --- Early Stopping Configuration ------------------------------------------------------------
 # Enable early stopping based on validation performance
-early_stopping: True
+early_stopping: False
 
 # Early stopping mode: "patience", "slope", or "none"
 # - "patience": Traditional approach (stops after N validations without improvement)
