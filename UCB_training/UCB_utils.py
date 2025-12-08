@@ -39,43 +39,42 @@ _OUTPUTS = _resolve_outputs_root(_REPO_ROOT)
 
 
 def clean_df(df: pd.DataFrame) -> pd.DataFrame:
-    """
-    Clean a raw HMS/HEC-style table into a tidy DataFrame indexed by datetime (index name 'date').
-    The main objective is to replace rows with 24:00:00 to 00:00:00.
-
-    Expected columns (case-sensitive as exported by HEC):
-        - 'Date' (or 'Day' after renaming)
-        - 'Time' (or 'time' before renaming)
-        - other value columns (drop 'Ordinate' if present)
-    """
     df = df.copy()
-    df.columns = df.iloc[0]
-    df = df[3:]
 
-    df.columns = df.columns.astype(str).str.strip()
-    if "Ordinate" in df.columns:
-        df = df.drop(columns=["Ordinate"])
+    # --- robust header detection instead of assuming row 0 is header ---
+    hdr = df.apply(lambda r: r.astype(str).str.contains("date", case=False, na=False).any(), axis=1).idxmax()
+    df.columns = df.iloc[hdr].astype(str).str.strip()
+    df = df.iloc[hdr+3:].copy()  # skip header, units, types
 
+    # strip spaces in column names (critical!)
+    df.columns = df.columns.str.strip()
+
+    # drop Ordinate regardless of spacing/case
+    ord_cols = [c for c in df.columns if c.strip().lower() == "ordinate"]
+    if ord_cols:
+        df.drop(columns=ord_cols, inplace=True)
+
+    # normalize Date/Time names
     if "Date" in df.columns:
-        df = df.rename(columns={"Date": "Day"})
+        df.rename(columns={"Date": "Day"}, inplace=True)
     if "Time" not in df.columns and "time" in df.columns:
-        df = df.rename(columns={"time": "Time"})
+        df.rename(columns={"time": "Time"}, inplace=True)
 
-    # Handle 24:00:00 by rolling to next day at 00:00:00
+    # 24:00:00 → next-day 00:00:00, then build a proper datetime index
     mask = df["Time"] == "24:00:00"
     if mask.any():
-        df.loc[mask, "Day"] = ((pd.to_datetime(df.loc[mask, "Day"], format="%d-%b-%y") + pd.Timedelta(days=1))
-                               .dt.strftime("%d-%b-%y"))
+        df.loc[mask, "Day"] = (pd.to_datetime(df.loc[mask, "Day"], format="%d-%b-%y")
+                               + pd.Timedelta(days=1)).dt.strftime("%d-%b-%y")
         df["Time"] = df["Time"].replace("24:00:00", "00:00:00")
 
     df["date"] = pd.to_datetime(df["Day"], format="%d-%b-%y") + pd.to_timedelta(df["Time"])
     df.dropna(subset=["date"], inplace=True)
-    df = df.loc[:, ~df.columns.duplicated(keep=False)]
-
     df.set_index("date", inplace=True)
-    for col in ("Day", "Time"):
-        if col in df.columns:
-            df.drop(columns=[col], inplace=True)
+    df.drop(columns=[c for c in ("Day", "Time") if c in df.columns], inplace=True)
+
+    # numeric coercion
+    for c in df.columns:
+        df[c] = pd.to_numeric(df[c], errors="coerce")
     return df
 
 

@@ -83,6 +83,8 @@ def get_dataset(cfg: Config,
         Dataset = LamaH
     elif cfg.dataset.lower() == "caravan":
         Dataset = Caravan
+    elif cfg.dataset.lower() == "tuler":
+        Dataset = Tuler
     else:
         raise NotImplementedError(f"No dataset class implemented for dataset {cfg.dataset}")
 
