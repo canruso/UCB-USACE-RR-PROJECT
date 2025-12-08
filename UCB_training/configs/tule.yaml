@@ -1,0 +1,70 @@
+# --- Experiment ---
+experiment_name: tule_daily
+
+# One-basin file (like Russian River). Put a plain text file 'notebooks/basins/tule/tule'
+# that contains a single line 'tule'.
+train_basin_file: tule
+validation_basin_file: tule
+test_basin_file: tule
+
+train_start_date: "01/10/1981"
+train_end_date: "30/09/1997"
+validation_start_date: "01/10/1997"
+validation_end_date: "30/09/2001"
+test_start_date: "01/10/2001"
+test_end_date: "30/09/2005"
+
+device: cpu
+dataset: tuler
+data_dir: "F:/Dino/UCB-USACE-LSTMs/data/11082024_data_streamflow_met_Russian_River_share_UCB"
+
+dev_mode: True
+
+physics_informed: false
+physics_data_file: null
+
+model: cudalstm
+head: regression
+output_activation: linear
+
+hidden_size: 64
+num_layers: 1
+initial_forget_bias: 3
+output_dropout: 0.5
+
+optimizer: Adam
+loss: NSE
+learning_rate:
+  0: 1e-2
+  20: 5e-3
+  30: 1e-3
+
+batch_size: 256
+epochs: 32
+clip_gradient_norm: 1
+predict_last_n: 1
+seq_length: 365
+
+metrics: [NSE, MSE]
+validate_every: 5
+validate_n_random_basins: 1
+
+# --- Early Stopping (disabled by default) ---
+early_stopping: False
+early_stopping_mode: "patience"
+patience_early_stopping: 3
+min_delta_early_stopping: 0.0
+minimum_epochs_before_early_stopping: 10
+
+# MAIN dynamic inputs (pick the 3 MET series you want to use)
+dynamic_inputs:
+  - TuleR_S10_PRECIP_INC_IN
+  - TuleR_S10_SWE_OBSERVED_IN
+  - TuleR_S10_TEMPERATURE_AIR_DEGF
+
+target_variables:
+  - ReservoirInflow_FLOW_CFS
+
+clip_targets_to_zero:
+  - [ReservoirInflow_FLOW_CFS]
+
