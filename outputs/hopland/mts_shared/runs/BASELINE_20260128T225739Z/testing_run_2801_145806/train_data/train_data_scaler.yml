@@ -1,0 +1,258 @@
+xarray_feature_scale:
+  coords: {}
+  attrs: {}
+  dims: {}
+  data_vars:
+    Hopland Gage FLOW:
+      dims: []
+      attrs: {}
+      data: 1596.215576171875
+    NR HOPLAND FLOW COE HOP:
+      dims: []
+      attrs: {}
+      data: 1620.5386962890625
+    RUSSIAN 60 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR:
+      dims: []
+      attrs: {}
+      data: 0.008497465401887894
+    RUSSIAN 60 PRECIP-INC SCREENED:
+      dims: []
+      attrs: {}
+      data: 0.02199994958937168
+    RUSSIAN 70 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR:
+      dims: []
+      attrs: {}
+      data: 0.008497475646436214
+    RUSSIAN 70 PRECIP-INC SCREENED:
+      dims: []
+      attrs: {}
+      data: 0.021509725600481033
+    Russian 60 ET-POTENTIAL:
+      dims: []
+      attrs: {}
+      data: 0.0028189874719828367
+    Russian 60 FLOW:
+      dims: []
+      attrs: {}
+      data: 429.00775146484375
+    Russian 60 FLOW-BASE:
+      dims: []
+      attrs: {}
+      data: 207.51919555664062
+    Russian 60 INFILTRATION:
+      dims: []
+      attrs: {}
+      data: 0.01492591854184866
+    Russian 60 PERC-SOIL:
+      dims: []
+      attrs: {}
+      data: 0.010000072419643402
+    Russian 60 SATURATION FRACTION:
+      dims: []
+      attrs: {}
+      data: 0.4213324785232544
+    Russian 70 ET-POTENTIAL:
+      dims: []
+      attrs: {}
+      data: 0.002818954410031438
+    Russian 70 FLOW:
+      dims: []
+      attrs: {}
+      data: 490.6312561035156
+    Russian 70 FLOW-BASE:
+      dims: []
+      attrs: {}
+      data: 237.0345916748047
+    Russian 70 INFILTRATION:
+      dims: []
+      attrs: {}
+      data: 0.01487109623849392
+    Russian 70 PERC-SOIL:
+      dims: []
+      attrs: {}
+      data: 0.01006427314132452
+    Russian 70 SATURATION FRACTION:
+      dims: []
+      attrs: {}
+      data: 0.41878339648246765
+    UKIAH CA FLOW USGS-MERGED:
+      dims: []
+      attrs: {}
+      data: 438.20452880859375
+    UKIAH CA HUMIDITY USAF-NOAA:
+      dims: []
+      attrs: {}
+      data: 22.65508270263672
+    UKIAH CA SOLAR RADIATION USAF-NOAA:
+      dims: []
+      attrs: {}
+      data: 300.0636901855469
+    UKIAH CA TEMPERATURE USAF-NOAA:
+      dims: []
+      attrs: {}
+      data: 14.652928352355957
+    UKIAH CA WINDSPEED USAF-NOAA:
+      dims: []
+      attrs: {}
+      data: 4.304295063018799
+    WF RUSSIAN ET-POTENTIAL RUN:BASIN AVERAGE 60 YR:
+      dims: []
+      attrs: {}
+      data: 0.008497169241309166
+    WF RUSSIAN PRECIP-INC SCREENED:
+      dims: []
+      attrs: {}
+      data: 0.02239842154085636
+    WF Russian ET-POTENTIAL:
+      dims: []
+      attrs: {}
+      data: 0.002416125265881419
+    WF Russian FLOW:
+      dims: []
+      attrs: {}
+      data: 587.1168823242188
+    WF Russian FLOW-BASE:
+      dims: []
+      attrs: {}
+      data: 433.7940673828125
+    WF Russian INFILTRATION:
+      dims: []
+      attrs: {}
+      data: 0.01872098259627819
+    WF Russian PERC-SOIL:
+      dims: []
+      attrs: {}
+      data: 0.015019841492176056
+    WF Russian SATURATION FRACTION:
+      dims: []
+      attrs: {}
+      data: 0.4049990177154541
+xarray_feature_center:
+  coords: {}
+  attrs: {}
+  dims: {}
+  data_vars:
+    Hopland Gage FLOW:
+      dims: []
+      attrs: {}
+      data: 794.3214111328125
+    NR HOPLAND FLOW COE HOP:
+      dims: []
+      attrs: {}
+      data: 796.5858154296875
+    RUSSIAN 60 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR:
+      dims: []
+      attrs: {}
+      data: 0.005147232674062252
+    RUSSIAN 60 PRECIP-INC SCREENED:
+      dims: []
+      attrs: {}
+      data: 0.0043238690122962
+    RUSSIAN 70 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR:
+      dims: []
+      attrs: {}
+      data: 0.0051466622389853
+    RUSSIAN 70 PRECIP-INC SCREENED:
+      dims: []
+      attrs: {}
+      data: 0.004313602577894926
+    Russian 60 ET-POTENTIAL:
+      dims: []
+      attrs: {}
+      data: 0.0019056571181863546
+    Russian 60 FLOW:
+      dims: []
+      attrs: {}
+      data: 130.53802490234375
+    Russian 60 FLOW-BASE:
+      dims: []
+      attrs: {}
+      data: 94.15657043457031
+    Russian 60 INFILTRATION:
+      dims: []
+      attrs: {}
+      data: 0.00332698505371809
+    Russian 60 PERC-SOIL:
+      dims: []
+      attrs: {}
+      data: 0.002252214588224888
+    Russian 60 SATURATION FRACTION:
+      dims: []
+      attrs: {}
+      data: 0.5543882846832275
+    Russian 70 ET-POTENTIAL:
+      dims: []
+      attrs: {}
+      data: 0.0019052057759836316
+    Russian 70 FLOW:
+      dims: []
+      attrs: {}
+      data: 153.36599731445312
+    Russian 70 FLOW-BASE:
+      dims: []
+      attrs: {}
+      data: 107.94100189208984
+    Russian 70 INFILTRATION:
+      dims: []
+      attrs: {}
+      data: 0.0033747022971510887
+    Russian 70 PERC-SOIL:
+      dims: []
+      attrs: {}
+      data: 0.0022926488891243935
+    Russian 70 SATURATION FRACTION:
+      dims: []
+      attrs: {}
+      data: 0.5568887591362
+    UKIAH CA FLOW USGS-MERGED:
+      dims: []
+      attrs: {}
+      data: 318.79376220703125
+    UKIAH CA HUMIDITY USAF-NOAA:
+      dims: []
+      attrs: {}
+      data: 65.56742858886719
+    UKIAH CA SOLAR RADIATION USAF-NOAA:
+      dims: []
+      attrs: {}
+      data: 205.05398559570312
+    UKIAH CA TEMPERATURE USAF-NOAA:
+      dims: []
+      attrs: {}
+      data: 57.97228240966797
+    UKIAH CA WINDSPEED USAF-NOAA:
+      dims: []
+      attrs: {}
+      data: 3.8772003650665283
+    WF RUSSIAN ET-POTENTIAL RUN:BASIN AVERAGE 60 YR:
+      dims: []
+      attrs: {}
+      data: 0.005144950933754444
+    WF RUSSIAN PRECIP-INC SCREENED:
+      dims: []
+      attrs: {}
+      data: 0.004493276588618755
+    WF Russian ET-POTENTIAL:
+      dims: []
+      attrs: {}
+      data: 0.0016324154566973448
+    WF Russian FLOW:
+      dims: []
+      attrs: {}
+      data: 191.6376953125
+    WF Russian FLOW-BASE:
+      dims: []
+      attrs: {}
+      data: 172.00521850585938
+    WF Russian INFILTRATION:
+      dims: []
+      attrs: {}
+      data: 0.0040356614626944065
+    WF Russian PERC-SOIL:
+      dims: []
+      attrs: {}
+      data: 0.002974370028823614
+    WF Russian SATURATION FRACTION:
+      dims: []
+      attrs: {}
+      data: 0.5978906154632568

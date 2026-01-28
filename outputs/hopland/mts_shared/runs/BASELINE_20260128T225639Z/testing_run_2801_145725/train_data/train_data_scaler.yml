@@ -1,0 +1,106 @@
+xarray_feature_scale:
+  coords: {}
+  attrs: {}
+  dims: {}
+  data_vars:
+    NR HOPLAND FLOW COE HOP:
+      dims: []
+      attrs: {}
+      data: 1578.423583984375
+    RUSSIAN 60 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR:
+      dims: []
+      attrs: {}
+      data: 0.008568720892071724
+    RUSSIAN 60 PRECIP-INC SCREENED:
+      dims: []
+      attrs: {}
+      data: 0.022365238517522812
+    RUSSIAN 70 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR:
+      dims: []
+      attrs: {}
+      data: 0.008568736724555492
+    RUSSIAN 70 PRECIP-INC SCREENED:
+      dims: []
+      attrs: {}
+      data: 0.02179170586168766
+    UKIAH CA FLOW USGS-MERGED:
+      dims: []
+      attrs: {}
+      data: 416.2823181152344
+    UKIAH CA HUMIDITY USAF-NOAA:
+      dims: []
+      attrs: {}
+      data: 23.086050033569336
+    UKIAH CA SOLAR RADIATION USAF-NOAA:
+      dims: []
+      attrs: {}
+      data: 303.4108581542969
+    UKIAH CA TEMPERATURE USAF-NOAA:
+      dims: []
+      attrs: {}
+      data: 14.612323760986328
+    UKIAH CA WINDSPEED USAF-NOAA:
+      dims: []
+      attrs: {}
+      data: 4.2808427810668945
+    WF RUSSIAN ET-POTENTIAL RUN:BASIN AVERAGE 60 YR:
+      dims: []
+      attrs: {}
+      data: 0.008568420074880123
+    WF RUSSIAN PRECIP-INC SCREENED:
+      dims: []
+      attrs: {}
+      data: 0.022575296461582184
+xarray_feature_center:
+  coords: {}
+  attrs: {}
+  dims: {}
+  data_vars:
+    NR HOPLAND FLOW COE HOP:
+      dims: []
+      attrs: {}
+      data: 784.3759765625
+    RUSSIAN 60 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR:
+      dims: []
+      attrs: {}
+      data: 0.005216579418629408
+    RUSSIAN 60 PRECIP-INC SCREENED:
+      dims: []
+      attrs: {}
+      data: 0.004372141789644957
+    RUSSIAN 70 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR:
+      dims: []
+      attrs: {}
+      data: 0.0052159568294882774
+    RUSSIAN 70 PRECIP-INC SCREENED:
+      dims: []
+      attrs: {}
+      data: 0.00435451278463006
+    UKIAH CA FLOW USGS-MERGED:
+      dims: []
+      attrs: {}
+      data: 315.48175048828125
+    UKIAH CA HUMIDITY USAF-NOAA:
+      dims: []
+      attrs: {}
+      data: 66.20518493652344
+    UKIAH CA SOLAR RADIATION USAF-NOAA:
+      dims: []
+      attrs: {}
+      data: 209.01734924316406
+    UKIAH CA TEMPERATURE USAF-NOAA:
+      dims: []
+      attrs: {}
+      data: 57.99806213378906
+    UKIAH CA WINDSPEED USAF-NOAA:
+      dims: []
+      attrs: {}
+      data: 3.821406602859497
+    WF RUSSIAN ET-POTENTIAL RUN:BASIN AVERAGE 60 YR:
+      dims: []
+      attrs: {}
+      data: 0.005214090924710035
+    WF RUSSIAN PRECIP-INC SCREENED:
+      dims: []
+      attrs: {}
+      data: 0.0045105828903615475

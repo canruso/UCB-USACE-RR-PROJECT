@@ -1,0 +1,128 @@
+batch_size: 64
+clip_gradient_norm: 1
+clip_targets_to_zero:
+- - NR HOPLAND FLOW COE HOP
+commit_hash: 588832d
+data_dir: /Users/maxwellfung/UCB-USACE-RR-PROJECT/russian_river_data
+dataset: synthetic_russian_river
+dev_mode: true
+device: cpu
+dynamic_inputs:
+- RUSSIAN 60 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR
+- RUSSIAN 60 PRECIP-INC SCREENED
+- RUSSIAN 70 PRECIP-INC SCREENED
+- RUSSIAN 70 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR
+- WF RUSSIAN PRECIP-INC SCREENED
+- WF RUSSIAN ET-POTENTIAL RUN:BASIN AVERAGE 60 YR
+- Hopland Gage FLOW
+- Russian 60 ET-POTENTIAL
+- Russian 60 FLOW
+- Russian 60 FLOW-BASE
+- Russian 60 INFILTRATION
+- Russian 60 PERC-SOIL
+- Russian 60 SATURATION FRACTION
+- Russian 70 ET-POTENTIAL
+- Russian 70 FLOW
+- Russian 70 FLOW-BASE
+- Russian 70 INFILTRATION
+- Russian 70 PERC-SOIL
+- Russian 70 SATURATION FRACTION
+- WF Russian ET-POTENTIAL
+- WF Russian FLOW
+- WF Russian FLOW-BASE
+- WF Russian INFILTRATION
+- WF Russian PERC-SOIL
+- WF Russian SATURATION FRACTION
+- UKIAH CA HUMIDITY USAF-NOAA
+- UKIAH CA SOLAR RADIATION USAF-NOAA
+- UKIAH CA TEMPERATURE USAF-NOAA
+- UKIAH CA WINDSPEED USAF-NOAA
+- UKIAH CA FLOW USGS-MERGED
+epochs: 2
+experiment_name: testing_run
+head: regression
+hidden_size: 128
+hourly: true
+img_log_dir: 
+  /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/hopland/mts_shared/runs/BASELINE_20260128T231949Z/testing_run_2801_152105/img_log
+initial_forget_bias: 3
+is_mts: true
+is_mts_data: false
+learning_rate:
+  0: 0.01
+  16: 0.005
+  24: 0.001
+log_interval: 16
+log_n_figures: 1
+log_tensorboard: true
+loss: NSE
+metrics:
+- NSE
+- MSE
+model: mtslstm
+num_layers: 1
+number_of_basins: 1
+optimizer: Adam
+output_activation: linear
+output_dropout: 0.4
+package_version: 1.11.0
+physics_data_file: 
+  /Users/maxwellfung/UCB-USACE-RR-PROJECT/russian_river_data/Hopland_hourly.csv
+physics_informed: true
+predict_last_n:
+  1D: 1
+  1H: 24
+run_dir: 
+  /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/hopland/mts_shared/runs/BASELINE_20260128T231949Z/testing_run_2801_152105
+run_label: BASELINE
+run_stamp: 20260128T231949Z
+save_validation_results: true
+save_weights_every: 2
+seed: 585716
+seq_length:
+  1D: 120
+  1H: 336
+shared_mtslstm: false
+target_variables:
+- NR HOPLAND FLOW COE HOP
+test_basin_file: 
+  /Users/maxwellfung/UCB-USACE-RR-PROJECT/notebooks/basins/hopland/hopland
+test_end_date: 31/12/2203
+test_ranges:
+- 01/10/1999-30/09/2000
+- 01/10/2000-30/09/2001
+- 01/10/2001-30/09/2002
+- 01/10/2006-30/09/2007
+test_start_date: 01/01/2200
+train_basin_file: 
+  /Users/maxwellfung/UCB-USACE-RR-PROJECT/notebooks/basins/hopland/hopland
+train_dir: 
+  /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/hopland/mts_shared/runs/BASELINE_20260128T231949Z/testing_run_2801_152105/train_data
+train_end_date: 31/12/2207
+train_ranges:
+- 01/10/1994-30/09/1995
+- 01/10/1995-30/09/1996
+- 01/10/1996-30/09/1997
+- 01/10/1997-30/09/1998
+- 01/10/1998-30/09/1999
+- 01/10/2002-30/09/2003
+- 01/10/2003-30/09/2004
+- 01/10/2004-30/09/2005
+train_start_date: 01/01/2200
+transfer_mtslstm_states:
+  h: linear
+  c: linear
+use_frequencies:
+- 1H
+- 1D
+validate_every: 5
+validate_n_random_basins: 1
+validation_basin_file: 
+  /Users/maxwellfung/UCB-USACE-RR-PROJECT/notebooks/basins/hopland/hopland
+validation_end_date: 31/12/2202
+validation_ranges:
+- 01/10/2005-30/09/2006
+- 01/10/2007-30/09/2008
+- 01/10/2008-30/09/2009
+validation_start_date: 01/01/2200
+verbose: true
