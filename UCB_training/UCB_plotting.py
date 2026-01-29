@@ -1177,6 +1177,84 @@ def extract_metrics_from_csvs(run_dir: Path) -> tuple[pd.DataFrame, pd.DataFrame
     return train_df, valid_df
 
 
+def analyze_early_stopping_runs(runs_dir: Path) -> dict:
+    """Analyze early stopping behavior across all runs in a gridsearch experiment.
+
+    Args:
+        runs_dir: Path to runs directory (e.g., outputs/calpella/daily_shared/runs/ES_PATIENCE)
+
+    Returns:
+        Dictionary with:
+            - total_runs: int
+            - early_stopped_count: int
+            - early_stopped_pct: float
+            - by_max_epochs: dict[int, {runs, early_stopped, pct, stopped_at_epochs}]
+            - details: list of (max_epochs, final_epoch, early_stopped) tuples
+    """
+    runs_dir = Path(runs_dir)
+    results = []
+
+    for run in runs_dir.iterdir():
+        if not run.is_dir():
+            continue
+        config_path = run / "config.yml"
+        if not config_path.exists():
+            continue
+
+        # Get max epochs from config
+        max_epochs = None
+        with open(config_path) as f:
+            for line in f:
+                if line.startswith("epochs:"):
+                    max_epochs = int(line.split(":")[1].strip())
+                    break
+        if max_epochs is None:
+            continue
+
+        # Get actual final epoch from model file
+        model_files = list(run.glob("model_epoch*.pt"))
+        if not model_files:
+            continue
+        final_epoch = int(model_files[0].stem.replace("model_epoch", "").lstrip("0") or "0")
+
+        early_stopped = final_epoch < max_epochs
+        results.append((max_epochs, final_epoch, early_stopped))
+
+    if not results:
+        return {"total_runs": 0, "early_stopped_count": 0, "early_stopped_pct": 0.0,
+                "by_max_epochs": {}, "details": []}
+
+    # Summary stats
+    total = len(results)
+    es_count = sum(1 for r in results if r[2])
+
+    # Group by max_epochs
+    from collections import defaultdict
+    by_max = defaultdict(list)
+    for max_ep, final_ep, es in results:
+        by_max[max_ep].append((final_ep, es))
+
+    by_max_summary = {}
+    for max_ep in sorted(by_max.keys()):
+        runs = by_max[max_ep]
+        es_in_group = sum(1 for _, es in runs if es)
+        stopped_at = sorted(set(f for f, es in runs if es)) if es_in_group > 0 else []
+        by_max_summary[max_ep] = {
+            "runs": len(runs),
+            "early_stopped": es_in_group,
+            "pct": 100 * es_in_group / len(runs),
+            "stopped_at_epochs": stopped_at
+        }
+
+    return {
+        "total_runs": total,
+        "early_stopped_count": es_count,
+        "early_stopped_pct": 100 * es_count / total,
+        "by_max_epochs": by_max_summary,
+        "details": results
+    }
+
+
 def extract_losses_from_tensorboard(run_dir: Path) -> dict[str, list[tuple[int, float]]]:
     """
     Extract training and validation losses from TensorBoard event files.

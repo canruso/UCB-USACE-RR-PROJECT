@@ -105,3 +105,80 @@ def save_predictions(df: pd.DataFrame, *, basin: str, mode: str, period: str, ta
     ts_p.parent.mkdir(parents=True, exist_ok=True)
     df.to_csv(ts_p, index=False)
     return ts_p
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Metrics comparison utilities
+# ─────────────────────────────────────────────────────────────────────────────
+
+def load_test_metrics(run_dir: Path, basin: str = None) -> pd.DataFrame:
+    """Load test metrics CSV from a run directory.
+
+    Args:
+        run_dir: Path to run directory (e.g., outputs/calpella/daily/BASELINE_20250815T000000Z)
+        basin: Basin name for filename pattern. If None, globs for *_test_metrics.csv.
+
+    Returns:
+        DataFrame with metrics as index, models as columns.
+    """
+    run_dir = Path(run_dir)
+    metrics_dir = run_dir / "metrics" / "test"
+    if basin:
+        csv_path = metrics_dir / f"{basin}_daily_test_metrics.csv"
+    else:
+        csvs = list(metrics_dir.glob("*_test_metrics.csv"))
+        if not csvs:
+            raise FileNotFoundError(f"No test metrics CSV found in {metrics_dir}")
+        csv_path = csvs[0]
+    return pd.read_csv(csv_path, index_col=0)
+
+
+def pairwise_pct_change(baseline_df: pd.DataFrame, experimental_df: pd.DataFrame,
+                        models: list[str] = None) -> pd.DataFrame:
+    """Calculate percent change from baseline for each metric/model.
+
+    Args:
+        baseline_df: Metrics DataFrame (index=metrics, columns=models)
+        experimental_df: Metrics DataFrame to compare against baseline
+        models: List of model columns to compare. If None, uses all common columns.
+
+    Returns:
+        DataFrame with columns: Metric, Model, BASELINE, EXPERIMENTAL, pct_change
+    """
+    if models is None:
+        models = [c for c in baseline_df.columns if c in experimental_df.columns]
+
+    rows = []
+    for metric in baseline_df.index:
+        for model in models:
+            baseline_val = baseline_df.loc[metric, model]
+            exp_val = experimental_df.loc[metric, model]
+            if baseline_val != 0:
+                pct = abs((exp_val - baseline_val) / baseline_val * 100)
+            else:
+                pct = 0.0
+            rows.append({
+                "Metric": metric,
+                "Model": model,
+                "BASELINE": baseline_val,
+                "EXPERIMENTAL": exp_val,
+                "pct_change": pct
+            })
+    return pd.DataFrame(rows)
+
+
+def threshold_filter(comparison_df: pd.DataFrame, threshold: float = 5.0,
+                     always_keep: list[str] = None) -> pd.DataFrame:
+    """Filter comparison DataFrame by percent change threshold.
+
+    Args:
+        comparison_df: DataFrame with 'Metric' and 'pct_change' columns
+        threshold: Minimum percent change to keep (default 5%)
+        always_keep: List of metric names to always include regardless of threshold
+
+    Returns:
+        Filtered DataFrame (without pct_change column)
+    """
+    always_keep = always_keep or []
+    mask = (comparison_df["pct_change"] >= threshold) | (comparison_df["Metric"].isin(always_keep))
+    return comparison_df[mask].drop(columns=["pct_change"])

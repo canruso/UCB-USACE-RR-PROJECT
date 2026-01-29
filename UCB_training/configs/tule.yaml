@@ -16,7 +16,8 @@ test_end_date: "30/09/2005"
 
 device: cpu
 dataset: tuler
-data_dir: "F:/Dino/UCB-USACE-LSTMs/data/11082024_data_streamflow_met_Russian_River_share_UCB"
+# data_dir is resolved dynamically by UCB_utils.data_dir() or passed to UCB_trainer
+data_dir: null
 
 dev_mode: True
 

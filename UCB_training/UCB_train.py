@@ -698,7 +698,7 @@ class UCB_trainer:
 
         return tidy
 
-    def cross_validate(self, intervalMonth='October', intervalLength=2, validationLength=1, no_leak=False, run_path=None) -> dict:
+    def cross_validate(self, intervalMonth='October', intervalLength=2, validationLength=1, no_leak=False, run_path=None, save_fold_details=False) -> dict:
         """
         Expanding-window time-series cross-validation.
 
@@ -711,6 +711,7 @@ class UCB_trainer:
             validationLength: int, validation window in years (default 1)
             no_leak: bool, if True validation excludes seq_length lookback (default False)
             run_path: Path, output directory (default: cwd/runs)
+            save_fold_details: bool, if True saves per-fold CSVs and plots (default False)
 
         Returns:
             dict of averaged metrics across folds (or tuple of daily/hourly dicts for MTS)
@@ -746,7 +747,9 @@ class UCB_trainer:
         original_val_end = getattr(self._config, "validation_end_date", None)
 
         n_years = original_end_year - original_start_year + 1
-        max_fold = (n_years - 2) // 2 - validationLength
+        # Calculate max folds based on intervalLength: we need at least intervalLength years for initial training
+        # plus validationLength years for validation, and each fold adds intervalLength years
+        max_fold = (n_years - intervalLength) // intervalLength - validationLength
 
         seq_length = getattr(self._config, "seq_length", None)
         if not is_mts:
@@ -809,12 +812,39 @@ class UCB_trainer:
             self.train()
 
             if not is_mts:
-                time_resolution_key = '1h' if self._hourly else '1D'
+                time_resolution_key = '1H' if self._hourly else '1D'
                 self._get_predictions(time_resolution_key, 'validation')
                 pred = self._predictions.loc[val_eval_start:fold_val_end_date]
                 obs = self._observed.loc[val_eval_start:fold_val_end_date]
                 metrics = calculate_all_metrics(obs, pred, resolution=time_resolution_key.upper())
                 cross_val_results[i] = metrics
+
+                # Save per-fold details if requested
+                if save_fold_details:
+                    # Save timeseries CSV
+                    ts_df = pd.DataFrame({
+                        'Date': pred.coords[list(pred.dims)[0]].values,
+                        'Observed': obs.values,
+                        'Predicted': pred.values
+                    })
+                    ts_df.to_csv(fold_dir / f'timeseries_validation.csv', index=False)
+
+                    # Save metrics CSV
+                    metrics_df = pd.DataFrame([metrics])
+                    metrics_df.insert(0, 'fold', i)
+                    metrics_df.insert(1, 'train_start', iso_date(fold_train_start_date))
+                    metrics_df.insert(2, 'train_end', iso_date(fold_train_end_date))
+                    metrics_df.insert(3, 'val_start', iso_date(val_eval_start))
+                    metrics_df.insert(4, 'val_end', iso_date(fold_val_end_date))
+                    metrics_df.to_csv(fold_dir / f'metrics_validation.csv', index=False)
+
+                    # Generate loss curve for this fold
+                    try:
+                        plot_loss_curves(fold_dir, save_path=fold_dir / 'loss_curves.png')
+                    except Exception as e:
+                        if self._verbose:
+                            print(f"Warning: Could not generate loss curve for fold {i}: {e}")
+
             else:
                 self._get_predictions('1D', 'validation')
                 pred = self._predictions.loc[val_eval_start:fold_val_end_date]
@@ -836,6 +866,41 @@ class UCB_trainer:
 
                 daily_results[i] = day_metrics
                 hourly_results[i] = hour_metrics
+
+                # Save per-fold details if requested (MTS version)
+                if save_fold_details:
+                    # Save daily timeseries
+                    ts_df_d = pd.DataFrame({
+                        'Date': pred.coords[list(pred.dims)[0]].values,
+                        'Observed': obs.values,
+                        'Predicted': pred.values
+                    })
+                    ts_df_d.to_csv(fold_dir / f'timeseries_validation_1D.csv', index=False)
+
+                    # Save hourly timeseries
+                    ts_df_h = pd.DataFrame({
+                        'Date': pred_fixed.coords['date'].values,
+                        'Observed': obs_fixed.values,
+                        'Predicted': pred_fixed.values
+                    })
+                    ts_df_h.to_csv(fold_dir / f'timeseries_validation_1H.csv', index=False)
+
+                    # Save metrics CSV (both daily and hourly)
+                    metrics_df = pd.DataFrame([{**{'fold': i, 'freq': '1D'}, **day_metrics}])
+                    metrics_df_h = pd.DataFrame([{**{'fold': i, 'freq': '1H'}, **hour_metrics}])
+                    combined_metrics = pd.concat([metrics_df, metrics_df_h], ignore_index=True)
+                    combined_metrics.insert(1, 'train_start', iso_date(fold_train_start_date))
+                    combined_metrics.insert(2, 'train_end', iso_date(fold_train_end_date))
+                    combined_metrics.insert(3, 'val_start', iso_date(val_eval_start))
+                    combined_metrics.insert(4, 'val_end', iso_date(fold_val_end_date))
+                    combined_metrics.to_csv(fold_dir / f'metrics_validation.csv', index=False)
+
+                    # Generate loss curve for this fold
+                    try:
+                        plot_loss_curves(fold_dir, save_path=fold_dir / 'loss_curves.png')
+                    except Exception as e:
+                        if self._verbose:
+                            print(f"Warning: Could not generate loss curve for fold {i}: {e}")
 
             i += 1
 
@@ -888,6 +953,48 @@ class UCB_trainer:
             for key in output_hourly:
                 output_hourly[key] = sum(output_hourly[key]) / len(output_hourly[key])
             output = (output_daily, output_hourly)
+
+        # Save CV summary CSV if fold details were saved
+        if save_fold_details:
+            if not is_mts:
+                # Compile all fold metrics into summary
+                summary_rows = []
+                for j in cross_val_results:
+                    row = {'fold': j, **cross_val_results[j]}
+                    summary_rows.append(row)
+                # Add average row
+                avg_row = {'fold': 'average'}
+                for metric in cross_val_results[1]:
+                    avg_row[metric] = output[f"avg {metric}"]
+                summary_rows.append(avg_row)
+                summary_df = pd.DataFrame(summary_rows)
+                summary_df.to_csv(run_dir / 'cv_summary.csv', index=False)
+                if self._verbose:
+                    print(f"\nCV Summary saved to: {run_dir / 'cv_summary.csv'}")
+            else:
+                # MTS: save daily and hourly summaries
+                summary_rows_d = []
+                for j in daily_results:
+                    row = {'fold': j, 'freq': '1D', **daily_results[j]}
+                    summary_rows_d.append(row)
+                avg_row_d = {'fold': 'average', 'freq': '1D'}
+                for metric in daily_results[1]:
+                    avg_row_d[metric] = output_daily[f"daily avg {metric}"]
+                summary_rows_d.append(avg_row_d)
+
+                summary_rows_h = []
+                for j in hourly_results:
+                    row = {'fold': j, 'freq': '1H', **hourly_results[j]}
+                    summary_rows_h.append(row)
+                avg_row_h = {'fold': 'average', 'freq': '1H'}
+                for metric in hourly_results[1]:
+                    avg_row_h[metric] = output_hourly[f"hourly avg {metric}"]
+                summary_rows_h.append(avg_row_h)
+
+                summary_df = pd.DataFrame(summary_rows_d + summary_rows_h)
+                summary_df.to_csv(run_dir / 'cv_summary.csv', index=False)
+                if self._verbose:
+                    print(f"\nCV Summary saved to: {run_dir / 'cv_summary.csv'}")
 
         return output
 
