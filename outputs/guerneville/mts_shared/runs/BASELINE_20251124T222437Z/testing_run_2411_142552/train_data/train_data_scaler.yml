@@ -1,0 +1,954 @@
+xarray_feature_scale:
+  coords: {}
+  attrs: {}
+  dims: {}
+  data_vars:
+    BIG SULPHUR CR ET-POTENTIAL RUN:BASIN AVERAGE 60 YR:
+      dims: []
+      attrs: {}
+      data: 0.008501949720084667
+    BIG SULPHUR CR PRECIP-INC SCREENED:
+      dims: []
+      attrs: {}
+      data: 0.02652656100690365
+    Big Sulphur Cr ET-POTENTIAL:
+      dims: []
+      attrs: {}
+      data: 0.0032227905467152596
+    Big Sulphur Cr FLOW:
+      dims: []
+      attrs: {}
+      data: 535.0768432617188
+    Big Sulphur Cr FLOW-BASE:
+      dims: []
+      attrs: {}
+      data: 427.0290832519531
+    Big Sulphur Cr INFILTRATION:
+      dims: []
+      attrs: {}
+      data: 0.022155901417136192
+    Big Sulphur Cr PERC-SOIL:
+      dims: []
+      attrs: {}
+      data: 0.018504513427615166
+    Big Sulphur Cr SATURATION FRACTION:
+      dims: []
+      attrs: {}
+      data: 0.42556285858154297
+    DRY CREEK 10 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR:
+      dims: []
+      attrs: {}
+      data: 0.008147615939378738
+    DRY CREEK 10 PRECIP-INC SCREENED:
+      dims: []
+      attrs: {}
+      data: 0.02760302647948265
+    Dry Creek 10 ET-POTENTIAL:
+      dims: []
+      attrs: {}
+      data: 0.0030893112998455763
+    Dry Creek 10 FLOW:
+      dims: []
+      attrs: {}
+      data: 484.1278991699219
+    Dry Creek 10 FLOW-BASE:
+      dims: []
+      attrs: {}
+      data: 397.64923095703125
+    Dry Creek 10 INFILTRATION:
+      dims: []
+      attrs: {}
+      data: 0.02309083566069603
+    Dry Creek 10 PERC-SOIL:
+      dims: []
+      attrs: {}
+      data: 0.019052779302001
+    Dry Creek 10 SATURATION FRACTION:
+      dims: []
+      attrs: {}
+      data: 0.43315914273262024
+    EF RUSSIAN 20 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR:
+      dims: []
+      attrs: {}
+      data: 0.008497734554111958
+    EF RUSSIAN 20 PRECIP-INC SCREENED:
+      dims: []
+      attrs: {}
+      data: 0.022475192323327065
+    GEYSERVILLE CA FLOW USGS-MERGED:
+      dims: []
+      attrs: {}
+      data: 640.2662353515625
+    GREEN VALLEY ET-POTENTIAL RUN:BASIN AVERAGE 60 YR:
+      dims: []
+      attrs: {}
+      data: 0.008147266693413258
+    GREEN VALLEY PRECIP-INC SCREENED:
+      dims: []
+      attrs: {}
+      data: 0.022860538214445114
+    Green Valley ET-POTENTIAL:
+      dims: []
+      attrs: {}
+      data: 0.0030891974456608295
+    Green Valley FLOW:
+      dims: []
+      attrs: {}
+      data: 163.38232421875
+    Green Valley FLOW-BASE:
+      dims: []
+      attrs: {}
+      data: 130.35372924804688
+    Green Valley INFILTRATION:
+      dims: []
+      attrs: {}
+      data: 0.019173067063093185
+    Green Valley PERC-SOIL:
+      dims: []
+      attrs: {}
+      data: 0.015228723175823689
+    Green Valley SATURATION FRACTION:
+      dims: []
+      attrs: {}
+      data: 0.43019986152648926
+    Guerneville Gage FLOW:
+      dims: []
+      attrs: {}
+      data: 5753.87451171875
+    LAGUNA ET-POTENTIAL RUN:BASIN AVERAGE 60 YR:
+      dims: []
+      attrs: {}
+      data: 0.008147447369992733
+    LAGUNA PRECIP-INC SCREENED:
+      dims: []
+      attrs: {}
+      data: 0.019212471321225166
+    Laguna ET-POTENTIAL:
+      dims: []
+      attrs: {}
+      data: 0.003089277073740959
+    Laguna FLOW:
+      dims: []
+      attrs: {}
+      data: 301.71746826171875
+    Laguna FLOW-BASE:
+      dims: []
+      attrs: {}
+      data: 209.52952575683594
+    Laguna INFILTRATION:
+      dims: []
+      attrs: {}
+      data: 0.016388021409511566
+    Laguna PERC-SOIL:
+      dims: []
+      attrs: {}
+      data: 0.012589894235134125
+    Laguna SATURATION FRACTION:
+      dims: []
+      attrs: {}
+      data: 0.4180951714515686
+    NR GUERNEVILLE FLOW COE GRN:
+      dims: []
+      attrs: {}
+      data: 6610.9970703125
+    RUSSIAN 20 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR:
+      dims: []
+      attrs: {}
+      data: 0.00814708974212408
+    RUSSIAN 20 PRECIP-INC SCREENED:
+      dims: []
+      attrs: {}
+      data: 0.02318352460861206
+    RUSSIAN 30 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR:
+      dims: []
+      attrs: {}
+      data: 0.0081486776471138
+    RUSSIAN 30 PRECIP-INC SCREENED:
+      dims: []
+      attrs: {}
+      data: 0.02323397621512413
+    RUSSIAN 40 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR:
+      dims: []
+      attrs: {}
+      data: 0.00849657692015171
+    RUSSIAN 40 PRECIP-INC SCREENED:
+      dims: []
+      attrs: {}
+      data: 0.02393215522170067
+    RUSSIAN 50 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR:
+      dims: []
+      attrs: {}
+      data: 0.008498060517013073
+    RUSSIAN 50 PRECIP-INC SCREENED:
+      dims: []
+      attrs: {}
+      data: 0.02349446527659893
+    RUSSIAN 60 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR:
+      dims: []
+      attrs: {}
+      data: 0.00849758181720972
+    RUSSIAN 60 PRECIP-INC SCREENED:
+      dims: []
+      attrs: {}
+      data: 0.022003570571541786
+    RUSSIAN 70 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR:
+      dims: []
+      attrs: {}
+      data: 0.008497591130435467
+    RUSSIAN 70 PRECIP-INC SCREENED:
+      dims: []
+      attrs: {}
+      data: 0.021513257175683975
+    Russian 20 ET-POTENTIAL:
+      dims: []
+      attrs: {}
+      data: 0.0030891394708305597
+    Russian 20 FLOW:
+      dims: []
+      attrs: {}
+      data: 199.16600036621094
+    Russian 20 FLOW-BASE:
+      dims: []
+      attrs: {}
+      data: 160.59579467773438
+    Russian 20 INFILTRATION:
+      dims: []
+      attrs: {}
+      data: 0.02023545280098915
+    Russian 20 PERC-SOIL:
+      dims: []
+      attrs: {}
+      data: 0.016827689483761787
+    Russian 20 SATURATION FRACTION:
+      dims: []
+      attrs: {}
+      data: 0.43239811062812805
+    Russian 30 ET-POTENTIAL:
+      dims: []
+      attrs: {}
+      data: 0.0030895124655216932
+    Russian 30 FLOW:
+      dims: []
+      attrs: {}
+      data: 780.4149780273438
+    Russian 30 FLOW-BASE:
+      dims: []
+      attrs: {}
+      data: 641.2321166992188
+    Russian 30 INFILTRATION:
+      dims: []
+      attrs: {}
+      data: 0.02025730349123478
+    Russian 30 PERC-SOIL:
+      dims: []
+      attrs: {}
+      data: 0.016858819872140884
+    Russian 30 SATURATION FRACTION:
+      dims: []
+      attrs: {}
+      data: 0.42120087146759033
+    Russian 40 ET-POTENTIAL:
+      dims: []
+      attrs: {}
+      data: 0.0032214804086834192
+    Russian 40 FLOW:
+      dims: []
+      attrs: {}
+      data: 384.60748291015625
+    Russian 40 FLOW-BASE:
+      dims: []
+      attrs: {}
+      data: 309.4106140136719
+    Russian 40 INFILTRATION:
+      dims: []
+      attrs: {}
+      data: 0.020611654967069626
+    Russian 40 PERC-SOIL:
+      dims: []
+      attrs: {}
+      data: 0.01684003509581089
+    Russian 40 SATURATION FRACTION:
+      dims: []
+      attrs: {}
+      data: 0.4270901381969452
+    Russian 50 ET-POTENTIAL:
+      dims: []
+      attrs: {}
+      data: 0.003221948631107807
+    Russian 50 FLOW:
+      dims: []
+      attrs: {}
+      data: 717.5623168945312
+    Russian 50 FLOW-BASE:
+      dims: []
+      attrs: {}
+      data: 625.2413940429688
+    Russian 50 INFILTRATION:
+      dims: []
+      attrs: {}
+      data: 0.02067989856004715
+    Russian 50 PERC-SOIL:
+      dims: []
+      attrs: {}
+      data: 0.01714591681957245
+    Russian 50 SATURATION FRACTION:
+      dims: []
+      attrs: {}
+      data: 0.4281207323074341
+    Russian 60 ET-POTENTIAL:
+      dims: []
+      attrs: {}
+      data: 0.0028190636076033115
+    Russian 60 FLOW:
+      dims: []
+      attrs: {}
+      data: 429.0743713378906
+    Russian 60 FLOW-BASE:
+      dims: []
+      attrs: {}
+      data: 207.5474090576172
+    Russian 60 INFILTRATION:
+      dims: []
+      attrs: {}
+      data: 0.014928346499800682
+    Russian 60 PERC-SOIL:
+      dims: []
+      attrs: {}
+      data: 0.010001697577536106
+    Russian 60 SATURATION FRACTION:
+      dims: []
+      attrs: {}
+      data: 0.4212796986103058
+    Russian 70 ET-POTENTIAL:
+      dims: []
+      attrs: {}
+      data: 0.0028190305456519127
+    Russian 70 FLOW:
+      dims: []
+      attrs: {}
+      data: 490.7070007324219
+    Russian 70 FLOW-BASE:
+      dims: []
+      attrs: {}
+      data: 237.06674194335938
+    Russian 70 INFILTRATION:
+      dims: []
+      attrs: {}
+      data: 0.014873510226607323
+    Russian 70 PERC-SOIL:
+      dims: []
+      attrs: {}
+      data: 0.010065906681120396
+    Russian 70 SATURATION FRACTION:
+      dims: []
+      attrs: {}
+      data: 0.4187282919883728
+    SANTA ROSA CA HUMIDITY USAF-NOAA:
+      dims: []
+      attrs: {}
+      data: 22.264562606811523
+    SANTA ROSA CA SOLAR RADIATION USAF-NOAA:
+      dims: []
+      attrs: {}
+      data: 300.3662414550781
+    SANTA ROSA CA TEMPERATURE USAF-NOAA:
+      dims: []
+      attrs: {}
+      data: 12.68159294128418
+    SANTA ROSA CA WINDSPEED USAF-NOAA:
+      dims: []
+      attrs: {}
+      data: 4.913179397583008
+    SANTA ROSA CR 10 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR:
+      dims: []
+      attrs: {}
+      data: 0.008148325607180595
+    SANTA ROSA CR 10 PRECIP-INC SCREENED:
+      dims: []
+      attrs: {}
+      data: 0.020167279988527298
+    SANTA ROSA CR 20 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR:
+      dims: []
+      attrs: {}
+      data: 0.008149208500981331
+    SANTA ROSA CR 20 PRECIP-INC SCREENED:
+      dims: []
+      attrs: {}
+      data: 0.01980009116232395
+    Santa Rosa Cr 10 ET-POTENTIAL:
+      dims: []
+      attrs: {}
+      data: 0.003089395584538579
+    Santa Rosa Cr 10 FLOW:
+      dims: []
+      attrs: {}
+      data: 427.6066589355469
+    Santa Rosa Cr 10 FLOW-BASE:
+      dims: []
+      attrs: {}
+      data: 342.5184631347656
+    Santa Rosa Cr 10 INFILTRATION:
+      dims: []
+      attrs: {}
+      data: 0.0174935944378376
+    Santa Rosa Cr 10 PERC-SOIL:
+      dims: []
+      attrs: {}
+      data: 0.014302772469818592
+    Santa Rosa Cr 10 SATURATION FRACTION:
+      dims: []
+      attrs: {}
+      data: 0.42782604694366455
+    Santa Rosa Cr 20 ET-POTENTIAL:
+      dims: []
+      attrs: {}
+      data: 0.003089542966336012
+    Santa Rosa Cr 20 FLOW:
+      dims: []
+      attrs: {}
+      data: 349.8983459472656
+    Santa Rosa Cr 20 FLOW-BASE:
+      dims: []
+      attrs: {}
+      data: 179.43893432617188
+    Santa Rosa Cr 20 INFILTRATION:
+      dims: []
+      attrs: {}
+      data: 0.016963772475719452
+    Santa Rosa Cr 20 PERC-SOIL:
+      dims: []
+      attrs: {}
+      data: 0.013735590502619743
+    Santa Rosa Cr 20 SATURATION FRACTION:
+      dims: []
+      attrs: {}
+      data: 0.42571455240249634
+    UKIAH CA FLOW USGS-MERGED:
+      dims: []
+      attrs: {}
+      data: 438.2769775390625
+    UKIAH CA HUMIDITY USAF-NOAA:
+      dims: []
+      attrs: {}
+      data: 22.65447235107422
+    UKIAH CA SOLAR RADIATION USAF-NOAA:
+      dims: []
+      attrs: {}
+      data: 300.06085205078125
+    UKIAH CA TEMPERATURE USAF-NOAA:
+      dims: []
+      attrs: {}
+      data: 14.654388427734375
+    UKIAH CA WINDSPEED USAF-NOAA:
+      dims: []
+      attrs: {}
+      data: 4.304440021514893
+    WF RUSSIAN ET-POTENTIAL RUN:BASIN AVERAGE 60 YR:
+      dims: []
+      attrs: {}
+      data: 0.008497284725308418
+    WF RUSSIAN PRECIP-INC SCREENED:
+      dims: []
+      attrs: {}
+      data: 0.022402102127671242
+    WF Russian ET-POTENTIAL:
+      dims: []
+      attrs: {}
+      data: 0.002416190691292286
+    WF Russian FLOW:
+      dims: []
+      attrs: {}
+      data: 587.2067260742188
+    WF Russian FLOW-BASE:
+      dims: []
+      attrs: {}
+      data: 433.85662841796875
+    WF Russian INFILTRATION:
+      dims: []
+      attrs: {}
+      data: 0.01872403733432293
+    WF Russian PERC-SOIL:
+      dims: []
+      attrs: {}
+      data: 0.015022310428321362
+    WF Russian SATURATION FRACTION:
+      dims: []
+      attrs: {}
+      data: 0.4049172103404999
+xarray_feature_center:
+  coords: {}
+  attrs: {}
+  dims: {}
+  data_vars:
+    BIG SULPHUR CR ET-POTENTIAL RUN:BASIN AVERAGE 60 YR:
+      dims: []
+      attrs: {}
+      data: 0.005156127270311117
+    BIG SULPHUR CR PRECIP-INC SCREENED:
+      dims: []
+      attrs: {}
+      data: 0.004945580381900072
+    Big Sulphur Cr ET-POTENTIAL:
+      dims: []
+      attrs: {}
+      data: 0.0021816811058670282
+    Big Sulphur Cr FLOW:
+      dims: []
+      attrs: {}
+      data: 178.22293090820312
+    Big Sulphur Cr FLOW-BASE:
+      dims: []
+      attrs: {}
+      data: 162.65834045410156
+    Big Sulphur Cr INFILTRATION:
+      dims: []
+      attrs: {}
+      data: 0.004448920954018831
+    Big Sulphur Cr PERC-SOIL:
+      dims: []
+      attrs: {}
+      data: 0.0033120200969278812
+    Big Sulphur Cr SATURATION FRACTION:
+      dims: []
+      attrs: {}
+      data: 0.5354611873626709
+    DRY CREEK 10 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR:
+      dims: []
+      attrs: {}
+      data: 0.004965835716575384
+    DRY CREEK 10 PRECIP-INC SCREENED:
+      dims: []
+      attrs: {}
+      data: 0.00500634778290987
+    Dry Creek 10 ET-POTENTIAL:
+      dims: []
+      attrs: {}
+      data: 0.0020986166782677174
+    Dry Creek 10 FLOW:
+      dims: []
+      attrs: {}
+      data: 183.5781707763672
+    Dry Creek 10 FLOW-BASE:
+      dims: []
+      attrs: {}
+      data: 166.60414123535156
+    Dry Creek 10 INFILTRATION:
+      dims: []
+      attrs: {}
+      data: 0.004490744788199663
+    Dry Creek 10 PERC-SOIL:
+      dims: []
+      attrs: {}
+      data: 0.0034306275192648172
+    Dry Creek 10 SATURATION FRACTION:
+      dims: []
+      attrs: {}
+      data: 0.5422221422195435
+    EF RUSSIAN 20 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR:
+      dims: []
+      attrs: {}
+      data: 0.005147853866219521
+    EF RUSSIAN 20 PRECIP-INC SCREENED:
+      dims: []
+      attrs: {}
+      data: 0.004318645223975182
+    GEYSERVILLE CA FLOW USGS-MERGED:
+      dims: []
+      attrs: {}
+      data: 292.4154968261719
+    GREEN VALLEY ET-POTENTIAL RUN:BASIN AVERAGE 60 YR:
+      dims: []
+      attrs: {}
+      data: 0.004965978674590588
+    GREEN VALLEY PRECIP-INC SCREENED:
+      dims: []
+      attrs: {}
+      data: 0.0036484887823462486
+    Green Valley ET-POTENTIAL:
+      dims: []
+      attrs: {}
+      data: 0.0020989475306123495
+    Green Valley FLOW:
+      dims: []
+      attrs: {}
+      data: 54.65854263305664
+    Green Valley FLOW-BASE:
+      dims: []
+      attrs: {}
+      data: 46.63310241699219
+    Green Valley INFILTRATION:
+      dims: []
+      attrs: {}
+      data: 0.003254940500482917
+    Green Valley PERC-SOIL:
+      dims: []
+      attrs: {}
+      data: 0.0022340009454637766
+    Green Valley SATURATION FRACTION:
+      dims: []
+      attrs: {}
+      data: 0.5113562941551208
+    Guerneville Gage FLOW:
+      dims: []
+      attrs: {}
+      data: 2516.903564453125
+    LAGUNA ET-POTENTIAL RUN:BASIN AVERAGE 60 YR:
+      dims: []
+      attrs: {}
+      data: 0.004967404995113611
+    LAGUNA PRECIP-INC SCREENED:
+      dims: []
+      attrs: {}
+      data: 0.002858079969882965
+    Laguna ET-POTENTIAL:
+      dims: []
+      attrs: {}
+      data: 0.002099578734487295
+    Laguna FLOW:
+      dims: []
+      attrs: {}
+      data: 85.18875122070312
+    Laguna FLOW-BASE:
+      dims: []
+      attrs: {}
+      data: 60.83134841918945
+    Laguna INFILTRATION:
+      dims: []
+      attrs: {}
+      data: 0.0025336164981126785
+    Laguna PERC-SOIL:
+      dims: []
+      attrs: {}
+      data: 0.0015407913597300649
+    Laguna SATURATION FRACTION:
+      dims: []
+      attrs: {}
+      data: 0.4743925929069519
+    NR GUERNEVILLE FLOW COE GRN:
+      dims: []
+      attrs: {}
+      data: 2505.804443359375
+    RUSSIAN 20 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR:
+      dims: []
+      attrs: {}
+      data: 0.0049655502662062645
+    RUSSIAN 20 PRECIP-INC SCREENED:
+      dims: []
+      attrs: {}
+      data: 0.004266578704118729
+    RUSSIAN 30 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR:
+      dims: []
+      attrs: {}
+      data: 0.0049685463309288025
+    RUSSIAN 30 PRECIP-INC SCREENED:
+      dims: []
+      attrs: {}
+      data: 0.004410795867443085
+    RUSSIAN 40 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR:
+      dims: []
+      attrs: {}
+      data: 0.005146855488419533
+    RUSSIAN 40 PRECIP-INC SCREENED:
+      dims: []
+      attrs: {}
+      data: 0.004317932296544313
+    RUSSIAN 50 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR:
+      dims: []
+      attrs: {}
+      data: 0.0051484243012964725
+    RUSSIAN 50 PRECIP-INC SCREENED:
+      dims: []
+      attrs: {}
+      data: 0.004492959938943386
+    RUSSIAN 60 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR:
+      dims: []
+      attrs: {}
+      data: 0.005146997515112162
+    RUSSIAN 60 PRECIP-INC SCREENED:
+      dims: []
+      attrs: {}
+      data: 0.004325350280851126
+    RUSSIAN 70 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR:
+      dims: []
+      attrs: {}
+      data: 0.00514642708003521
+    RUSSIAN 70 PRECIP-INC SCREENED:
+      dims: []
+      attrs: {}
+      data: 0.004315079189836979
+    Russian 20 ET-POTENTIAL:
+      dims: []
+      attrs: {}
+      data: 0.0020985680166631937
+    Russian 20 FLOW:
+      dims: []
+      attrs: {}
+      data: 69.8034896850586
+    Russian 20 FLOW-BASE:
+      dims: []
+      attrs: {}
+      data: 61.11892318725586
+    Russian 20 INFILTRATION:
+      dims: []
+      attrs: {}
+      data: 0.003881076816469431
+    Russian 20 PERC-SOIL:
+      dims: []
+      attrs: {}
+      data: 0.002847653115168214
+    Russian 20 SATURATION FRACTION:
+      dims: []
+      attrs: {}
+      data: 0.5288041830062866
+    Russian 30 ET-POTENTIAL:
+      dims: []
+      attrs: {}
+      data: 0.0020997587125748396
+    Russian 30 FLOW:
+      dims: []
+      attrs: {}
+      data: 240.3846893310547
+    Russian 30 FLOW-BASE:
+      dims: []
+      attrs: {}
+      data: 224.70248413085938
+    Russian 30 INFILTRATION:
+      dims: []
+      attrs: {}
+      data: 0.004019648768007755
+    Russian 30 PERC-SOIL:
+      dims: []
+      attrs: {}
+      data: 0.002873106626793742
+    Russian 30 SATURATION FRACTION:
+      dims: []
+      attrs: {}
+      data: 0.5335173010826111
+    Russian 40 ET-POTENTIAL:
+      dims: []
+      attrs: {}
+      data: 0.002178014488890767
+    Russian 40 FLOW:
+      dims: []
+      attrs: {}
+      data: 119.74685668945312
+    Russian 40 FLOW-BASE:
+      dims: []
+      attrs: {}
+      data: 108.40803527832031
+    Russian 40 INFILTRATION:
+      dims: []
+      attrs: {}
+      data: 0.003925205674022436
+    Russian 40 PERC-SOIL:
+      dims: []
+      attrs: {}
+      data: 0.0028016576543450356
+    Russian 40 SATURATION FRACTION:
+      dims: []
+      attrs: {}
+      data: 0.5333914160728455
+    Russian 50 ET-POTENTIAL:
+      dims: []
+      attrs: {}
+      data: 0.0021786638535559177
+    Russian 50 FLOW:
+      dims: []
+      attrs: {}
+      data: 256.3448791503906
+    Russian 50 FLOW-BASE:
+      dims: []
+      attrs: {}
+      data: 241.8016357421875
+    Russian 50 INFILTRATION:
+      dims: []
+      attrs: {}
+      data: 0.004110344219952822
+    Russian 50 PERC-SOIL:
+      dims: []
+      attrs: {}
+      data: 0.002989318920299411
+    Russian 50 SATURATION FRACTION:
+      dims: []
+      attrs: {}
+      data: 0.5359898805618286
+    Russian 60 ET-POTENTIAL:
+      dims: []
+      attrs: {}
+      data: 0.0019055602606385946
+    Russian 60 FLOW:
+      dims: []
+      attrs: {}
+      data: 130.5827178955078
+    Russian 60 FLOW-BASE:
+      dims: []
+      attrs: {}
+      data: 94.18880462646484
+    Russian 60 INFILTRATION:
+      dims: []
+      attrs: {}
+      data: 0.0033281242940574884
+    Russian 60 PERC-SOIL:
+      dims: []
+      attrs: {}
+      data: 0.002252985956147313
+    Russian 60 SATURATION FRACTION:
+      dims: []
+      attrs: {}
+      data: 0.5545780658721924
+    Russian 70 ET-POTENTIAL:
+      dims: []
+      attrs: {}
+      data: 0.0019051089184358716
+    Russian 70 FLOW:
+      dims: []
+      attrs: {}
+      data: 153.4185028076172
+    Russian 70 FLOW-BASE:
+      dims: []
+      attrs: {}
+      data: 107.97795104980469
+    Russian 70 INFILTRATION:
+      dims: []
+      attrs: {}
+      data: 0.003375857602804899
+    Russian 70 PERC-SOIL:
+      dims: []
+      attrs: {}
+      data: 0.0022934339940547943
+    Russian 70 SATURATION FRACTION:
+      dims: []
+      attrs: {}
+      data: 0.5570793747901917
+    SANTA ROSA CA HUMIDITY USAF-NOAA:
+      dims: []
+      attrs: {}
+      data: 72.67630767822266
+    SANTA ROSA CA SOLAR RADIATION USAF-NOAA:
+      dims: []
+      attrs: {}
+      data: 205.627685546875
+    SANTA ROSA CA TEMPERATURE USAF-NOAA:
+      dims: []
+      attrs: {}
+      data: 56.7415657043457
+    SANTA ROSA CA WINDSPEED USAF-NOAA:
+      dims: []
+      attrs: {}
+      data: 4.694212436676025
+    SANTA ROSA CR 10 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR:
+      dims: []
+      attrs: {}
+      data: 0.004968117922544479
+    SANTA ROSA CR 10 PRECIP-INC SCREENED:
+      dims: []
+      attrs: {}
+      data: 0.0035229588393121958
+    SANTA ROSA CR 20 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR:
+      dims: []
+      attrs: {}
+      data: 0.004969972185790539
+    SANTA ROSA CR 20 PRECIP-INC SCREENED:
+      dims: []
+      attrs: {}
+      data: 0.0033044232986867428
+    Santa Rosa Cr 10 ET-POTENTIAL:
+      dims: []
+      attrs: {}
+      data: 0.002099660225212574
+    Santa Rosa Cr 10 FLOW:
+      dims: []
+      attrs: {}
+      data: 136.37667846679688
+    Santa Rosa Cr 10 FLOW-BASE:
+      dims: []
+      attrs: {}
+      data: 118.51201629638672
+    Santa Rosa Cr 10 INFILTRATION:
+      dims: []
+      attrs: {}
+      data: 0.003173657925799489
+    Santa Rosa Cr 10 PERC-SOIL:
+      dims: []
+      attrs: {}
+      data: 0.0021671371068805456
+    Santa Rosa Cr 10 SATURATION FRACTION:
+      dims: []
+      attrs: {}
+      data: 0.5043463110923767
+    Santa Rosa Cr 20 ET-POTENTIAL:
+      dims: []
+      attrs: {}
+      data: 0.002100511686876416
+    Santa Rosa Cr 20 FLOW:
+      dims: []
+      attrs: {}
+      data: 106.21302032470703
+    Santa Rosa Cr 20 FLOW-BASE:
+      dims: []
+      attrs: {}
+      data: 58.69013595581055
+    Santa Rosa Cr 20 INFILTRATION:
+      dims: []
+      attrs: {}
+      data: 0.002961998339742422
+    Santa Rosa Cr 20 PERC-SOIL:
+      dims: []
+      attrs: {}
+      data: 0.0019640529062598944
+    Santa Rosa Cr 20 SATURATION FRACTION:
+      dims: []
+      attrs: {}
+      data: 0.49505850672721863
+    UKIAH CA FLOW USGS-MERGED:
+      dims: []
+      attrs: {}
+      data: 318.8214111328125
+    UKIAH CA HUMIDITY USAF-NOAA:
+      dims: []
+      attrs: {}
+      data: 65.56970977783203
+    UKIAH CA SOLAR RADIATION USAF-NOAA:
+      dims: []
+      attrs: {}
+      data: 205.04283142089844
+    UKIAH CA TEMPERATURE USAF-NOAA:
+      dims: []
+      attrs: {}
+      data: 57.972110748291016
+    UKIAH CA WINDSPEED USAF-NOAA:
+      dims: []
+      attrs: {}
+      data: 3.8771297931671143
+    WF RUSSIAN ET-POTENTIAL RUN:BASIN AVERAGE 60 YR:
+      dims: []
+      attrs: {}
+      data: 0.005144715309143066
+    WF RUSSIAN PRECIP-INC SCREENED:
+      dims: []
+      attrs: {}
+      data: 0.004494814667850733
+    WF Russian ET-POTENTIAL:
+      dims: []
+      attrs: {}
+      data: 0.0016323319869115949
+    WF Russian FLOW:
+      dims: []
+      attrs: {}
+      data: 191.7032928466797
+    WF Russian FLOW-BASE:
+      dims: []
+      attrs: {}
+      data: 172.06410217285156
+    WF Russian INFILTRATION:
+      dims: []
+      attrs: {}
+      data: 0.004037043079733849
+    WF Russian PERC-SOIL:
+      dims: []
+      attrs: {}
+      data: 0.002975387964397669
+    WF Russian SATURATION FRACTION:
+      dims: []
+      attrs: {}
+      data: 0.5980952978134155

@@ -1,0 +1,5 @@
+Period: train
+Custom ranges: [('01/10/1994', '30/09/2002')]
+Subset index min: 1994-10-01 01:00:00
+Subset index max: 2002-09-29 23:00:00
+Rows: 70103

@@ -25,3 +25,5 @@ docs/build/*
 #**/runs/
 #*.csv
 russian_river_data/ 
+
+venv

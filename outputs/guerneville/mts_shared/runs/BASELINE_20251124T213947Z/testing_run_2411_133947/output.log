@@ -1,0 +1,596 @@
+2025-11-24 13:39:47,877: Logging to /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251124T213947Z/testing_run_2411_133947/output.log initialized.
+2025-11-24 13:39:47,877: ### Folder structure created at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251124T213947Z/testing_run_2411_133947
+2025-11-24 13:39:47,878: ### Run configurations for testing_run
+2025-11-24 13:39:47,878: experiment_name: testing_run
+2025-11-24 13:39:47,878: train_basin_file: guerneville
+2025-11-24 13:39:47,878: validation_basin_file: guerneville
+2025-11-24 13:39:47,878: test_basin_file: guerneville
+2025-11-24 13:39:47,879: train_ranges: ['01/10/1994-30/09/1995', '01/10/1995-30/09/1996', '01/10/1996-30/09/1997', '01/10/1997-30/09/1998', '01/10/1998-30/09/1999', '01/10/1999-30/09/2000', '01/10/2000-30/09/2001', '01/10/2001-30/09/2002']
+2025-11-24 13:39:47,879: validation_ranges: ['01/10/2002-30/09/2003', '01/10/2003-30/09/2004', '01/10/2004-30/09/2005']
+2025-11-24 13:39:47,879: test_ranges: ['01/10/2005-30/09/2006', '01/10/2006-30/09/2007', '01/10/2007-30/09/2008', '01/10/2008-30/09/2009']
+2025-11-24 13:39:47,879: device: cpu
+2025-11-24 13:39:47,879: physics_informed: False
+2025-11-24 13:39:47,880: physics_data_file: None
+2025-11-24 13:39:47,880: validate_every: 5
+2025-11-24 13:39:47,880: validate_n_random_basins: 1
+2025-11-24 13:39:47,880: save_validation_results: True
+2025-11-24 13:39:47,880: metrics: ['NSE', 'MSE']
+2025-11-24 13:39:47,881: model: mtslstm
+2025-11-24 13:39:47,881: shared_mtslstm: False
+2025-11-24 13:39:47,881: transfer_mtslstm_states: {'h': 'linear', 'c': 'linear'}
+2025-11-24 13:39:47,881: use_frequencies: ['1H', '1D']
+2025-11-24 13:39:47,881: head: regression
+2025-11-24 13:39:47,881: output_activation: linear
+2025-11-24 13:39:47,882: hidden_size: 256
+2025-11-24 13:39:47,882: initial_forget_bias: 3
+2025-11-24 13:39:47,882: output_dropout: 0.4
+2025-11-24 13:39:47,882: optimizer: Adam
+2025-11-24 13:39:47,882: loss: NSE
+2025-11-24 13:39:47,882: learning_rate: {0: 0.01, 24: 0.005, 36: 0.001}
+2025-11-24 13:39:47,883: batch_size: 64
+2025-11-24 13:39:47,883: epochs: 48
+2025-11-24 13:39:47,883: clip_gradient_norm: 1
+2025-11-24 13:39:47,883: predict_last_n: {'1D': 1, '1H': 24}
+2025-11-24 13:39:47,883: seq_length: {'1D': 90, '1H': 168}
+2025-11-24 13:39:47,884: log_interval: 16
+2025-11-24 13:39:47,884: log_tensorboard: True
+2025-11-24 13:39:47,884: log_n_figures: 1
+2025-11-24 13:39:47,884: save_weights_every: 48
+2025-11-24 13:39:47,884: dataset: synthetic_russian_river
+2025-11-24 13:39:47,885: data_dir: /Users/maxwellfung/UCB-USACE-RR-PROJECT/russian_river_data
+2025-11-24 13:39:47,885: dev_mode: True
+2025-11-24 13:39:47,885: dynamic_inputs: {'1D': ['BIG SULPHUR CR ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'DRY CREEK 10 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'EF RUSSIAN 20 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'GREEN VALLEY ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'LAGUNA ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'RUSSIAN 20 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'RUSSIAN 30 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'RUSSIAN 40 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'RUSSIAN 50 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'RUSSIAN 60 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'RUSSIAN 70 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'SANTA ROSA CR 10 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'SANTA ROSA CR 20 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'WF RUSSIAN ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'BIG SULPHUR CR PRECIP-INC SCREENED', 'DRY CREEK 10 PRECIP-INC SCREENED', 'EF RUSSIAN 20 PRECIP-INC SCREENED', 'GREEN VALLEY PRECIP-INC SCREENED', 'LAGUNA PRECIP-INC SCREENED', 'RUSSIAN 20 PRECIP-INC SCREENED', 'RUSSIAN 30 PRECIP-INC SCREENED', 'RUSSIAN 40 PRECIP-INC SCREENED', 'RUSSIAN 50 PRECIP-INC SCREENED', 'RUSSIAN 60 PRECIP-INC SCREENED', 'RUSSIAN 70 PRECIP-INC SCREENED', 'SANTA ROSA CR 10 PRECIP-INC SCREENED', 'SANTA ROSA CR 20 PRECIP-INC SCREENED', 'WF RUSSIAN PRECIP-INC SCREENED', 'UKIAH CA HUMIDITY USAF-NOAA', 'UKIAH CA SOLAR RADIATION USAF-NOAA', 'UKIAH CA TEMPERATURE USAF-NOAA', 'UKIAH CA WINDSPEED USAF-NOAA', 'SANTA ROSA CA HUMIDITY USAF-NOAA', 'SANTA ROSA CA SOLAR RADIATION USAF-NOAA', 'SANTA ROSA CA TEMPERATURE USAF-NOAA', 'SANTA ROSA CA WINDSPEED USAF-NOAA', 'UKIAH CA FLOW USGS-MERGED', 'GEYSERVILLE CA FLOW USGS-MERGED'], '1H': ['BIG SULPHUR CR ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'DRY CREEK 10 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'EF RUSSIAN 20 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'GREEN VALLEY ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'LAGUNA ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'RUSSIAN 20 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'RUSSIAN 30 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'RUSSIAN 40 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'RUSSIAN 50 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'RUSSIAN 60 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'RUSSIAN 70 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'SANTA ROSA CR 10 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'SANTA ROSA CR 20 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'WF RUSSIAN ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'BIG SULPHUR CR PRECIP-INC SCREENED', 'DRY CREEK 10 PRECIP-INC SCREENED', 'EF RUSSIAN 20 PRECIP-INC SCREENED', 'GREEN VALLEY PRECIP-INC SCREENED', 'LAGUNA PRECIP-INC SCREENED', 'RUSSIAN 20 PRECIP-INC SCREENED', 'RUSSIAN 30 PRECIP-INC SCREENED', 'RUSSIAN 40 PRECIP-INC SCREENED', 'RUSSIAN 50 PRECIP-INC SCREENED', 'RUSSIAN 60 PRECIP-INC SCREENED', 'RUSSIAN 70 PRECIP-INC SCREENED', 'SANTA ROSA CR 10 PRECIP-INC SCREENED', 'SANTA ROSA CR 20 PRECIP-INC SCREENED', 'WF RUSSIAN PRECIP-INC SCREENED', 'UKIAH CA HUMIDITY USAF-NOAA', 'UKIAH CA SOLAR RADIATION USAF-NOAA', 'UKIAH CA TEMPERATURE USAF-NOAA', 'UKIAH CA WINDSPEED USAF-NOAA', 'SANTA ROSA CA HUMIDITY USAF-NOAA', 'SANTA ROSA CA SOLAR RADIATION USAF-NOAA', 'SANTA ROSA CA TEMPERATURE USAF-NOAA', 'SANTA ROSA CA WINDSPEED USAF-NOAA', 'UKIAH CA FLOW USGS-MERGED', 'GEYSERVILLE CA FLOW USGS-MERGED']}
+2025-11-24 13:39:47,885: target_variables: ['NR GUERNEVILLE FLOW COE GRN']
+2025-11-24 13:39:47,886: clip_targets_to_zero: [['NR GUERNEVILLE FLOW COE GRN']]
+2025-11-24 13:39:47,886: train_start_date: 01/01/1900
+2025-11-24 13:39:47,886: train_end_date: 01/01/1901
+2025-11-24 13:39:47,886: validation_start_date: 01/01/1900
+2025-11-24 13:39:47,886: validation_end_date: 01/01/1901
+2025-11-24 13:39:47,899: test_start_date: 01/01/1900
+2025-11-24 13:39:47,902: test_end_date: 01/01/1901
+2025-11-24 13:39:47,912: num_layers: 1
+2025-11-24 13:39:47,913: hourly: True
+2025-11-24 13:39:47,914: is_mts: True
+2025-11-24 13:39:47,914: is_mts_data: False
+2025-11-24 13:39:47,914: verbose: True
+2025-11-24 13:39:47,914: run_dir: /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251124T213947Z/testing_run_2411_133947
+2025-11-24 13:39:47,915: run_label: BASELINE
+2025-11-24 13:39:47,915: run_stamp: 20251124T213947Z
+2025-11-24 13:39:47,916: number_of_basins: 1
+2025-11-24 13:39:47,916: train_dir: /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251124T213947Z/testing_run_2411_133947/train_data
+2025-11-24 13:39:47,916: img_log_dir: /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251124T213947Z/testing_run_2411_133947/img_log
+2025-11-24 13:39:47,923: ### Device cpu will be used for training
+2025-11-24 13:39:47,931: Loading basin data into xarray data set.
+2025-11-24 13:39:49,192: Calculating target variable stds per basin
+2025-11-24 13:39:49,228: Create lookup table and convert to pytorch tensor
+2025-11-24 13:39:50,260: No specific hidden size for frequencies are specified. Same hidden size is used for all.
+2025-11-24 13:39:59,892: Epoch 1 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:40:09,164: Epoch 2 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:40:17,955: Epoch 3 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:40:26,600: Epoch 4 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:40:35,592: Epoch 5 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:40:39,312: Stored metrics at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251124T213947Z/testing_run_2411_133947/validation/model_epoch005/validation_metrics.csv
+2025-11-24 13:40:39,313: Stored results at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251124T213947Z/testing_run_2411_133947/validation/model_epoch005/validation_results.p
+2025-11-24 13:40:39,315: Epoch 5 average validation loss: 0.00000 -- Median validation metrics: avg_loss: 0.00000, NSE_1H: 0.81249, MSE_1H: 4879432.50000, NSE_1D: 0.58225, MSE_1D: 10353095.00000
+2025-11-24 13:40:47,817: Epoch 6 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:40:56,871: Epoch 7 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:41:05,371: Epoch 8 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:41:13,863: Epoch 9 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:41:22,377: Epoch 10 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:41:24,054: Stored metrics at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251124T213947Z/testing_run_2411_133947/validation/model_epoch010/validation_metrics.csv
+2025-11-24 13:41:24,056: Stored results at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251124T213947Z/testing_run_2411_133947/validation/model_epoch010/validation_results.p
+2025-11-24 13:41:24,057: Epoch 10 average validation loss: 0.00000 -- Median validation metrics: avg_loss: 0.00000, NSE_1H: 0.80124, MSE_1H: 5171977.00000, NSE_1D: 0.66470, MSE_1D: 8309893.00000
+2025-11-24 13:41:32,271: Epoch 11 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:41:40,469: Epoch 12 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:41:48,533: Epoch 13 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:41:56,601: Epoch 14 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:42:04,633: Epoch 15 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:42:06,369: Stored metrics at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251124T213947Z/testing_run_2411_133947/validation/model_epoch015/validation_metrics.csv
+2025-11-24 13:42:06,371: Stored results at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251124T213947Z/testing_run_2411_133947/validation/model_epoch015/validation_results.p
+2025-11-24 13:42:06,371: Epoch 15 average validation loss: 0.00000 -- Median validation metrics: avg_loss: 0.00000, NSE_1H: 0.85698, MSE_1H: 3721534.75000, NSE_1D: 0.68866, MSE_1D: 7716065.50000
+2025-11-24 13:42:14,530: Epoch 16 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:42:23,130: Epoch 17 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:42:31,960: Epoch 18 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:42:40,254: Epoch 19 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:42:48,800: Epoch 20 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:42:50,399: Stored metrics at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251124T213947Z/testing_run_2411_133947/validation/model_epoch020/validation_metrics.csv
+2025-11-24 13:42:50,401: Stored results at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251124T213947Z/testing_run_2411_133947/validation/model_epoch020/validation_results.p
+2025-11-24 13:42:50,401: Epoch 20 average validation loss: 0.00000 -- Median validation metrics: avg_loss: 0.00000, NSE_1H: 0.85947, MSE_1H: 3656806.50000, NSE_1D: 0.71863, MSE_1D: 6973243.50000
+2025-11-24 13:42:58,562: Epoch 21 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:43:07,202: Epoch 22 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:43:15,690: Epoch 23 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:43:15,692: Setting learning rate to 0.005
+2025-11-24 13:43:24,118: Epoch 24 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:43:32,893: Epoch 25 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:43:34,699: Stored metrics at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251124T213947Z/testing_run_2411_133947/validation/model_epoch025/validation_metrics.csv
+2025-11-24 13:43:34,700: Stored results at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251124T213947Z/testing_run_2411_133947/validation/model_epoch025/validation_results.p
+2025-11-24 13:43:34,701: Epoch 25 average validation loss: 0.00000 -- Median validation metrics: avg_loss: 0.00000, NSE_1H: 0.86466, MSE_1H: 3521642.25000, NSE_1D: 0.72400, MSE_1D: 6840097.00000
+2025-11-24 13:43:43,183: Epoch 26 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:43:51,834: Epoch 27 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:44:00,847: Epoch 28 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:44:09,542: Epoch 29 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:44:18,193: Epoch 30 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:44:19,808: Stored metrics at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251124T213947Z/testing_run_2411_133947/validation/model_epoch030/validation_metrics.csv
+2025-11-24 13:44:19,809: Stored results at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251124T213947Z/testing_run_2411_133947/validation/model_epoch030/validation_results.p
+2025-11-24 13:44:19,810: Epoch 30 average validation loss: 0.00000 -- Median validation metrics: avg_loss: 0.00000, NSE_1H: 0.87008, MSE_1H: 3380698.00000, NSE_1D: 0.74830, MSE_1D: 6237834.50000
+2025-11-24 13:44:28,541: Epoch 31 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:44:37,058: Epoch 32 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:44:46,041: Epoch 33 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:44:54,797: Epoch 34 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:45:03,303: Epoch 35 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:45:04,885: Stored metrics at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251124T213947Z/testing_run_2411_133947/validation/model_epoch035/validation_metrics.csv
+2025-11-24 13:45:04,886: Stored results at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251124T213947Z/testing_run_2411_133947/validation/model_epoch035/validation_results.p
+2025-11-24 13:45:04,887: Epoch 35 average validation loss: 0.00000 -- Median validation metrics: avg_loss: 0.00000, NSE_1H: 0.86479, MSE_1H: 3518266.75000, NSE_1D: 0.76638, MSE_1D: 5789949.50000
+2025-11-24 13:45:04,887: Setting learning rate to 0.001
+2025-11-24 13:45:13,461: Epoch 36 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:45:22,553: Epoch 37 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:45:31,232: Epoch 38 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:45:39,556: Epoch 39 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:45:47,642: Epoch 40 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:45:49,357: Stored metrics at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251124T213947Z/testing_run_2411_133947/validation/model_epoch040/validation_metrics.csv
+2025-11-24 13:45:49,359: Stored results at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251124T213947Z/testing_run_2411_133947/validation/model_epoch040/validation_results.p
+2025-11-24 13:45:49,359: Epoch 40 average validation loss: 0.00000 -- Median validation metrics: avg_loss: 0.00000, NSE_1H: 0.86445, MSE_1H: 3527214.00000, NSE_1D: 0.76068, MSE_1D: 5931048.50000
+2025-11-24 13:45:57,711: Epoch 41 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:46:06,021: Epoch 42 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:46:14,248: Epoch 43 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:46:22,286: Epoch 44 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:46:30,637: Epoch 45 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:46:32,296: Stored metrics at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251124T213947Z/testing_run_2411_133947/validation/model_epoch045/validation_metrics.csv
+2025-11-24 13:46:32,298: Stored results at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251124T213947Z/testing_run_2411_133947/validation/model_epoch045/validation_results.p
+2025-11-24 13:46:32,299: Epoch 45 average validation loss: 0.00000 -- Median validation metrics: avg_loss: 0.00000, NSE_1H: 0.86330, MSE_1H: 3557126.75000, NSE_1D: 0.75830, MSE_1D: 5990178.50000
+2025-11-24 13:46:40,774: Epoch 46 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:46:48,990: Epoch 47 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:46:58,346: Epoch 48 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:46:58,407: No specific hidden size for frequencies are specified. Same hidden size is used for all.
+2025-11-24 13:46:58,420: Using the model weights from /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251124T213947Z/testing_run_2411_133947/model_epoch048.pt
+2025-11-24 13:47:01,395: Stored metrics at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251124T213947Z/testing_run_2411_133947/validation/model_epoch048/validation_metrics.csv
+2025-11-24 13:47:01,396: Stored results at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251124T213947Z/testing_run_2411_133947/validation/model_epoch048/validation_results.p
+2025-11-24 13:47:02,015: Logging to /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251124T213947Z/testing_run_2411_134702/output.log initialized.
+2025-11-24 13:47:02,015: ### Folder structure created at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251124T213947Z/testing_run_2411_134702
+2025-11-24 13:47:02,016: ### Run configurations for testing_run
+2025-11-24 13:47:02,016: experiment_name: testing_run
+2025-11-24 13:47:02,016: train_basin_file: guerneville
+2025-11-24 13:47:02,017: validation_basin_file: guerneville
+2025-11-24 13:47:02,017: test_basin_file: guerneville
+2025-11-24 13:47:02,017: train_ranges: ['01/10/1994-30/09/1995', '01/10/1995-30/09/1996', '01/10/1996-30/09/1997', '01/10/1997-30/09/1998', '01/10/1998-30/09/1999', '01/10/1999-30/09/2000', '01/10/2000-30/09/2001', '01/10/2001-30/09/2002']
+2025-11-24 13:47:02,017: validation_ranges: ['01/10/2002-30/09/2003', '01/10/2003-30/09/2004', '01/10/2004-30/09/2005']
+2025-11-24 13:47:02,017: test_ranges: ['01/10/2005-30/09/2006', '01/10/2006-30/09/2007', '01/10/2007-30/09/2008', '01/10/2008-30/09/2009']
+2025-11-24 13:47:02,018: device: cpu
+2025-11-24 13:47:02,018: physics_informed: True
+2025-11-24 13:47:02,018: physics_data_file: /Users/maxwellfung/UCB-USACE-RR-PROJECT/russian_river_data/Guerneville_hourly.csv
+2025-11-24 13:47:02,018: validate_every: 5
+2025-11-24 13:47:02,018: validate_n_random_basins: 1
+2025-11-24 13:47:02,019: save_validation_results: True
+2025-11-24 13:47:02,019: metrics: ['NSE', 'MSE']
+2025-11-24 13:47:02,019: model: mtslstm
+2025-11-24 13:47:02,019: shared_mtslstm: False
+2025-11-24 13:47:02,019: transfer_mtslstm_states: {'h': 'linear', 'c': 'linear'}
+2025-11-24 13:47:02,019: use_frequencies: ['1H', '1D']
+2025-11-24 13:47:02,020: head: regression
+2025-11-24 13:47:02,020: output_activation: linear
+2025-11-24 13:47:02,020: hidden_size: 128
+2025-11-24 13:47:02,020: initial_forget_bias: 3
+2025-11-24 13:47:02,020: output_dropout: 0.4
+2025-11-24 13:47:02,021: optimizer: Adam
+2025-11-24 13:47:02,021: loss: NSE
+2025-11-24 13:47:02,021: learning_rate: {0: 0.01, 24: 0.005, 36: 0.001}
+2025-11-24 13:47:02,021: batch_size: 64
+2025-11-24 13:47:02,021: epochs: 48
+2025-11-24 13:47:02,022: clip_gradient_norm: 1
+2025-11-24 13:47:02,022: predict_last_n: {'1D': 1, '1H': 24}
+2025-11-24 13:47:02,022: seq_length: {'1D': 90, '1H': 168}
+2025-11-24 13:47:02,022: log_interval: 16
+2025-11-24 13:47:02,022: log_tensorboard: True
+2025-11-24 13:47:02,023: log_n_figures: 1
+2025-11-24 13:47:02,023: save_weights_every: 48
+2025-11-24 13:47:02,023: dataset: synthetic_russian_river
+2025-11-24 13:47:02,023: data_dir: /Users/maxwellfung/UCB-USACE-RR-PROJECT/russian_river_data
+2025-11-24 13:47:02,023: dev_mode: True
+2025-11-24 13:47:02,023: dynamic_inputs: ['BIG SULPHUR CR ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'DRY CREEK 10 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'EF RUSSIAN 20 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'GREEN VALLEY ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'LAGUNA ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'RUSSIAN 20 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'RUSSIAN 30 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'RUSSIAN 40 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'RUSSIAN 50 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'RUSSIAN 60 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'RUSSIAN 70 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'SANTA ROSA CR 10 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'SANTA ROSA CR 20 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'WF RUSSIAN ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'BIG SULPHUR CR PRECIP-INC SCREENED', 'DRY CREEK 10 PRECIP-INC SCREENED', 'EF RUSSIAN 20 PRECIP-INC SCREENED', 'GREEN VALLEY PRECIP-INC SCREENED', 'LAGUNA PRECIP-INC SCREENED', 'RUSSIAN 20 PRECIP-INC SCREENED', 'RUSSIAN 30 PRECIP-INC SCREENED', 'RUSSIAN 40 PRECIP-INC SCREENED', 'RUSSIAN 50 PRECIP-INC SCREENED', 'RUSSIAN 60 PRECIP-INC SCREENED', 'RUSSIAN 70 PRECIP-INC SCREENED', 'SANTA ROSA CR 10 PRECIP-INC SCREENED', 'SANTA ROSA CR 20 PRECIP-INC SCREENED', 'WF RUSSIAN PRECIP-INC SCREENED', 'UKIAH CA HUMIDITY USAF-NOAA', 'UKIAH CA SOLAR RADIATION USAF-NOAA', 'UKIAH CA TEMPERATURE USAF-NOAA', 'UKIAH CA WINDSPEED USAF-NOAA', 'SANTA ROSA CA HUMIDITY USAF-NOAA', 'SANTA ROSA CA SOLAR RADIATION USAF-NOAA', 'SANTA ROSA CA TEMPERATURE USAF-NOAA', 'SANTA ROSA CA WINDSPEED USAF-NOAA', 'UKIAH CA FLOW USGS-MERGED', 'GEYSERVILLE CA FLOW USGS-MERGED', 'Guerneville Gage FLOW', 'Big Sulphur Cr ET-POTENTIAL', 'Big Sulphur Cr FLOW', 'Big Sulphur Cr FLOW-BASE', 'Big Sulphur Cr INFILTRATION', 'Big Sulphur Cr PERC-SOIL', 'Big Sulphur Cr SATURATION FRACTION', 'Dry Creek 10 ET-POTENTIAL', 'Dry Creek 10 FLOW', 'Dry Creek 10 FLOW-BASE', 'Dry Creek 10 INFILTRATION', 'Dry Creek 10 PERC-SOIL', 'Dry Creek 10 SATURATION FRACTION', 'Green Valley ET-POTENTIAL', 'Green Valley FLOW', 'Green Valley FLOW-BASE', 'Green Valley INFILTRATION', 'Green Valley PERC-SOIL', 'Green Valley SATURATION FRACTION', 'Laguna ET-POTENTIAL', 'Laguna FLOW', 'Laguna FLOW-BASE', 'Laguna INFILTRATION', 'Laguna PERC-SOIL', 'Laguna SATURATION FRACTION', 'Russian 20 ET-POTENTIAL', 'Russian 20 FLOW', 'Russian 20 FLOW-BASE', 'Russian 20 INFILTRATION', 'Russian 20 PERC-SOIL', 'Russian 20 SATURATION FRACTION', 'Russian 30 ET-POTENTIAL', 'Russian 30 FLOW', 'Russian 30 FLOW-BASE', 'Russian 30 INFILTRATION', 'Russian 30 PERC-SOIL', 'Russian 30 SATURATION FRACTION', 'Russian 40 ET-POTENTIAL', 'Russian 40 FLOW', 'Russian 40 FLOW-BASE', 'Russian 40 INFILTRATION', 'Russian 40 PERC-SOIL', 'Russian 40 SATURATION FRACTION', 'Russian 50 ET-POTENTIAL', 'Russian 50 FLOW', 'Russian 50 FLOW-BASE', 'Russian 50 INFILTRATION', 'Russian 50 PERC-SOIL', 'Russian 50 SATURATION FRACTION', 'Russian 60 ET-POTENTIAL', 'Russian 60 FLOW', 'Russian 60 FLOW-BASE', 'Russian 60 INFILTRATION', 'Russian 60 PERC-SOIL', 'Russian 60 SATURATION FRACTION', 'Russian 70 ET-POTENTIAL', 'Russian 70 FLOW', 'Russian 70 FLOW-BASE', 'Russian 70 INFILTRATION', 'Russian 70 PERC-SOIL', 'Russian 70 SATURATION FRACTION', 'Santa Rosa Cr 10 ET-POTENTIAL', 'Santa Rosa Cr 10 FLOW', 'Santa Rosa Cr 10 FLOW-BASE', 'Santa Rosa Cr 10 INFILTRATION', 'Santa Rosa Cr 10 PERC-SOIL', 'Santa Rosa Cr 10 SATURATION FRACTION', 'Santa Rosa Cr 20 ET-POTENTIAL', 'Santa Rosa Cr 20 FLOW', 'Santa Rosa Cr 20 FLOW-BASE', 'Santa Rosa Cr 20 INFILTRATION', 'Santa Rosa Cr 20 PERC-SOIL', 'Santa Rosa Cr 20 SATURATION FRACTION', 'WF Russian ET-POTENTIAL', 'WF Russian FLOW', 'WF Russian FLOW-BASE', 'WF Russian INFILTRATION', 'WF Russian PERC-SOIL', 'WF Russian SATURATION FRACTION']
+2025-11-24 13:47:02,024: target_variables: ['NR GUERNEVILLE FLOW COE GRN']
+2025-11-24 13:47:02,024: clip_targets_to_zero: [['NR GUERNEVILLE FLOW COE GRN']]
+2025-11-24 13:47:02,024: train_start_date: 01/01/1900
+2025-11-24 13:47:02,024: train_end_date: 01/01/1901
+2025-11-24 13:47:02,024: validation_start_date: 01/01/1900
+2025-11-24 13:47:02,025: validation_end_date: 01/01/1901
+2025-11-24 13:47:02,025: test_start_date: 01/01/1900
+2025-11-24 13:47:02,025: test_end_date: 01/01/1901
+2025-11-24 13:47:02,025: num_layers: 1
+2025-11-24 13:47:02,025: hourly: True
+2025-11-24 13:47:02,025: is_mts: True
+2025-11-24 13:47:02,026: is_mts_data: False
+2025-11-24 13:47:02,026: verbose: True
+2025-11-24 13:47:02,026: run_dir: /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251124T213947Z/testing_run_2411_134702
+2025-11-24 13:47:02,026: run_label: BASELINE
+2025-11-24 13:47:02,026: run_stamp: 20251124T213947Z
+2025-11-24 13:47:02,027: number_of_basins: 1
+2025-11-24 13:47:02,027: train_dir: /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251124T213947Z/testing_run_2411_134702/train_data
+2025-11-24 13:47:02,027: img_log_dir: /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251124T213947Z/testing_run_2411_134702/img_log
+2025-11-24 13:47:02,033: ### Device cpu will be used for training
+2025-11-24 13:47:02,037: Loading basin data into xarray data set.
+2025-11-24 13:47:06,562: Calculating target variable stds per basin
+2025-11-24 13:47:06,658: Create lookup table and convert to pytorch tensor
+2025-11-24 13:47:06,894: No specific hidden size for frequencies are specified. Same hidden size is used for all.
+2025-11-24 13:47:11,905: Epoch 1 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:47:16,883: Epoch 2 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:47:21,581: Epoch 3 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:47:26,467: Epoch 4 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:47:31,135: Epoch 5 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:47:36,009: Stored metrics at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251124T213947Z/testing_run_2411_134702/validation/model_epoch005/validation_metrics.csv
+2025-11-24 13:47:36,011: Stored results at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251124T213947Z/testing_run_2411_134702/validation/model_epoch005/validation_results.p
+2025-11-24 13:47:36,012: Epoch 5 average validation loss: 0.00000 -- Median validation metrics: avg_loss: 0.00000, NSE_1H: 0.82131, MSE_1H: 4649817.50000, NSE_1D: 0.70891, MSE_1D: 7214073.50000
+2025-11-24 13:47:40,922: Epoch 6 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:47:45,606: Epoch 7 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:47:50,436: Epoch 8 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:47:55,553: Epoch 9 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:48:00,407: Epoch 10 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:48:01,367: Stored metrics at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251124T213947Z/testing_run_2411_134702/validation/model_epoch010/validation_metrics.csv
+2025-11-24 13:48:01,369: Stored results at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251124T213947Z/testing_run_2411_134702/validation/model_epoch010/validation_results.p
+2025-11-24 13:48:01,369: Epoch 10 average validation loss: 0.00000 -- Median validation metrics: avg_loss: 0.00000, NSE_1H: 0.86868, MSE_1H: 3417142.25000, NSE_1D: 0.73447, MSE_1D: 6580617.00000
+2025-11-24 13:48:06,013: Epoch 11 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:48:10,668: Epoch 12 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:48:15,597: Epoch 13 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:48:20,176: Epoch 14 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:48:24,742: Epoch 15 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:48:25,770: Stored metrics at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251124T213947Z/testing_run_2411_134702/validation/model_epoch015/validation_metrics.csv
+2025-11-24 13:48:25,771: Stored results at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251124T213947Z/testing_run_2411_134702/validation/model_epoch015/validation_results.p
+2025-11-24 13:48:25,772: Epoch 15 average validation loss: 0.00000 -- Median validation metrics: avg_loss: 0.00000, NSE_1H: 0.87792, MSE_1H: 3176797.00000, NSE_1D: 0.76326, MSE_1D: 5867293.00000
+2025-11-24 13:48:30,401: Epoch 16 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:48:35,039: Epoch 17 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:48:39,778: Epoch 18 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:48:44,548: Epoch 19 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:48:49,315: Epoch 20 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:48:50,266: Stored metrics at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251124T213947Z/testing_run_2411_134702/validation/model_epoch020/validation_metrics.csv
+2025-11-24 13:48:50,267: Stored results at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251124T213947Z/testing_run_2411_134702/validation/model_epoch020/validation_results.p
+2025-11-24 13:48:50,268: Epoch 20 average validation loss: 0.00000 -- Median validation metrics: avg_loss: 0.00000, NSE_1H: 0.87976, MSE_1H: 3128712.50000, NSE_1D: 0.77569, MSE_1D: 5559227.50000
+2025-11-24 13:48:55,123: Epoch 21 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:49:00,112: Epoch 22 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:49:04,869: Epoch 23 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:49:04,869: Setting learning rate to 0.005
+2025-11-24 13:49:09,454: Epoch 24 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:49:14,057: Epoch 25 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:49:15,065: Stored metrics at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251124T213947Z/testing_run_2411_134702/validation/model_epoch025/validation_metrics.csv
+2025-11-24 13:49:15,066: Stored results at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251124T213947Z/testing_run_2411_134702/validation/model_epoch025/validation_results.p
+2025-11-24 13:49:15,067: Epoch 25 average validation loss: 0.00000 -- Median validation metrics: avg_loss: 0.00000, NSE_1H: 0.86407, MSE_1H: 3537073.50000, NSE_1D: 0.80482, MSE_1D: 4837139.50000
+2025-11-24 13:49:20,348: Epoch 26 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:49:25,417: Epoch 27 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:49:30,071: Epoch 28 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:49:35,209: Epoch 29 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:49:40,773: Epoch 30 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:49:41,870: Stored metrics at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251124T213947Z/testing_run_2411_134702/validation/model_epoch030/validation_metrics.csv
+2025-11-24 13:49:41,871: Stored results at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251124T213947Z/testing_run_2411_134702/validation/model_epoch030/validation_results.p
+2025-11-24 13:49:41,872: Epoch 30 average validation loss: 0.00000 -- Median validation metrics: avg_loss: 0.00000, NSE_1H: 0.86210, MSE_1H: 3588502.25000, NSE_1D: 0.81017, MSE_1D: 4704513.00000
+2025-11-24 13:49:46,493: Epoch 31 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:49:51,244: Epoch 32 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:49:56,125: Epoch 33 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:50:00,831: Epoch 34 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:50:05,486: Epoch 35 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:50:06,486: Stored metrics at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251124T213947Z/testing_run_2411_134702/validation/model_epoch035/validation_metrics.csv
+2025-11-24 13:50:06,487: Stored results at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251124T213947Z/testing_run_2411_134702/validation/model_epoch035/validation_results.p
+2025-11-24 13:50:06,488: Epoch 35 average validation loss: 0.00000 -- Median validation metrics: avg_loss: 0.00000, NSE_1H: 0.86448, MSE_1H: 3526325.75000, NSE_1D: 0.82640, MSE_1D: 4302275.00000
+2025-11-24 13:50:06,488: Setting learning rate to 0.001
+2025-11-24 13:50:11,191: Epoch 36 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:50:15,736: Epoch 37 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:50:20,450: Epoch 38 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:50:25,121: Epoch 39 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:50:29,811: Epoch 40 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:50:30,841: Stored metrics at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251124T213947Z/testing_run_2411_134702/validation/model_epoch040/validation_metrics.csv
+2025-11-24 13:50:30,842: Stored results at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251124T213947Z/testing_run_2411_134702/validation/model_epoch040/validation_results.p
+2025-11-24 13:50:30,842: Epoch 40 average validation loss: 0.00000 -- Median validation metrics: avg_loss: 0.00000, NSE_1H: 0.87237, MSE_1H: 3321169.75000, NSE_1D: 0.82559, MSE_1D: 4322396.00000
+2025-11-24 13:50:35,431: Epoch 41 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:50:40,063: Epoch 42 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:50:44,654: Epoch 43 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:50:49,970: Epoch 44 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:50:54,602: Epoch 45 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:50:55,555: Stored metrics at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251124T213947Z/testing_run_2411_134702/validation/model_epoch045/validation_metrics.csv
+2025-11-24 13:50:55,556: Stored results at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251124T213947Z/testing_run_2411_134702/validation/model_epoch045/validation_results.p
+2025-11-24 13:50:55,557: Epoch 45 average validation loss: 0.00000 -- Median validation metrics: avg_loss: 0.00000, NSE_1H: 0.87343, MSE_1H: 3293619.25000, NSE_1D: 0.82412, MSE_1D: 4358840.00000
+2025-11-24 13:51:00,372: Epoch 46 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:51:05,305: Epoch 47 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:51:09,821: Epoch 48 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:51:09,845: No specific hidden size for frequencies are specified. Same hidden size is used for all.
+2025-11-24 13:51:09,865: Using the model weights from /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251124T213947Z/testing_run_2411_134702/model_epoch048.pt
+2025-11-24 13:51:14,645: Stored metrics at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251124T213947Z/testing_run_2411_134702/validation/model_epoch048/validation_metrics.csv
+2025-11-24 13:51:14,646: Stored results at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251124T213947Z/testing_run_2411_134702/validation/model_epoch048/validation_results.p
+2025-11-24 13:51:22,705: Logging to /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251124T213947Z/testing_run_2411_135122/output.log initialized.
+2025-11-24 13:51:22,706: ### Folder structure created at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251124T213947Z/testing_run_2411_135122
+2025-11-24 13:51:22,706: ### Run configurations for testing_run
+2025-11-24 13:51:22,706: experiment_name: testing_run
+2025-11-24 13:51:22,707: train_basin_file: /Users/maxwellfung/UCB-USACE-RR-PROJECT/notebooks/basins/guerneville/guerneville
+2025-11-24 13:51:22,707: validation_basin_file: /Users/maxwellfung/UCB-USACE-RR-PROJECT/notebooks/basins/guerneville/guerneville
+2025-11-24 13:51:22,707: test_basin_file: /Users/maxwellfung/UCB-USACE-RR-PROJECT/notebooks/basins/guerneville/guerneville
+2025-11-24 13:51:22,707: train_ranges: ['01/10/1994-30/09/1995', '01/10/1995-30/09/1996', '01/10/1996-30/09/1997', '01/10/1997-30/09/1998', '01/10/1998-30/09/1999', '01/10/1999-30/09/2000', '01/10/2000-30/09/2001', '01/10/2001-30/09/2002']
+2025-11-24 13:51:22,707: validation_ranges: ['01/10/2002-30/09/2003', '01/10/2003-30/09/2004', '01/10/2004-30/09/2005']
+2025-11-24 13:51:22,708: test_ranges: ['01/10/2005-30/09/2006', '01/10/2006-30/09/2007', '01/10/2007-30/09/2008', '01/10/2008-30/09/2009']
+2025-11-24 13:51:22,708: device: cpu
+2025-11-24 13:51:22,708: physics_informed: False
+2025-11-24 13:51:22,708: physics_data_file: None
+2025-11-24 13:51:22,708: validate_every: 5
+2025-11-24 13:51:22,709: validate_n_random_basins: 1
+2025-11-24 13:51:22,709: save_validation_results: True
+2025-11-24 13:51:22,709: metrics: ['NSE', 'MSE']
+2025-11-24 13:51:22,709: model: mtslstm
+2025-11-24 13:51:22,709: shared_mtslstm: False
+2025-11-24 13:51:22,710: transfer_mtslstm_states: {'h': 'linear', 'c': 'linear'}
+2025-11-24 13:51:22,710: use_frequencies: ['1H', '1D']
+2025-11-24 13:51:22,710: head: regression
+2025-11-24 13:51:22,710: output_activation: linear
+2025-11-24 13:51:22,710: hidden_size: 256
+2025-11-24 13:51:22,711: initial_forget_bias: 3
+2025-11-24 13:51:22,711: output_dropout: 0.4
+2025-11-24 13:51:22,711: optimizer: Adam
+2025-11-24 13:51:22,711: loss: NSE
+2025-11-24 13:51:22,711: learning_rate: {0: 0.01, 24: 0.005, 36: 0.001}
+2025-11-24 13:51:22,711: batch_size: 64
+2025-11-24 13:51:22,712: epochs: 48
+2025-11-24 13:51:22,712: clip_gradient_norm: 1
+2025-11-24 13:51:22,712: predict_last_n: {'1D': 1, '1H': 24}
+2025-11-24 13:51:22,712: seq_length: {'1D': 90, '1H': 168}
+2025-11-24 13:51:22,712: log_interval: 16
+2025-11-24 13:51:22,713: log_tensorboard: True
+2025-11-24 13:51:22,713: log_n_figures: 1
+2025-11-24 13:51:22,713: save_weights_every: 48
+2025-11-24 13:51:22,713: dataset: synthetic_russian_river
+2025-11-24 13:51:22,713: data_dir: /Users/maxwellfung/UCB-USACE-RR-PROJECT/russian_river_data
+2025-11-24 13:51:22,713: dev_mode: True
+2025-11-24 13:51:22,714: dynamic_inputs: {'1D': ['BIG SULPHUR CR ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'DRY CREEK 10 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'EF RUSSIAN 20 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'GREEN VALLEY ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'LAGUNA ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'RUSSIAN 20 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'RUSSIAN 30 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'RUSSIAN 40 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'RUSSIAN 50 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'RUSSIAN 60 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'RUSSIAN 70 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'SANTA ROSA CR 10 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'SANTA ROSA CR 20 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'WF RUSSIAN ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'BIG SULPHUR CR PRECIP-INC SCREENED', 'DRY CREEK 10 PRECIP-INC SCREENED', 'EF RUSSIAN 20 PRECIP-INC SCREENED', 'GREEN VALLEY PRECIP-INC SCREENED', 'LAGUNA PRECIP-INC SCREENED', 'RUSSIAN 20 PRECIP-INC SCREENED', 'RUSSIAN 30 PRECIP-INC SCREENED', 'RUSSIAN 40 PRECIP-INC SCREENED', 'RUSSIAN 50 PRECIP-INC SCREENED', 'RUSSIAN 60 PRECIP-INC SCREENED', 'RUSSIAN 70 PRECIP-INC SCREENED', 'SANTA ROSA CR 10 PRECIP-INC SCREENED', 'SANTA ROSA CR 20 PRECIP-INC SCREENED', 'WF RUSSIAN PRECIP-INC SCREENED', 'UKIAH CA HUMIDITY USAF-NOAA', 'UKIAH CA SOLAR RADIATION USAF-NOAA', 'UKIAH CA TEMPERATURE USAF-NOAA', 'UKIAH CA WINDSPEED USAF-NOAA', 'SANTA ROSA CA HUMIDITY USAF-NOAA', 'SANTA ROSA CA SOLAR RADIATION USAF-NOAA', 'SANTA ROSA CA TEMPERATURE USAF-NOAA', 'SANTA ROSA CA WINDSPEED USAF-NOAA', 'UKIAH CA FLOW USGS-MERGED', 'GEYSERVILLE CA FLOW USGS-MERGED'], '1H': ['BIG SULPHUR CR ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'DRY CREEK 10 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'EF RUSSIAN 20 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'GREEN VALLEY ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'LAGUNA ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'RUSSIAN 20 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'RUSSIAN 30 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'RUSSIAN 40 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'RUSSIAN 50 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'RUSSIAN 60 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'RUSSIAN 70 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'SANTA ROSA CR 10 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'SANTA ROSA CR 20 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'WF RUSSIAN ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'BIG SULPHUR CR PRECIP-INC SCREENED', 'DRY CREEK 10 PRECIP-INC SCREENED', 'EF RUSSIAN 20 PRECIP-INC SCREENED', 'GREEN VALLEY PRECIP-INC SCREENED', 'LAGUNA PRECIP-INC SCREENED', 'RUSSIAN 20 PRECIP-INC SCREENED', 'RUSSIAN 30 PRECIP-INC SCREENED', 'RUSSIAN 40 PRECIP-INC SCREENED', 'RUSSIAN 50 PRECIP-INC SCREENED', 'RUSSIAN 60 PRECIP-INC SCREENED', 'RUSSIAN 70 PRECIP-INC SCREENED', 'SANTA ROSA CR 10 PRECIP-INC SCREENED', 'SANTA ROSA CR 20 PRECIP-INC SCREENED', 'WF RUSSIAN PRECIP-INC SCREENED', 'UKIAH CA HUMIDITY USAF-NOAA', 'UKIAH CA SOLAR RADIATION USAF-NOAA', 'UKIAH CA TEMPERATURE USAF-NOAA', 'UKIAH CA WINDSPEED USAF-NOAA', 'SANTA ROSA CA HUMIDITY USAF-NOAA', 'SANTA ROSA CA SOLAR RADIATION USAF-NOAA', 'SANTA ROSA CA TEMPERATURE USAF-NOAA', 'SANTA ROSA CA WINDSPEED USAF-NOAA', 'UKIAH CA FLOW USGS-MERGED', 'GEYSERVILLE CA FLOW USGS-MERGED']}
+2025-11-24 13:51:22,714: target_variables: ['NR GUERNEVILLE FLOW COE GRN']
+2025-11-24 13:51:22,714: clip_targets_to_zero: [['NR GUERNEVILLE FLOW COE GRN']]
+2025-11-24 13:51:22,714: train_start_date: 01/01/1900
+2025-11-24 13:51:22,714: train_end_date: 1901-01-01 00:00:00
+2025-11-24 13:51:22,714: validation_start_date: 01/01/1900
+2025-11-24 13:51:22,715: validation_end_date: 01/01/1901
+2025-11-24 13:51:22,715: test_start_date: 01/01/1900
+2025-11-24 13:51:22,715: test_end_date: 01/01/1901
+2025-11-24 13:51:22,715: num_layers: 1
+2025-11-24 13:51:22,715: hourly: True
+2025-11-24 13:51:22,716: is_mts: True
+2025-11-24 13:51:22,716: is_mts_data: False
+2025-11-24 13:51:22,716: verbose: True
+2025-11-24 13:51:22,716: run_dir: /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251124T213947Z/testing_run_2411_135122
+2025-11-24 13:51:22,716: run_label: BASELINE
+2025-11-24 13:51:22,717: run_stamp: 20251124T213947Z
+2025-11-24 13:51:22,717: number_of_basins: 1
+2025-11-24 13:51:22,717: train_dir: /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251124T213947Z/testing_run_2411_135122/train_data
+2025-11-24 13:51:22,717: img_log_dir: /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251124T213947Z/testing_run_2411_135122/img_log
+2025-11-24 13:51:22,727: ### Device cpu will be used for training
+2025-11-24 13:51:22,732: Loading basin data into xarray data set.
+2025-11-24 13:51:23,913: Calculating target variable stds per basin
+2025-11-24 13:51:23,934: Create lookup table and convert to pytorch tensor
+2025-11-24 13:51:24,234: No specific hidden size for frequencies are specified. Same hidden size is used for all.
+2025-11-24 13:51:32,433: Epoch 1 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:51:40,703: Epoch 2 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:51:49,350: Epoch 3 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:51:57,749: Epoch 4 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:52:06,240: Epoch 5 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:52:08,920: Stored metrics at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251124T213947Z/testing_run_2411_135122/validation/model_epoch005/validation_metrics.csv
+2025-11-24 13:52:08,921: Stored results at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251124T213947Z/testing_run_2411_135122/validation/model_epoch005/validation_results.p
+2025-11-24 13:52:08,922: Epoch 5 average validation loss: 0.00000 -- Median validation metrics: avg_loss: 0.00000, NSE_1H: 0.81796, MSE_1H: 4736909.00000, NSE_1D: 0.58404, MSE_1D: 10308927.00000
+2025-11-24 13:52:17,295: Epoch 6 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:52:25,239: Epoch 7 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:52:33,181: Epoch 8 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:52:41,672: Epoch 9 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:52:50,345: Epoch 10 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:52:51,889: Stored metrics at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251124T213947Z/testing_run_2411_135122/validation/model_epoch010/validation_metrics.csv
+2025-11-24 13:52:51,890: Stored results at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251124T213947Z/testing_run_2411_135122/validation/model_epoch010/validation_results.p
+2025-11-24 13:52:51,891: Epoch 10 average validation loss: 0.00000 -- Median validation metrics: avg_loss: 0.00000, NSE_1H: 0.85306, MSE_1H: 3823634.25000, NSE_1D: 0.71082, MSE_1D: 7166712.00000
+2025-11-24 13:53:00,112: Epoch 11 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:53:08,362: Epoch 12 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:53:16,766: Epoch 13 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:53:25,414: Epoch 14 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:53:33,912: Epoch 15 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:53:35,624: Stored metrics at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251124T213947Z/testing_run_2411_135122/validation/model_epoch015/validation_metrics.csv
+2025-11-24 13:53:35,626: Stored results at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251124T213947Z/testing_run_2411_135122/validation/model_epoch015/validation_results.p
+2025-11-24 13:53:35,626: Epoch 15 average validation loss: 0.00000 -- Median validation metrics: avg_loss: 0.00000, NSE_1H: 0.86196, MSE_1H: 3591991.25000, NSE_1D: 0.72025, MSE_1D: 6933121.00000
+2025-11-24 13:53:44,067: Epoch 16 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:53:52,236: Epoch 17 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:54:00,426: Epoch 18 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:54:09,059: Epoch 19 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:54:18,021: Epoch 20 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:54:19,811: Stored metrics at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251124T213947Z/testing_run_2411_135122/validation/model_epoch020/validation_metrics.csv
+2025-11-24 13:54:19,812: Stored results at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251124T213947Z/testing_run_2411_135122/validation/model_epoch020/validation_results.p
+2025-11-24 13:54:19,813: Epoch 20 average validation loss: 0.00000 -- Median validation metrics: avg_loss: 0.00000, NSE_1H: 0.86284, MSE_1H: 3569222.75000, NSE_1D: 0.75432, MSE_1D: 6088816.00000
+2025-11-24 13:54:29,064: Epoch 21 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:54:37,510: Epoch 22 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:54:45,838: Epoch 23 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:54:45,839: Setting learning rate to 0.005
+2025-11-24 13:54:54,565: Epoch 24 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:55:02,753: Epoch 25 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:55:04,383: Stored metrics at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251124T213947Z/testing_run_2411_135122/validation/model_epoch025/validation_metrics.csv
+2025-11-24 13:55:04,384: Stored results at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251124T213947Z/testing_run_2411_135122/validation/model_epoch025/validation_results.p
+2025-11-24 13:55:04,385: Epoch 25 average validation loss: 0.00000 -- Median validation metrics: avg_loss: 0.00000, NSE_1H: 0.86929, MSE_1H: 3401231.25000, NSE_1D: 0.76742, MSE_1D: 5763991.50000
+2025-11-24 13:55:12,928: Epoch 26 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:55:21,334: Epoch 27 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:55:29,784: Epoch 28 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:55:38,072: Epoch 29 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:55:46,215: Epoch 30 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:55:47,852: Stored metrics at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251124T213947Z/testing_run_2411_135122/validation/model_epoch030/validation_metrics.csv
+2025-11-24 13:55:47,853: Stored results at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251124T213947Z/testing_run_2411_135122/validation/model_epoch030/validation_results.p
+2025-11-24 13:55:47,854: Epoch 30 average validation loss: 0.00000 -- Median validation metrics: avg_loss: 0.00000, NSE_1H: 0.86277, MSE_1H: 3570938.25000, NSE_1D: 0.77047, MSE_1D: 5688584.50000
+2025-11-24 13:55:56,310: Epoch 31 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:56:04,556: Epoch 32 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:56:12,815: Epoch 33 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:56:21,092: Epoch 34 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:56:29,244: Epoch 35 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:56:30,979: Stored metrics at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251124T213947Z/testing_run_2411_135122/validation/model_epoch035/validation_metrics.csv
+2025-11-24 13:56:30,980: Stored results at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251124T213947Z/testing_run_2411_135122/validation/model_epoch035/validation_results.p
+2025-11-24 13:56:30,980: Epoch 35 average validation loss: 0.00000 -- Median validation metrics: avg_loss: 0.00000, NSE_1H: 0.86377, MSE_1H: 3544995.00000, NSE_1D: 0.76587, MSE_1D: 5802478.00000
+2025-11-24 13:56:30,980: Setting learning rate to 0.001
+2025-11-24 13:56:39,212: Epoch 36 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:56:47,665: Epoch 37 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:56:55,837: Epoch 38 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:57:04,087: Epoch 39 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:57:12,470: Epoch 40 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:57:14,145: Stored metrics at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251124T213947Z/testing_run_2411_135122/validation/model_epoch040/validation_metrics.csv
+2025-11-24 13:57:14,146: Stored results at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251124T213947Z/testing_run_2411_135122/validation/model_epoch040/validation_results.p
+2025-11-24 13:57:14,147: Epoch 40 average validation loss: 0.00000 -- Median validation metrics: avg_loss: 0.00000, NSE_1H: 0.86621, MSE_1H: 3481402.25000, NSE_1D: 0.77523, MSE_1D: 5570453.50000
+2025-11-24 13:57:22,368: Epoch 41 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:57:30,527: Epoch 42 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:57:38,745: Epoch 43 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:57:47,407: Epoch 44 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:57:56,121: Epoch 45 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:57:57,810: Stored metrics at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251124T213947Z/testing_run_2411_135122/validation/model_epoch045/validation_metrics.csv
+2025-11-24 13:57:57,811: Stored results at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251124T213947Z/testing_run_2411_135122/validation/model_epoch045/validation_results.p
+2025-11-24 13:57:57,811: Epoch 45 average validation loss: 0.00000 -- Median validation metrics: avg_loss: 0.00000, NSE_1H: 0.86448, MSE_1H: 3526526.25000, NSE_1D: 0.77117, MSE_1D: 5671252.50000
+2025-11-24 13:58:05,940: Epoch 46 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:58:14,092: Epoch 47 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:58:23,026: Epoch 48 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:58:23,118: No specific hidden size for frequencies are specified. Same hidden size is used for all.
+2025-11-24 13:58:23,130: Using the model weights from /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251124T213947Z/testing_run_2411_135122/model_epoch048.pt
+2025-11-24 13:58:26,086: Stored metrics at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251124T213947Z/testing_run_2411_135122/validation/model_epoch048/validation_metrics.csv
+2025-11-24 13:58:26,087: Stored results at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251124T213947Z/testing_run_2411_135122/validation/model_epoch048/validation_results.p
+2025-11-24 13:58:26,100: No specific hidden size for frequencies are specified. Same hidden size is used for all.
+2025-11-24 13:58:26,117: Using the model weights from /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251124T213947Z/testing_run_2411_135122/model_epoch048.pt
+2025-11-24 13:58:29,270: Stored metrics at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251124T213947Z/testing_run_2411_135122/test/model_epoch048/test_metrics.csv
+2025-11-24 13:58:29,271: Stored results at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251124T213947Z/testing_run_2411_135122/test/model_epoch048/test_results.p
+2025-11-24 13:58:29,730: Logging to /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251124T213947Z/testing_run_2411_135829/output.log initialized.
+2025-11-24 13:58:29,730: ### Folder structure created at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251124T213947Z/testing_run_2411_135829
+2025-11-24 13:58:29,730: ### Run configurations for testing_run
+2025-11-24 13:58:29,731: experiment_name: testing_run
+2025-11-24 13:58:29,731: train_basin_file: /Users/maxwellfung/UCB-USACE-RR-PROJECT/notebooks/basins/guerneville/guerneville
+2025-11-24 13:58:29,731: validation_basin_file: /Users/maxwellfung/UCB-USACE-RR-PROJECT/notebooks/basins/guerneville/guerneville
+2025-11-24 13:58:29,731: test_basin_file: /Users/maxwellfung/UCB-USACE-RR-PROJECT/notebooks/basins/guerneville/guerneville
+2025-11-24 13:58:29,732: train_ranges: ['01/10/1994-30/09/1995', '01/10/1995-30/09/1996', '01/10/1996-30/09/1997', '01/10/1997-30/09/1998', '01/10/1998-30/09/1999', '01/10/1999-30/09/2000', '01/10/2000-30/09/2001', '01/10/2001-30/09/2002']
+2025-11-24 13:58:29,732: validation_ranges: ['01/10/2002-30/09/2003', '01/10/2003-30/09/2004', '01/10/2004-30/09/2005']
+2025-11-24 13:58:29,732: test_ranges: ['01/10/2005-30/09/2006', '01/10/2006-30/09/2007', '01/10/2007-30/09/2008', '01/10/2008-30/09/2009']
+2025-11-24 13:58:29,732: device: cpu
+2025-11-24 13:58:29,732: physics_informed: True
+2025-11-24 13:58:29,733: physics_data_file: /Users/maxwellfung/UCB-USACE-RR-PROJECT/russian_river_data/Guerneville_hourly.csv
+2025-11-24 13:58:29,733: validate_every: 5
+2025-11-24 13:58:29,733: validate_n_random_basins: 1
+2025-11-24 13:58:29,733: save_validation_results: True
+2025-11-24 13:58:29,734: metrics: ['NSE', 'MSE']
+2025-11-24 13:58:29,734: model: mtslstm
+2025-11-24 13:58:29,734: shared_mtslstm: False
+2025-11-24 13:58:29,734: transfer_mtslstm_states: {'h': 'linear', 'c': 'linear'}
+2025-11-24 13:58:29,734: use_frequencies: ['1H', '1D']
+2025-11-24 13:58:29,734: head: regression
+2025-11-24 13:58:29,735: output_activation: linear
+2025-11-24 13:58:29,735: hidden_size: 128
+2025-11-24 13:58:29,735: initial_forget_bias: 3
+2025-11-24 13:58:29,735: output_dropout: 0.4
+2025-11-24 13:58:29,735: optimizer: Adam
+2025-11-24 13:58:29,735: loss: NSE
+2025-11-24 13:58:29,736: learning_rate: {0: 0.01, 24: 0.005, 36: 0.001}
+2025-11-24 13:58:29,736: batch_size: 64
+2025-11-24 13:58:29,736: epochs: 48
+2025-11-24 13:58:29,736: clip_gradient_norm: 1
+2025-11-24 13:58:29,736: predict_last_n: {'1D': 1, '1H': 24}
+2025-11-24 13:58:29,737: seq_length: {'1D': 90, '1H': 168}
+2025-11-24 13:58:29,737: log_interval: 16
+2025-11-24 13:58:29,737: log_tensorboard: True
+2025-11-24 13:58:29,737: log_n_figures: 1
+2025-11-24 13:58:29,737: save_weights_every: 48
+2025-11-24 13:58:29,738: dataset: synthetic_russian_river
+2025-11-24 13:58:29,738: data_dir: /Users/maxwellfung/UCB-USACE-RR-PROJECT/russian_river_data
+2025-11-24 13:58:29,738: dev_mode: True
+2025-11-24 13:58:29,738: dynamic_inputs: ['BIG SULPHUR CR ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'DRY CREEK 10 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'EF RUSSIAN 20 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'GREEN VALLEY ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'LAGUNA ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'RUSSIAN 20 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'RUSSIAN 30 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'RUSSIAN 40 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'RUSSIAN 50 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'RUSSIAN 60 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'RUSSIAN 70 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'SANTA ROSA CR 10 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'SANTA ROSA CR 20 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'WF RUSSIAN ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'BIG SULPHUR CR PRECIP-INC SCREENED', 'DRY CREEK 10 PRECIP-INC SCREENED', 'EF RUSSIAN 20 PRECIP-INC SCREENED', 'GREEN VALLEY PRECIP-INC SCREENED', 'LAGUNA PRECIP-INC SCREENED', 'RUSSIAN 20 PRECIP-INC SCREENED', 'RUSSIAN 30 PRECIP-INC SCREENED', 'RUSSIAN 40 PRECIP-INC SCREENED', 'RUSSIAN 50 PRECIP-INC SCREENED', 'RUSSIAN 60 PRECIP-INC SCREENED', 'RUSSIAN 70 PRECIP-INC SCREENED', 'SANTA ROSA CR 10 PRECIP-INC SCREENED', 'SANTA ROSA CR 20 PRECIP-INC SCREENED', 'WF RUSSIAN PRECIP-INC SCREENED', 'UKIAH CA HUMIDITY USAF-NOAA', 'UKIAH CA SOLAR RADIATION USAF-NOAA', 'UKIAH CA TEMPERATURE USAF-NOAA', 'UKIAH CA WINDSPEED USAF-NOAA', 'SANTA ROSA CA HUMIDITY USAF-NOAA', 'SANTA ROSA CA SOLAR RADIATION USAF-NOAA', 'SANTA ROSA CA TEMPERATURE USAF-NOAA', 'SANTA ROSA CA WINDSPEED USAF-NOAA', 'UKIAH CA FLOW USGS-MERGED', 'GEYSERVILLE CA FLOW USGS-MERGED', 'Guerneville Gage FLOW', 'Big Sulphur Cr ET-POTENTIAL', 'Big Sulphur Cr FLOW', 'Big Sulphur Cr FLOW-BASE', 'Big Sulphur Cr INFILTRATION', 'Big Sulphur Cr PERC-SOIL', 'Big Sulphur Cr SATURATION FRACTION', 'Dry Creek 10 ET-POTENTIAL', 'Dry Creek 10 FLOW', 'Dry Creek 10 FLOW-BASE', 'Dry Creek 10 INFILTRATION', 'Dry Creek 10 PERC-SOIL', 'Dry Creek 10 SATURATION FRACTION', 'Green Valley ET-POTENTIAL', 'Green Valley FLOW', 'Green Valley FLOW-BASE', 'Green Valley INFILTRATION', 'Green Valley PERC-SOIL', 'Green Valley SATURATION FRACTION', 'Laguna ET-POTENTIAL', 'Laguna FLOW', 'Laguna FLOW-BASE', 'Laguna INFILTRATION', 'Laguna PERC-SOIL', 'Laguna SATURATION FRACTION', 'Russian 20 ET-POTENTIAL', 'Russian 20 FLOW', 'Russian 20 FLOW-BASE', 'Russian 20 INFILTRATION', 'Russian 20 PERC-SOIL', 'Russian 20 SATURATION FRACTION', 'Russian 30 ET-POTENTIAL', 'Russian 30 FLOW', 'Russian 30 FLOW-BASE', 'Russian 30 INFILTRATION', 'Russian 30 PERC-SOIL', 'Russian 30 SATURATION FRACTION', 'Russian 40 ET-POTENTIAL', 'Russian 40 FLOW', 'Russian 40 FLOW-BASE', 'Russian 40 INFILTRATION', 'Russian 40 PERC-SOIL', 'Russian 40 SATURATION FRACTION', 'Russian 50 ET-POTENTIAL', 'Russian 50 FLOW', 'Russian 50 FLOW-BASE', 'Russian 50 INFILTRATION', 'Russian 50 PERC-SOIL', 'Russian 50 SATURATION FRACTION', 'Russian 60 ET-POTENTIAL', 'Russian 60 FLOW', 'Russian 60 FLOW-BASE', 'Russian 60 INFILTRATION', 'Russian 60 PERC-SOIL', 'Russian 60 SATURATION FRACTION', 'Russian 70 ET-POTENTIAL', 'Russian 70 FLOW', 'Russian 70 FLOW-BASE', 'Russian 70 INFILTRATION', 'Russian 70 PERC-SOIL', 'Russian 70 SATURATION FRACTION', 'Santa Rosa Cr 10 ET-POTENTIAL', 'Santa Rosa Cr 10 FLOW', 'Santa Rosa Cr 10 FLOW-BASE', 'Santa Rosa Cr 10 INFILTRATION', 'Santa Rosa Cr 10 PERC-SOIL', 'Santa Rosa Cr 10 SATURATION FRACTION', 'Santa Rosa Cr 20 ET-POTENTIAL', 'Santa Rosa Cr 20 FLOW', 'Santa Rosa Cr 20 FLOW-BASE', 'Santa Rosa Cr 20 INFILTRATION', 'Santa Rosa Cr 20 PERC-SOIL', 'Santa Rosa Cr 20 SATURATION FRACTION', 'WF Russian ET-POTENTIAL', 'WF Russian FLOW', 'WF Russian FLOW-BASE', 'WF Russian INFILTRATION', 'WF Russian PERC-SOIL', 'WF Russian SATURATION FRACTION']
+2025-11-24 13:58:29,738: target_variables: ['NR GUERNEVILLE FLOW COE GRN']
+2025-11-24 13:58:29,739: clip_targets_to_zero: [['NR GUERNEVILLE FLOW COE GRN']]
+2025-11-24 13:58:29,739: train_start_date: 01/01/1900
+2025-11-24 13:58:29,739: train_end_date: 1901-01-01 00:00:00
+2025-11-24 13:58:29,739: validation_start_date: 01/01/1900
+2025-11-24 13:58:29,739: validation_end_date: 01/01/1901
+2025-11-24 13:58:29,740: test_start_date: 01/01/1900
+2025-11-24 13:58:29,740: test_end_date: 01/01/1901
+2025-11-24 13:58:29,740: num_layers: 1
+2025-11-24 13:58:29,740: hourly: True
+2025-11-24 13:58:29,740: is_mts: True
+2025-11-24 13:58:29,740: is_mts_data: False
+2025-11-24 13:58:29,741: verbose: True
+2025-11-24 13:58:29,741: run_dir: /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251124T213947Z/testing_run_2411_135829
+2025-11-24 13:58:29,741: run_label: BASELINE
+2025-11-24 13:58:29,741: run_stamp: 20251124T213947Z
+2025-11-24 13:58:29,741: number_of_basins: 1
+2025-11-24 13:58:29,741: train_dir: /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251124T213947Z/testing_run_2411_135829/train_data
+2025-11-24 13:58:29,742: img_log_dir: /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251124T213947Z/testing_run_2411_135829/img_log
+2025-11-24 13:58:29,747: ### Device cpu will be used for training
+2025-11-24 13:58:29,751: Loading basin data into xarray data set.
+2025-11-24 13:58:34,291: Calculating target variable stds per basin
+2025-11-24 13:58:34,346: Create lookup table and convert to pytorch tensor
+2025-11-24 13:58:34,567: No specific hidden size for frequencies are specified. Same hidden size is used for all.
+2025-11-24 13:58:39,560: Epoch 1 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:58:44,251: Epoch 2 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:58:48,841: Epoch 3 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:58:53,470: Epoch 4 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:58:58,035: Epoch 5 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:59:02,907: Stored metrics at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251124T213947Z/testing_run_2411_135829/validation/model_epoch005/validation_metrics.csv
+2025-11-24 13:59:02,908: Stored results at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251124T213947Z/testing_run_2411_135829/validation/model_epoch005/validation_results.p
+2025-11-24 13:59:02,909: Epoch 5 average validation loss: 0.00000 -- Median validation metrics: avg_loss: 0.00000, NSE_1H: 0.83264, MSE_1H: 4354898.50000, NSE_1D: 0.76532, MSE_1D: 5816132.00000
+2025-11-24 13:59:07,443: Epoch 6 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:59:12,001: Epoch 7 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:59:16,616: Epoch 8 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:59:21,220: Epoch 9 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:59:25,748: Epoch 10 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:59:26,646: Stored metrics at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251124T213947Z/testing_run_2411_135829/validation/model_epoch010/validation_metrics.csv
+2025-11-24 13:59:26,647: Stored results at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251124T213947Z/testing_run_2411_135829/validation/model_epoch010/validation_results.p
+2025-11-24 13:59:26,648: Epoch 10 average validation loss: 0.00000 -- Median validation metrics: avg_loss: 0.00000, NSE_1H: 0.84393, MSE_1H: 4061216.25000, NSE_1D: 0.78424, MSE_1D: 5347326.00000
+2025-11-24 13:59:31,140: Epoch 11 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:59:36,036: Epoch 12 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:59:40,867: Epoch 13 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:59:45,490: Epoch 14 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:59:50,191: Epoch 15 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 13:59:51,188: Stored metrics at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251124T213947Z/testing_run_2411_135829/validation/model_epoch015/validation_metrics.csv
+2025-11-24 13:59:51,189: Stored results at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251124T213947Z/testing_run_2411_135829/validation/model_epoch015/validation_results.p
+2025-11-24 13:59:51,189: Epoch 15 average validation loss: 0.00000 -- Median validation metrics: avg_loss: 0.00000, NSE_1H: 0.87480, MSE_1H: 3257778.00000, NSE_1D: 0.78504, MSE_1D: 5327339.50000
+2025-11-24 13:59:55,801: Epoch 16 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 14:00:00,425: Epoch 17 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 14:00:05,239: Epoch 18 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 14:00:09,939: Epoch 19 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 14:00:14,598: Epoch 20 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 14:00:15,541: Stored metrics at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251124T213947Z/testing_run_2411_135829/validation/model_epoch020/validation_metrics.csv
+2025-11-24 14:00:15,542: Stored results at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251124T213947Z/testing_run_2411_135829/validation/model_epoch020/validation_results.p
+2025-11-24 14:00:15,543: Epoch 20 average validation loss: 0.00000 -- Median validation metrics: avg_loss: 0.00000, NSE_1H: 0.88733, MSE_1H: 2931974.75000, NSE_1D: 0.81312, MSE_1D: 4631440.50000
+2025-11-24 14:00:20,208: Epoch 21 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 14:00:24,840: Epoch 22 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 14:00:29,422: Epoch 23 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 14:00:29,422: Setting learning rate to 0.005
+2025-11-24 14:00:34,013: Epoch 24 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 14:00:38,642: Epoch 25 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 14:00:39,786: Stored metrics at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251124T213947Z/testing_run_2411_135829/validation/model_epoch025/validation_metrics.csv
+2025-11-24 14:00:39,787: Stored results at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251124T213947Z/testing_run_2411_135829/validation/model_epoch025/validation_results.p
+2025-11-24 14:00:39,789: Epoch 25 average validation loss: 0.00000 -- Median validation metrics: avg_loss: 0.00000, NSE_1H: 0.88104, MSE_1H: 3095426.50000, NSE_1D: 0.83160, MSE_1D: 4173400.25000
+2025-11-24 14:00:44,353: Epoch 26 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 14:00:48,877: Epoch 27 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 14:00:53,410: Epoch 28 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 14:00:57,974: Epoch 29 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 14:01:02,520: Epoch 30 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 14:01:03,417: Stored metrics at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251124T213947Z/testing_run_2411_135829/validation/model_epoch030/validation_metrics.csv
+2025-11-24 14:01:03,418: Stored results at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251124T213947Z/testing_run_2411_135829/validation/model_epoch030/validation_results.p
+2025-11-24 14:01:03,418: Epoch 30 average validation loss: 0.00000 -- Median validation metrics: avg_loss: 0.00000, NSE_1H: 0.89027, MSE_1H: 2855296.50000, NSE_1D: 0.84288, MSE_1D: 3893974.25000
+2025-11-24 14:01:07,949: Epoch 31 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 14:01:12,528: Epoch 32 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 14:01:17,062: Epoch 33 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 14:01:21,683: Epoch 34 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 14:01:26,241: Epoch 35 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 14:01:27,140: Stored metrics at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251124T213947Z/testing_run_2411_135829/validation/model_epoch035/validation_metrics.csv
+2025-11-24 14:01:27,142: Stored results at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251124T213947Z/testing_run_2411_135829/validation/model_epoch035/validation_results.p
+2025-11-24 14:01:27,142: Epoch 35 average validation loss: 0.00000 -- Median validation metrics: avg_loss: 0.00000, NSE_1H: 0.88325, MSE_1H: 3038025.25000, NSE_1D: 0.84351, MSE_1D: 3878361.25000
+2025-11-24 14:01:27,143: Setting learning rate to 0.001
+2025-11-24 14:01:31,781: Epoch 36 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 14:01:36,374: Epoch 37 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 14:01:40,919: Epoch 38 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 14:01:45,531: Epoch 39 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 14:01:50,288: Epoch 40 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 14:01:51,190: Stored metrics at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251124T213947Z/testing_run_2411_135829/validation/model_epoch040/validation_metrics.csv
+2025-11-24 14:01:51,191: Stored results at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251124T213947Z/testing_run_2411_135829/validation/model_epoch040/validation_results.p
+2025-11-24 14:01:51,192: Epoch 40 average validation loss: 0.00000 -- Median validation metrics: avg_loss: 0.00000, NSE_1H: 0.88678, MSE_1H: 2946276.00000, NSE_1D: 0.84132, MSE_1D: 3932697.75000
+2025-11-24 14:01:55,583: Epoch 41 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 14:03:38,836: Epoch 42 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 14:03:43,570: Epoch 43 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 14:03:48,156: Epoch 44 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 14:03:52,724: Epoch 45 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 14:03:53,638: Stored metrics at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251124T213947Z/testing_run_2411_135829/validation/model_epoch045/validation_metrics.csv
+2025-11-24 14:03:53,639: Stored results at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251124T213947Z/testing_run_2411_135829/validation/model_epoch045/validation_results.p
+2025-11-24 14:03:53,640: Epoch 45 average validation loss: 0.00000 -- Median validation metrics: avg_loss: 0.00000, NSE_1H: 0.88869, MSE_1H: 2896533.50000, NSE_1D: 0.83577, MSE_1D: 4070034.75000
+2025-11-24 14:03:58,309: Epoch 46 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 14:04:02,898: Epoch 47 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 14:04:07,559: Epoch 48 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-24 14:04:07,579: No specific hidden size for frequencies are specified. Same hidden size is used for all.
+2025-11-24 14:04:07,594: Using the model weights from /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251124T213947Z/testing_run_2411_135829/model_epoch048.pt
+2025-11-24 14:04:12,221: Stored metrics at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251124T213947Z/testing_run_2411_135829/validation/model_epoch048/validation_metrics.csv
+2025-11-24 14:04:12,222: Stored results at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251124T213947Z/testing_run_2411_135829/validation/model_epoch048/validation_results.p
+2025-11-24 14:04:12,225: No specific hidden size for frequencies are specified. Same hidden size is used for all.
+2025-11-24 14:04:12,241: Using the model weights from /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251124T213947Z/testing_run_2411_135829/model_epoch048.pt
+2025-11-24 14:04:17,179: Stored metrics at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251124T213947Z/testing_run_2411_135829/test/model_epoch048/test_metrics.csv
+2025-11-24 14:04:17,180: Stored results at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251124T213947Z/testing_run_2411_135829/test/model_epoch048/test_results.p

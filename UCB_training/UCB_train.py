@@ -131,6 +131,161 @@ class UCB_trainer:
         if getattr(self, "_verbose", False):
             print(f"[DEBUG:{tag}]", *msg)
 
+    # Added 1/28/2026 for non-consecutive dates:
+    def _restore_synthetic_dates(self, period: str, time_res_key: str):
+        """
+        Map 22XX synthetic dates back to real dates for disjoint ranges.
+        Also inserts NaNs between disjoint blocks so plots are discontinuous.
+        Applies to self._observed and self._predictions in-place.
+        """
+
+        cfg_dict = getattr(self._config, "_cfg", {}) or {}
+        ranges = cfg_dict.get(f"{period}_ranges", None)
+
+        if not ranges:
+            # if getattr(self, "_verbose", False):
+            #     print(f"[UCB_trainer] No '{period}_ranges' found in config; skipping date restore.")
+            return
+
+        if getattr(self, "_verbose", False):
+            print(f"[UCB_trainer] Restoring synthetic {period} dates for analysis...")
+
+        is_hourly = (str(time_res_key).upper() == "1H") or (self._hourly and str(time_res_key).upper() != "1D")
+        freq = "1H" if is_hourly else "1D"
+
+        def _remove_leap_days(idx):
+            return idx[~((idx.month == 2) & (idx.day == 29))]
+
+        def _parse_range(r):
+            if isinstance(r, dict):
+                return r.get("start_date"), r.get("end_date")
+            if isinstance(r, (list, tuple)) and len(r) >= 2:
+                return r[0], r[1]
+            if isinstance(r, str) and "-" in r:
+                s, e = r.split("-", 1)
+                return s.strip(), e.strip()
+            raise ValueError(f"Unrecognized range format: {r}")
+
+        # build synthetic => real datetime map
+        date_map = {}
+
+        for i, r in enumerate(ranges):
+            start, end = _parse_range(r)
+
+            start_dt = pd.to_datetime(start, dayfirst=True, errors="raise")
+            end_dt   = pd.to_datetime(end,   dayfirst=True, errors="raise")
+
+            real_idx = pd.date_range(start=start_dt, end=end_dt, freq=freq)
+            real_idx = _remove_leap_days(real_idx)
+
+            syn_year = 2200 + i
+            syn_start = pd.Timestamp(f"{syn_year}-01-01")
+
+            syn_idx = pd.date_range(start=syn_start, periods=len(real_idx), freq=freq)
+
+            # remove leap year days
+            if syn_idx.is_leap_year.any():
+                pad = 48 if freq == "1H" else 2
+                padded = pd.date_range(start=syn_start, periods=len(real_idx) + pad, freq=freq)
+                padded = _remove_leap_days(padded)
+                syn_idx = padded[:len(real_idx)]
+
+            for s, rdt in zip(syn_idx, real_idx):
+                date_map[s] = rdt
+
+        # helper: insert NaNs to force plot discontinuity
+        def _insert_nan_gaps(da, max_gap):
+            coord = "date" if "date" in da.coords else "time"
+            t = pd.to_datetime(da.coords[coord].values)
+
+            dt = np.diff(t.values.astype("datetime64[s]").astype(np.int64))
+            gap_sec = max_gap.total_seconds()
+            gap_locs = np.where(dt > gap_sec)[0]
+
+            if len(gap_locs) == 0:
+                return da
+
+            new_vals = []
+            new_times = []
+
+            for i in range(len(da)):
+                new_vals.append(da.values[i])
+                new_times.append(t[i])
+                if i in gap_locs:
+                    new_vals.append(np.nan)
+                    new_times.append(t[i] + pd.Timedelta(seconds=1))
+
+            return xr.DataArray(
+                np.array(new_vals),
+                dims=[coord],
+                coords={coord: new_times}
+            )
+
+        for attr_name in ["_observed", "_predictions"]:
+            da = getattr(self, attr_name, None)
+            if da is None:
+                continue
+
+            # Case A: MTS hourly stacked MultiIndex
+            if "time" in da.coords and isinstance(da.coords["time"].to_index(), pd.MultiIndex):
+                mi = da.coords["time"].to_index()
+                base_dates = pd.to_datetime(mi.get_level_values(0))
+                hours = mi.get_level_values(1).astype(int)
+                abs_times = base_dates + pd.to_timedelta(hours, unit="h")
+
+                mapped = pd.Series(abs_times).map(date_map)
+                valid = mapped.notna().values
+
+                if not valid.all():
+                    print(f"[WARN] Dropping {(~valid).sum()} hourly steps not in date_map.")
+                    da = da.isel(time=valid)
+                    mapped = mapped[valid]
+
+                da = da.assign_coords(time=mapped.values)
+
+                # rename to 'date' for NH metrics + plotting work
+                da = da.rename({"time": "date"})
+
+                gap = pd.Timedelta(hours=2)
+                da = _insert_nan_gaps(da, gap)
+
+                setattr(self, attr_name, da)
+                continue
+
+            # Case B: daily or already-flat hourly
+            coord = "date" if "date" in da.coords else ("time" if "time" in da.coords else None)
+            if coord is None:
+                print(f"[WARN] {attr_name} has no time coord; skipping date restore.")
+                continue
+
+            cur = pd.to_datetime(da.coords[coord].values, errors="coerce")
+            mapped = pd.Series(cur).map(date_map)
+
+            valid = mapped.notna().values
+            if not valid.all():
+                print(f"[WARN] Dropping {(~valid).sum()} timesteps not in date_map.")
+                da = da.isel({coord: valid})
+                mapped = mapped[valid]
+
+            da = da.assign_coords({coord: mapped.values})
+
+            gap = pd.Timedelta(days=2)
+            da = _insert_nan_gaps(da, gap)
+
+            setattr(self, attr_name, da)
+
+        # sanity check
+        if getattr(self, "_verbose", False):
+            for name in ["_observed", "_predictions"]:
+                da = getattr(self, name, None)
+                if da is None:
+                    continue
+                cn = "date" if "date" in da.coords else ("time" if "time" in da.coords else None)
+                if cn:
+                    vals = pd.to_datetime(da.coords[cn].values)
+                    print(f"[UCB_trainer] {name} restored coord '{cn}': {vals.min()} → {vals.max()}")
+
+
     def _predict_core(self, period: str = "test", mts_trk: Optional[str] = None, epoch: Optional[int] = None,
                       gpu: Optional[int] = None):
 
@@ -445,37 +600,87 @@ class UCB_trainer:
 
                 self._observed = obs_da
                 self._predictions = sim_da
+        
+        self._restore_synthetic_dates(period, time_resolution_key)
 
+    # Edited 1/28/2026 for non-consecutive date plotting:
     def _generate_obs_sim_plt(self, period='validation'):
         """
         Plot observed vs. simulated values (matplotlib).
+        If dates are non-consecutive, collapse time axis and draw jump markers with gap size.
         """
+
         if self._observed is None or self._predictions is None:
             print("[WARN:_generate_obs_sim_plt] => cannot plot, observed or predictions = None")
             return
 
         fig, ax = plt.subplots(figsize=(16, 10))
-        if self._physics_informed:
-            simulated_label = "HybridSimulation"
-        else:
-            simulated_label = "Simulated"
+
+        simulated_label = "HybridSimulation" if self._physics_informed else "Simulated"
 
         if self._num_ensemble_members == 1:
             if "date" in self._observed.coords:
-                ax.plot(self._observed["date"], self._observed, label="Observed", linewidth=1.5)
-                ax.plot(self._predictions["date"], self._predictions, label=simulated_label, linewidth=1.5)
+
+                dates = pd.to_datetime(self._observed["date"].values)
+                y_obs = self._observed.values
+                y_sim = self._predictions.values
+
+                # detect gaps
+                dt_days = np.diff(dates.values.astype("datetime64[D]").astype(int))
+                gap_idx = np.where(dt_days > 2)[0]
+
+                has_gaps = len(gap_idx) > 0
+
+                if has_gaps:
+                    x = np.arange(len(dates))
+
+                    ax.plot(x, y_obs, label="Observed", linewidth=1.5)
+                    ax.plot(x, y_sim, label=simulated_label, linewidth=1.5)
+
+                    # draw vertical lines + annotate gap
+                    for i in gap_idx:
+                        xpos = i + 0.5
+                        gap_days = int(dt_days[i])
+
+                        ax.axvline(x=xpos, color="red", linestyle="--", alpha=0.7, linewidth=1.5)
+
+                        ax.text(
+                            xpos, ax.get_ylim()[1],
+                            f"+{gap_days} days",
+                            color="red",
+                            fontsize=11,
+                            rotation=90,
+                            verticalalignment="top",
+                            horizontalalignment="right",
+                            bbox=dict(facecolor="white", edgecolor="none", alpha=0.7, pad=2)
+                        )
+
+                    # sparse real-date labels
+                    step = max(len(x) // 10, 1)
+                    ticks = np.arange(0, len(x), step)
+                    ax.set_xticks(ticks)
+                    ax.set_xticklabels(
+                        [dates[i].strftime("%Y-%m-%d") for i in ticks],
+                        rotation=30, ha="right"
+                    )
+
+                    ax.set_xlabel("Date (discontinuous)")
+
+                else:
+                    ax.plot(dates, y_obs, label="Observed", linewidth=1.5)
+                    ax.plot(dates, y_sim, label=simulated_label, linewidth=1.5)
+                    ax.set_xlabel("Date")
+
             else:
                 print("[WARN:_generate_obs_sim_plt] => 'date' not in coords, cannot plot easily.")
 
-        else:  # ensemble
-            pass
+        else:
+            pass  # ensemble not implemented
 
         ax.set_ylabel(f"{self._target_variable} (units)", fontsize=14)
-        ax.set_xlabel("Date", fontsize=14)
         ax.set_title(f"{self._basin_name} - {self._target_variable} Over Time ({period})", fontsize=16)
         ax.legend(fontsize=12)
         ax.grid(True, linestyle="--", alpha=0.7)
-        fig.autofmt_xdate()
         plt.tight_layout()
         plt.show()
 
@@ -523,7 +728,14 @@ class UCB_trainer:
                             merged_df.rename(columns={time_col: "Date"}, inplace=True)
                             final_df = merged_df[["Date", "Observed", "Predicted"]].sort_values("Date")
                         else:
-                            final_df = merged_df[["Observed", "Predicted"]]
+                            # Maxwell: updated to handle non-consecutive dates
+                            if "date_obs" in merged_df.columns:
+                                merged_df["Date"] = pd.to_datetime(merged_df["date_obs"])
+                                final_df = merged_df[["Date", "Observed", "Predicted"]].sort_values("Date")
+                            elif "Date" in merged_df.columns:
+                                final_df = merged_df[["Date", "Observed", "Predicted"]].sort_values("Date")
+                            else:
+                                raise RuntimeError("Could not determine Date column when writing CSV")
 
                     df = final_df.reset_index(drop=True)
 
@@ -585,6 +797,42 @@ class UCB_trainer:
             raise FileNotFoundError(f"YAML configuration file not found: {self._yaml_path}")
 
         config = Config(self._yaml_path, dev_mode=True)
+
+        # --- Pad values for synthetic START ---
+
+        # check if standard ranges don't exist
+        explicit_missing = (
+            not config._cfg.get("train_start_date") and
+            not config._cfg.get("train_end_date") and
+            not config._cfg.get("validation_start_date") and
+            not config._cfg.get("validation_end_date") and
+            not config._cfg.get("test_start_date") and
+            not config._cfg.get("test_end_date")
+        )
+
+        # check if synthetic ranges exist
+        ranges_exist = (
+            "train_ranges" in config._cfg and config._cfg["train_ranges"] and
+            "validation_ranges" in config._cfg and config._cfg["validation_ranges"] and
+            "test_ranges" in config._cfg and config._cfg["test_ranges"]
+        )
+
+        if explicit_missing and ranges_exist:
+            dummy_start = "01/01/1900"
+            dummy_end   = "01/01/1901"
+            required_keys = [
+                "train_start_date", "train_end_date",
+                "validation_start_date", "validation_end_date",
+                "test_start_date", "test_end_date",
+            ]
+
+            for key in required_keys:
+                if key not in config._cfg or config._cfg[key] is None:
+                    config._cfg[key] = dummy_start if "start" in key else dummy_end
+                    if self._verbose:
+                        print(f"[UCB_trainer:_create_config] Injected missing {key} → {config._cfg[key]}")
+        # --- Pad values for synthetic END ---
+
 
         if 'save_weights_every' not in self._hyperparams:
             self._hyperparams['save_weights_every'] = self._hyperparams['epochs']

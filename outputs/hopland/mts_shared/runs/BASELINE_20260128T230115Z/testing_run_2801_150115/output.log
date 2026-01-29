@@ -1,0 +1,274 @@
+2026-01-28 15:01:15,541: Logging to /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/hopland/mts_shared/runs/BASELINE_20260128T230115Z/testing_run_2801_150115/output.log initialized.
+2026-01-28 15:01:15,541: ### Folder structure created at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/hopland/mts_shared/runs/BASELINE_20260128T230115Z/testing_run_2801_150115
+2026-01-28 15:01:15,541: ### Run configurations for testing_run
+2026-01-28 15:01:15,542: experiment_name: testing_run
+2026-01-28 15:01:15,542: train_basin_file: hopland
+2026-01-28 15:01:15,542: validation_basin_file: hopland
+2026-01-28 15:01:15,542: test_basin_file: hopland
+2026-01-28 15:01:15,542: train_start_date: 1994-10-01 00:00:00
+2026-01-28 15:01:15,542: train_end_date: 2002-09-30 00:00:00
+2026-01-28 15:01:15,543: validation_start_date: 2002-10-01 00:00:00
+2026-01-28 15:01:15,543: validation_end_date: 2005-09-30 00:00:00
+2026-01-28 15:01:15,543: test_start_date: 2005-10-01 00:00:00
+2026-01-28 15:01:15,543: test_end_date: 2009-09-30 00:00:00
+2026-01-28 15:01:15,543: device: cpu
+2026-01-28 15:01:15,543: physics_informed: False
+2026-01-28 15:01:15,543: physics_data_file: None
+2026-01-28 15:01:15,544: validate_every: 5
+2026-01-28 15:01:15,544: validate_n_random_basins: 1
+2026-01-28 15:01:15,544: save_validation_results: True
+2026-01-28 15:01:15,544: metrics: ['NSE', 'MSE']
+2026-01-28 15:01:15,544: model: mtslstm
+2026-01-28 15:01:15,545: shared_mtslstm: False
+2026-01-28 15:01:15,545: transfer_mtslstm_states: {'h': 'linear', 'c': 'linear'}
+2026-01-28 15:01:15,545: use_frequencies: ['1H', '1D']
+2026-01-28 15:01:15,545: head: regression
+2026-01-28 15:01:15,545: output_activation: linear
+2026-01-28 15:01:15,545: hidden_size: 256
+2026-01-28 15:01:15,545: initial_forget_bias: 3
+2026-01-28 15:01:15,545: output_dropout: 0.4
+2026-01-28 15:01:15,546: optimizer: Adam
+2026-01-28 15:01:15,546: loss: NSE
+2026-01-28 15:01:15,546: learning_rate: {0: 0.01, 24: 0.005, 36: 0.001}
+2026-01-28 15:01:15,546: batch_size: 64
+2026-01-28 15:01:15,546: epochs: 2
+2026-01-28 15:01:15,546: clip_gradient_norm: 1
+2026-01-28 15:01:15,547: predict_last_n: {'1D': 1, '1H': 24}
+2026-01-28 15:01:15,547: seq_length: {'1D': 120, '1H': 336}
+2026-01-28 15:01:15,547: log_interval: 16
+2026-01-28 15:01:15,547: log_tensorboard: True
+2026-01-28 15:01:15,547: log_n_figures: 1
+2026-01-28 15:01:15,547: save_weights_every: 2
+2026-01-28 15:01:15,547: dataset: russian_river
+2026-01-28 15:01:15,548: data_dir: /Users/maxwellfung/UCB-USACE-RR-PROJECT/russian_river_data
+2026-01-28 15:01:15,548: dev_mode: True
+2026-01-28 15:01:15,548: dynamic_inputs: {'1D': ['RUSSIAN 60 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'RUSSIAN 60 PRECIP-INC SCREENED', 'RUSSIAN 70 PRECIP-INC SCREENED', 'RUSSIAN 70 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'WF RUSSIAN PRECIP-INC SCREENED', 'WF RUSSIAN ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'UKIAH CA HUMIDITY USAF-NOAA', 'UKIAH CA SOLAR RADIATION USAF-NOAA', 'UKIAH CA TEMPERATURE USAF-NOAA', 'UKIAH CA WINDSPEED USAF-NOAA', 'UKIAH CA FLOW USGS-MERGED'], '1H': ['RUSSIAN 60 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'RUSSIAN 60 PRECIP-INC SCREENED', 'RUSSIAN 70 PRECIP-INC SCREENED', 'RUSSIAN 70 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'WF RUSSIAN PRECIP-INC SCREENED', 'WF RUSSIAN ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'UKIAH CA HUMIDITY USAF-NOAA', 'UKIAH CA SOLAR RADIATION USAF-NOAA', 'UKIAH CA TEMPERATURE USAF-NOAA', 'UKIAH CA WINDSPEED USAF-NOAA', 'UKIAH CA FLOW USGS-MERGED']}
+2026-01-28 15:01:15,548: target_variables: ['NR HOPLAND FLOW COE HOP']
+2026-01-28 15:01:15,548: clip_targets_to_zero: [['NR HOPLAND FLOW COE HOP']]
+2026-01-28 15:01:15,548: num_layers: 1
+2026-01-28 15:01:15,549: hourly: True
+2026-01-28 15:01:15,549: is_mts: True
+2026-01-28 15:01:15,549: is_mts_data: False
+2026-01-28 15:01:15,549: verbose: True
+2026-01-28 15:01:15,549: run_dir: /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/hopland/mts_shared/runs/BASELINE_20260128T230115Z/testing_run_2801_150115
+2026-01-28 15:01:15,549: run_label: BASELINE
+2026-01-28 15:01:15,550: run_stamp: 20260128T230115Z
+2026-01-28 15:01:15,550: number_of_basins: 1
+2026-01-28 15:01:15,550: train_dir: /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/hopland/mts_shared/runs/BASELINE_20260128T230115Z/testing_run_2801_150115/train_data
+2026-01-28 15:01:15,550: img_log_dir: /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/hopland/mts_shared/runs/BASELINE_20260128T230115Z/testing_run_2801_150115/img_log
+2026-01-28 15:01:15,553: ### Device cpu will be used for training
+2026-01-28 15:01:15,553: Loading basin data into xarray data set.
+2026-01-28 15:01:16,318: Calculating target variable stds per basin
+2026-01-28 15:01:16,327: Create lookup table and convert to pytorch tensor
+2026-01-28 15:01:16,867: No specific hidden size for frequencies are specified. Same hidden size is used for all.
+2026-01-28 15:01:27,827: Epoch 1 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2026-01-28 15:01:39,708: Epoch 2 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2026-01-28 15:01:39,725: No specific hidden size for frequencies are specified. Same hidden size is used for all.
+2026-01-28 15:01:39,730: Using the model weights from /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/hopland/mts_shared/runs/BASELINE_20260128T230115Z/testing_run_2801_150115/model_epoch002.pt
+2026-01-28 15:01:43,179: Stored metrics at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/hopland/mts_shared/runs/BASELINE_20260128T230115Z/testing_run_2801_150115/validation/model_epoch002/validation_metrics.csv
+2026-01-28 15:01:43,180: Stored results at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/hopland/mts_shared/runs/BASELINE_20260128T230115Z/testing_run_2801_150115/validation/model_epoch002/validation_results.p
+2026-01-28 15:01:43,511: Logging to /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/hopland/mts_shared/runs/BASELINE_20260128T230115Z/testing_run_2801_150143/output.log initialized.
+2026-01-28 15:01:43,511: ### Folder structure created at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/hopland/mts_shared/runs/BASELINE_20260128T230115Z/testing_run_2801_150143
+2026-01-28 15:01:43,511: ### Run configurations for testing_run
+2026-01-28 15:01:43,511: experiment_name: testing_run
+2026-01-28 15:01:43,511: train_basin_file: hopland
+2026-01-28 15:01:43,512: validation_basin_file: hopland
+2026-01-28 15:01:43,512: test_basin_file: hopland
+2026-01-28 15:01:43,512: train_start_date: 1994-10-01 00:00:00
+2026-01-28 15:01:43,512: train_end_date: 2002-09-30 00:00:00
+2026-01-28 15:01:43,512: validation_start_date: 2002-10-01 00:00:00
+2026-01-28 15:01:43,512: validation_end_date: 2005-09-30 00:00:00
+2026-01-28 15:01:43,512: test_start_date: 2005-10-01 00:00:00
+2026-01-28 15:01:43,513: test_end_date: 2009-09-30 00:00:00
+2026-01-28 15:01:43,513: device: cpu
+2026-01-28 15:01:43,513: physics_informed: True
+2026-01-28 15:01:43,513: physics_data_file: /Users/maxwellfung/UCB-USACE-RR-PROJECT/russian_river_data/Hopland_hourly.csv
+2026-01-28 15:01:43,513: validate_every: 5
+2026-01-28 15:01:43,513: validate_n_random_basins: 1
+2026-01-28 15:01:43,514: save_validation_results: True
+2026-01-28 15:01:43,514: metrics: ['NSE', 'MSE']
+2026-01-28 15:01:43,514: model: mtslstm
+2026-01-28 15:01:43,514: shared_mtslstm: False
+2026-01-28 15:01:43,514: transfer_mtslstm_states: {'h': 'linear', 'c': 'linear'}
+2026-01-28 15:01:43,514: use_frequencies: ['1H', '1D']
+2026-01-28 15:01:43,514: head: regression
+2026-01-28 15:01:43,515: output_activation: linear
+2026-01-28 15:01:43,515: hidden_size: 128
+2026-01-28 15:01:43,515: initial_forget_bias: 3
+2026-01-28 15:01:43,515: output_dropout: 0.4
+2026-01-28 15:01:43,515: optimizer: Adam
+2026-01-28 15:01:43,515: loss: NSE
+2026-01-28 15:01:43,516: learning_rate: {0: 0.01, 16: 0.005, 24: 0.001}
+2026-01-28 15:01:43,516: batch_size: 64
+2026-01-28 15:01:43,516: epochs: 2
+2026-01-28 15:01:43,516: clip_gradient_norm: 1
+2026-01-28 15:01:43,516: predict_last_n: {'1D': 1, '1H': 24}
+2026-01-28 15:01:43,516: seq_length: {'1D': 120, '1H': 336}
+2026-01-28 15:01:43,516: log_interval: 16
+2026-01-28 15:01:43,517: log_tensorboard: True
+2026-01-28 15:01:43,517: log_n_figures: 1
+2026-01-28 15:01:43,517: save_weights_every: 2
+2026-01-28 15:01:43,517: dataset: russian_river
+2026-01-28 15:01:43,517: data_dir: /Users/maxwellfung/UCB-USACE-RR-PROJECT/russian_river_data
+2026-01-28 15:01:43,517: dev_mode: True
+2026-01-28 15:01:43,518: dynamic_inputs: ['RUSSIAN 60 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'RUSSIAN 60 PRECIP-INC SCREENED', 'RUSSIAN 70 PRECIP-INC SCREENED', 'RUSSIAN 70 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'WF RUSSIAN PRECIP-INC SCREENED', 'WF RUSSIAN ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'Hopland Gage FLOW', 'Russian 60 ET-POTENTIAL', 'Russian 60 FLOW', 'Russian 60 FLOW-BASE', 'Russian 60 INFILTRATION', 'Russian 60 PERC-SOIL', 'Russian 60 SATURATION FRACTION', 'Russian 70 ET-POTENTIAL', 'Russian 70 FLOW', 'Russian 70 FLOW-BASE', 'Russian 70 INFILTRATION', 'Russian 70 PERC-SOIL', 'Russian 70 SATURATION FRACTION', 'WF Russian ET-POTENTIAL', 'WF Russian FLOW', 'WF Russian FLOW-BASE', 'WF Russian INFILTRATION', 'WF Russian PERC-SOIL', 'WF Russian SATURATION FRACTION', 'UKIAH CA HUMIDITY USAF-NOAA', 'UKIAH CA SOLAR RADIATION USAF-NOAA', 'UKIAH CA TEMPERATURE USAF-NOAA', 'UKIAH CA WINDSPEED USAF-NOAA', 'UKIAH CA FLOW USGS-MERGED']
+2026-01-28 15:01:43,518: target_variables: ['NR HOPLAND FLOW COE HOP']
+2026-01-28 15:01:43,518: clip_targets_to_zero: [['NR HOPLAND FLOW COE HOP']]
+2026-01-28 15:01:43,518: num_layers: 1
+2026-01-28 15:01:43,518: hourly: True
+2026-01-28 15:01:43,518: is_mts: True
+2026-01-28 15:01:43,518: is_mts_data: False
+2026-01-28 15:01:43,519: verbose: True
+2026-01-28 15:01:43,519: run_dir: /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/hopland/mts_shared/runs/BASELINE_20260128T230115Z/testing_run_2801_150143
+2026-01-28 15:01:43,519: run_label: BASELINE
+2026-01-28 15:01:43,519: run_stamp: 20260128T230115Z
+2026-01-28 15:01:43,519: number_of_basins: 1
+2026-01-28 15:01:43,519: train_dir: /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/hopland/mts_shared/runs/BASELINE_20260128T230115Z/testing_run_2801_150143/train_data
+2026-01-28 15:01:43,519: img_log_dir: /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/hopland/mts_shared/runs/BASELINE_20260128T230115Z/testing_run_2801_150143/img_log
+2026-01-28 15:01:43,522: ### Device cpu will be used for training
+2026-01-28 15:01:43,522: Loading basin data into xarray data set.
+2026-01-28 15:01:45,019: Calculating target variable stds per basin
+2026-01-28 15:01:45,032: Create lookup table and convert to pytorch tensor
+2026-01-28 15:01:45,099: No specific hidden size for frequencies are specified. Same hidden size is used for all.
+2026-01-28 15:01:50,855: Epoch 1 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2026-01-28 15:01:56,402: Epoch 2 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2026-01-28 15:01:56,408: No specific hidden size for frequencies are specified. Same hidden size is used for all.
+2026-01-28 15:01:56,412: Using the model weights from /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/hopland/mts_shared/runs/BASELINE_20260128T230115Z/testing_run_2801_150143/model_epoch002.pt
+2026-01-28 15:01:59,205: Stored metrics at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/hopland/mts_shared/runs/BASELINE_20260128T230115Z/testing_run_2801_150143/validation/model_epoch002/validation_metrics.csv
+2026-01-28 15:01:59,206: Stored results at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/hopland/mts_shared/runs/BASELINE_20260128T230115Z/testing_run_2801_150143/validation/model_epoch002/validation_results.p
+2026-01-28 15:02:03,188: Logging to /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/hopland/mts_shared/runs/BASELINE_20260128T230115Z/testing_run_2801_150203/output.log initialized.
+2026-01-28 15:02:03,188: ### Folder structure created at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/hopland/mts_shared/runs/BASELINE_20260128T230115Z/testing_run_2801_150203
+2026-01-28 15:02:03,188: ### Run configurations for testing_run
+2026-01-28 15:02:03,189: experiment_name: testing_run
+2026-01-28 15:02:03,189: train_basin_file: /Users/maxwellfung/UCB-USACE-RR-PROJECT/notebooks/basins/hopland/hopland
+2026-01-28 15:02:03,190: validation_basin_file: /Users/maxwellfung/UCB-USACE-RR-PROJECT/notebooks/basins/hopland/hopland
+2026-01-28 15:02:03,190: test_basin_file: /Users/maxwellfung/UCB-USACE-RR-PROJECT/notebooks/basins/hopland/hopland
+2026-01-28 15:02:03,190: train_start_date: 1994-10-01 00:00:00
+2026-01-28 15:02:03,191: train_end_date: 2005-09-30 00:00:00
+2026-01-28 15:02:03,191: validation_start_date: 2002-10-01 00:00:00
+2026-01-28 15:02:03,191: validation_end_date: 2005-09-30 00:00:00
+2026-01-28 15:02:03,191: test_start_date: 2005-10-01 00:00:00
+2026-01-28 15:02:03,191: test_end_date: 2009-09-30 00:00:00
+2026-01-28 15:02:03,192: device: cpu
+2026-01-28 15:02:03,192: physics_informed: False
+2026-01-28 15:02:03,192: physics_data_file: None
+2026-01-28 15:02:03,192: validate_every: 5
+2026-01-28 15:02:03,192: validate_n_random_basins: 1
+2026-01-28 15:02:03,192: save_validation_results: True
+2026-01-28 15:02:03,193: metrics: ['NSE', 'MSE']
+2026-01-28 15:02:03,193: model: mtslstm
+2026-01-28 15:02:03,193: shared_mtslstm: False
+2026-01-28 15:02:03,193: transfer_mtslstm_states: {'h': 'linear', 'c': 'linear'}
+2026-01-28 15:02:03,193: use_frequencies: ['1H', '1D']
+2026-01-28 15:02:03,193: head: regression
+2026-01-28 15:02:03,194: output_activation: linear
+2026-01-28 15:02:03,194: hidden_size: 256
+2026-01-28 15:02:03,194: initial_forget_bias: 3
+2026-01-28 15:02:03,194: output_dropout: 0.4
+2026-01-28 15:02:03,194: optimizer: Adam
+2026-01-28 15:02:03,194: loss: NSE
+2026-01-28 15:02:03,194: learning_rate: {0: 0.01, 24: 0.005, 36: 0.001}
+2026-01-28 15:02:03,195: batch_size: 64
+2026-01-28 15:02:03,195: epochs: 2
+2026-01-28 15:02:03,195: clip_gradient_norm: 1
+2026-01-28 15:02:03,195: predict_last_n: {'1D': 1, '1H': 24}
+2026-01-28 15:02:03,195: seq_length: {'1D': 120, '1H': 336}
+2026-01-28 15:02:03,195: log_interval: 16
+2026-01-28 15:02:03,196: log_tensorboard: True
+2026-01-28 15:02:03,196: log_n_figures: 1
+2026-01-28 15:02:03,196: save_weights_every: 2
+2026-01-28 15:02:03,196: dataset: russian_river
+2026-01-28 15:02:03,196: data_dir: /Users/maxwellfung/UCB-USACE-RR-PROJECT/russian_river_data
+2026-01-28 15:02:03,196: dev_mode: True
+2026-01-28 15:02:03,196: dynamic_inputs: {'1D': ['RUSSIAN 60 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'RUSSIAN 60 PRECIP-INC SCREENED', 'RUSSIAN 70 PRECIP-INC SCREENED', 'RUSSIAN 70 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'WF RUSSIAN PRECIP-INC SCREENED', 'WF RUSSIAN ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'UKIAH CA HUMIDITY USAF-NOAA', 'UKIAH CA SOLAR RADIATION USAF-NOAA', 'UKIAH CA TEMPERATURE USAF-NOAA', 'UKIAH CA WINDSPEED USAF-NOAA', 'UKIAH CA FLOW USGS-MERGED'], '1H': ['RUSSIAN 60 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'RUSSIAN 60 PRECIP-INC SCREENED', 'RUSSIAN 70 PRECIP-INC SCREENED', 'RUSSIAN 70 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'WF RUSSIAN PRECIP-INC SCREENED', 'WF RUSSIAN ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'UKIAH CA HUMIDITY USAF-NOAA', 'UKIAH CA SOLAR RADIATION USAF-NOAA', 'UKIAH CA TEMPERATURE USAF-NOAA', 'UKIAH CA WINDSPEED USAF-NOAA', 'UKIAH CA FLOW USGS-MERGED']}
+2026-01-28 15:02:03,197: target_variables: ['NR HOPLAND FLOW COE HOP']
+2026-01-28 15:02:03,197: clip_targets_to_zero: [['NR HOPLAND FLOW COE HOP']]
+2026-01-28 15:02:03,197: num_layers: 1
+2026-01-28 15:02:03,197: hourly: True
+2026-01-28 15:02:03,197: is_mts: True
+2026-01-28 15:02:03,198: is_mts_data: False
+2026-01-28 15:02:03,198: verbose: True
+2026-01-28 15:02:03,199: run_dir: /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/hopland/mts_shared/runs/BASELINE_20260128T230115Z/testing_run_2801_150203
+2026-01-28 15:02:03,199: run_label: BASELINE
+2026-01-28 15:02:03,199: run_stamp: 20260128T230115Z
+2026-01-28 15:02:03,199: number_of_basins: 1
+2026-01-28 15:02:03,199: train_dir: /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/hopland/mts_shared/runs/BASELINE_20260128T230115Z/testing_run_2801_150203/train_data
+2026-01-28 15:02:03,200: img_log_dir: /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/hopland/mts_shared/runs/BASELINE_20260128T230115Z/testing_run_2801_150203/img_log
+2026-01-28 15:02:03,201: ### Device cpu will be used for training
+2026-01-28 15:02:03,201: Loading basin data into xarray data set.
+2026-01-28 15:02:04,045: Calculating target variable stds per basin
+2026-01-28 15:02:04,056: Create lookup table and convert to pytorch tensor
+2026-01-28 15:02:04,107: No specific hidden size for frequencies are specified. Same hidden size is used for all.
+2026-01-28 15:02:19,481: Epoch 1 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2026-01-28 15:02:35,109: Epoch 2 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2026-01-28 15:02:35,125: No specific hidden size for frequencies are specified. Same hidden size is used for all.
+2026-01-28 15:02:35,129: Using the model weights from /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/hopland/mts_shared/runs/BASELINE_20260128T230115Z/testing_run_2801_150203/model_epoch002.pt
+2026-01-28 15:02:38,420: Stored metrics at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/hopland/mts_shared/runs/BASELINE_20260128T230115Z/testing_run_2801_150203/validation/model_epoch002/validation_metrics.csv
+2026-01-28 15:02:38,421: Stored results at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/hopland/mts_shared/runs/BASELINE_20260128T230115Z/testing_run_2801_150203/validation/model_epoch002/validation_results.p
+2026-01-28 15:02:38,423: No specific hidden size for frequencies are specified. Same hidden size is used for all.
+2026-01-28 15:02:38,426: Using the model weights from /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/hopland/mts_shared/runs/BASELINE_20260128T230115Z/testing_run_2801_150203/model_epoch002.pt
+2026-01-28 15:02:42,741: Stored metrics at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/hopland/mts_shared/runs/BASELINE_20260128T230115Z/testing_run_2801_150203/test/model_epoch002/test_metrics.csv
+2026-01-28 15:02:42,742: Stored results at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/hopland/mts_shared/runs/BASELINE_20260128T230115Z/testing_run_2801_150203/test/model_epoch002/test_results.p
+2026-01-28 15:04:34,057: Logging to /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/hopland/mts_shared/runs/BASELINE_20260128T230115Z/testing_run_2801_150434/output.log initialized.
+2026-01-28 15:04:34,058: ### Folder structure created at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/hopland/mts_shared/runs/BASELINE_20260128T230115Z/testing_run_2801_150434
+2026-01-28 15:04:34,058: ### Run configurations for testing_run
+2026-01-28 15:04:34,058: experiment_name: testing_run
+2026-01-28 15:04:34,059: train_basin_file: /Users/maxwellfung/UCB-USACE-RR-PROJECT/notebooks/basins/hopland/hopland
+2026-01-28 15:04:34,059: validation_basin_file: /Users/maxwellfung/UCB-USACE-RR-PROJECT/notebooks/basins/hopland/hopland
+2026-01-28 15:04:34,059: test_basin_file: /Users/maxwellfung/UCB-USACE-RR-PROJECT/notebooks/basins/hopland/hopland
+2026-01-28 15:04:34,059: train_start_date: 1994-10-01 00:00:00
+2026-01-28 15:04:34,060: train_end_date: 2005-09-30 00:00:00
+2026-01-28 15:04:34,060: validation_start_date: 2002-10-01 00:00:00
+2026-01-28 15:04:34,060: validation_end_date: 2005-09-30 00:00:00
+2026-01-28 15:04:34,060: test_start_date: 2005-10-01 00:00:00
+2026-01-28 15:04:34,061: test_end_date: 2009-09-30 00:00:00
+2026-01-28 15:04:34,061: device: cpu
+2026-01-28 15:04:34,061: physics_informed: True
+2026-01-28 15:04:34,061: physics_data_file: /Users/maxwellfung/UCB-USACE-RR-PROJECT/russian_river_data/Hopland_hourly.csv
+2026-01-28 15:04:34,062: validate_every: 5
+2026-01-28 15:04:34,062: validate_n_random_basins: 1
+2026-01-28 15:04:34,062: save_validation_results: True
+2026-01-28 15:04:34,062: metrics: ['NSE', 'MSE']
+2026-01-28 15:04:34,062: model: mtslstm
+2026-01-28 15:04:34,063: shared_mtslstm: False
+2026-01-28 15:04:34,063: transfer_mtslstm_states: {'h': 'linear', 'c': 'linear'}
+2026-01-28 15:04:34,063: use_frequencies: ['1H', '1D']
+2026-01-28 15:04:34,064: head: regression
+2026-01-28 15:04:34,064: output_activation: linear
+2026-01-28 15:04:34,065: hidden_size: 128
+2026-01-28 15:04:34,065: initial_forget_bias: 3
+2026-01-28 15:04:34,066: output_dropout: 0.4
+2026-01-28 15:04:34,066: optimizer: Adam
+2026-01-28 15:04:34,067: loss: NSE
+2026-01-28 15:04:34,067: learning_rate: {0: 0.01, 16: 0.005, 24: 0.001}
+2026-01-28 15:04:34,068: batch_size: 64
+2026-01-28 15:04:34,068: epochs: 2
+2026-01-28 15:04:34,069: clip_gradient_norm: 1
+2026-01-28 15:04:34,069: predict_last_n: {'1D': 1, '1H': 24}
+2026-01-28 15:04:34,069: seq_length: {'1D': 120, '1H': 336}
+2026-01-28 15:04:34,070: log_interval: 16
+2026-01-28 15:04:34,070: log_tensorboard: True
+2026-01-28 15:04:34,070: log_n_figures: 1
+2026-01-28 15:04:34,070: save_weights_every: 2
+2026-01-28 15:04:34,071: dataset: russian_river
+2026-01-28 15:04:34,071: data_dir: /Users/maxwellfung/UCB-USACE-RR-PROJECT/russian_river_data
+2026-01-28 15:04:34,071: dev_mode: True
+2026-01-28 15:04:34,071: dynamic_inputs: ['RUSSIAN 60 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'RUSSIAN 60 PRECIP-INC SCREENED', 'RUSSIAN 70 PRECIP-INC SCREENED', 'RUSSIAN 70 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'WF RUSSIAN PRECIP-INC SCREENED', 'WF RUSSIAN ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'Hopland Gage FLOW', 'Russian 60 ET-POTENTIAL', 'Russian 60 FLOW', 'Russian 60 FLOW-BASE', 'Russian 60 INFILTRATION', 'Russian 60 PERC-SOIL', 'Russian 60 SATURATION FRACTION', 'Russian 70 ET-POTENTIAL', 'Russian 70 FLOW', 'Russian 70 FLOW-BASE', 'Russian 70 INFILTRATION', 'Russian 70 PERC-SOIL', 'Russian 70 SATURATION FRACTION', 'WF Russian ET-POTENTIAL', 'WF Russian FLOW', 'WF Russian FLOW-BASE', 'WF Russian INFILTRATION', 'WF Russian PERC-SOIL', 'WF Russian SATURATION FRACTION', 'UKIAH CA HUMIDITY USAF-NOAA', 'UKIAH CA SOLAR RADIATION USAF-NOAA', 'UKIAH CA TEMPERATURE USAF-NOAA', 'UKIAH CA WINDSPEED USAF-NOAA', 'UKIAH CA FLOW USGS-MERGED']
+2026-01-28 15:04:34,071: target_variables: ['NR HOPLAND FLOW COE HOP']
+2026-01-28 15:04:34,072: clip_targets_to_zero: [['NR HOPLAND FLOW COE HOP']]
+2026-01-28 15:04:34,072: num_layers: 1
+2026-01-28 15:04:34,072: hourly: True
+2026-01-28 15:04:34,072: is_mts: True
+2026-01-28 15:04:34,072: is_mts_data: False
+2026-01-28 15:04:34,073: verbose: True
+2026-01-28 15:04:34,073: run_dir: /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/hopland/mts_shared/runs/BASELINE_20260128T230115Z/testing_run_2801_150434
+2026-01-28 15:04:34,073: run_label: BASELINE
+2026-01-28 15:04:34,073: run_stamp: 20260128T230115Z
+2026-01-28 15:04:34,074: number_of_basins: 1
+2026-01-28 15:04:34,074: train_dir: /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/hopland/mts_shared/runs/BASELINE_20260128T230115Z/testing_run_2801_150434/train_data
+2026-01-28 15:04:34,074: img_log_dir: /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/hopland/mts_shared/runs/BASELINE_20260128T230115Z/testing_run_2801_150434/img_log
+2026-01-28 15:04:34,075: ### Device cpu will be used for training
+2026-01-28 15:04:34,076: Loading basin data into xarray data set.
+2026-01-28 15:04:35,530: Calculating target variable stds per basin
+2026-01-28 15:04:35,546: Create lookup table and convert to pytorch tensor
+2026-01-28 15:04:35,635: No specific hidden size for frequencies are specified. Same hidden size is used for all.

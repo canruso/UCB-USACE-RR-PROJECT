@@ -1,0 +1,279 @@
+2026-01-28 15:35:07,123: Logging to /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/calpella/mts_shared/runs/BASELINE_20260128T233507Z/testing_run_2801_153507/output.log initialized.
+2026-01-28 15:35:07,123: ### Folder structure created at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/calpella/mts_shared/runs/BASELINE_20260128T233507Z/testing_run_2801_153507
+2026-01-28 15:35:07,124: ### Run configurations for testing_run
+2026-01-28 15:35:07,124: experiment_name: testing_run
+2026-01-28 15:35:07,124: train_basin_file: calpella
+2026-01-28 15:35:07,124: validation_basin_file: calpella
+2026-01-28 15:35:07,124: test_basin_file: calpella
+2026-01-28 15:35:07,125: train_ranges: ['01/10/1994-30/09/1995', '01/10/1995-30/09/1996', '01/10/1996-30/09/1997', '01/10/1997-30/09/1998', '01/10/1998-30/09/1999', '01/10/2002-30/09/2003', '01/10/2003-30/09/2004', '01/10/2004-30/09/2005']
+2026-01-28 15:35:07,125: validation_ranges: ['01/10/2005-30/09/2006', '01/10/2007-30/09/2008', '01/10/2008-30/09/2009']
+2026-01-28 15:35:07,125: test_ranges: ['01/10/1999-30/09/2000', '01/10/2000-30/09/2001', '01/10/2001-30/09/2002', '01/10/2006-30/09/2007']
+2026-01-28 15:35:07,125: device: cpu
+2026-01-28 15:35:07,125: physics_informed: False
+2026-01-28 15:35:07,125: physics_data_file: None
+2026-01-28 15:35:07,126: validate_every: 5
+2026-01-28 15:35:07,126: validate_n_random_basins: 1
+2026-01-28 15:35:07,126: save_validation_results: True
+2026-01-28 15:35:07,126: metrics: ['NSE', 'MSE']
+2026-01-28 15:35:07,126: model: mtslstm
+2026-01-28 15:35:07,127: shared_mtslstm: False
+2026-01-28 15:35:07,127: transfer_mtslstm_states: {'h': 'linear', 'c': 'linear'}
+2026-01-28 15:35:07,127: use_frequencies: ['1H', '1D']
+2026-01-28 15:35:07,127: head: regression
+2026-01-28 15:35:07,127: output_activation: linear
+2026-01-28 15:35:07,127: hidden_size: 256
+2026-01-28 15:35:07,128: initial_forget_bias: 3
+2026-01-28 15:35:07,128: output_dropout: 0.4
+2026-01-28 15:35:07,128: optimizer: Adam
+2026-01-28 15:35:07,128: loss: NSE
+2026-01-28 15:35:07,128: learning_rate: {0: 0.01, 8: 0.005, 12: 0.001}
+2026-01-28 15:35:07,128: batch_size: 64
+2026-01-28 15:35:07,128: epochs: 2
+2026-01-28 15:35:07,129: clip_gradient_norm: 1
+2026-01-28 15:35:07,129: predict_last_n: {'1D': 1, '1H': 24}
+2026-01-28 15:35:07,129: seq_length: {'1D': 90, '1H': 336}
+2026-01-28 15:35:07,129: log_interval: 16
+2026-01-28 15:35:07,129: log_tensorboard: True
+2026-01-28 15:35:07,129: log_n_figures: 1
+2026-01-28 15:35:07,130: save_weights_every: 2
+2026-01-28 15:35:07,130: dataset: synthetic_russian_river
+2026-01-28 15:35:07,130: data_dir: /Users/maxwellfung/UCB-USACE-RR-PROJECT/russian_river_data
+2026-01-28 15:35:07,130: dev_mode: True
+2026-01-28 15:35:07,130: dynamic_inputs: {'1D': ['EF RUSSIAN 20 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'EF RUSSIAN 20 PRECIP-INC SCREENED', 'POTTER VALLEY CA FLOW USGS_ADJUSTED', 'UKIAH CA HUMIDITY USAF-NOAA', 'UKIAH CA SOLAR RADIATION USAF-NOAA', 'UKIAH CA TEMPERATURE USAF-NOAA', 'UKIAH CA WINDSPEED USAF-NOAA'], '1H': ['EF RUSSIAN 20 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'EF RUSSIAN 20 PRECIP-INC SCREENED', 'POTTER VALLEY CA FLOW USGS_ADJUSTED', 'UKIAH CA HUMIDITY USAF-NOAA', 'UKIAH CA SOLAR RADIATION USAF-NOAA', 'UKIAH CA TEMPERATURE USAF-NOAA', 'UKIAH CA WINDSPEED USAF-NOAA']}
+2026-01-28 15:35:07,130: target_variables: ['NR CALPELLA FLOW COE CPL']
+2026-01-28 15:35:07,130: clip_targets_to_zero: [['NR CALPELLA FLOW COE CPL']]
+2026-01-28 15:35:07,131: train_start_date: 01/01/1900
+2026-01-28 15:35:07,131: train_end_date: 01/01/1901
+2026-01-28 15:35:07,131: validation_start_date: 01/01/1900
+2026-01-28 15:35:07,131: validation_end_date: 01/01/1901
+2026-01-28 15:35:07,131: test_start_date: 01/01/1900
+2026-01-28 15:35:07,131: test_end_date: 01/01/1901
+2026-01-28 15:35:07,132: num_layers: 1
+2026-01-28 15:35:07,132: hourly: True
+2026-01-28 15:35:07,132: is_mts: True
+2026-01-28 15:35:07,132: is_mts_data: False
+2026-01-28 15:35:07,132: verbose: True
+2026-01-28 15:35:07,132: run_dir: /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/calpella/mts_shared/runs/BASELINE_20260128T233507Z/testing_run_2801_153507
+2026-01-28 15:35:07,133: run_label: BASELINE
+2026-01-28 15:35:07,133: run_stamp: 20260128T233507Z
+2026-01-28 15:35:07,133: number_of_basins: 1
+2026-01-28 15:35:07,133: train_dir: /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/calpella/mts_shared/runs/BASELINE_20260128T233507Z/testing_run_2801_153507/train_data
+2026-01-28 15:35:07,133: img_log_dir: /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/calpella/mts_shared/runs/BASELINE_20260128T233507Z/testing_run_2801_153507/img_log
+2026-01-28 15:35:07,137: ### Device cpu will be used for training
+2026-01-28 15:35:07,137: Loading basin data into xarray data set.
+2026-01-28 15:35:08,010: Calculating target variable stds per basin
+2026-01-28 15:35:08,019: Create lookup table and convert to pytorch tensor
+2026-01-28 15:35:08,577: No specific hidden size for frequencies are specified. Same hidden size is used for all.
+2026-01-28 15:35:18,696: Epoch 1 average loss: avg_loss: 0.00001, avg_total_loss: 0.00001
+2026-01-28 15:35:28,196: Epoch 2 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2026-01-28 15:35:28,212: Logging to /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/calpella/mts_shared/runs/BASELINE_20260128T233507Z/testing_run_2801_153507/testing_run_2801_153528/output.log initialized.
+2026-01-28 15:35:28,212: ### Folder structure created at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/calpella/mts_shared/runs/BASELINE_20260128T233507Z/testing_run_2801_153507/testing_run_2801_153528
+2026-01-28 15:35:28,213: ### Run configurations for testing_run
+2026-01-28 15:35:28,213: experiment_name: testing_run
+2026-01-28 15:35:28,213: train_basin_file: calpella
+2026-01-28 15:35:28,213: validation_basin_file: calpella
+2026-01-28 15:35:28,213: test_basin_file: calpella
+2026-01-28 15:35:28,214: train_ranges: ['01/10/1994-30/09/1995', '01/10/1995-30/09/1996', '01/10/1996-30/09/1997', '01/10/1997-30/09/1998', '01/10/1998-30/09/1999', '01/10/2002-30/09/2003', '01/10/2003-30/09/2004', '01/10/2004-30/09/2005']
+2026-01-28 15:35:28,214: validation_ranges: ['01/10/2005-30/09/2006', '01/10/2007-30/09/2008', '01/10/2008-30/09/2009']
+2026-01-28 15:35:28,214: test_ranges: ['01/10/1999-30/09/2000', '01/10/2000-30/09/2001', '01/10/2001-30/09/2002', '01/10/2006-30/09/2007']
+2026-01-28 15:35:28,214: device: cpu
+2026-01-28 15:35:28,214: physics_informed: False
+2026-01-28 15:35:28,214: physics_data_file: None
+2026-01-28 15:35:28,215: validate_every: 5
+2026-01-28 15:35:28,215: validate_n_random_basins: 1
+2026-01-28 15:35:28,215: save_validation_results: True
+2026-01-28 15:35:28,215: metrics: ['NSE', 'MSE']
+2026-01-28 15:35:28,215: model: mtslstm
+2026-01-28 15:35:28,215: shared_mtslstm: False
+2026-01-28 15:35:28,216: transfer_mtslstm_states: {'h': 'linear', 'c': 'linear'}
+2026-01-28 15:35:28,216: use_frequencies: ['1H', '1D']
+2026-01-28 15:35:28,216: head: regression
+2026-01-28 15:35:28,216: output_activation: linear
+2026-01-28 15:35:28,216: hidden_size: 256
+2026-01-28 15:35:28,216: initial_forget_bias: 3
+2026-01-28 15:35:28,216: output_dropout: 0.4
+2026-01-28 15:35:28,217: optimizer: Adam
+2026-01-28 15:35:28,217: loss: NSE
+2026-01-28 15:35:28,217: learning_rate: {0: 0.01, 8: 0.005, 12: 0.001}
+2026-01-28 15:35:28,217: batch_size: 64
+2026-01-28 15:35:28,217: epochs: 2
+2026-01-28 15:35:28,217: clip_gradient_norm: 1
+2026-01-28 15:35:28,217: predict_last_n: {'1D': 1, '1H': 24}
+2026-01-28 15:35:28,218: seq_length: {'1D': 90, '1H': 336}
+2026-01-28 15:35:28,218: log_interval: 16
+2026-01-28 15:35:28,218: log_tensorboard: True
+2026-01-28 15:35:28,218: log_n_figures: 1
+2026-01-28 15:35:28,218: save_weights_every: 2
+2026-01-28 15:35:28,218: dataset: synthetic_russian_river
+2026-01-28 15:35:28,219: data_dir: /Users/maxwellfung/UCB-USACE-RR-PROJECT/russian_river_data
+2026-01-28 15:35:28,219: dev_mode: True
+2026-01-28 15:35:28,219: dynamic_inputs: {'1D': ['EF RUSSIAN 20 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'EF RUSSIAN 20 PRECIP-INC SCREENED', 'POTTER VALLEY CA FLOW USGS_ADJUSTED', 'UKIAH CA HUMIDITY USAF-NOAA', 'UKIAH CA SOLAR RADIATION USAF-NOAA', 'UKIAH CA TEMPERATURE USAF-NOAA', 'UKIAH CA WINDSPEED USAF-NOAA'], '1H': ['EF RUSSIAN 20 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'EF RUSSIAN 20 PRECIP-INC SCREENED', 'POTTER VALLEY CA FLOW USGS_ADJUSTED', 'UKIAH CA HUMIDITY USAF-NOAA', 'UKIAH CA SOLAR RADIATION USAF-NOAA', 'UKIAH CA TEMPERATURE USAF-NOAA', 'UKIAH CA WINDSPEED USAF-NOAA']}
+2026-01-28 15:35:28,219: target_variables: ['NR CALPELLA FLOW COE CPL']
+2026-01-28 15:35:28,219: clip_targets_to_zero: [['NR CALPELLA FLOW COE CPL']]
+2026-01-28 15:35:28,219: train_start_date: 2200-01-01 00:00:00
+2026-01-28 15:35:28,219: train_end_date: 2207-12-31 00:00:00
+2026-01-28 15:35:28,220: validation_start_date: 2200-01-01 00:00:00
+2026-01-28 15:35:28,220: validation_end_date: 2202-12-31 00:00:00
+2026-01-28 15:35:28,220: test_start_date: 2200-01-01 00:00:00
+2026-01-28 15:35:28,220: test_end_date: 2203-12-31 00:00:00
+2026-01-28 15:35:28,220: num_layers: 1
+2026-01-28 15:35:28,220: hourly: True
+2026-01-28 15:35:28,220: is_mts: True
+2026-01-28 15:35:28,220: is_mts_data: False
+2026-01-28 15:35:28,221: verbose: True
+2026-01-28 15:35:28,221: run_dir: /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/calpella/mts_shared/runs/BASELINE_20260128T233507Z/testing_run_2801_153507/testing_run_2801_153528
+2026-01-28 15:35:28,221: run_label: BASELINE
+2026-01-28 15:35:28,221: run_stamp: 20260128T233507Z
+2026-01-28 15:35:28,221: number_of_basins: 1
+2026-01-28 15:35:28,221: train_dir: /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/calpella/mts_shared/runs/BASELINE_20260128T233507Z/testing_run_2801_153507/testing_run_2801_153528/train_data
+2026-01-28 15:35:28,221: img_log_dir: /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/calpella/mts_shared/runs/BASELINE_20260128T233507Z/testing_run_2801_153507/testing_run_2801_153528/img_log
+2026-01-28 15:35:28,222: seed: 653394
+2026-01-28 15:35:28,222: commit_hash: 588832d
+2026-01-28 15:35:28,222: package_version: 1.11.0
+2026-01-28 15:35:28,226: ### Device cpu will be used for training
+2026-01-28 15:35:28,227: Loading basin data into xarray data set.
+2026-01-28 15:35:29,170: Calculating target variable stds per basin
+2026-01-28 15:35:29,178: Create lookup table and convert to pytorch tensor
+2026-01-28 15:35:29,210: No specific hidden size for frequencies are specified. Same hidden size is used for all.
+2026-01-28 15:35:39,024: Epoch 1 average loss: avg_loss: 0.00001, avg_total_loss: 0.00001
+2026-01-28 15:35:48,910: Epoch 2 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2026-01-28 15:35:48,923: Logging to /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/calpella/mts_shared/runs/BASELINE_20260128T233507Z/testing_run_2801_153507/testing_run_2801_153528/testing_run_2801_153548/output.log initialized.
+2026-01-28 15:35:48,923: ### Folder structure created at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/calpella/mts_shared/runs/BASELINE_20260128T233507Z/testing_run_2801_153507/testing_run_2801_153528/testing_run_2801_153548
+2026-01-28 15:35:48,923: ### Run configurations for testing_run
+2026-01-28 15:35:48,924: experiment_name: testing_run
+2026-01-28 15:35:48,924: train_basin_file: calpella
+2026-01-28 15:35:48,924: validation_basin_file: calpella
+2026-01-28 15:35:48,924: test_basin_file: calpella
+2026-01-28 15:35:48,924: train_ranges: ['01/10/1994-30/09/1995', '01/10/1995-30/09/1996', '01/10/1996-30/09/1997', '01/10/1997-30/09/1998', '01/10/1998-30/09/1999', '01/10/2002-30/09/2003', '01/10/2003-30/09/2004', '01/10/2004-30/09/2005']
+2026-01-28 15:35:48,924: validation_ranges: ['01/10/2005-30/09/2006', '01/10/2007-30/09/2008', '01/10/2008-30/09/2009']
+2026-01-28 15:35:48,925: test_ranges: ['01/10/1999-30/09/2000', '01/10/2000-30/09/2001', '01/10/2001-30/09/2002', '01/10/2006-30/09/2007']
+2026-01-28 15:35:48,925: device: cpu
+2026-01-28 15:35:48,925: physics_informed: False
+2026-01-28 15:35:48,925: physics_data_file: None
+2026-01-28 15:35:48,925: validate_every: 5
+2026-01-28 15:35:48,925: validate_n_random_basins: 1
+2026-01-28 15:35:48,926: save_validation_results: True
+2026-01-28 15:35:48,926: metrics: ['NSE', 'MSE']
+2026-01-28 15:35:48,926: model: mtslstm
+2026-01-28 15:35:48,926: shared_mtslstm: False
+2026-01-28 15:35:48,926: transfer_mtslstm_states: {'h': 'linear', 'c': 'linear'}
+2026-01-28 15:35:48,926: use_frequencies: ['1H', '1D']
+2026-01-28 15:35:48,927: head: regression
+2026-01-28 15:35:48,927: output_activation: linear
+2026-01-28 15:35:48,927: hidden_size: 256
+2026-01-28 15:35:48,927: initial_forget_bias: 3
+2026-01-28 15:35:48,927: output_dropout: 0.4
+2026-01-28 15:35:48,927: optimizer: Adam
+2026-01-28 15:35:48,927: loss: NSE
+2026-01-28 15:35:48,928: learning_rate: {0: 0.01, 8: 0.005, 12: 0.001}
+2026-01-28 15:35:48,928: batch_size: 64
+2026-01-28 15:35:48,928: epochs: 2
+2026-01-28 15:35:48,928: clip_gradient_norm: 1
+2026-01-28 15:35:48,928: predict_last_n: {'1D': 1, '1H': 24}
+2026-01-28 15:35:48,928: seq_length: {'1D': 90, '1H': 336}
+2026-01-28 15:35:48,928: log_interval: 16
+2026-01-28 15:35:48,928: log_tensorboard: True
+2026-01-28 15:35:48,929: log_n_figures: 1
+2026-01-28 15:35:48,929: save_weights_every: 2
+2026-01-28 15:35:48,929: dataset: synthetic_russian_river
+2026-01-28 15:35:48,929: data_dir: /Users/maxwellfung/UCB-USACE-RR-PROJECT/russian_river_data
+2026-01-28 15:35:48,929: dev_mode: True
+2026-01-28 15:35:48,929: dynamic_inputs: {'1D': ['EF RUSSIAN 20 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'EF RUSSIAN 20 PRECIP-INC SCREENED', 'POTTER VALLEY CA FLOW USGS_ADJUSTED', 'UKIAH CA HUMIDITY USAF-NOAA', 'UKIAH CA SOLAR RADIATION USAF-NOAA', 'UKIAH CA TEMPERATURE USAF-NOAA', 'UKIAH CA WINDSPEED USAF-NOAA'], '1H': ['EF RUSSIAN 20 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'EF RUSSIAN 20 PRECIP-INC SCREENED', 'POTTER VALLEY CA FLOW USGS_ADJUSTED', 'UKIAH CA HUMIDITY USAF-NOAA', 'UKIAH CA SOLAR RADIATION USAF-NOAA', 'UKIAH CA TEMPERATURE USAF-NOAA', 'UKIAH CA WINDSPEED USAF-NOAA']}
+2026-01-28 15:35:48,929: target_variables: ['NR CALPELLA FLOW COE CPL']
+2026-01-28 15:35:48,930: clip_targets_to_zero: [['NR CALPELLA FLOW COE CPL']]
+2026-01-28 15:35:48,930: train_start_date: 2200-01-01 00:00:00
+2026-01-28 15:35:48,930: train_end_date: 2207-12-31 00:00:00
+2026-01-28 15:35:48,930: validation_start_date: 2200-01-01 00:00:00
+2026-01-28 15:35:48,930: validation_end_date: 2202-12-31 00:00:00
+2026-01-28 15:35:48,930: test_start_date: 2200-01-01 00:00:00
+2026-01-28 15:35:48,931: test_end_date: 2203-12-31 00:00:00
+2026-01-28 15:35:48,931: num_layers: 1
+2026-01-28 15:35:48,931: hourly: True
+2026-01-28 15:35:48,931: is_mts: True
+2026-01-28 15:35:48,931: is_mts_data: False
+2026-01-28 15:35:48,931: verbose: True
+2026-01-28 15:35:48,931: run_dir: /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/calpella/mts_shared/runs/BASELINE_20260128T233507Z/testing_run_2801_153507/testing_run_2801_153528/testing_run_2801_153548
+2026-01-28 15:35:48,932: run_label: BASELINE
+2026-01-28 15:35:48,932: run_stamp: 20260128T233507Z
+2026-01-28 15:35:48,932: number_of_basins: 1
+2026-01-28 15:35:48,932: train_dir: /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/calpella/mts_shared/runs/BASELINE_20260128T233507Z/testing_run_2801_153507/testing_run_2801_153528/testing_run_2801_153548/train_data
+2026-01-28 15:35:48,932: img_log_dir: /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/calpella/mts_shared/runs/BASELINE_20260128T233507Z/testing_run_2801_153507/testing_run_2801_153528/testing_run_2801_153548/img_log
+2026-01-28 15:35:48,932: seed: 653394
+2026-01-28 15:35:48,932: commit_hash: 588832d
+2026-01-28 15:35:48,932: package_version: 1.11.0
+2026-01-28 15:35:48,934: ### Device cpu will be used for training
+2026-01-28 15:35:48,934: Loading basin data into xarray data set.
+2026-01-28 15:35:49,909: Calculating target variable stds per basin
+2026-01-28 15:35:49,916: Create lookup table and convert to pytorch tensor
+2026-01-28 15:35:49,946: No specific hidden size for frequencies are specified. Same hidden size is used for all.
+2026-01-28 15:35:59,615: Epoch 1 average loss: avg_loss: 0.00001, avg_total_loss: 0.00001
+2026-01-28 15:36:09,187: Epoch 2 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2026-01-28 15:36:09,201: Logging to /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/calpella/mts_shared/runs/BASELINE_20260128T233507Z/testing_run_2801_153507/testing_run_2801_153528/testing_run_2801_153548/testing_run_2801_153609/output.log initialized.
+2026-01-28 15:36:09,201: ### Folder structure created at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/calpella/mts_shared/runs/BASELINE_20260128T233507Z/testing_run_2801_153507/testing_run_2801_153528/testing_run_2801_153548/testing_run_2801_153609
+2026-01-28 15:36:09,201: ### Run configurations for testing_run
+2026-01-28 15:36:09,202: experiment_name: testing_run
+2026-01-28 15:36:09,202: train_basin_file: calpella
+2026-01-28 15:36:09,202: validation_basin_file: calpella
+2026-01-28 15:36:09,202: test_basin_file: calpella
+2026-01-28 15:36:09,202: train_ranges: ['01/10/1994-30/09/1995', '01/10/1995-30/09/1996', '01/10/1996-30/09/1997', '01/10/1997-30/09/1998', '01/10/1998-30/09/1999', '01/10/2002-30/09/2003', '01/10/2003-30/09/2004', '01/10/2004-30/09/2005']
+2026-01-28 15:36:09,203: validation_ranges: ['01/10/2005-30/09/2006', '01/10/2007-30/09/2008', '01/10/2008-30/09/2009']
+2026-01-28 15:36:09,203: test_ranges: ['01/10/1999-30/09/2000', '01/10/2000-30/09/2001', '01/10/2001-30/09/2002', '01/10/2006-30/09/2007']
+2026-01-28 15:36:09,203: device: cpu
+2026-01-28 15:36:09,203: physics_informed: False
+2026-01-28 15:36:09,203: physics_data_file: None
+2026-01-28 15:36:09,203: validate_every: 5
+2026-01-28 15:36:09,204: validate_n_random_basins: 1
+2026-01-28 15:36:09,204: save_validation_results: True
+2026-01-28 15:36:09,204: metrics: ['NSE', 'MSE']
+2026-01-28 15:36:09,204: model: mtslstm
+2026-01-28 15:36:09,204: shared_mtslstm: False
+2026-01-28 15:36:09,204: transfer_mtslstm_states: {'h': 'linear', 'c': 'linear'}
+2026-01-28 15:36:09,204: use_frequencies: ['1H', '1D']
+2026-01-28 15:36:09,205: head: regression
+2026-01-28 15:36:09,205: output_activation: linear
+2026-01-28 15:36:09,205: hidden_size: 256
+2026-01-28 15:36:09,205: initial_forget_bias: 3
+2026-01-28 15:36:09,205: output_dropout: 0.4
+2026-01-28 15:36:09,205: optimizer: Adam
+2026-01-28 15:36:09,206: loss: NSE
+2026-01-28 15:36:09,206: learning_rate: {0: 0.01, 8: 0.005, 12: 0.001}
+2026-01-28 15:36:09,206: batch_size: 64
+2026-01-28 15:36:09,206: epochs: 2
+2026-01-28 15:36:09,206: clip_gradient_norm: 1
+2026-01-28 15:36:09,206: predict_last_n: {'1D': 1, '1H': 24}
+2026-01-28 15:36:09,207: seq_length: {'1D': 90, '1H': 336}
+2026-01-28 15:36:09,207: log_interval: 16
+2026-01-28 15:36:09,207: log_tensorboard: True
+2026-01-28 15:36:09,207: log_n_figures: 1
+2026-01-28 15:36:09,207: save_weights_every: 2
+2026-01-28 15:36:09,207: dataset: synthetic_russian_river
+2026-01-28 15:36:09,208: data_dir: /Users/maxwellfung/UCB-USACE-RR-PROJECT/russian_river_data
+2026-01-28 15:36:09,208: dev_mode: True
+2026-01-28 15:36:09,208: dynamic_inputs: {'1D': ['EF RUSSIAN 20 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'EF RUSSIAN 20 PRECIP-INC SCREENED', 'POTTER VALLEY CA FLOW USGS_ADJUSTED', 'UKIAH CA HUMIDITY USAF-NOAA', 'UKIAH CA SOLAR RADIATION USAF-NOAA', 'UKIAH CA TEMPERATURE USAF-NOAA', 'UKIAH CA WINDSPEED USAF-NOAA'], '1H': ['EF RUSSIAN 20 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'EF RUSSIAN 20 PRECIP-INC SCREENED', 'POTTER VALLEY CA FLOW USGS_ADJUSTED', 'UKIAH CA HUMIDITY USAF-NOAA', 'UKIAH CA SOLAR RADIATION USAF-NOAA', 'UKIAH CA TEMPERATURE USAF-NOAA', 'UKIAH CA WINDSPEED USAF-NOAA']}
+2026-01-28 15:36:09,208: target_variables: ['NR CALPELLA FLOW COE CPL']
+2026-01-28 15:36:09,208: clip_targets_to_zero: [['NR CALPELLA FLOW COE CPL']]
+2026-01-28 15:36:09,208: train_start_date: 2200-01-01 00:00:00
+2026-01-28 15:36:09,209: train_end_date: 2207-12-31 00:00:00
+2026-01-28 15:36:09,209: validation_start_date: 2200-01-01 00:00:00
+2026-01-28 15:36:09,209: validation_end_date: 2202-12-31 00:00:00
+2026-01-28 15:36:09,209: test_start_date: 2200-01-01 00:00:00
+2026-01-28 15:36:09,209: test_end_date: 2203-12-31 00:00:00
+2026-01-28 15:36:09,209: num_layers: 1
+2026-01-28 15:36:09,209: hourly: True
+2026-01-28 15:36:09,210: is_mts: True
+2026-01-28 15:36:09,210: is_mts_data: False
+2026-01-28 15:36:09,210: verbose: True
+2026-01-28 15:36:09,210: run_dir: /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/calpella/mts_shared/runs/BASELINE_20260128T233507Z/testing_run_2801_153507/testing_run_2801_153528/testing_run_2801_153548/testing_run_2801_153609
+2026-01-28 15:36:09,210: run_label: BASELINE
+2026-01-28 15:36:09,211: run_stamp: 20260128T233507Z
+2026-01-28 15:36:09,211: number_of_basins: 1
+2026-01-28 15:36:09,212: train_dir: /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/calpella/mts_shared/runs/BASELINE_20260128T233507Z/testing_run_2801_153507/testing_run_2801_153528/testing_run_2801_153548/testing_run_2801_153609/train_data
+2026-01-28 15:36:09,212: img_log_dir: /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/calpella/mts_shared/runs/BASELINE_20260128T233507Z/testing_run_2801_153507/testing_run_2801_153528/testing_run_2801_153548/testing_run_2801_153609/img_log
+2026-01-28 15:36:09,212: seed: 653394
+2026-01-28 15:36:09,213: commit_hash: 588832d
+2026-01-28 15:36:09,213: package_version: 1.11.0
+2026-01-28 15:36:09,216: ### Device cpu will be used for training
+2026-01-28 15:36:09,217: Loading basin data into xarray data set.
+2026-01-28 15:36:10,135: Calculating target variable stds per basin
+2026-01-28 15:36:10,141: Create lookup table and convert to pytorch tensor
+2026-01-28 15:36:10,172: No specific hidden size for frequencies are specified. Same hidden size is used for all.

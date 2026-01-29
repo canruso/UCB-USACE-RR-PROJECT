@@ -1,0 +1,197 @@
+batch_size: 64
+clip_gradient_norm: 1
+clip_targets_to_zero:
+- - NR GUERNEVILLE FLOW COE GRN
+commit_hash: 994040c
+data_dir: /Users/maxwellfung/UCB-USACE-RR-PROJECT/russian_river_data
+dataset: russian_river
+dev_mode: true
+device: cpu
+dynamic_inputs:
+- BIG SULPHUR CR ET-POTENTIAL RUN:BASIN AVERAGE 60 YR
+- DRY CREEK 10 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR
+- EF RUSSIAN 20 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR
+- GREEN VALLEY ET-POTENTIAL RUN:BASIN AVERAGE 60 YR
+- LAGUNA ET-POTENTIAL RUN:BASIN AVERAGE 60 YR
+- RUSSIAN 20 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR
+- RUSSIAN 30 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR
+- RUSSIAN 40 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR
+- RUSSIAN 50 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR
+- RUSSIAN 60 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR
+- RUSSIAN 70 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR
+- SANTA ROSA CR 10 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR
+- SANTA ROSA CR 20 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR
+- WF RUSSIAN ET-POTENTIAL RUN:BASIN AVERAGE 60 YR
+- BIG SULPHUR CR PRECIP-INC SCREENED
+- DRY CREEK 10 PRECIP-INC SCREENED
+- EF RUSSIAN 20 PRECIP-INC SCREENED
+- GREEN VALLEY PRECIP-INC SCREENED
+- LAGUNA PRECIP-INC SCREENED
+- RUSSIAN 20 PRECIP-INC SCREENED
+- RUSSIAN 30 PRECIP-INC SCREENED
+- RUSSIAN 40 PRECIP-INC SCREENED
+- RUSSIAN 50 PRECIP-INC SCREENED
+- RUSSIAN 60 PRECIP-INC SCREENED
+- RUSSIAN 70 PRECIP-INC SCREENED
+- SANTA ROSA CR 10 PRECIP-INC SCREENED
+- SANTA ROSA CR 20 PRECIP-INC SCREENED
+- WF RUSSIAN PRECIP-INC SCREENED
+- UKIAH CA HUMIDITY USAF-NOAA
+- UKIAH CA SOLAR RADIATION USAF-NOAA
+- UKIAH CA TEMPERATURE USAF-NOAA
+- UKIAH CA WINDSPEED USAF-NOAA
+- SANTA ROSA CA HUMIDITY USAF-NOAA
+- SANTA ROSA CA SOLAR RADIATION USAF-NOAA
+- SANTA ROSA CA TEMPERATURE USAF-NOAA
+- SANTA ROSA CA WINDSPEED USAF-NOAA
+- UKIAH CA FLOW USGS-MERGED
+- GEYSERVILLE CA FLOW USGS-MERGED
+- Guerneville Gage FLOW
+- Big Sulphur Cr ET-POTENTIAL
+- Big Sulphur Cr FLOW
+- Big Sulphur Cr FLOW-BASE
+- Big Sulphur Cr INFILTRATION
+- Big Sulphur Cr PERC-SOIL
+- Big Sulphur Cr SATURATION FRACTION
+- Dry Creek 10 ET-POTENTIAL
+- Dry Creek 10 FLOW
+- Dry Creek 10 FLOW-BASE
+- Dry Creek 10 INFILTRATION
+- Dry Creek 10 PERC-SOIL
+- Dry Creek 10 SATURATION FRACTION
+- Green Valley ET-POTENTIAL
+- Green Valley FLOW
+- Green Valley FLOW-BASE
+- Green Valley INFILTRATION
+- Green Valley PERC-SOIL
+- Green Valley SATURATION FRACTION
+- Laguna ET-POTENTIAL
+- Laguna FLOW
+- Laguna FLOW-BASE
+- Laguna INFILTRATION
+- Laguna PERC-SOIL
+- Laguna SATURATION FRACTION
+- Russian 20 ET-POTENTIAL
+- Russian 20 FLOW
+- Russian 20 FLOW-BASE
+- Russian 20 INFILTRATION
+- Russian 20 PERC-SOIL
+- Russian 20 SATURATION FRACTION
+- Russian 30 ET-POTENTIAL
+- Russian 30 FLOW
+- Russian 30 FLOW-BASE
+- Russian 30 INFILTRATION
+- Russian 30 PERC-SOIL
+- Russian 30 SATURATION FRACTION
+- Russian 40 ET-POTENTIAL
+- Russian 40 FLOW
+- Russian 40 FLOW-BASE
+- Russian 40 INFILTRATION
+- Russian 40 PERC-SOIL
+- Russian 40 SATURATION FRACTION
+- Russian 50 ET-POTENTIAL
+- Russian 50 FLOW
+- Russian 50 FLOW-BASE
+- Russian 50 INFILTRATION
+- Russian 50 PERC-SOIL
+- Russian 50 SATURATION FRACTION
+- Russian 60 ET-POTENTIAL
+- Russian 60 FLOW
+- Russian 60 FLOW-BASE
+- Russian 60 INFILTRATION
+- Russian 60 PERC-SOIL
+- Russian 60 SATURATION FRACTION
+- Russian 70 ET-POTENTIAL
+- Russian 70 FLOW
+- Russian 70 FLOW-BASE
+- Russian 70 INFILTRATION
+- Russian 70 PERC-SOIL
+- Russian 70 SATURATION FRACTION
+- Santa Rosa Cr 10 ET-POTENTIAL
+- Santa Rosa Cr 10 FLOW
+- Santa Rosa Cr 10 FLOW-BASE
+- Santa Rosa Cr 10 INFILTRATION
+- Santa Rosa Cr 10 PERC-SOIL
+- Santa Rosa Cr 10 SATURATION FRACTION
+- Santa Rosa Cr 20 ET-POTENTIAL
+- Santa Rosa Cr 20 FLOW
+- Santa Rosa Cr 20 FLOW-BASE
+- Santa Rosa Cr 20 INFILTRATION
+- Santa Rosa Cr 20 PERC-SOIL
+- Santa Rosa Cr 20 SATURATION FRACTION
+- WF Russian ET-POTENTIAL
+- WF Russian FLOW
+- WF Russian FLOW-BASE
+- WF Russian INFILTRATION
+- WF Russian PERC-SOIL
+- WF Russian SATURATION FRACTION
+epochs: 2
+experiment_name: testing_run
+head: regression
+hidden_size: 128
+hourly: true
+img_log_dir: 
+  /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251121T100502Z/testing_run_2111_021907/testing_run_2111_021925/img_log
+initial_forget_bias: 3
+is_mts: true
+is_mts_data: false
+learning_rate:
+  0: 0.01
+  24: 0.005
+  36: 0.001
+log_interval: 16
+log_n_figures: 1
+log_tensorboard: true
+loss: NSE
+metrics:
+- NSE
+- MSE
+model: mtslstm
+num_layers: 1
+number_of_basins: 1
+optimizer: Adam
+output_activation: linear
+output_dropout: 0.4
+package_version: 1.11.0
+physics_data_file: 
+  /Users/maxwellfung/UCB-USACE-RR-PROJECT/russian_river_data/Guerneville_hourly.csv
+physics_informed: true
+predict_last_n:
+  1D: 1
+  1H: 24
+run_dir: 
+  /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251121T100502Z/testing_run_2111_021907/testing_run_2111_021925
+run_label: BASELINE
+run_stamp: 20251121T100502Z
+save_validation_results: true
+save_weights_every: 2
+seed: 805341
+seq_length:
+  1D: 90
+  1H: 168
+shared_mtslstm: false
+target_variables:
+- NR GUERNEVILLE FLOW COE GRN
+test_basin_file: 
+  /Users/maxwellfung/UCB-USACE-RR-PROJECT/notebooks/basins/guerneville/guerneville
+test_end_date: 30/09/2009
+test_start_date: 01/10/2005
+train_basin_file: 
+  /Users/maxwellfung/UCB-USACE-RR-PROJECT/notebooks/basins/guerneville/guerneville
+train_dir: 
+  /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251121T100502Z/testing_run_2111_021907/testing_run_2111_021925/train_data
+train_end_date: 30/09/2005
+train_start_date: 01/10/1994
+transfer_mtslstm_states:
+  h: linear
+  c: linear
+use_frequencies:
+- 1H
+- 1D
+validate_every: 5
+validate_n_random_basins: 1
+validation_basin_file: 
+  /Users/maxwellfung/UCB-USACE-RR-PROJECT/notebooks/basins/guerneville/guerneville
+validation_end_date: 30/09/2005
+validation_start_date: 01/10/2002
+verbose: true

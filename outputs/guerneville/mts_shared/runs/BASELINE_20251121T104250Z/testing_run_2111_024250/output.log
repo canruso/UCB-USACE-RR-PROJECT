@@ -1,0 +1,294 @@
+2025-11-21 02:42:50,459: Logging to /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251121T104250Z/testing_run_2111_024250/output.log initialized.
+2025-11-21 02:42:50,460: ### Folder structure created at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251121T104250Z/testing_run_2111_024250
+2025-11-21 02:42:50,460: ### Run configurations for testing_run
+2025-11-21 02:42:50,460: experiment_name: testing_run
+2025-11-21 02:42:50,460: train_basin_file: guerneville
+2025-11-21 02:42:50,461: validation_basin_file: guerneville
+2025-11-21 02:42:50,461: test_basin_file: guerneville
+2025-11-21 02:42:50,461: train_ranges: ['01/10/2002-30/09/2005']
+2025-11-21 02:42:50,461: validation_ranges: ['01/10/1994-30/09/2002']
+2025-11-21 02:42:50,461: test_ranges: ['01/10/2005-30/09/2009']
+2025-11-21 02:42:50,461: device: cpu
+2025-11-21 02:42:50,462: physics_informed: False
+2025-11-21 02:42:50,462: physics_data_file: None
+2025-11-21 02:42:50,462: validate_every: 5
+2025-11-21 02:42:50,462: validate_n_random_basins: 1
+2025-11-21 02:42:50,462: save_validation_results: True
+2025-11-21 02:42:50,463: metrics: ['NSE', 'MSE']
+2025-11-21 02:42:50,463: model: mtslstm
+2025-11-21 02:42:50,463: shared_mtslstm: False
+2025-11-21 02:42:50,463: transfer_mtslstm_states: {'h': 'linear', 'c': 'linear'}
+2025-11-21 02:42:50,463: use_frequencies: ['1H', '1D']
+2025-11-21 02:42:50,463: head: regression
+2025-11-21 02:42:50,464: output_activation: linear
+2025-11-21 02:42:50,464: hidden_size: 256
+2025-11-21 02:42:50,464: initial_forget_bias: 3
+2025-11-21 02:42:50,464: output_dropout: 0.4
+2025-11-21 02:42:50,464: optimizer: Adam
+2025-11-21 02:42:50,464: loss: NSE
+2025-11-21 02:42:50,465: learning_rate: {0: 0.01, 24: 0.005, 36: 0.001}
+2025-11-21 02:42:50,465: batch_size: 64
+2025-11-21 02:42:50,465: epochs: 2
+2025-11-21 02:42:50,465: clip_gradient_norm: 1
+2025-11-21 02:42:50,465: predict_last_n: {'1D': 1, '1H': 24}
+2025-11-21 02:42:50,465: seq_length: {'1D': 90, '1H': 168}
+2025-11-21 02:42:50,466: log_interval: 16
+2025-11-21 02:42:50,466: log_tensorboard: True
+2025-11-21 02:42:50,466: log_n_figures: 1
+2025-11-21 02:42:50,466: save_weights_every: 2
+2025-11-21 02:42:50,466: dataset: synthetic_russian_river
+2025-11-21 02:42:50,467: data_dir: /Users/maxwellfung/UCB-USACE-RR-PROJECT/russian_river_data
+2025-11-21 02:42:50,467: dev_mode: True
+2025-11-21 02:42:50,467: dynamic_inputs: {'1D': ['BIG SULPHUR CR ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'DRY CREEK 10 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'EF RUSSIAN 20 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'GREEN VALLEY ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'LAGUNA ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'RUSSIAN 20 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'RUSSIAN 30 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'RUSSIAN 40 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'RUSSIAN 50 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'RUSSIAN 60 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'RUSSIAN 70 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'SANTA ROSA CR 10 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'SANTA ROSA CR 20 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'WF RUSSIAN ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'BIG SULPHUR CR PRECIP-INC SCREENED', 'DRY CREEK 10 PRECIP-INC SCREENED', 'EF RUSSIAN 20 PRECIP-INC SCREENED', 'GREEN VALLEY PRECIP-INC SCREENED', 'LAGUNA PRECIP-INC SCREENED', 'RUSSIAN 20 PRECIP-INC SCREENED', 'RUSSIAN 30 PRECIP-INC SCREENED', 'RUSSIAN 40 PRECIP-INC SCREENED', 'RUSSIAN 50 PRECIP-INC SCREENED', 'RUSSIAN 60 PRECIP-INC SCREENED', 'RUSSIAN 70 PRECIP-INC SCREENED', 'SANTA ROSA CR 10 PRECIP-INC SCREENED', 'SANTA ROSA CR 20 PRECIP-INC SCREENED', 'WF RUSSIAN PRECIP-INC SCREENED', 'UKIAH CA HUMIDITY USAF-NOAA', 'UKIAH CA SOLAR RADIATION USAF-NOAA', 'UKIAH CA TEMPERATURE USAF-NOAA', 'UKIAH CA WINDSPEED USAF-NOAA', 'SANTA ROSA CA HUMIDITY USAF-NOAA', 'SANTA ROSA CA SOLAR RADIATION USAF-NOAA', 'SANTA ROSA CA TEMPERATURE USAF-NOAA', 'SANTA ROSA CA WINDSPEED USAF-NOAA', 'UKIAH CA FLOW USGS-MERGED', 'GEYSERVILLE CA FLOW USGS-MERGED'], '1H': ['BIG SULPHUR CR ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'DRY CREEK 10 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'EF RUSSIAN 20 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'GREEN VALLEY ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'LAGUNA ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'RUSSIAN 20 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'RUSSIAN 30 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'RUSSIAN 40 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'RUSSIAN 50 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'RUSSIAN 60 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'RUSSIAN 70 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'SANTA ROSA CR 10 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'SANTA ROSA CR 20 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'WF RUSSIAN ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'BIG SULPHUR CR PRECIP-INC SCREENED', 'DRY CREEK 10 PRECIP-INC SCREENED', 'EF RUSSIAN 20 PRECIP-INC SCREENED', 'GREEN VALLEY PRECIP-INC SCREENED', 'LAGUNA PRECIP-INC SCREENED', 'RUSSIAN 20 PRECIP-INC SCREENED', 'RUSSIAN 30 PRECIP-INC SCREENED', 'RUSSIAN 40 PRECIP-INC SCREENED', 'RUSSIAN 50 PRECIP-INC SCREENED', 'RUSSIAN 60 PRECIP-INC SCREENED', 'RUSSIAN 70 PRECIP-INC SCREENED', 'SANTA ROSA CR 10 PRECIP-INC SCREENED', 'SANTA ROSA CR 20 PRECIP-INC SCREENED', 'WF RUSSIAN PRECIP-INC SCREENED', 'UKIAH CA HUMIDITY USAF-NOAA', 'UKIAH CA SOLAR RADIATION USAF-NOAA', 'UKIAH CA TEMPERATURE USAF-NOAA', 'UKIAH CA WINDSPEED USAF-NOAA', 'SANTA ROSA CA HUMIDITY USAF-NOAA', 'SANTA ROSA CA SOLAR RADIATION USAF-NOAA', 'SANTA ROSA CA TEMPERATURE USAF-NOAA', 'SANTA ROSA CA WINDSPEED USAF-NOAA', 'UKIAH CA FLOW USGS-MERGED', 'GEYSERVILLE CA FLOW USGS-MERGED']}
+2025-11-21 02:42:50,467: target_variables: ['NR GUERNEVILLE FLOW COE GRN']
+2025-11-21 02:42:50,467: clip_targets_to_zero: [['NR GUERNEVILLE FLOW COE GRN']]
+2025-11-21 02:42:50,467: train_start_date: 01/01/1900
+2025-11-21 02:42:50,468: train_end_date: 01/01/1901
+2025-11-21 02:42:50,468: validation_start_date: 01/01/1900
+2025-11-21 02:42:50,468: validation_end_date: 01/01/1901
+2025-11-21 02:42:50,468: test_start_date: 01/01/1900
+2025-11-21 02:42:50,468: test_end_date: 01/01/1901
+2025-11-21 02:42:50,468: num_layers: 1
+2025-11-21 02:42:50,469: hourly: True
+2025-11-21 02:42:50,469: is_mts: True
+2025-11-21 02:42:50,469: is_mts_data: False
+2025-11-21 02:42:50,469: verbose: True
+2025-11-21 02:42:50,469: run_dir: /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251121T104250Z/testing_run_2111_024250
+2025-11-21 02:42:50,470: run_label: BASELINE
+2025-11-21 02:42:50,470: run_stamp: 20251121T104250Z
+2025-11-21 02:42:50,470: number_of_basins: 1
+2025-11-21 02:42:50,470: train_dir: /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251121T104250Z/testing_run_2111_024250/train_data
+2025-11-21 02:42:50,470: img_log_dir: /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251121T104250Z/testing_run_2111_024250/img_log
+2025-11-21 02:42:50,474: ### Device cpu will be used for training
+2025-11-21 02:42:50,477: Loading basin data into xarray data set.
+2025-11-21 02:42:51,538: Calculating target variable stds per basin
+2025-11-21 02:42:51,560: Create lookup table and convert to pytorch tensor
+2025-11-21 02:42:52,450: No specific hidden size for frequencies are specified. Same hidden size is used for all.
+2025-11-21 02:42:57,081: Epoch 1 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-21 02:43:00,676: Epoch 2 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-21 02:43:00,735: No specific hidden size for frequencies are specified. Same hidden size is used for all.
+2025-11-21 02:43:00,753: Using the model weights from /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251121T104250Z/testing_run_2111_024250/model_epoch002.pt
+2025-11-21 02:43:06,344: Stored metrics at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251121T104250Z/testing_run_2111_024250/validation/model_epoch002/validation_metrics.csv
+2025-11-21 02:43:06,345: Stored results at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251121T104250Z/testing_run_2111_024250/validation/model_epoch002/validation_results.p
+2025-11-21 02:43:07,430: Logging to /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251121T104250Z/testing_run_2111_024307/output.log initialized.
+2025-11-21 02:43:07,430: ### Folder structure created at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251121T104250Z/testing_run_2111_024307
+2025-11-21 02:43:07,430: ### Run configurations for testing_run
+2025-11-21 02:43:07,431: experiment_name: testing_run
+2025-11-21 02:43:07,431: train_basin_file: guerneville
+2025-11-21 02:43:07,431: validation_basin_file: guerneville
+2025-11-21 02:43:07,431: test_basin_file: guerneville
+2025-11-21 02:43:07,432: train_ranges: ['01/10/2002-30/09/2005']
+2025-11-21 02:43:07,432: validation_ranges: ['01/10/1994-30/09/2002']
+2025-11-21 02:43:07,432: test_ranges: ['01/10/2005-30/09/2009']
+2025-11-21 02:43:07,432: device: cpu
+2025-11-21 02:43:07,432: physics_informed: True
+2025-11-21 02:43:07,433: physics_data_file: /Users/maxwellfung/UCB-USACE-RR-PROJECT/russian_river_data/Guerneville_hourly.csv
+2025-11-21 02:43:07,433: validate_every: 5
+2025-11-21 02:43:07,433: validate_n_random_basins: 1
+2025-11-21 02:43:07,433: save_validation_results: True
+2025-11-21 02:43:07,433: metrics: ['NSE', 'MSE']
+2025-11-21 02:43:07,434: model: mtslstm
+2025-11-21 02:43:07,434: shared_mtslstm: False
+2025-11-21 02:43:07,434: transfer_mtslstm_states: {'h': 'linear', 'c': 'linear'}
+2025-11-21 02:43:07,434: use_frequencies: ['1H', '1D']
+2025-11-21 02:43:07,434: head: regression
+2025-11-21 02:43:07,434: output_activation: linear
+2025-11-21 02:43:07,435: hidden_size: 128
+2025-11-21 02:43:07,435: initial_forget_bias: 3
+2025-11-21 02:43:07,435: output_dropout: 0.4
+2025-11-21 02:43:07,435: optimizer: Adam
+2025-11-21 02:43:07,435: loss: NSE
+2025-11-21 02:43:07,435: learning_rate: {0: 0.01, 24: 0.005, 36: 0.001}
+2025-11-21 02:43:07,436: batch_size: 64
+2025-11-21 02:43:07,436: epochs: 2
+2025-11-21 02:43:07,436: clip_gradient_norm: 1
+2025-11-21 02:43:07,436: predict_last_n: {'1D': 1, '1H': 24}
+2025-11-21 02:43:07,436: seq_length: {'1D': 90, '1H': 168}
+2025-11-21 02:43:07,437: log_interval: 16
+2025-11-21 02:43:07,437: log_tensorboard: True
+2025-11-21 02:43:07,437: log_n_figures: 1
+2025-11-21 02:43:07,437: save_weights_every: 2
+2025-11-21 02:43:07,437: dataset: synthetic_russian_river
+2025-11-21 02:43:07,437: data_dir: /Users/maxwellfung/UCB-USACE-RR-PROJECT/russian_river_data
+2025-11-21 02:43:07,438: dev_mode: True
+2025-11-21 02:43:07,438: dynamic_inputs: ['BIG SULPHUR CR ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'DRY CREEK 10 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'EF RUSSIAN 20 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'GREEN VALLEY ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'LAGUNA ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'RUSSIAN 20 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'RUSSIAN 30 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'RUSSIAN 40 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'RUSSIAN 50 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'RUSSIAN 60 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'RUSSIAN 70 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'SANTA ROSA CR 10 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'SANTA ROSA CR 20 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'WF RUSSIAN ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'BIG SULPHUR CR PRECIP-INC SCREENED', 'DRY CREEK 10 PRECIP-INC SCREENED', 'EF RUSSIAN 20 PRECIP-INC SCREENED', 'GREEN VALLEY PRECIP-INC SCREENED', 'LAGUNA PRECIP-INC SCREENED', 'RUSSIAN 20 PRECIP-INC SCREENED', 'RUSSIAN 30 PRECIP-INC SCREENED', 'RUSSIAN 40 PRECIP-INC SCREENED', 'RUSSIAN 50 PRECIP-INC SCREENED', 'RUSSIAN 60 PRECIP-INC SCREENED', 'RUSSIAN 70 PRECIP-INC SCREENED', 'SANTA ROSA CR 10 PRECIP-INC SCREENED', 'SANTA ROSA CR 20 PRECIP-INC SCREENED', 'WF RUSSIAN PRECIP-INC SCREENED', 'UKIAH CA HUMIDITY USAF-NOAA', 'UKIAH CA SOLAR RADIATION USAF-NOAA', 'UKIAH CA TEMPERATURE USAF-NOAA', 'UKIAH CA WINDSPEED USAF-NOAA', 'SANTA ROSA CA HUMIDITY USAF-NOAA', 'SANTA ROSA CA SOLAR RADIATION USAF-NOAA', 'SANTA ROSA CA TEMPERATURE USAF-NOAA', 'SANTA ROSA CA WINDSPEED USAF-NOAA', 'UKIAH CA FLOW USGS-MERGED', 'GEYSERVILLE CA FLOW USGS-MERGED', 'Guerneville Gage FLOW', 'Big Sulphur Cr ET-POTENTIAL', 'Big Sulphur Cr FLOW', 'Big Sulphur Cr FLOW-BASE', 'Big Sulphur Cr INFILTRATION', 'Big Sulphur Cr PERC-SOIL', 'Big Sulphur Cr SATURATION FRACTION', 'Dry Creek 10 ET-POTENTIAL', 'Dry Creek 10 FLOW', 'Dry Creek 10 FLOW-BASE', 'Dry Creek 10 INFILTRATION', 'Dry Creek 10 PERC-SOIL', 'Dry Creek 10 SATURATION FRACTION', 'Green Valley ET-POTENTIAL', 'Green Valley FLOW', 'Green Valley FLOW-BASE', 'Green Valley INFILTRATION', 'Green Valley PERC-SOIL', 'Green Valley SATURATION FRACTION', 'Laguna ET-POTENTIAL', 'Laguna FLOW', 'Laguna FLOW-BASE', 'Laguna INFILTRATION', 'Laguna PERC-SOIL', 'Laguna SATURATION FRACTION', 'Russian 20 ET-POTENTIAL', 'Russian 20 FLOW', 'Russian 20 FLOW-BASE', 'Russian 20 INFILTRATION', 'Russian 20 PERC-SOIL', 'Russian 20 SATURATION FRACTION', 'Russian 30 ET-POTENTIAL', 'Russian 30 FLOW', 'Russian 30 FLOW-BASE', 'Russian 30 INFILTRATION', 'Russian 30 PERC-SOIL', 'Russian 30 SATURATION FRACTION', 'Russian 40 ET-POTENTIAL', 'Russian 40 FLOW', 'Russian 40 FLOW-BASE', 'Russian 40 INFILTRATION', 'Russian 40 PERC-SOIL', 'Russian 40 SATURATION FRACTION', 'Russian 50 ET-POTENTIAL', 'Russian 50 FLOW', 'Russian 50 FLOW-BASE', 'Russian 50 INFILTRATION', 'Russian 50 PERC-SOIL', 'Russian 50 SATURATION FRACTION', 'Russian 60 ET-POTENTIAL', 'Russian 60 FLOW', 'Russian 60 FLOW-BASE', 'Russian 60 INFILTRATION', 'Russian 60 PERC-SOIL', 'Russian 60 SATURATION FRACTION', 'Russian 70 ET-POTENTIAL', 'Russian 70 FLOW', 'Russian 70 FLOW-BASE', 'Russian 70 INFILTRATION', 'Russian 70 PERC-SOIL', 'Russian 70 SATURATION FRACTION', 'Santa Rosa Cr 10 ET-POTENTIAL', 'Santa Rosa Cr 10 FLOW', 'Santa Rosa Cr 10 FLOW-BASE', 'Santa Rosa Cr 10 INFILTRATION', 'Santa Rosa Cr 10 PERC-SOIL', 'Santa Rosa Cr 10 SATURATION FRACTION', 'Santa Rosa Cr 20 ET-POTENTIAL', 'Santa Rosa Cr 20 FLOW', 'Santa Rosa Cr 20 FLOW-BASE', 'Santa Rosa Cr 20 INFILTRATION', 'Santa Rosa Cr 20 PERC-SOIL', 'Santa Rosa Cr 20 SATURATION FRACTION', 'WF Russian ET-POTENTIAL', 'WF Russian FLOW', 'WF Russian FLOW-BASE', 'WF Russian INFILTRATION', 'WF Russian PERC-SOIL', 'WF Russian SATURATION FRACTION']
+2025-11-21 02:43:07,438: target_variables: ['NR GUERNEVILLE FLOW COE GRN']
+2025-11-21 02:43:07,438: clip_targets_to_zero: [['NR GUERNEVILLE FLOW COE GRN']]
+2025-11-21 02:43:07,438: train_start_date: 01/01/1900
+2025-11-21 02:43:07,438: train_end_date: 01/01/1901
+2025-11-21 02:43:07,439: validation_start_date: 01/01/1900
+2025-11-21 02:43:07,439: validation_end_date: 01/01/1901
+2025-11-21 02:43:07,439: test_start_date: 01/01/1900
+2025-11-21 02:43:07,439: test_end_date: 01/01/1901
+2025-11-21 02:43:07,439: num_layers: 1
+2025-11-21 02:43:07,440: hourly: True
+2025-11-21 02:43:07,440: is_mts: True
+2025-11-21 02:43:07,440: is_mts_data: False
+2025-11-21 02:43:07,440: verbose: True
+2025-11-21 02:43:07,440: run_dir: /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251121T104250Z/testing_run_2111_024307
+2025-11-21 02:43:07,440: run_label: BASELINE
+2025-11-21 02:43:07,441: run_stamp: 20251121T104250Z
+2025-11-21 02:43:07,441: number_of_basins: 1
+2025-11-21 02:43:07,441: train_dir: /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251121T104250Z/testing_run_2111_024307/train_data
+2025-11-21 02:43:07,441: img_log_dir: /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251121T104250Z/testing_run_2111_024307/img_log
+2025-11-21 02:43:07,449: ### Device cpu will be used for training
+2025-11-21 02:43:07,450: Loading basin data into xarray data set.
+2025-11-21 02:43:11,438: Calculating target variable stds per basin
+2025-11-21 02:43:11,471: Create lookup table and convert to pytorch tensor
+2025-11-21 02:43:11,580: No specific hidden size for frequencies are specified. Same hidden size is used for all.
+2025-11-21 02:43:13,623: Epoch 1 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-21 02:43:15,501: Epoch 2 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-21 02:43:15,513: No specific hidden size for frequencies are specified. Same hidden size is used for all.
+2025-11-21 02:43:15,527: Using the model weights from /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251121T104250Z/testing_run_2111_024307/model_epoch002.pt
+2025-11-21 02:43:22,324: Stored metrics at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251121T104250Z/testing_run_2111_024307/validation/model_epoch002/validation_metrics.csv
+2025-11-21 02:43:22,326: Stored results at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251121T104250Z/testing_run_2111_024307/validation/model_epoch002/validation_results.p
+2025-11-21 02:43:32,449: Logging to /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251121T104250Z/testing_run_2111_024332/output.log initialized.
+2025-11-21 02:43:32,451: ### Folder structure created at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251121T104250Z/testing_run_2111_024332
+2025-11-21 02:43:32,451: ### Run configurations for testing_run
+2025-11-21 02:43:32,451: experiment_name: testing_run
+2025-11-21 02:43:32,451: train_basin_file: /Users/maxwellfung/UCB-USACE-RR-PROJECT/notebooks/basins/guerneville/guerneville
+2025-11-21 02:43:32,451: validation_basin_file: /Users/maxwellfung/UCB-USACE-RR-PROJECT/notebooks/basins/guerneville/guerneville
+2025-11-21 02:43:32,452: test_basin_file: /Users/maxwellfung/UCB-USACE-RR-PROJECT/notebooks/basins/guerneville/guerneville
+2025-11-21 02:43:32,452: train_ranges: ['01/10/2002-30/09/2005']
+2025-11-21 02:43:32,452: validation_ranges: ['01/10/1994-30/09/2002']
+2025-11-21 02:43:32,452: test_ranges: ['01/10/2005-30/09/2009']
+2025-11-21 02:43:32,452: device: cpu
+2025-11-21 02:43:32,453: physics_informed: False
+2025-11-21 02:43:32,453: physics_data_file: None
+2025-11-21 02:43:32,453: validate_every: 5
+2025-11-21 02:43:32,453: validate_n_random_basins: 1
+2025-11-21 02:43:32,453: save_validation_results: True
+2025-11-21 02:43:32,454: metrics: ['NSE', 'MSE']
+2025-11-21 02:43:32,454: model: mtslstm
+2025-11-21 02:43:32,454: shared_mtslstm: False
+2025-11-21 02:43:32,454: transfer_mtslstm_states: {'h': 'linear', 'c': 'linear'}
+2025-11-21 02:43:32,454: use_frequencies: ['1H', '1D']
+2025-11-21 02:43:32,454: head: regression
+2025-11-21 02:43:32,455: output_activation: linear
+2025-11-21 02:43:32,455: hidden_size: 256
+2025-11-21 02:43:32,455: initial_forget_bias: 3
+2025-11-21 02:43:32,455: output_dropout: 0.4
+2025-11-21 02:43:32,455: optimizer: Adam
+2025-11-21 02:43:32,456: loss: NSE
+2025-11-21 02:43:32,456: learning_rate: {0: 0.01, 24: 0.005, 36: 0.001}
+2025-11-21 02:43:32,456: batch_size: 64
+2025-11-21 02:43:32,456: epochs: 2
+2025-11-21 02:43:32,456: clip_gradient_norm: 1
+2025-11-21 02:43:32,456: predict_last_n: {'1D': 1, '1H': 24}
+2025-11-21 02:43:32,457: seq_length: {'1D': 90, '1H': 168}
+2025-11-21 02:43:32,457: log_interval: 16
+2025-11-21 02:43:32,457: log_tensorboard: True
+2025-11-21 02:43:32,457: log_n_figures: 1
+2025-11-21 02:43:32,457: save_weights_every: 2
+2025-11-21 02:43:32,458: dataset: synthetic_russian_river
+2025-11-21 02:43:32,458: data_dir: /Users/maxwellfung/UCB-USACE-RR-PROJECT/russian_river_data
+2025-11-21 02:43:32,458: dev_mode: True
+2025-11-21 02:43:32,458: dynamic_inputs: {'1D': ['BIG SULPHUR CR ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'DRY CREEK 10 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'EF RUSSIAN 20 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'GREEN VALLEY ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'LAGUNA ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'RUSSIAN 20 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'RUSSIAN 30 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'RUSSIAN 40 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'RUSSIAN 50 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'RUSSIAN 60 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'RUSSIAN 70 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'SANTA ROSA CR 10 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'SANTA ROSA CR 20 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'WF RUSSIAN ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'BIG SULPHUR CR PRECIP-INC SCREENED', 'DRY CREEK 10 PRECIP-INC SCREENED', 'EF RUSSIAN 20 PRECIP-INC SCREENED', 'GREEN VALLEY PRECIP-INC SCREENED', 'LAGUNA PRECIP-INC SCREENED', 'RUSSIAN 20 PRECIP-INC SCREENED', 'RUSSIAN 30 PRECIP-INC SCREENED', 'RUSSIAN 40 PRECIP-INC SCREENED', 'RUSSIAN 50 PRECIP-INC SCREENED', 'RUSSIAN 60 PRECIP-INC SCREENED', 'RUSSIAN 70 PRECIP-INC SCREENED', 'SANTA ROSA CR 10 PRECIP-INC SCREENED', 'SANTA ROSA CR 20 PRECIP-INC SCREENED', 'WF RUSSIAN PRECIP-INC SCREENED', 'UKIAH CA HUMIDITY USAF-NOAA', 'UKIAH CA SOLAR RADIATION USAF-NOAA', 'UKIAH CA TEMPERATURE USAF-NOAA', 'UKIAH CA WINDSPEED USAF-NOAA', 'SANTA ROSA CA HUMIDITY USAF-NOAA', 'SANTA ROSA CA SOLAR RADIATION USAF-NOAA', 'SANTA ROSA CA TEMPERATURE USAF-NOAA', 'SANTA ROSA CA WINDSPEED USAF-NOAA', 'UKIAH CA FLOW USGS-MERGED', 'GEYSERVILLE CA FLOW USGS-MERGED'], '1H': ['BIG SULPHUR CR ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'DRY CREEK 10 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'EF RUSSIAN 20 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'GREEN VALLEY ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'LAGUNA ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'RUSSIAN 20 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'RUSSIAN 30 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'RUSSIAN 40 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'RUSSIAN 50 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'RUSSIAN 60 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'RUSSIAN 70 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'SANTA ROSA CR 10 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'SANTA ROSA CR 20 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'WF RUSSIAN ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'BIG SULPHUR CR PRECIP-INC SCREENED', 'DRY CREEK 10 PRECIP-INC SCREENED', 'EF RUSSIAN 20 PRECIP-INC SCREENED', 'GREEN VALLEY PRECIP-INC SCREENED', 'LAGUNA PRECIP-INC SCREENED', 'RUSSIAN 20 PRECIP-INC SCREENED', 'RUSSIAN 30 PRECIP-INC SCREENED', 'RUSSIAN 40 PRECIP-INC SCREENED', 'RUSSIAN 50 PRECIP-INC SCREENED', 'RUSSIAN 60 PRECIP-INC SCREENED', 'RUSSIAN 70 PRECIP-INC SCREENED', 'SANTA ROSA CR 10 PRECIP-INC SCREENED', 'SANTA ROSA CR 20 PRECIP-INC SCREENED', 'WF RUSSIAN PRECIP-INC SCREENED', 'UKIAH CA HUMIDITY USAF-NOAA', 'UKIAH CA SOLAR RADIATION USAF-NOAA', 'UKIAH CA TEMPERATURE USAF-NOAA', 'UKIAH CA WINDSPEED USAF-NOAA', 'SANTA ROSA CA HUMIDITY USAF-NOAA', 'SANTA ROSA CA SOLAR RADIATION USAF-NOAA', 'SANTA ROSA CA TEMPERATURE USAF-NOAA', 'SANTA ROSA CA WINDSPEED USAF-NOAA', 'UKIAH CA FLOW USGS-MERGED', 'GEYSERVILLE CA FLOW USGS-MERGED']}
+2025-11-21 02:43:32,459: target_variables: ['NR GUERNEVILLE FLOW COE GRN']
+2025-11-21 02:43:32,459: clip_targets_to_zero: [['NR GUERNEVILLE FLOW COE GRN']]
+2025-11-21 02:43:32,460: train_start_date: 01/01/1900
+2025-11-21 02:43:32,460: train_end_date: 1901-01-01 00:00:00
+2025-11-21 02:43:32,460: validation_start_date: 01/01/1900
+2025-11-21 02:43:32,460: validation_end_date: 01/01/1901
+2025-11-21 02:43:32,461: test_start_date: 01/01/1900
+2025-11-21 02:43:32,461: test_end_date: 01/01/1901
+2025-11-21 02:43:32,461: num_layers: 1
+2025-11-21 02:43:32,461: hourly: True
+2025-11-21 02:43:32,461: is_mts: True
+2025-11-21 02:43:32,461: is_mts_data: False
+2025-11-21 02:43:32,461: verbose: True
+2025-11-21 02:43:32,462: run_dir: /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251121T104250Z/testing_run_2111_024332
+2025-11-21 02:43:32,462: run_label: BASELINE
+2025-11-21 02:43:32,462: run_stamp: 20251121T104250Z
+2025-11-21 02:43:32,462: number_of_basins: 1
+2025-11-21 02:43:32,463: train_dir: /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251121T104250Z/testing_run_2111_024332/train_data
+2025-11-21 02:43:32,463: img_log_dir: /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251121T104250Z/testing_run_2111_024332/img_log
+2025-11-21 02:43:32,465: ### Device cpu will be used for training
+2025-11-21 02:43:32,466: Loading basin data into xarray data set.
+2025-11-21 02:43:33,574: Calculating target variable stds per basin
+2025-11-21 02:43:33,589: Create lookup table and convert to pytorch tensor
+2025-11-21 02:43:33,644: No specific hidden size for frequencies are specified. Same hidden size is used for all.
+2025-11-21 02:43:37,367: Epoch 1 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-21 02:43:40,941: Epoch 2 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-21 02:43:40,976: No specific hidden size for frequencies are specified. Same hidden size is used for all.
+2025-11-21 02:43:40,984: Using the model weights from /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251121T104250Z/testing_run_2111_024332/model_epoch002.pt
+2025-11-21 02:43:46,435: Stored metrics at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251121T104250Z/testing_run_2111_024332/validation/model_epoch002/validation_metrics.csv
+2025-11-21 02:43:46,437: Stored results at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251121T104250Z/testing_run_2111_024332/validation/model_epoch002/validation_results.p
+2025-11-21 02:43:46,440: No specific hidden size for frequencies are specified. Same hidden size is used for all.
+2025-11-21 02:43:46,448: Using the model weights from /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251121T104250Z/testing_run_2111_024332/model_epoch002.pt
+2025-11-21 02:43:49,345: Stored metrics at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251121T104250Z/testing_run_2111_024332/test/model_epoch002/test_metrics.csv
+2025-11-21 02:43:49,413: Stored results at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251121T104250Z/testing_run_2111_024332/test/model_epoch002/test_results.p
+2025-11-21 02:43:49,837: Logging to /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251121T104250Z/testing_run_2111_024349/output.log initialized.
+2025-11-21 02:43:49,837: ### Folder structure created at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251121T104250Z/testing_run_2111_024349
+2025-11-21 02:43:49,838: ### Run configurations for testing_run
+2025-11-21 02:43:49,838: experiment_name: testing_run
+2025-11-21 02:43:49,838: train_basin_file: /Users/maxwellfung/UCB-USACE-RR-PROJECT/notebooks/basins/guerneville/guerneville
+2025-11-21 02:43:49,838: validation_basin_file: /Users/maxwellfung/UCB-USACE-RR-PROJECT/notebooks/basins/guerneville/guerneville
+2025-11-21 02:43:49,838: test_basin_file: /Users/maxwellfung/UCB-USACE-RR-PROJECT/notebooks/basins/guerneville/guerneville
+2025-11-21 02:43:49,839: train_ranges: ['01/10/2002-30/09/2005']
+2025-11-21 02:43:49,839: validation_ranges: ['01/10/1994-30/09/2002']
+2025-11-21 02:43:49,839: test_ranges: ['01/10/2005-30/09/2009']
+2025-11-21 02:43:49,839: device: cpu
+2025-11-21 02:43:49,839: physics_informed: True
+2025-11-21 02:43:49,839: physics_data_file: /Users/maxwellfung/UCB-USACE-RR-PROJECT/russian_river_data/Guerneville_hourly.csv
+2025-11-21 02:43:49,840: validate_every: 5
+2025-11-21 02:43:49,840: validate_n_random_basins: 1
+2025-11-21 02:43:49,840: save_validation_results: True
+2025-11-21 02:43:49,840: metrics: ['NSE', 'MSE']
+2025-11-21 02:43:49,840: model: mtslstm
+2025-11-21 02:43:49,841: shared_mtslstm: False
+2025-11-21 02:43:49,841: transfer_mtslstm_states: {'h': 'linear', 'c': 'linear'}
+2025-11-21 02:43:49,841: use_frequencies: ['1H', '1D']
+2025-11-21 02:43:49,841: head: regression
+2025-11-21 02:43:49,842: output_activation: linear
+2025-11-21 02:43:49,842: hidden_size: 128
+2025-11-21 02:43:49,842: initial_forget_bias: 3
+2025-11-21 02:43:49,842: output_dropout: 0.4
+2025-11-21 02:43:49,842: optimizer: Adam
+2025-11-21 02:43:49,842: loss: NSE
+2025-11-21 02:43:49,843: learning_rate: {0: 0.01, 24: 0.005, 36: 0.001}
+2025-11-21 02:43:49,843: batch_size: 64
+2025-11-21 02:43:49,843: epochs: 2
+2025-11-21 02:43:49,843: clip_gradient_norm: 1
+2025-11-21 02:43:49,843: predict_last_n: {'1D': 1, '1H': 24}
+2025-11-21 02:43:49,844: seq_length: {'1D': 90, '1H': 168}
+2025-11-21 02:43:49,844: log_interval: 16
+2025-11-21 02:43:49,844: log_tensorboard: True
+2025-11-21 02:43:49,844: log_n_figures: 1
+2025-11-21 02:43:49,844: save_weights_every: 2
+2025-11-21 02:43:49,844: dataset: synthetic_russian_river
+2025-11-21 02:43:49,845: data_dir: /Users/maxwellfung/UCB-USACE-RR-PROJECT/russian_river_data
+2025-11-21 02:43:49,845: dev_mode: True
+2025-11-21 02:43:49,845: dynamic_inputs: ['BIG SULPHUR CR ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'DRY CREEK 10 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'EF RUSSIAN 20 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'GREEN VALLEY ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'LAGUNA ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'RUSSIAN 20 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'RUSSIAN 30 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'RUSSIAN 40 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'RUSSIAN 50 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'RUSSIAN 60 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'RUSSIAN 70 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'SANTA ROSA CR 10 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'SANTA ROSA CR 20 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'WF RUSSIAN ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'BIG SULPHUR CR PRECIP-INC SCREENED', 'DRY CREEK 10 PRECIP-INC SCREENED', 'EF RUSSIAN 20 PRECIP-INC SCREENED', 'GREEN VALLEY PRECIP-INC SCREENED', 'LAGUNA PRECIP-INC SCREENED', 'RUSSIAN 20 PRECIP-INC SCREENED', 'RUSSIAN 30 PRECIP-INC SCREENED', 'RUSSIAN 40 PRECIP-INC SCREENED', 'RUSSIAN 50 PRECIP-INC SCREENED', 'RUSSIAN 60 PRECIP-INC SCREENED', 'RUSSIAN 70 PRECIP-INC SCREENED', 'SANTA ROSA CR 10 PRECIP-INC SCREENED', 'SANTA ROSA CR 20 PRECIP-INC SCREENED', 'WF RUSSIAN PRECIP-INC SCREENED', 'UKIAH CA HUMIDITY USAF-NOAA', 'UKIAH CA SOLAR RADIATION USAF-NOAA', 'UKIAH CA TEMPERATURE USAF-NOAA', 'UKIAH CA WINDSPEED USAF-NOAA', 'SANTA ROSA CA HUMIDITY USAF-NOAA', 'SANTA ROSA CA SOLAR RADIATION USAF-NOAA', 'SANTA ROSA CA TEMPERATURE USAF-NOAA', 'SANTA ROSA CA WINDSPEED USAF-NOAA', 'UKIAH CA FLOW USGS-MERGED', 'GEYSERVILLE CA FLOW USGS-MERGED', 'Guerneville Gage FLOW', 'Big Sulphur Cr ET-POTENTIAL', 'Big Sulphur Cr FLOW', 'Big Sulphur Cr FLOW-BASE', 'Big Sulphur Cr INFILTRATION', 'Big Sulphur Cr PERC-SOIL', 'Big Sulphur Cr SATURATION FRACTION', 'Dry Creek 10 ET-POTENTIAL', 'Dry Creek 10 FLOW', 'Dry Creek 10 FLOW-BASE', 'Dry Creek 10 INFILTRATION', 'Dry Creek 10 PERC-SOIL', 'Dry Creek 10 SATURATION FRACTION', 'Green Valley ET-POTENTIAL', 'Green Valley FLOW', 'Green Valley FLOW-BASE', 'Green Valley INFILTRATION', 'Green Valley PERC-SOIL', 'Green Valley SATURATION FRACTION', 'Laguna ET-POTENTIAL', 'Laguna FLOW', 'Laguna FLOW-BASE', 'Laguna INFILTRATION', 'Laguna PERC-SOIL', 'Laguna SATURATION FRACTION', 'Russian 20 ET-POTENTIAL', 'Russian 20 FLOW', 'Russian 20 FLOW-BASE', 'Russian 20 INFILTRATION', 'Russian 20 PERC-SOIL', 'Russian 20 SATURATION FRACTION', 'Russian 30 ET-POTENTIAL', 'Russian 30 FLOW', 'Russian 30 FLOW-BASE', 'Russian 30 INFILTRATION', 'Russian 30 PERC-SOIL', 'Russian 30 SATURATION FRACTION', 'Russian 40 ET-POTENTIAL', 'Russian 40 FLOW', 'Russian 40 FLOW-BASE', 'Russian 40 INFILTRATION', 'Russian 40 PERC-SOIL', 'Russian 40 SATURATION FRACTION', 'Russian 50 ET-POTENTIAL', 'Russian 50 FLOW', 'Russian 50 FLOW-BASE', 'Russian 50 INFILTRATION', 'Russian 50 PERC-SOIL', 'Russian 50 SATURATION FRACTION', 'Russian 60 ET-POTENTIAL', 'Russian 60 FLOW', 'Russian 60 FLOW-BASE', 'Russian 60 INFILTRATION', 'Russian 60 PERC-SOIL', 'Russian 60 SATURATION FRACTION', 'Russian 70 ET-POTENTIAL', 'Russian 70 FLOW', 'Russian 70 FLOW-BASE', 'Russian 70 INFILTRATION', 'Russian 70 PERC-SOIL', 'Russian 70 SATURATION FRACTION', 'Santa Rosa Cr 10 ET-POTENTIAL', 'Santa Rosa Cr 10 FLOW', 'Santa Rosa Cr 10 FLOW-BASE', 'Santa Rosa Cr 10 INFILTRATION', 'Santa Rosa Cr 10 PERC-SOIL', 'Santa Rosa Cr 10 SATURATION FRACTION', 'Santa Rosa Cr 20 ET-POTENTIAL', 'Santa Rosa Cr 20 FLOW', 'Santa Rosa Cr 20 FLOW-BASE', 'Santa Rosa Cr 20 INFILTRATION', 'Santa Rosa Cr 20 PERC-SOIL', 'Santa Rosa Cr 20 SATURATION FRACTION', 'WF Russian ET-POTENTIAL', 'WF Russian FLOW', 'WF Russian FLOW-BASE', 'WF Russian INFILTRATION', 'WF Russian PERC-SOIL', 'WF Russian SATURATION FRACTION']
+2025-11-21 02:43:49,845: target_variables: ['NR GUERNEVILLE FLOW COE GRN']
+2025-11-21 02:43:49,845: clip_targets_to_zero: [['NR GUERNEVILLE FLOW COE GRN']]
+2025-11-21 02:43:49,846: train_start_date: 01/01/1900
+2025-11-21 02:43:49,846: train_end_date: 1901-01-01 00:00:00
+2025-11-21 02:43:49,846: validation_start_date: 01/01/1900
+2025-11-21 02:43:49,846: validation_end_date: 01/01/1901
+2025-11-21 02:43:49,846: test_start_date: 01/01/1900
+2025-11-21 02:43:49,846: test_end_date: 01/01/1901
+2025-11-21 02:43:49,847: num_layers: 1
+2025-11-21 02:43:49,847: hourly: True
+2025-11-21 02:43:49,847: is_mts: True
+2025-11-21 02:43:49,847: is_mts_data: False
+2025-11-21 02:43:49,847: verbose: True
+2025-11-21 02:43:49,847: run_dir: /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251121T104250Z/testing_run_2111_024349
+2025-11-21 02:43:49,848: run_label: BASELINE
+2025-11-21 02:43:49,848: run_stamp: 20251121T104250Z
+2025-11-21 02:43:49,848: number_of_basins: 1
+2025-11-21 02:43:49,848: train_dir: /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251121T104250Z/testing_run_2111_024349/train_data
+2025-11-21 02:43:49,848: img_log_dir: /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251121T104250Z/testing_run_2111_024349/img_log
+2025-11-21 02:43:49,850: ### Device cpu will be used for training
+2025-11-21 02:43:49,851: Loading basin data into xarray data set.
+2025-11-21 02:43:53,819: Calculating target variable stds per basin
+2025-11-21 02:43:53,852: Create lookup table and convert to pytorch tensor
+2025-11-21 02:43:53,964: No specific hidden size for frequencies are specified. Same hidden size is used for all.
+2025-11-21 02:43:56,043: Epoch 1 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-21 02:43:57,976: Epoch 2 average loss: avg_loss: 0.00000, avg_total_loss: 0.00000
+2025-11-21 02:43:57,990: No specific hidden size for frequencies are specified. Same hidden size is used for all.
+2025-11-21 02:43:58,004: Using the model weights from /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251121T104250Z/testing_run_2111_024349/model_epoch002.pt
+2025-11-21 02:44:04,762: Stored metrics at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251121T104250Z/testing_run_2111_024349/validation/model_epoch002/validation_metrics.csv
+2025-11-21 02:44:04,765: Stored results at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251121T104250Z/testing_run_2111_024349/validation/model_epoch002/validation_results.p
+2025-11-21 02:44:04,769: No specific hidden size for frequencies are specified. Same hidden size is used for all.
+2025-11-21 02:44:04,783: Using the model weights from /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/runs/BASELINE_20251121T104250Z/testing_run_2111_024349/model_epoch002.pt

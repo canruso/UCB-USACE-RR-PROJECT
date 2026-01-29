@@ -1,0 +1,130 @@
+xarray_feature_scale:
+  coords: {}
+  attrs: {}
+  dims: {}
+  data_vars:
+    Capella Gage FLOW:
+      dims: []
+      attrs: {}
+      data: 657.7942504882812
+    EF RUSSIAN 20 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR:
+      dims: []
+      attrs: {}
+      data: 0.008478980511426926
+    EF RUSSIAN 20 PRECIP-INC SCREENED:
+      dims: []
+      attrs: {}
+      data: 0.02448812499642372
+    EF Russian 20 ET-POTENTIAL:
+      dims: []
+      attrs: {}
+      data: 0.005634038709104061
+    EF Russian 20 FLOW:
+      dims: []
+      attrs: {}
+      data: 649.820556640625
+    EF Russian 20 FLOW-BASE:
+      dims: []
+      attrs: {}
+      data: 386.01361083984375
+    EF Russian 20 INFILTRATION:
+      dims: []
+      attrs: {}
+      data: 0.017009736970067024
+    EF Russian 20 PERC-SOIL:
+      dims: []
+      attrs: {}
+      data: 0.011695843189954758
+    EF Russian 20 SATURATION FRACTION:
+      dims: []
+      attrs: {}
+      data: 0.2703552544116974
+    NR CALPELLA FLOW COE CPL:
+      dims: []
+      attrs: {}
+      data: 561.2073974609375
+    POTTER VALLEY CA FLOW USGS_ADJUSTED:
+      dims: []
+      attrs: {}
+      data: 92.82169342041016
+    UKIAH CA HUMIDITY USAF-NOAA:
+      dims: []
+      attrs: {}
+      data: 22.97239112854004
+    UKIAH CA SOLAR RADIATION USAF-NOAA:
+      dims: []
+      attrs: {}
+      data: 301.3290710449219
+    UKIAH CA TEMPERATURE USAF-NOAA:
+      dims: []
+      attrs: {}
+      data: 14.43138599395752
+    UKIAH CA WINDSPEED USAF-NOAA:
+      dims: []
+      attrs: {}
+      data: 4.290740013122559
+xarray_feature_center:
+  coords: {}
+  attrs: {}
+  dims: {}
+  data_vars:
+    Capella Gage FLOW:
+      dims: []
+      attrs: {}
+      data: 373.2622985839844
+    EF RUSSIAN 20 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR:
+      dims: []
+      attrs: {}
+      data: 0.00511996541172266
+    EF RUSSIAN 20 PRECIP-INC SCREENED:
+      dims: []
+      attrs: {}
+      data: 0.00485041830688715
+    EF Russian 20 ET-POTENTIAL:
+      dims: []
+      attrs: {}
+      data: 0.00378874852322042
+    EF Russian 20 FLOW:
+      dims: []
+      attrs: {}
+      data: 191.84417724609375
+    EF Russian 20 FLOW-BASE:
+      dims: []
+      attrs: {}
+      data: 146.91314697265625
+    EF Russian 20 INFILTRATION:
+      dims: []
+      attrs: {}
+      data: 0.0038073454052209854
+    EF Russian 20 PERC-SOIL:
+      dims: []
+      attrs: {}
+      data: 0.0025046791415661573
+    EF Russian 20 SATURATION FRACTION:
+      dims: []
+      attrs: {}
+      data: 0.3916013538837433
+    NR CALPELLA FLOW COE CPL:
+      dims: []
+      attrs: {}
+      data: 357.1292419433594
+    POTTER VALLEY CA FLOW USGS_ADJUSTED:
+      dims: []
+      attrs: {}
+      data: 181.41812133789062
+    UKIAH CA HUMIDITY USAF-NOAA:
+      dims: []
+      attrs: {}
+      data: 66.50880432128906
+    UKIAH CA SOLAR RADIATION USAF-NOAA:
+      dims: []
+      attrs: {}
+      data: 205.98866271972656
+    UKIAH CA TEMPERATURE USAF-NOAA:
+      dims: []
+      attrs: {}
+      data: 57.94557571411133
+    UKIAH CA WINDSPEED USAF-NOAA:
+      dims: []
+      attrs: {}
+      data: 3.835202693939209
