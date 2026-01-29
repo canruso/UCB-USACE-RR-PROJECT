@@ -143,8 +143,6 @@ class UCB_trainer:
         ranges = cfg_dict.get(f"{period}_ranges", None)
 
         if not ranges:
-            # if getattr(self, "_verbose", False):
-            #     print(f"[UCB_trainer] No '{period}_ranges' found in config; skipping date restore.")
             return
 
         if getattr(self, "_verbose", False):
@@ -218,7 +216,7 @@ class UCB_trainer:
             return xr.DataArray(
                 np.array(new_vals),
                 dims=[coord],
-                coords={coord: new_times}
+                coords={coord: pd.DatetimeIndex(new_times)}
             )
 
         for attr_name in ["_observed", "_predictions"]:
@@ -237,7 +235,6 @@ class UCB_trainer:
                 valid = mapped.notna().values
 
                 if not valid.all():
-                    print(f"[WARN] Dropping {(~valid).sum()} hourly steps not in date_map.")
                     da = da.isel(time=valid)
                     mapped = mapped[valid]
 
@@ -703,9 +700,9 @@ class UCB_trainer:
             if self._num_ensemble_members == 1:
                 # MTS 1H
                 if self._is_mts and freq_key == "1H":
-                    obs_df = self._observed.reset_index(self._observed.dims).to_dataframe(name="Observed")
-                    sim_df = self._predictions.reset_index(self._predictions.dims).to_dataframe(name="Predicted")
-                    merged_df = obs_df.join(sim_df, how="inner", lsuffix="_obs", rsuffix="_sim")
+                    obs_df = self._observed.to_dataframe(name="Observed")
+                    sim_df = self._predictions.to_dataframe(name="Predicted")
+                    merged_df = obs_df.join(sim_df, how="inner").reset_index()
 
                     if "date_obs" in merged_df.columns and "time_step_obs" in merged_df.columns:
                         merged_df["Date"] = pd.to_datetime(merged_df["date_obs"]) \
@@ -733,6 +730,9 @@ class UCB_trainer:
                                 merged_df["Date"] = pd.to_datetime(merged_df["date_obs"])
                                 final_df = merged_df[["Date", "Observed", "Predicted"]].sort_values("Date")
                             elif "Date" in merged_df.columns:
+                                final_df = merged_df[["Date", "Observed", "Predicted"]].sort_values("Date")
+                            elif "date" in merged_df.columns:
+                                merged_df["Date"] = merged_df["date"]
                                 final_df = merged_df[["Date", "Observed", "Predicted"]].sort_values("Date")
                             else:
                                 raise RuntimeError("Could not determine Date column when writing CSV")
