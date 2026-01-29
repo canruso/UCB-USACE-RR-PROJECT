@@ -110,6 +110,102 @@ log_n_figures: 1
 # Save model weights every n epochs
 save_weights_every: 16
 
+
+# --- Early Stopping Configuration ------------------------------------------------------------
+# Enable early stopping based on validation performance
+early_stopping: True
+
+# Early stopping mode: "patience", "slope", or "none"
+# - "patience": Traditional approach (stops after N validations without improvement)
+# - "slope": Trend-based approach (stops when loss trend shows no improvement)
+# - "none": Disables early stopping
+early_stopping_mode: "patience"
+
+# --- Patience Mode Settings ---
+# Number of validation epochs with no improvement before stopping training
+# With validate_every=5, patience=3 means stopping after 15 epochs of no improvement
+patience_early_stopping: 3
+
+# Minimum change to qualify as improvement (default: 0.0)
+min_delta_early_stopping: 0.0
+
+# Minimum number of epochs before early stopping can trigger
+minimum_epochs_before_early_stopping: 10
+
+# --- Slope Mode Settings (only used if early_stopping_mode: "slope") ---
+# Number of epochs in rolling window for trend analysis
+early_stopping_slope_window: 7
+
+# Consecutive non-improving trend checks before stopping
+early_stopping_slope_patience: 2
+
+# Minimum epoch before slope checks begin
+early_stopping_slope_min_epoch: 8
+
+# EMA smoothing factor in (0,1]; higher = more reactive
+early_stopping_slope_ema_alpha: 0.4
+
+# Apply log transform to smoothed loss (makes thresholds represent % changes)
+early_stopping_slope_use_log: True
+
+# Epsilon added before log if loss <= 0
+early_stopping_slope_log_eps: 1.0e-12
+
+# Per-epoch improvement threshold in log space (~% change/epoch; 1e-3 ≈ 0.1%)
+early_stopping_slope_eps_slope: 1.0e-3
+
+# Required total improvement across window in log space (~%; 0.01 ≈ 1%)
+early_stopping_slope_min_window_gain: 0.01
+
+# Check window stability before acting
+early_stopping_slope_variance_guard: True
+
+# Max coefficient of variation to consider stable (~%; 0.01 ≈ 1%)
+early_stopping_slope_variance_cv_max: 0.01
+
+# =============================================================================
+# EARLY STOPPING CONFIGURATION VARIANTS
+# =============================================================================
+# Uncomment ONE of the following blocks to enable a specific early stopping strategy.
+# The current settings above have early_stopping: False (disabled).
+#
+# -----------------------------------------------------------------------------
+# VARIANT A: Patience-based AGGRESSIVE (stops quickly if no improvement)
+# Good for: Quick experiments, hyperparameter search, when training is expensive
+# -----------------------------------------------------------------------------
+# early_stopping: True
+# early_stopping_mode: "patience"
+# patience_early_stopping: 2           # Stop after 2 validations without improvement
+# min_delta_early_stopping: 0.001      # Require 0.1% improvement to count
+# minimum_epochs_before_early_stopping: 10
+#
+# -----------------------------------------------------------------------------
+# VARIANT B: Patience-based CONSERVATIVE (allows more exploration)
+# Good for: Final training runs, when you want thorough training
+# -----------------------------------------------------------------------------
+# early_stopping: True
+# early_stopping_mode: "patience"
+# patience_early_stopping: 5           # Stop after 5 validations without improvement
+# min_delta_early_stopping: 0.0        # Any improvement counts
+# minimum_epochs_before_early_stopping: 15
+#
+# -----------------------------------------------------------------------------
+# VARIANT C: Slope-based (trend analysis, robust to noise)
+# Good for: Noisy loss curves, when you want statistically sound stopping
+# -----------------------------------------------------------------------------
+# early_stopping: True
+# early_stopping_mode: "slope"
+# early_stopping_slope_window: 7       # 7-epoch rolling window
+# early_stopping_slope_patience: 2     # 2 consecutive flat checks
+# early_stopping_slope_min_epoch: 10   # Don't check before epoch 10
+# early_stopping_slope_ema_alpha: 0.4  # Smoothing factor
+# early_stopping_slope_eps_slope: 1.0e-3        # ~0.1% improvement/epoch threshold
+# early_stopping_slope_min_window_gain: 0.01    # ~1% total window improvement
+# early_stopping_slope_variance_guard: True     # Ignore jittery windows
+# early_stopping_slope_variance_cv_max: 0.02    # 2% CV threshold for stability
+#
+# =============================================================================
+
 # --- Data configurations --------------------------------------------------------------------------
 
 # which data set to use [camels_us, camels_gb, global, hourly_camels_us]

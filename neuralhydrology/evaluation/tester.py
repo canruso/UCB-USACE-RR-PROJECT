@@ -248,6 +248,27 @@ class BaseTester(object):
                 else:
                     raise RuntimeError(f"Simulations have {y_hat[freq].ndim} dimension. Only 3 and 4 are supported.")
 
+                # Arman's change starts
+                if (dates.get(lowest_freq, None) is None or
+                    dates[lowest_freq].size == 0 or
+                    dates.get(freq, None) is None or
+                    dates[freq].size == 0):
+                    # If you compute metrics, write NaNs; otherwise just skip
+                    if metrics:
+                        var_metrics = metrics if isinstance(metrics, list) else metrics[self.cfg.target_variables[0]]
+                        nan_vals = {m: np.nan for m in (get_available_metrics() if 'all' in var_metrics else var_metrics)}
+                        # add suffixes if needed
+                        if len(self.cfg.target_variables) > 1:
+                            nan_vals = {f"{self.cfg.target_variables[0]}_{k}": v for k, v in nan_vals.items()}
+                        if len(ds.frequencies) > 1:
+                            nan_vals = {f"{k}_{freq}": v for k, v in nan_vals.items()}
+                        if experiment_logger is not None:
+                            experiment_logger.log_step(**nan_vals)
+                        for k, v in nan_vals.items():
+                            results[basin][freq][k] = v
+                    continue
+                # Arman's change ends
+
                 # Create data_vars dictionary for the xarray.Dataset
                 data_vars = self._create_xarray_data_vars(y_hat_freq, y_freq)
 
@@ -291,13 +312,41 @@ class BaseTester(object):
                         obs = xr.isel(time_step=slice(-frequency_factor, None)) \
                             .stack(datetime=['date', 'time_step']) \
                             .drop_vars({'datetime', 'date', 'time_step'})[f"{target_variable}_obs"]
-                        obs['datetime'] = freq_date_range
+                        # Arman's change starts
+                        obs = obs.assign_coords(datetime=('datetime', freq_date_range))
+                        # Arman's change ends
+
                         # check if there are observations for this period
                         if not all(obs.isnull()):
                             sim = xr.isel(time_step=slice(-frequency_factor, None)) \
                                 .stack(datetime=['date', 'time_step']) \
                                 .drop_vars({'datetime', 'date', 'time_step'})[f"{target_variable}_sim"]
-                            sim['datetime'] = freq_date_range
+                            # Arman's change starts
+                            sim = sim.assign_coords(datetime=('datetime', freq_date_range))
+                            # Arman's change ends
+
+                            # Arman's change starts
+                            start_map = getattr(self.cfg, "validation_start_per_frequency", {})
+
+                            start = pd.Timestamp(start_map[freq]) if freq in start_map else None
+
+                            if start:
+                                obs = obs.sel(datetime=slice(start, None))
+                                sim = sim.sel(datetime=slice(start, None))
+
+                            if obs.sizes.get("datetime", 0) == 0:
+                                values = {metric: np.nan for metric in (metrics if isinstance(metrics, list) else metrics[target_variable])}
+                                if len(self.cfg.target_variables) > 1:
+                                    values = {f"{target_variable}_{k}": v for k, v in values.items()}
+                                if len(ds.frequencies) > 1:
+                                    values = {f"{k}_{freq}": v for k, v in values.items()}
+                                if experiment_logger is not None:
+                                    experiment_logger.log_step(**values)
+                                for k, v in values.items():
+                                    results[basin][freq][k] = v
+                                continue
+                            # Arman's change ends
+
 
                             # clip negative predictions to zero, if variable is listed in config 'clip_target_to_zero'
                             if target_variable in self.cfg.clip_targets_to_zero:

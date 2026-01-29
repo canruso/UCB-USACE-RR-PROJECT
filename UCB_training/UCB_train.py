@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 import pickle
 import numpy as np
 import pandas as pd
+from datetime import datetime
 from typing import List, Optional
 from neuralhydrology.utils.config import Config
 from neuralhydrology.training.train import start_training
@@ -13,6 +14,7 @@ from neuralhydrology.evaluation.metrics import calculate_all_metrics
 import xarray as xr
 import yaml
 from UCB_training.UCB_utils import data_dir as _ucb_data_dir, resolve_basin_file as _ucb_resolve_basin_file
+from UCB_training.UCB_plotting import plot_loss_curves
 
 
 class UCB_trainer:
@@ -63,10 +65,28 @@ class UCB_trainer:
             path = self._train_model()
             self._eval_model(path, period="validation")
             self._model = path
+
+            # Generate loss curve visualization
+            try:
+                plot_loss_curves(path)
+                if self._verbose:
+                    print(f"[UCB Trainer] Loss curves saved to {path}/loss_curves.png")
+            except Exception as e:
+                if self._verbose:
+                    print(f"[UCB Trainer] Warning: Could not generate loss curves: {e}")
         else:
             self._model = self._train_ensemble()
             for model_path in self._model:
                 self._eval_model(model_path, period="validation")
+
+                # Generate loss curve visualization for each ensemble member
+                try:
+                    plot_loss_curves(model_path)
+                    if self._verbose:
+                        print(f"[UCB Trainer] Loss curves saved to {model_path}/loss_curves.png")
+                except Exception as e:
+                    if self._verbose:
+                        print(f"[UCB Trainer] Warning: Could not generate loss curves: {e}")
 
         return self._model
 
@@ -448,10 +468,22 @@ class UCB_trainer:
 
         return lstm_da, obs_da, pd.DataFrame([m_lstm])
 
+    def _get_last_epoch(self, run_directory: Path) -> int:
+        """Find the actual last epoch that was saved (in case early stopping occurred)."""
+        model_files = sorted(list(run_directory.glob('model_epoch*.pt')))
+        if not model_files:
+            # No checkpoint found, return configured epochs as fallback
+            return self._config.epochs
+        # Extract epoch number from last checkpoint filename (e.g., model_epoch025.pt -> 25)
+        last_file = model_files[-1]
+        epoch_str = last_file.stem.replace('model_epoch', '')
+        return int(epoch_str)
+
     def _eval_model(self, run_directory: Path, period="validation"):
         eval_run(run_dir=run_directory, period=period)
 
-        results_file = run_directory / period / f"model_epoch{str(self._config.epochs).zfill(3)}" / f"{period}_results.p"
+        actual_epoch = self._get_last_epoch(run_directory)
+        results_file = run_directory / period / f"model_epoch{str(actual_epoch).zfill(3)}" / f"{period}_results.p"
         if results_file.exists():
             with open(results_file, "rb") as fp:
                 results = pickle.load(fp)
@@ -471,8 +503,9 @@ class UCB_trainer:
             Otherwise, keep old behavior.
             """
         if self._num_ensemble_members == 1:
+            actual_epoch = self._get_last_epoch(self._model)
             results_file = self._model / period / (f"model_"
-                                                   f"epoch{str(self._config.epochs).zfill(3)}") / f"{period}_results.p"
+                                                   f"epoch{str(actual_epoch).zfill(3)}") / f"{period}_results.p"
             if not results_file.exists():
                 self._eval_model(self._model, period)
             if not results_file.exists():
@@ -913,11 +946,312 @@ class UCB_trainer:
 
         return tidy
 
+    def cross_validate(self, intervalMonth='October', intervalLength=2, validationLength=1, no_leak=False, run_path=None, save_fold_details=False) -> dict:
+        """
+        Expanding-window time-series cross-validation.
+
+        Performs i-fold CV where i = ([number of years in dataset] // intervalLength) - validationLength.
+        Training window expands each fold; validation window slides forward.
+
+        Arguments:
+            intervalMonth: str, month boundary for water year (default 'October')
+            intervalLength: int, years per training expansion (default 2)
+            validationLength: int, validation window in years (default 1)
+            no_leak: bool, if True validation excludes seq_length lookback (default False)
+            run_path: Path, output directory (default: cwd/runs)
+            save_fold_details: bool, if True saves per-fold CSVs and plots (default False)
+
+        Returns:
+            dict of averaged metrics across folds (or tuple of daily/hourly dicts for MTS)
+        """
+        now = datetime.now()
+        ts = f"{now.day:02d}{now.month:02d}_{now.hour:02d}{now.minute:02d}{now.second:02d}"
+
+        root = (run_path if run_path else Path.cwd() / "runs")
+        run_dir = root / f"cross_validation_{ts}"
+        run_dir.mkdir(parents=True, exist_ok=True)
+
+        MonthsLib = {'january': 'Jan', 'february': 'Feb', 'march': 'Mar', 'april': 'Apr', 'may': 'May', 'june': 'Jun', 'july': 'Jul', 'august': 'Aug', 'september': 'Sep', 'october': 'Oct', 'november': 'Nov', 'december': 'Dec'}
+        interval = MonthsLib[intervalMonth.lower()]
+
+        is_mts = self._is_mts
+
+        if not is_mts:
+            cross_val_results = {}
+        else:
+            daily_results = {}
+            hourly_results = {}
+
+        original_start = getattr(self._config, "train_start_date", None)
+        original_start_year = int(original_start.year)
+
+        original_end = getattr(self._config, "validation_end_date", None)
+        original_end_year = int(original_end.year)
+
+        # Store original dates to restore after CV completes
+        original_train_start = getattr(self._config, "train_start_date", None)
+        original_train_end = getattr(self._config, "train_end_date", None)
+        original_val_start = getattr(self._config, "validation_start_date", None)
+        original_val_end = getattr(self._config, "validation_end_date", None)
+
+        n_years = original_end_year - original_start_year + 1
+        # Calculate max folds based on intervalLength: we need at least intervalLength years for initial training
+        # plus validationLength years for validation, and each fold adds intervalLength years
+        max_fold = (n_years - intervalLength) // intervalLength - validationLength
+
+        seq_length = getattr(self._config, "seq_length", None)
+        if not is_mts:
+            lookback = int(seq_length)
+        else:
+            lookback_dict = seq_length
+
+        def round_timedelta_up_to_day(delta: pd.Timedelta) -> pd.Timedelta:
+            """Round a Timedelta up to the next whole day (ceiling to 24h multiples)."""
+            days = delta / pd.Timedelta(days=1)
+            days_ceiled = np.ceil(days)
+            return pd.Timedelta(days=int(days_ceiled))
+
+        def iso_date(dt) -> str:
+            """Return DD/MM/YYYY string."""
+            ts = pd.to_datetime(dt)
+            return ts.strftime("%d/%m/%Y")
+
+        i = 1
+        while i <= max_fold:
+            fold_train_start_date = pd.to_datetime(f"{str(original_start_year)}-{interval}-01", format="%Y-%b-%d")
+            fold_train_end_date = pd.to_datetime(f"{original_start_year + (intervalLength * i)}-{interval}-01", format="%Y-%b-%d")
+            val_eval_start = pd.to_datetime(fold_train_end_date) + pd.Timedelta(days=1)
+            fold_val_end_date = pd.to_datetime(f"{original_start_year + (intervalLength * i + validationLength)}-{interval}-01", format="%Y-%b-%d")
+
+            if no_leak:
+                if not is_mts:
+                    val_leak_start = val_eval_start
+                else:
+                    val_leak_start_d = val_eval_start
+                    val_leak_start_h = val_eval_start
+            else:
+                if not is_mts:
+                    val_leak_start = val_eval_start - pd.Timedelta(days=lookback - 1)
+                else:
+                    val_leak_start_d = val_eval_start - pd.Timedelta(days=lookback_dict['1D'] - 1)
+                    val_leak_start_h = val_eval_start - round_timedelta_up_to_day(pd.Timedelta(hours=lookback_dict['1H']))
+
+            fold_dir = run_dir / f"fold_{i:02d}"
+            fold_dir.mkdir(parents=True, exist_ok=True)
+
+            if not is_mts:
+                self._config.update_config({
+                    "train_start_date": iso_date(fold_train_start_date),
+                    "train_end_date": iso_date(fold_train_end_date),
+                    "validation_start_date": iso_date(val_leak_start),
+                    "validation_end_date": iso_date(fold_val_end_date),
+                    "run_dir": fold_dir
+                }, dev_mode=True)
+            else:
+                self._config.update_config({
+                    "train_start_date": iso_date(fold_train_start_date),
+                    "train_end_date": iso_date(fold_train_end_date),
+                    "validation_start_per_frequency": {'1D': iso_date(val_leak_start_d), '1H': iso_date(val_leak_start_h)},
+                    "validation_start_date": "01/01/1900",
+                    "validation_end_date": iso_date(fold_val_end_date),
+                    "run_dir": fold_dir
+                }, dev_mode=True)
+
+            self.train()
+
+            if not is_mts:
+                time_resolution_key = '1H' if self._hourly else '1D'
+                self._get_predictions(time_resolution_key, 'validation')
+                pred = self._predictions.loc[val_eval_start:fold_val_end_date]
+                obs = self._observed.loc[val_eval_start:fold_val_end_date]
+                metrics = calculate_all_metrics(obs, pred, resolution=time_resolution_key.upper())
+                cross_val_results[i] = metrics
+
+                # Save per-fold details if requested
+                if save_fold_details:
+                    # Save timeseries CSV
+                    ts_df = pd.DataFrame({
+                        'Date': pred.coords[list(pred.dims)[0]].values,
+                        'Observed': obs.values,
+                        'Predicted': pred.values
+                    })
+                    ts_df.to_csv(fold_dir / f'timeseries_validation.csv', index=False)
+
+                    # Save metrics CSV
+                    metrics_df = pd.DataFrame([metrics])
+                    metrics_df.insert(0, 'fold', i)
+                    metrics_df.insert(1, 'train_start', iso_date(fold_train_start_date))
+                    metrics_df.insert(2, 'train_end', iso_date(fold_train_end_date))
+                    metrics_df.insert(3, 'val_start', iso_date(val_eval_start))
+                    metrics_df.insert(4, 'val_end', iso_date(fold_val_end_date))
+                    metrics_df.to_csv(fold_dir / f'metrics_validation.csv', index=False)
+
+                    # Generate loss curve for this fold
+                    try:
+                        plot_loss_curves(fold_dir, save_path=fold_dir / 'loss_curves.png')
+                    except Exception as e:
+                        if self._verbose:
+                            print(f"Warning: Could not generate loss curve for fold {i}: {e}")
+
+            else:
+                self._get_predictions('1D', 'validation')
+                pred = self._predictions.loc[val_eval_start:fold_val_end_date]
+                obs = self._observed.loc[val_eval_start:fold_val_end_date]
+                day_metrics = calculate_all_metrics(obs, pred, resolution='1D')
+
+                self._get_predictions('1H', 'validation')
+                obs_fixed = obs.assign_coords(
+                    date=(list(obs.dims)[0], pd.date_range(start=val_eval_start,
+                                                           periods=obs.sizes[list(obs.dims)[0]],
+                                                           freq='H'))
+                )
+                pred_fixed = pred.assign_coords(
+                    date=(list(pred.dims)[0], pd.date_range(start=val_eval_start,
+                                                            periods=pred.sizes[list(pred.dims)[0]],
+                                                            freq='H'))
+                )
+                hour_metrics = calculate_all_metrics(obs_fixed, pred_fixed, resolution='1H', datetime_coord='date')
+
+                daily_results[i] = day_metrics
+                hourly_results[i] = hour_metrics
+
+                # Save per-fold details if requested (MTS version)
+                if save_fold_details:
+                    # Save daily timeseries
+                    ts_df_d = pd.DataFrame({
+                        'Date': pred.coords[list(pred.dims)[0]].values,
+                        'Observed': obs.values,
+                        'Predicted': pred.values
+                    })
+                    ts_df_d.to_csv(fold_dir / f'timeseries_validation_1D.csv', index=False)
+
+                    # Save hourly timeseries
+                    ts_df_h = pd.DataFrame({
+                        'Date': pred_fixed.coords['date'].values,
+                        'Observed': obs_fixed.values,
+                        'Predicted': pred_fixed.values
+                    })
+                    ts_df_h.to_csv(fold_dir / f'timeseries_validation_1H.csv', index=False)
+
+                    # Save metrics CSV (both daily and hourly)
+                    metrics_df = pd.DataFrame([{**{'fold': i, 'freq': '1D'}, **day_metrics}])
+                    metrics_df_h = pd.DataFrame([{**{'fold': i, 'freq': '1H'}, **hour_metrics}])
+                    combined_metrics = pd.concat([metrics_df, metrics_df_h], ignore_index=True)
+                    combined_metrics.insert(1, 'train_start', iso_date(fold_train_start_date))
+                    combined_metrics.insert(2, 'train_end', iso_date(fold_train_end_date))
+                    combined_metrics.insert(3, 'val_start', iso_date(val_eval_start))
+                    combined_metrics.insert(4, 'val_end', iso_date(fold_val_end_date))
+                    combined_metrics.to_csv(fold_dir / f'metrics_validation.csv', index=False)
+
+                    # Generate loss curve for this fold
+                    try:
+                        plot_loss_curves(fold_dir, save_path=fold_dir / 'loss_curves.png')
+                    except Exception as e:
+                        if self._verbose:
+                            print(f"Warning: Could not generate loss curve for fold {i}: {e}")
+
+            i += 1
+
+        # Restore original config dates
+        if original_train_start:
+            self._config.update_config({'train_start_date': original_train_start}, dev_mode=True)
+        if original_train_end:
+            self._config.update_config({'train_end_date': original_train_end}, dev_mode=True)
+        if original_val_start:
+            self._config.update_config({'validation_start_date': original_val_start}, dev_mode=True)
+        if original_val_end:
+            self._config.update_config({'validation_end_date': original_val_end}, dev_mode=True)
+        if is_mts:
+            self._config.update_config({'validation_start_per_frequency': None}, dev_mode=True)
+
+        if self._verbose and not is_mts:
+            for j in range(1, len(cross_val_results) + 1):
+                print(f"Fold {j} results")
+                print(cross_val_results[j])
+                print("\n")
+
+        # Aggregate metrics across folds
+        if not is_mts:
+            output = {}
+            for j in cross_val_results:
+                for metric in cross_val_results[j]:
+                    key = f"avg {metric}"
+                    if key not in output:
+                        output[key] = []
+                    output[key].append(cross_val_results[j][metric])
+            for key in output:
+                output[key] = sum(output[key]) / len(output[key])
+        else:
+            output_daily = {}
+            for j in daily_results:
+                for metric in daily_results[j]:
+                    key = f"daily avg {metric}"
+                    if key not in output_daily:
+                        output_daily[key] = []
+                    output_daily[key].append(daily_results[j][metric])
+            output_hourly = {}
+            for j in hourly_results:
+                for metric in hourly_results[j]:
+                    key = f"hourly avg {metric}"
+                    if key not in output_hourly:
+                        output_hourly[key] = []
+                    output_hourly[key].append(hourly_results[j][metric])
+            for key in output_daily:
+                output_daily[key] = sum(output_daily[key]) / len(output_daily[key])
+            for key in output_hourly:
+                output_hourly[key] = sum(output_hourly[key]) / len(output_hourly[key])
+            output = (output_daily, output_hourly)
+
+        # Save CV summary CSV if fold details were saved
+        if save_fold_details:
+            if not is_mts:
+                # Compile all fold metrics into summary
+                summary_rows = []
+                for j in cross_val_results:
+                    row = {'fold': j, **cross_val_results[j]}
+                    summary_rows.append(row)
+                # Add average row
+                avg_row = {'fold': 'average'}
+                for metric in cross_val_results[1]:
+                    avg_row[metric] = output[f"avg {metric}"]
+                summary_rows.append(avg_row)
+                summary_df = pd.DataFrame(summary_rows)
+                summary_df.to_csv(run_dir / 'cv_summary.csv', index=False)
+                if self._verbose:
+                    print(f"\nCV Summary saved to: {run_dir / 'cv_summary.csv'}")
+            else:
+                # MTS: save daily and hourly summaries
+                summary_rows_d = []
+                for j in daily_results:
+                    row = {'fold': j, 'freq': '1D', **daily_results[j]}
+                    summary_rows_d.append(row)
+                avg_row_d = {'fold': 'average', 'freq': '1D'}
+                for metric in daily_results[1]:
+                    avg_row_d[metric] = output_daily[f"daily avg {metric}"]
+                summary_rows_d.append(avg_row_d)
+
+                summary_rows_h = []
+                for j in hourly_results:
+                    row = {'fold': j, 'freq': '1H', **hourly_results[j]}
+                    summary_rows_h.append(row)
+                avg_row_h = {'fold': 'average', 'freq': '1H'}
+                for metric in hourly_results[1]:
+                    avg_row_h[metric] = output_hourly[f"hourly avg {metric}"]
+                summary_rows_h.append(avg_row_h)
+
+                summary_df = pd.DataFrame(summary_rows_d + summary_rows_h)
+                summary_df.to_csv(run_dir / 'cv_summary.csv', index=False)
+                if self._verbose:
+                    print(f"\nCV Summary saved to: {run_dir / 'cv_summary.csv'}")
+
+        return output
+
+
 def replace_run_config_paths(run_dir: Path, verbose: bool = False) -> None:
     """
     Make a run's on-disk config.yml portable on the current machine by fixing data_dir if it does not exist,
     rewriting basin list files to absolute paths, aligning run_dir to the actual run_dir we are evaluating and
-    if physics_informed, fixing physics_data_file if invalid, searching local data_dir for reasonable candidates
+    if physics_informed, fixing physics_data_file if invalid, searching local data_dir for reasonable candidates.
     """
     yml = run_dir / "config.yml"
     if not yml.exists():
@@ -1066,4 +1400,3 @@ def replace_run_config_paths(run_dir: Path, verbose: bool = False) -> None:
         except Exception as e:
             if verbose:
                 print(f"[portability] could not write patched config to {yml}: {e}")
-

@@ -1,0 +1,520 @@
+2025-11-05 00:02:03,338: Logging to C:\Users\arthu\OneDrive\Documents\GitHub\UCB-USACE-RR-PROJECT\outputs\calpella\daily_shared\runs\BASELINE\testing_run_0511_000203\output.log initialized.
+2025-11-05 00:02:03,339: ### Folder structure created at C:\Users\arthu\OneDrive\Documents\GitHub\UCB-USACE-RR-PROJECT\outputs\calpella\daily_shared\runs\BASELINE\testing_run_0511_000203
+2025-11-05 00:02:03,340: ### Run configurations for testing_run
+2025-11-05 00:02:03,340: experiment_name: testing_run
+2025-11-05 00:02:03,341: train_basin_file: calpella
+2025-11-05 00:02:03,342: validation_basin_file: calpella
+2025-11-05 00:02:03,342: test_basin_file: calpella
+2025-11-05 00:02:03,343: train_start_date: 1994-10-01 00:00:00
+2025-11-05 00:02:03,344: train_end_date: 2002-09-30 00:00:00
+2025-11-05 00:02:03,344: validation_start_date: 2002-10-01 00:00:00
+2025-11-05 00:02:03,345: validation_end_date: 2005-09-30 00:00:00
+2025-11-05 00:02:03,346: test_start_date: 2005-10-01 00:00:00
+2025-11-05 00:02:03,347: test_end_date: 2009-09-29 00:00:00
+2025-11-05 00:02:03,347: device: cuda:0
+2025-11-05 00:02:03,348: physics_informed: False
+2025-11-05 00:02:03,348: physics_data_file: None
+2025-11-05 00:02:03,349: validate_every: 5
+2025-11-05 00:02:03,351: validate_n_random_basins: 1
+2025-11-05 00:02:03,352: metrics: ['NSE', 'MSE']
+2025-11-05 00:02:03,353: model: cudalstm
+2025-11-05 00:02:03,353: head: regression
+2025-11-05 00:02:03,354: output_activation: linear
+2025-11-05 00:02:03,355: hidden_size: 64
+2025-11-05 00:02:03,356: initial_forget_bias: 3
+2025-11-05 00:02:03,356: output_dropout: 0.4
+2025-11-05 00:02:03,357: num_layers: 1
+2025-11-05 00:02:03,358: dev_mode: True
+2025-11-05 00:02:03,360: optimizer: Adam
+2025-11-05 00:02:03,361: loss: NSE
+2025-11-05 00:02:03,362: learning_rate: {0: 0.01, 8: 0.005, 12: 0.001}
+2025-11-05 00:02:03,364: batch_size: 64
+2025-11-05 00:02:03,365: epochs: 16
+2025-11-05 00:02:03,366: clip_gradient_norm: 1
+2025-11-05 00:02:03,367: predict_last_n: 1
+2025-11-05 00:02:03,368: seq_length: 90
+2025-11-05 00:02:03,368: log_interval: 16
+2025-11-05 00:02:03,369: log_tensorboard: True
+2025-11-05 00:02:03,370: log_n_figures: 1
+2025-11-05 00:02:03,371: save_weights_every: 16
+2025-11-05 00:02:03,372: early_stopping: True
+2025-11-05 00:02:03,374: early_stopping_mode: patience
+2025-11-05 00:02:03,376: patience_early_stopping: 3
+2025-11-05 00:02:03,376: min_delta_early_stopping: 0.0
+2025-11-05 00:02:03,377: minimum_epochs_before_early_stopping: 10
+2025-11-05 00:02:03,379: early_stopping_slope_window: 7
+2025-11-05 00:02:03,380: early_stopping_slope_patience: 2
+2025-11-05 00:02:03,381: early_stopping_slope_min_epoch: 8
+2025-11-05 00:02:03,382: early_stopping_slope_ema_alpha: 0.4
+2025-11-05 00:02:03,383: early_stopping_slope_use_log: True
+2025-11-05 00:02:03,384: early_stopping_slope_log_eps: 1e-12
+2025-11-05 00:02:03,385: early_stopping_slope_eps_slope: 0.001
+2025-11-05 00:02:03,386: early_stopping_slope_min_window_gain: 0.01
+2025-11-05 00:02:03,387: early_stopping_slope_variance_guard: True
+2025-11-05 00:02:03,388: early_stopping_slope_variance_cv_max: 0.01
+2025-11-05 00:02:03,389: dataset: russian_river
+2025-11-05 00:02:03,390: data_dir: C:\Users\arthu\OneDrive\Documents\GitHub\UCB-USACE-RR-PROJECT\russian_river_data
+2025-11-05 00:02:03,391: dynamic_inputs: ['EF RUSSIAN 20 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'EF RUSSIAN 20 PRECIP-INC SCREENED', 'POTTER VALLEY CA FLOW USGS_ADJUSTED', 'UKIAH CA HUMIDITY USAF-NOAA', 'UKIAH CA SOLAR RADIATION USAF-NOAA', 'UKIAH CA TEMPERATURE USAF-NOAA', 'UKIAH CA WINDSPEED USAF-NOAA']
+2025-11-05 00:02:03,392: target_variables: ['NR CALPELLA FLOW COE CPL']
+2025-11-05 00:02:03,393: clip_targets_to_zero: [['NR CALPELLA FLOW COE CPL']]
+2025-11-05 00:02:03,395: hourly: False
+2025-11-05 00:02:03,396: is_mts: False
+2025-11-05 00:02:03,397: is_mts_data: False
+2025-11-05 00:02:03,397: verbose: True
+2025-11-05 00:02:03,398: run_dir: C:\Users\arthu\OneDrive\Documents\GitHub\UCB-USACE-RR-PROJECT\outputs\calpella\daily_shared\runs\BASELINE\testing_run_0511_000203
+2025-11-05 00:02:03,399: run_label: BASELINE
+2025-11-05 00:02:03,400: number_of_basins: 1
+2025-11-05 00:02:03,401: train_dir: C:\Users\arthu\OneDrive\Documents\GitHub\UCB-USACE-RR-PROJECT\outputs\calpella\daily_shared\runs\BASELINE\testing_run_0511_000203\train_data
+2025-11-05 00:02:03,402: img_log_dir: C:\Users\arthu\OneDrive\Documents\GitHub\UCB-USACE-RR-PROJECT\outputs\calpella\daily_shared\runs\BASELINE\testing_run_0511_000203\img_log
+2025-11-05 00:02:03,427: ### Device cuda:0 will be used for training
+2025-11-05 00:02:03,428: Loading basin data into xarray data set.
+2025-11-05 00:02:03,554: Calculating target variable stds per basin
+2025-11-05 00:02:03,563: Create lookup table and convert to pytorch tensor
+2025-11-05 00:02:05,956: Early stopping enabled: mode=patience
+2025-11-05 00:02:06,473: Epoch 1 average loss: avg_loss: 2.86e-06, avg_total_loss: 2.86e-06
+2025-11-05 00:02:06,917: Epoch 2 average loss: avg_loss: 1.60e-06, avg_total_loss: 1.60e-06
+2025-11-05 00:02:07,260: Epoch 3 average loss: avg_loss: 1.35e-06, avg_total_loss: 1.35e-06
+2025-11-05 00:02:07,644: Epoch 4 average loss: avg_loss: 1.10e-06, avg_total_loss: 1.10e-06
+2025-11-05 00:02:07,998: Epoch 5 average loss: avg_loss: 1.15e-06, avg_total_loss: 1.15e-06
+2025-11-05 00:02:08,610: Epoch 5 average validation loss: 1.01e-06 -- Median validation metrics: avg_loss: 1.01e-06, NSE: 0.76696, MSE: 39922.61719
+2025-11-05 00:02:08,971: Epoch 6 average loss: avg_loss: 1.17e-06, avg_total_loss: 1.17e-06
+2025-11-05 00:02:09,310: Epoch 7 average loss: avg_loss: 1.02e-06, avg_total_loss: 1.02e-06
+2025-11-05 00:02:09,311: Setting learning rate to 0.005
+2025-11-05 00:02:09,647: Epoch 8 average loss: avg_loss: 9.81e-07, avg_total_loss: 9.81e-07
+2025-11-05 00:02:10,033: Epoch 9 average loss: avg_loss: 1.01e-06, avg_total_loss: 1.01e-06
+2025-11-05 00:02:10,380: Epoch 10 average loss: avg_loss: 8.15e-07, avg_total_loss: 8.15e-07
+2025-11-05 00:02:10,675: Epoch 10 average validation loss: 9.36e-07 -- Median validation metrics: avg_loss: 9.36e-07, NSE: 0.78520, MSE: 36797.66797
+2025-11-05 00:02:10,954: Epoch 11 average loss: avg_loss: 8.55e-07, avg_total_loss: 8.55e-07
+2025-11-05 00:02:10,954: Setting learning rate to 0.001
+2025-11-05 00:02:11,259: Epoch 12 average loss: avg_loss: 8.65e-07, avg_total_loss: 8.65e-07
+2025-11-05 00:02:11,573: Epoch 13 average loss: avg_loss: 7.36e-07, avg_total_loss: 7.36e-07
+2025-11-05 00:02:11,928: Epoch 14 average loss: avg_loss: 7.41e-07, avg_total_loss: 7.41e-07
+2025-11-05 00:02:12,255: Epoch 15 average loss: avg_loss: 6.91e-07, avg_total_loss: 6.91e-07
+2025-11-05 00:02:12,500: Epoch 15 average validation loss: 9.56e-07 -- Median validation metrics: avg_loss: 9.56e-07, NSE: 0.78064, MSE: 37578.99219
+2025-11-05 00:02:12,833: Epoch 16 average loss: avg_loss: 7.04e-07, avg_total_loss: 7.04e-07
+2025-11-05 00:02:12,848: Using the model weights from C:\Users\arthu\OneDrive\Documents\GitHub\UCB-USACE-RR-PROJECT\outputs\calpella\daily_shared\runs\BASELINE\testing_run_0511_000203\model_epoch016.pt
+2025-11-05 00:02:13,054: Stored metrics at C:\Users\arthu\OneDrive\Documents\GitHub\UCB-USACE-RR-PROJECT\outputs\calpella\daily_shared\runs\BASELINE\testing_run_0511_000203\validation\model_epoch016\validation_metrics.csv
+2025-11-05 00:02:13,055: Stored results at C:\Users\arthu\OneDrive\Documents\GitHub\UCB-USACE-RR-PROJECT\outputs\calpella\daily_shared\runs\BASELINE\testing_run_0511_000203\validation\model_epoch016\validation_results.p
+2025-11-05 00:02:13,716: Logging to C:\Users\arthu\OneDrive\Documents\GitHub\UCB-USACE-RR-PROJECT\outputs\calpella\daily_shared\runs\BASELINE\testing_run_0511_000213\output.log initialized.
+2025-11-05 00:02:13,717: ### Folder structure created at C:\Users\arthu\OneDrive\Documents\GitHub\UCB-USACE-RR-PROJECT\outputs\calpella\daily_shared\runs\BASELINE\testing_run_0511_000213
+2025-11-05 00:02:13,717: ### Run configurations for testing_run
+2025-11-05 00:02:13,718: experiment_name: testing_run
+2025-11-05 00:02:13,719: train_basin_file: calpella
+2025-11-05 00:02:13,719: validation_basin_file: calpella
+2025-11-05 00:02:13,720: test_basin_file: calpella
+2025-11-05 00:02:13,720: train_start_date: 1994-10-01 00:00:00
+2025-11-05 00:02:13,721: train_end_date: 2002-09-30 00:00:00
+2025-11-05 00:02:13,721: validation_start_date: 2002-10-01 00:00:00
+2025-11-05 00:02:13,722: validation_end_date: 2005-09-30 00:00:00
+2025-11-05 00:02:13,723: test_start_date: 2005-10-01 00:00:00
+2025-11-05 00:02:13,723: test_end_date: 2009-09-29 00:00:00
+2025-11-05 00:02:13,723: device: cuda:0
+2025-11-05 00:02:13,724: physics_informed: False
+2025-11-05 00:02:13,725: physics_data_file: None
+2025-11-05 00:02:13,725: validate_every: 5
+2025-11-05 00:02:13,726: validate_n_random_basins: 1
+2025-11-05 00:02:13,727: metrics: ['NSE', 'MSE']
+2025-11-05 00:02:13,727: model: cudalstm
+2025-11-05 00:02:13,728: head: regression
+2025-11-05 00:02:13,728: output_activation: linear
+2025-11-05 00:02:13,729: hidden_size: 64
+2025-11-05 00:02:13,729: initial_forget_bias: 3
+2025-11-05 00:02:13,730: output_dropout: 0.4
+2025-11-05 00:02:13,731: num_layers: 1
+2025-11-05 00:02:13,731: dev_mode: True
+2025-11-05 00:02:13,732: optimizer: Adam
+2025-11-05 00:02:13,732: loss: NSE
+2025-11-05 00:02:13,733: learning_rate: {0: 0.01, 8: 0.005, 12: 0.001}
+2025-11-05 00:02:13,734: batch_size: 128
+2025-11-05 00:02:13,734: epochs: 16
+2025-11-05 00:02:13,735: clip_gradient_norm: 1
+2025-11-05 00:02:13,735: predict_last_n: 1
+2025-11-05 00:02:13,736: seq_length: 90
+2025-11-05 00:02:13,736: log_interval: 16
+2025-11-05 00:02:13,736: log_tensorboard: True
+2025-11-05 00:02:13,737: log_n_figures: 1
+2025-11-05 00:02:13,737: save_weights_every: 16
+2025-11-05 00:02:13,738: early_stopping: True
+2025-11-05 00:02:13,738: early_stopping_mode: patience
+2025-11-05 00:02:13,739: patience_early_stopping: 3
+2025-11-05 00:02:13,740: min_delta_early_stopping: 0.0
+2025-11-05 00:02:13,740: minimum_epochs_before_early_stopping: 10
+2025-11-05 00:02:13,740: early_stopping_slope_window: 7
+2025-11-05 00:02:13,741: early_stopping_slope_patience: 2
+2025-11-05 00:02:13,741: early_stopping_slope_min_epoch: 8
+2025-11-05 00:02:13,742: early_stopping_slope_ema_alpha: 0.4
+2025-11-05 00:02:13,743: early_stopping_slope_use_log: True
+2025-11-05 00:02:13,743: early_stopping_slope_log_eps: 1e-12
+2025-11-05 00:02:13,744: early_stopping_slope_eps_slope: 0.001
+2025-11-05 00:02:13,744: early_stopping_slope_min_window_gain: 0.01
+2025-11-05 00:02:13,745: early_stopping_slope_variance_guard: True
+2025-11-05 00:02:13,745: early_stopping_slope_variance_cv_max: 0.01
+2025-11-05 00:02:13,746: dataset: russian_river
+2025-11-05 00:02:13,746: data_dir: C:\Users\arthu\OneDrive\Documents\GitHub\UCB-USACE-RR-PROJECT\russian_river_data
+2025-11-05 00:02:13,747: dynamic_inputs: ['EF RUSSIAN 20 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'EF RUSSIAN 20 PRECIP-INC SCREENED', 'POTTER VALLEY CA FLOW USGS_ADJUSTED', 'UKIAH CA HUMIDITY USAF-NOAA', 'UKIAH CA SOLAR RADIATION USAF-NOAA', 'UKIAH CA TEMPERATURE USAF-NOAA', 'UKIAH CA WINDSPEED USAF-NOAA']
+2025-11-05 00:02:13,748: target_variables: ['NR CALPELLA FLOW COE CPL']
+2025-11-05 00:02:13,748: clip_targets_to_zero: [['NR CALPELLA FLOW COE CPL']]
+2025-11-05 00:02:13,749: hourly: False
+2025-11-05 00:02:13,750: is_mts: False
+2025-11-05 00:02:13,750: is_mts_data: False
+2025-11-05 00:02:13,751: verbose: True
+2025-11-05 00:02:13,752: run_dir: C:\Users\arthu\OneDrive\Documents\GitHub\UCB-USACE-RR-PROJECT\outputs\calpella\daily_shared\runs\BASELINE\testing_run_0511_000213
+2025-11-05 00:02:13,752: run_label: BASELINE
+2025-11-05 00:02:13,753: number_of_basins: 1
+2025-11-05 00:02:13,753: train_dir: C:\Users\arthu\OneDrive\Documents\GitHub\UCB-USACE-RR-PROJECT\outputs\calpella\daily_shared\runs\BASELINE\testing_run_0511_000213\train_data
+2025-11-05 00:02:13,754: img_log_dir: C:\Users\arthu\OneDrive\Documents\GitHub\UCB-USACE-RR-PROJECT\outputs\calpella\daily_shared\runs\BASELINE\testing_run_0511_000213\img_log
+2025-11-05 00:02:13,756: ### Device cuda:0 will be used for training
+2025-11-05 00:02:13,756: Loading basin data into xarray data set.
+2025-11-05 00:02:13,873: Calculating target variable stds per basin
+2025-11-05 00:02:13,881: Create lookup table and convert to pytorch tensor
+2025-11-05 00:02:13,983: Early stopping enabled: mode=patience
+2025-11-05 00:02:14,182: Epoch 1 average loss: avg_loss: 3.01e-06, avg_total_loss: 3.01e-06
+2025-11-05 00:02:14,357: Epoch 2 average loss: avg_loss: 1.85e-06, avg_total_loss: 1.85e-06
+2025-11-05 00:02:14,549: Epoch 3 average loss: avg_loss: 1.49e-06, avg_total_loss: 1.49e-06
+2025-11-05 00:02:14,720: Epoch 4 average loss: avg_loss: 1.32e-06, avg_total_loss: 1.32e-06
+2025-11-05 00:02:14,923: Epoch 5 average loss: avg_loss: 1.06e-06, avg_total_loss: 1.06e-06
+2025-11-05 00:02:15,330: Epoch 5 average validation loss: 1.10e-06 -- Median validation metrics: avg_loss: 1.10e-06, NSE: 0.74710, MSE: 43325.18750
+2025-11-05 00:02:15,536: Epoch 6 average loss: avg_loss: 1.15e-06, avg_total_loss: 1.15e-06
+2025-11-05 00:02:15,766: Epoch 7 average loss: avg_loss: 9.80e-07, avg_total_loss: 9.80e-07
+2025-11-05 00:02:15,767: Setting learning rate to 0.005
+2025-11-05 00:02:16,037: Epoch 8 average loss: avg_loss: 9.38e-07, avg_total_loss: 9.38e-07
+2025-11-05 00:02:16,299: Epoch 9 average loss: avg_loss: 8.80e-07, avg_total_loss: 8.80e-07
+2025-11-05 00:02:16,523: Epoch 10 average loss: avg_loss: 7.66e-07, avg_total_loss: 7.66e-07
+2025-11-05 00:02:16,844: Epoch 10 average validation loss: 1.12e-06 -- Median validation metrics: avg_loss: 1.12e-06, NSE: 0.74128, MSE: 44322.18750
+2025-11-05 00:02:17,004: Epoch 11 average loss: avg_loss: 7.77e-07, avg_total_loss: 7.77e-07
+2025-11-05 00:02:17,004: Setting learning rate to 0.001
+2025-11-05 00:02:17,187: Epoch 12 average loss: avg_loss: 8.30e-07, avg_total_loss: 8.30e-07
+2025-11-05 00:02:17,361: Epoch 13 average loss: avg_loss: 7.19e-07, avg_total_loss: 7.19e-07
+2025-11-05 00:02:17,498: Epoch 14 average loss: avg_loss: 7.60e-07, avg_total_loss: 7.60e-07
+2025-11-05 00:02:17,668: Epoch 15 average loss: avg_loss: 7.11e-07, avg_total_loss: 7.11e-07
+2025-11-05 00:02:17,881: Epoch 15 average validation loss: 1.05e-06 -- Median validation metrics: avg_loss: 1.05e-06, NSE: 0.75854, MSE: 41364.24219
+2025-11-05 00:02:18,048: Epoch 16 average loss: avg_loss: 7.40e-07, avg_total_loss: 7.40e-07
+2025-11-05 00:02:18,063: Using the model weights from C:\Users\arthu\OneDrive\Documents\GitHub\UCB-USACE-RR-PROJECT\outputs\calpella\daily_shared\runs\BASELINE\testing_run_0511_000213\model_epoch016.pt
+2025-11-05 00:02:18,221: Stored metrics at C:\Users\arthu\OneDrive\Documents\GitHub\UCB-USACE-RR-PROJECT\outputs\calpella\daily_shared\runs\BASELINE\testing_run_0511_000213\validation\model_epoch016\validation_metrics.csv
+2025-11-05 00:02:18,222: Stored results at C:\Users\arthu\OneDrive\Documents\GitHub\UCB-USACE-RR-PROJECT\outputs\calpella\daily_shared\runs\BASELINE\testing_run_0511_000213\validation\model_epoch016\validation_results.p
+2025-11-05 00:02:18,812: Logging to C:\Users\arthu\OneDrive\Documents\GitHub\UCB-USACE-RR-PROJECT\outputs\calpella\daily_shared\runs\BASELINE\testing_run_0511_000218\output.log initialized.
+2025-11-05 00:02:18,813: ### Folder structure created at C:\Users\arthu\OneDrive\Documents\GitHub\UCB-USACE-RR-PROJECT\outputs\calpella\daily_shared\runs\BASELINE\testing_run_0511_000218
+2025-11-05 00:02:18,814: ### Run configurations for testing_run
+2025-11-05 00:02:18,814: experiment_name: testing_run
+2025-11-05 00:02:18,815: train_basin_file: calpella
+2025-11-05 00:02:18,816: validation_basin_file: calpella
+2025-11-05 00:02:18,816: test_basin_file: calpella
+2025-11-05 00:02:18,817: train_start_date: 1994-10-01 00:00:00
+2025-11-05 00:02:18,818: train_end_date: 2002-09-30 00:00:00
+2025-11-05 00:02:18,818: validation_start_date: 2002-10-01 00:00:00
+2025-11-05 00:02:18,819: validation_end_date: 2005-09-30 00:00:00
+2025-11-05 00:02:18,820: test_start_date: 2005-10-01 00:00:00
+2025-11-05 00:02:18,820: test_end_date: 2009-09-29 00:00:00
+2025-11-05 00:02:18,821: device: cuda:0
+2025-11-05 00:02:18,822: physics_informed: False
+2025-11-05 00:02:18,822: physics_data_file: None
+2025-11-05 00:02:18,823: validate_every: 5
+2025-11-05 00:02:18,823: validate_n_random_basins: 1
+2025-11-05 00:02:18,824: metrics: ['NSE', 'MSE']
+2025-11-05 00:02:18,824: model: cudalstm
+2025-11-05 00:02:18,825: head: regression
+2025-11-05 00:02:18,826: output_activation: linear
+2025-11-05 00:02:18,826: hidden_size: 64
+2025-11-05 00:02:18,827: initial_forget_bias: 3
+2025-11-05 00:02:18,827: output_dropout: 0.4
+2025-11-05 00:02:18,828: num_layers: 1
+2025-11-05 00:02:18,829: dev_mode: True
+2025-11-05 00:02:18,830: optimizer: Adam
+2025-11-05 00:02:18,830: loss: NSE
+2025-11-05 00:02:18,831: learning_rate: {0: 0.01, 8: 0.005, 12: 0.001}
+2025-11-05 00:02:18,831: batch_size: 256
+2025-11-05 00:02:18,832: epochs: 16
+2025-11-05 00:02:18,833: clip_gradient_norm: 1
+2025-11-05 00:02:18,833: predict_last_n: 1
+2025-11-05 00:02:18,834: seq_length: 90
+2025-11-05 00:02:18,834: log_interval: 16
+2025-11-05 00:02:18,835: log_tensorboard: True
+2025-11-05 00:02:18,835: log_n_figures: 1
+2025-11-05 00:02:18,836: save_weights_every: 16
+2025-11-05 00:02:18,837: early_stopping: True
+2025-11-05 00:02:18,837: early_stopping_mode: patience
+2025-11-05 00:02:18,838: patience_early_stopping: 3
+2025-11-05 00:02:18,838: min_delta_early_stopping: 0.0
+2025-11-05 00:02:18,839: minimum_epochs_before_early_stopping: 10
+2025-11-05 00:02:18,839: early_stopping_slope_window: 7
+2025-11-05 00:02:18,839: early_stopping_slope_patience: 2
+2025-11-05 00:02:18,841: early_stopping_slope_min_epoch: 8
+2025-11-05 00:02:18,842: early_stopping_slope_ema_alpha: 0.4
+2025-11-05 00:02:18,843: early_stopping_slope_use_log: True
+2025-11-05 00:02:18,843: early_stopping_slope_log_eps: 1e-12
+2025-11-05 00:02:18,844: early_stopping_slope_eps_slope: 0.001
+2025-11-05 00:02:18,844: early_stopping_slope_min_window_gain: 0.01
+2025-11-05 00:02:18,845: early_stopping_slope_variance_guard: True
+2025-11-05 00:02:18,845: early_stopping_slope_variance_cv_max: 0.01
+2025-11-05 00:02:18,846: dataset: russian_river
+2025-11-05 00:02:18,846: data_dir: C:\Users\arthu\OneDrive\Documents\GitHub\UCB-USACE-RR-PROJECT\russian_river_data
+2025-11-05 00:02:18,847: dynamic_inputs: ['EF RUSSIAN 20 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'EF RUSSIAN 20 PRECIP-INC SCREENED', 'POTTER VALLEY CA FLOW USGS_ADJUSTED', 'UKIAH CA HUMIDITY USAF-NOAA', 'UKIAH CA SOLAR RADIATION USAF-NOAA', 'UKIAH CA TEMPERATURE USAF-NOAA', 'UKIAH CA WINDSPEED USAF-NOAA']
+2025-11-05 00:02:18,848: target_variables: ['NR CALPELLA FLOW COE CPL']
+2025-11-05 00:02:18,848: clip_targets_to_zero: [['NR CALPELLA FLOW COE CPL']]
+2025-11-05 00:02:18,849: hourly: False
+2025-11-05 00:02:18,849: is_mts: False
+2025-11-05 00:02:18,850: is_mts_data: False
+2025-11-05 00:02:18,850: verbose: True
+2025-11-05 00:02:18,851: run_dir: C:\Users\arthu\OneDrive\Documents\GitHub\UCB-USACE-RR-PROJECT\outputs\calpella\daily_shared\runs\BASELINE\testing_run_0511_000218
+2025-11-05 00:02:18,851: run_label: BASELINE
+2025-11-05 00:02:18,852: number_of_basins: 1
+2025-11-05 00:02:18,852: train_dir: C:\Users\arthu\OneDrive\Documents\GitHub\UCB-USACE-RR-PROJECT\outputs\calpella\daily_shared\runs\BASELINE\testing_run_0511_000218\train_data
+2025-11-05 00:02:18,853: img_log_dir: C:\Users\arthu\OneDrive\Documents\GitHub\UCB-USACE-RR-PROJECT\outputs\calpella\daily_shared\runs\BASELINE\testing_run_0511_000218\img_log
+2025-11-05 00:02:18,855: ### Device cuda:0 will be used for training
+2025-11-05 00:02:18,855: Loading basin data into xarray data set.
+2025-11-05 00:02:18,980: Calculating target variable stds per basin
+2025-11-05 00:02:18,986: Create lookup table and convert to pytorch tensor
+2025-11-05 00:02:19,085: Early stopping enabled: mode=patience
+2025-11-05 00:02:19,275: Epoch 1 average loss: avg_loss: 3.76e-06, avg_total_loss: 3.76e-06
+2025-11-05 00:02:19,457: Epoch 2 average loss: avg_loss: 2.53e-06, avg_total_loss: 2.53e-06
+2025-11-05 00:02:19,653: Epoch 3 average loss: avg_loss: 1.75e-06, avg_total_loss: 1.75e-06
+2025-11-05 00:02:19,768: Epoch 4 average loss: avg_loss: 1.61e-06, avg_total_loss: 1.61e-06
+2025-11-05 00:02:19,868: Epoch 5 average loss: avg_loss: 1.34e-06, avg_total_loss: 1.34e-06
+2025-11-05 00:02:20,232: Epoch 5 average validation loss: 1.01e-06 -- Median validation metrics: avg_loss: 1.01e-06, NSE: 0.74560, MSE: 43581.53906
+2025-11-05 00:02:20,323: Epoch 6 average loss: avg_loss: 1.27e-06, avg_total_loss: 1.27e-06
+2025-11-05 00:02:20,412: Epoch 7 average loss: avg_loss: 1.39e-06, avg_total_loss: 1.39e-06
+2025-11-05 00:02:20,413: Setting learning rate to 0.005
+2025-11-05 00:02:20,503: Epoch 8 average loss: avg_loss: 1.13e-06, avg_total_loss: 1.13e-06
+2025-11-05 00:02:20,600: Epoch 9 average loss: avg_loss: 1.13e-06, avg_total_loss: 1.13e-06
+2025-11-05 00:02:20,703: Epoch 10 average loss: avg_loss: 1.02e-06, avg_total_loss: 1.02e-06
+2025-11-05 00:02:20,926: Epoch 10 average validation loss: 9.39e-07 -- Median validation metrics: avg_loss: 9.39e-07, NSE: 0.76245, MSE: 40695.53906
+2025-11-05 00:02:21,050: Epoch 11 average loss: avg_loss: 9.93e-07, avg_total_loss: 9.93e-07
+2025-11-05 00:02:21,051: Setting learning rate to 0.001
+2025-11-05 00:02:21,183: Epoch 12 average loss: avg_loss: 9.83e-07, avg_total_loss: 9.83e-07
+2025-11-05 00:02:21,279: Epoch 13 average loss: avg_loss: 9.32e-07, avg_total_loss: 9.32e-07
+2025-11-05 00:02:21,369: Epoch 14 average loss: avg_loss: 1.01e-06, avg_total_loss: 1.01e-06
+2025-11-05 00:02:21,480: Epoch 15 average loss: avg_loss: 8.72e-07, avg_total_loss: 8.72e-07
+2025-11-05 00:02:21,707: Epoch 15 average validation loss: 9.41e-07 -- Median validation metrics: avg_loss: 9.41e-07, NSE: 0.76072, MSE: 40990.83594
+2025-11-05 00:02:21,836: Epoch 16 average loss: avg_loss: 9.48e-07, avg_total_loss: 9.48e-07
+2025-11-05 00:02:21,853: Using the model weights from C:\Users\arthu\OneDrive\Documents\GitHub\UCB-USACE-RR-PROJECT\outputs\calpella\daily_shared\runs\BASELINE\testing_run_0511_000218\model_epoch016.pt
+2025-11-05 00:02:22,031: Stored metrics at C:\Users\arthu\OneDrive\Documents\GitHub\UCB-USACE-RR-PROJECT\outputs\calpella\daily_shared\runs\BASELINE\testing_run_0511_000218\validation\model_epoch016\validation_metrics.csv
+2025-11-05 00:02:22,032: Stored results at C:\Users\arthu\OneDrive\Documents\GitHub\UCB-USACE-RR-PROJECT\outputs\calpella\daily_shared\runs\BASELINE\testing_run_0511_000218\validation\model_epoch016\validation_results.p
+2025-11-05 00:02:22,710: Logging to C:\Users\arthu\OneDrive\Documents\GitHub\UCB-USACE-RR-PROJECT\outputs\calpella\daily_shared\runs\BASELINE\testing_run_0511_000222\output.log initialized.
+2025-11-05 00:02:22,712: ### Folder structure created at C:\Users\arthu\OneDrive\Documents\GitHub\UCB-USACE-RR-PROJECT\outputs\calpella\daily_shared\runs\BASELINE\testing_run_0511_000222
+2025-11-05 00:02:22,712: ### Run configurations for testing_run
+2025-11-05 00:02:22,713: experiment_name: testing_run
+2025-11-05 00:02:22,713: train_basin_file: calpella
+2025-11-05 00:02:22,715: validation_basin_file: calpella
+2025-11-05 00:02:22,716: test_basin_file: calpella
+2025-11-05 00:02:22,716: train_start_date: 1994-10-01 00:00:00
+2025-11-05 00:02:22,717: train_end_date: 2002-09-30 00:00:00
+2025-11-05 00:02:22,717: validation_start_date: 2002-10-01 00:00:00
+2025-11-05 00:02:22,718: validation_end_date: 2005-09-30 00:00:00
+2025-11-05 00:02:22,720: test_start_date: 2005-10-01 00:00:00
+2025-11-05 00:02:22,720: test_end_date: 2009-09-29 00:00:00
+2025-11-05 00:02:22,721: device: cuda:0
+2025-11-05 00:02:22,722: physics_informed: False
+2025-11-05 00:02:22,722: physics_data_file: None
+2025-11-05 00:02:22,723: validate_every: 5
+2025-11-05 00:02:22,723: validate_n_random_basins: 1
+2025-11-05 00:02:22,724: metrics: ['NSE', 'MSE']
+2025-11-05 00:02:22,725: model: cudalstm
+2025-11-05 00:02:22,726: head: regression
+2025-11-05 00:02:22,726: output_activation: linear
+2025-11-05 00:02:22,727: hidden_size: 64
+2025-11-05 00:02:22,727: initial_forget_bias: 3
+2025-11-05 00:02:22,728: output_dropout: 0.4
+2025-11-05 00:02:22,728: num_layers: 1
+2025-11-05 00:02:22,730: dev_mode: True
+2025-11-05 00:02:22,731: optimizer: Adam
+2025-11-05 00:02:22,731: loss: NSE
+2025-11-05 00:02:22,732: learning_rate: {0: 0.01, 16: 0.005, 24: 0.001}
+2025-11-05 00:02:22,732: batch_size: 64
+2025-11-05 00:02:22,734: epochs: 32
+2025-11-05 00:02:22,734: clip_gradient_norm: 1
+2025-11-05 00:02:22,735: predict_last_n: 1
+2025-11-05 00:02:22,736: seq_length: 90
+2025-11-05 00:02:22,737: log_interval: 16
+2025-11-05 00:02:22,739: log_tensorboard: True
+2025-11-05 00:02:22,740: log_n_figures: 1
+2025-11-05 00:02:22,740: save_weights_every: 32
+2025-11-05 00:02:22,742: early_stopping: True
+2025-11-05 00:02:22,743: early_stopping_mode: patience
+2025-11-05 00:02:22,744: patience_early_stopping: 3
+2025-11-05 00:02:22,745: min_delta_early_stopping: 0.0
+2025-11-05 00:02:22,747: minimum_epochs_before_early_stopping: 10
+2025-11-05 00:02:22,748: early_stopping_slope_window: 7
+2025-11-05 00:02:22,749: early_stopping_slope_patience: 2
+2025-11-05 00:02:22,751: early_stopping_slope_min_epoch: 8
+2025-11-05 00:02:22,751: early_stopping_slope_ema_alpha: 0.4
+2025-11-05 00:02:22,752: early_stopping_slope_use_log: True
+2025-11-05 00:02:22,753: early_stopping_slope_log_eps: 1e-12
+2025-11-05 00:02:22,755: early_stopping_slope_eps_slope: 0.001
+2025-11-05 00:02:22,757: early_stopping_slope_min_window_gain: 0.01
+2025-11-05 00:02:22,758: early_stopping_slope_variance_guard: True
+2025-11-05 00:02:22,760: early_stopping_slope_variance_cv_max: 0.01
+2025-11-05 00:02:22,761: dataset: russian_river
+2025-11-05 00:02:22,762: data_dir: C:\Users\arthu\OneDrive\Documents\GitHub\UCB-USACE-RR-PROJECT\russian_river_data
+2025-11-05 00:02:22,763: dynamic_inputs: ['EF RUSSIAN 20 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'EF RUSSIAN 20 PRECIP-INC SCREENED', 'POTTER VALLEY CA FLOW USGS_ADJUSTED', 'UKIAH CA HUMIDITY USAF-NOAA', 'UKIAH CA SOLAR RADIATION USAF-NOAA', 'UKIAH CA TEMPERATURE USAF-NOAA', 'UKIAH CA WINDSPEED USAF-NOAA']
+2025-11-05 00:02:22,764: target_variables: ['NR CALPELLA FLOW COE CPL']
+2025-11-05 00:02:22,765: clip_targets_to_zero: [['NR CALPELLA FLOW COE CPL']]
+2025-11-05 00:02:22,767: hourly: False
+2025-11-05 00:02:22,768: is_mts: False
+2025-11-05 00:02:22,769: is_mts_data: False
+2025-11-05 00:02:22,771: verbose: True
+2025-11-05 00:02:22,772: run_dir: C:\Users\arthu\OneDrive\Documents\GitHub\UCB-USACE-RR-PROJECT\outputs\calpella\daily_shared\runs\BASELINE\testing_run_0511_000222
+2025-11-05 00:02:22,773: run_label: BASELINE
+2025-11-05 00:02:22,774: number_of_basins: 1
+2025-11-05 00:02:22,775: train_dir: C:\Users\arthu\OneDrive\Documents\GitHub\UCB-USACE-RR-PROJECT\outputs\calpella\daily_shared\runs\BASELINE\testing_run_0511_000222\train_data
+2025-11-05 00:02:22,776: img_log_dir: C:\Users\arthu\OneDrive\Documents\GitHub\UCB-USACE-RR-PROJECT\outputs\calpella\daily_shared\runs\BASELINE\testing_run_0511_000222\img_log
+2025-11-05 00:02:22,779: ### Device cuda:0 will be used for training
+2025-11-05 00:02:22,780: Loading basin data into xarray data set.
+2025-11-05 00:02:22,904: Calculating target variable stds per basin
+2025-11-05 00:02:22,911: Create lookup table and convert to pytorch tensor
+2025-11-05 00:02:23,012: Early stopping enabled: mode=patience
+2025-11-05 00:02:23,359: Epoch 1 average loss: avg_loss: 2.76e-06, avg_total_loss: 2.76e-06
+2025-11-05 00:02:23,701: Epoch 2 average loss: avg_loss: 1.46e-06, avg_total_loss: 1.46e-06
+2025-11-05 00:02:24,044: Epoch 3 average loss: avg_loss: 1.33e-06, avg_total_loss: 1.33e-06
+2025-11-05 00:02:24,385: Epoch 4 average loss: avg_loss: 1.19e-06, avg_total_loss: 1.19e-06
+2025-11-05 00:02:24,730: Epoch 5 average loss: avg_loss: 1.08e-06, avg_total_loss: 1.08e-06
+2025-11-05 00:02:25,081: Epoch 5 average validation loss: 1.13e-06 -- Median validation metrics: avg_loss: 1.13e-06, NSE: 0.74078, MSE: 44408.32031
+2025-11-05 00:02:25,428: Epoch 6 average loss: avg_loss: 9.15e-07, avg_total_loss: 9.15e-07
+2025-11-05 00:02:25,790: Epoch 7 average loss: avg_loss: 8.38e-07, avg_total_loss: 8.38e-07
+2025-11-05 00:02:26,130: Epoch 8 average loss: avg_loss: 9.00e-07, avg_total_loss: 9.00e-07
+2025-11-05 00:02:26,478: Epoch 9 average loss: avg_loss: 7.84e-07, avg_total_loss: 7.84e-07
+2025-11-05 00:02:26,818: Epoch 10 average loss: avg_loss: 8.42e-07, avg_total_loss: 8.42e-07
+2025-11-05 00:02:27,069: Epoch 10 average validation loss: 8.98e-07 -- Median validation metrics: avg_loss: 8.98e-07, NSE: 0.79321, MSE: 35425.58203
+2025-11-05 00:02:27,399: Epoch 11 average loss: avg_loss: 1.07e-06, avg_total_loss: 1.07e-06
+2025-11-05 00:02:27,745: Epoch 12 average loss: avg_loss: 8.40e-07, avg_total_loss: 8.40e-07
+2025-11-05 00:02:28,087: Epoch 13 average loss: avg_loss: 7.37e-07, avg_total_loss: 7.37e-07
+2025-11-05 00:02:28,428: Epoch 14 average loss: avg_loss: 6.96e-07, avg_total_loss: 6.96e-07
+2025-11-05 00:02:28,762: Epoch 15 average loss: avg_loss: 7.64e-07, avg_total_loss: 7.64e-07
+2025-11-05 00:02:28,999: Epoch 15 average validation loss: 9.71e-07 -- Median validation metrics: avg_loss: 9.71e-07, NSE: 0.77703, MSE: 38197.94531
+2025-11-05 00:02:29,000: Setting learning rate to 0.005
+2025-11-05 00:02:29,335: Epoch 16 average loss: avg_loss: 8.80e-07, avg_total_loss: 8.80e-07
+2025-11-05 00:02:29,710: Epoch 17 average loss: avg_loss: 7.29e-07, avg_total_loss: 7.29e-07
+2025-11-05 00:02:30,062: Epoch 18 average loss: avg_loss: 6.69e-07, avg_total_loss: 6.69e-07
+2025-11-05 00:02:30,412: Epoch 19 average loss: avg_loss: 6.38e-07, avg_total_loss: 6.38e-07
+2025-11-05 00:02:30,756: Epoch 20 average loss: avg_loss: 6.54e-07, avg_total_loss: 6.54e-07
+2025-11-05 00:02:31,009: Epoch 20 average validation loss: 8.38e-07 -- Median validation metrics: avg_loss: 8.38e-07, NSE: 0.80765, MSE: 32951.47266
+2025-11-05 00:02:31,355: Epoch 21 average loss: avg_loss: 5.97e-07, avg_total_loss: 5.97e-07
+2025-11-05 00:02:31,696: Epoch 22 average loss: avg_loss: 6.55e-07, avg_total_loss: 6.55e-07
+2025-11-05 00:02:32,039: Epoch 23 average loss: avg_loss: 5.72e-07, avg_total_loss: 5.72e-07
+2025-11-05 00:02:32,040: Setting learning rate to 0.001
+2025-11-05 00:02:32,381: Epoch 24 average loss: avg_loss: 5.73e-07, avg_total_loss: 5.73e-07
+2025-11-05 00:02:32,720: Epoch 25 average loss: avg_loss: 5.07e-07, avg_total_loss: 5.07e-07
+2025-11-05 00:02:32,969: Epoch 25 average validation loss: 8.71e-07 -- Median validation metrics: avg_loss: 8.71e-07, NSE: 0.80006, MSE: 34252.93750
+2025-11-05 00:02:33,342: Epoch 26 average loss: avg_loss: 5.49e-07, avg_total_loss: 5.49e-07
+2025-11-05 00:02:33,715: Epoch 27 average loss: avg_loss: 5.10e-07, avg_total_loss: 5.10e-07
+2025-11-05 00:02:34,084: Epoch 28 average loss: avg_loss: 5.39e-07, avg_total_loss: 5.39e-07
+2025-11-05 00:02:34,465: Epoch 29 average loss: avg_loss: 4.67e-07, avg_total_loss: 4.67e-07
+2025-11-05 00:02:34,824: Epoch 30 average loss: avg_loss: 4.82e-07, avg_total_loss: 4.82e-07
+2025-11-05 00:02:35,074: Epoch 30 average validation loss: 8.76e-07 -- Median validation metrics: avg_loss: 8.76e-07, NSE: 0.79895, MSE: 34442.30469
+2025-11-05 00:02:35,439: Epoch 31 average loss: avg_loss: 5.52e-07, avg_total_loss: 5.52e-07
+2025-11-05 00:02:35,847: Epoch 32 average loss: avg_loss: 5.21e-07, avg_total_loss: 5.21e-07
+2025-11-05 00:02:35,870: Using the model weights from C:\Users\arthu\OneDrive\Documents\GitHub\UCB-USACE-RR-PROJECT\outputs\calpella\daily_shared\runs\BASELINE\testing_run_0511_000222\model_epoch032.pt
+2025-11-05 00:02:36,055: Stored metrics at C:\Users\arthu\OneDrive\Documents\GitHub\UCB-USACE-RR-PROJECT\outputs\calpella\daily_shared\runs\BASELINE\testing_run_0511_000222\validation\model_epoch032\validation_metrics.csv
+2025-11-05 00:02:36,057: Stored results at C:\Users\arthu\OneDrive\Documents\GitHub\UCB-USACE-RR-PROJECT\outputs\calpella\daily_shared\runs\BASELINE\testing_run_0511_000222\validation\model_epoch032\validation_results.p
+2025-11-05 00:02:36,768: Logging to C:\Users\arthu\OneDrive\Documents\GitHub\UCB-USACE-RR-PROJECT\outputs\calpella\daily_shared\runs\BASELINE\testing_run_0511_000236\output.log initialized.
+2025-11-05 00:02:36,769: ### Folder structure created at C:\Users\arthu\OneDrive\Documents\GitHub\UCB-USACE-RR-PROJECT\outputs\calpella\daily_shared\runs\BASELINE\testing_run_0511_000236
+2025-11-05 00:02:36,770: ### Run configurations for testing_run
+2025-11-05 00:02:36,771: experiment_name: testing_run
+2025-11-05 00:02:36,771: train_basin_file: calpella
+2025-11-05 00:02:36,772: validation_basin_file: calpella
+2025-11-05 00:02:36,773: test_basin_file: calpella
+2025-11-05 00:02:36,773: train_start_date: 1994-10-01 00:00:00
+2025-11-05 00:02:36,774: train_end_date: 2002-09-30 00:00:00
+2025-11-05 00:02:36,775: validation_start_date: 2002-10-01 00:00:00
+2025-11-05 00:02:36,776: validation_end_date: 2005-09-30 00:00:00
+2025-11-05 00:02:36,777: test_start_date: 2005-10-01 00:00:00
+2025-11-05 00:02:36,778: test_end_date: 2009-09-29 00:00:00
+2025-11-05 00:02:36,780: device: cuda:0
+2025-11-05 00:02:36,781: physics_informed: False
+2025-11-05 00:02:36,781: physics_data_file: None
+2025-11-05 00:02:36,782: validate_every: 5
+2025-11-05 00:02:36,783: validate_n_random_basins: 1
+2025-11-05 00:02:36,784: metrics: ['NSE', 'MSE']
+2025-11-05 00:02:36,784: model: cudalstm
+2025-11-05 00:02:36,785: head: regression
+2025-11-05 00:02:36,786: output_activation: linear
+2025-11-05 00:02:36,786: hidden_size: 64
+2025-11-05 00:02:36,787: initial_forget_bias: 3
+2025-11-05 00:02:36,788: output_dropout: 0.4
+2025-11-05 00:02:36,788: num_layers: 1
+2025-11-05 00:02:36,789: dev_mode: True
+2025-11-05 00:02:36,790: optimizer: Adam
+2025-11-05 00:02:36,791: loss: NSE
+2025-11-05 00:02:36,791: learning_rate: {0: 0.01, 16: 0.005, 24: 0.001}
+2025-11-05 00:02:36,792: batch_size: 128
+2025-11-05 00:02:36,793: epochs: 32
+2025-11-05 00:02:36,793: clip_gradient_norm: 1
+2025-11-05 00:02:36,794: predict_last_n: 1
+2025-11-05 00:02:36,795: seq_length: 90
+2025-11-05 00:02:36,795: log_interval: 16
+2025-11-05 00:02:36,796: log_tensorboard: True
+2025-11-05 00:02:36,797: log_n_figures: 1
+2025-11-05 00:02:36,798: save_weights_every: 32
+2025-11-05 00:02:36,798: early_stopping: True
+2025-11-05 00:02:36,799: early_stopping_mode: patience
+2025-11-05 00:02:36,800: patience_early_stopping: 3
+2025-11-05 00:02:36,801: min_delta_early_stopping: 0.0
+2025-11-05 00:02:36,801: minimum_epochs_before_early_stopping: 10
+2025-11-05 00:02:36,802: early_stopping_slope_window: 7
+2025-11-05 00:02:36,803: early_stopping_slope_patience: 2
+2025-11-05 00:02:36,804: early_stopping_slope_min_epoch: 8
+2025-11-05 00:02:36,804: early_stopping_slope_ema_alpha: 0.4
+2025-11-05 00:02:36,805: early_stopping_slope_use_log: True
+2025-11-05 00:02:36,806: early_stopping_slope_log_eps: 1e-12
+2025-11-05 00:02:36,807: early_stopping_slope_eps_slope: 0.001
+2025-11-05 00:02:36,808: early_stopping_slope_min_window_gain: 0.01
+2025-11-05 00:02:36,808: early_stopping_slope_variance_guard: True
+2025-11-05 00:02:36,809: early_stopping_slope_variance_cv_max: 0.01
+2025-11-05 00:02:36,810: dataset: russian_river
+2025-11-05 00:02:36,811: data_dir: C:\Users\arthu\OneDrive\Documents\GitHub\UCB-USACE-RR-PROJECT\russian_river_data
+2025-11-05 00:02:36,812: dynamic_inputs: ['EF RUSSIAN 20 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'EF RUSSIAN 20 PRECIP-INC SCREENED', 'POTTER VALLEY CA FLOW USGS_ADJUSTED', 'UKIAH CA HUMIDITY USAF-NOAA', 'UKIAH CA SOLAR RADIATION USAF-NOAA', 'UKIAH CA TEMPERATURE USAF-NOAA', 'UKIAH CA WINDSPEED USAF-NOAA']
+2025-11-05 00:02:36,813: target_variables: ['NR CALPELLA FLOW COE CPL']
+2025-11-05 00:02:36,814: clip_targets_to_zero: [['NR CALPELLA FLOW COE CPL']]
+2025-11-05 00:02:36,814: hourly: False
+2025-11-05 00:02:36,815: is_mts: False
+2025-11-05 00:02:36,816: is_mts_data: False
+2025-11-05 00:02:36,817: verbose: True
+2025-11-05 00:02:36,818: run_dir: C:\Users\arthu\OneDrive\Documents\GitHub\UCB-USACE-RR-PROJECT\outputs\calpella\daily_shared\runs\BASELINE\testing_run_0511_000236
+2025-11-05 00:02:36,819: run_label: BASELINE
+2025-11-05 00:02:36,819: number_of_basins: 1
+2025-11-05 00:02:36,820: train_dir: C:\Users\arthu\OneDrive\Documents\GitHub\UCB-USACE-RR-PROJECT\outputs\calpella\daily_shared\runs\BASELINE\testing_run_0511_000236\train_data
+2025-11-05 00:02:36,821: img_log_dir: C:\Users\arthu\OneDrive\Documents\GitHub\UCB-USACE-RR-PROJECT\outputs\calpella\daily_shared\runs\BASELINE\testing_run_0511_000236\img_log
+2025-11-05 00:02:36,823: ### Device cuda:0 will be used for training
+2025-11-05 00:02:36,825: Loading basin data into xarray data set.
+2025-11-05 00:02:36,990: Calculating target variable stds per basin
+2025-11-05 00:02:36,999: Create lookup table and convert to pytorch tensor
+2025-11-05 00:02:37,095: Early stopping enabled: mode=patience
+2025-11-05 00:02:37,452: Epoch 1 average loss: avg_loss: 3.15e-06, avg_total_loss: 3.15e-06
+2025-11-05 00:02:37,710: Epoch 2 average loss: avg_loss: 1.96e-06, avg_total_loss: 1.96e-06
+2025-11-05 00:02:37,947: Epoch 3 average loss: avg_loss: 1.43e-06, avg_total_loss: 1.43e-06
+2025-11-05 00:02:38,154: Epoch 4 average loss: avg_loss: 1.23e-06, avg_total_loss: 1.23e-06
+2025-11-05 00:02:38,302: Epoch 5 average loss: avg_loss: 1.18e-06, avg_total_loss: 1.18e-06
+2025-11-05 00:02:38,646: Epoch 5 average validation loss: 1.09e-06 -- Median validation metrics: avg_loss: 1.09e-06, NSE: 0.75171, MSE: 42535.56641
+2025-11-05 00:02:38,819: Epoch 6 average loss: avg_loss: 9.65e-07, avg_total_loss: 9.65e-07
+2025-11-05 00:02:38,961: Epoch 7 average loss: avg_loss: 9.05e-07, avg_total_loss: 9.05e-07
+2025-11-05 00:02:39,138: Epoch 8 average loss: avg_loss: 8.02e-07, avg_total_loss: 8.02e-07
+2025-11-05 00:02:39,315: Epoch 9 average loss: avg_loss: 8.20e-07, avg_total_loss: 8.20e-07
+2025-11-05 00:02:39,463: Epoch 10 average loss: avg_loss: 7.57e-07, avg_total_loss: 7.57e-07
+2025-11-05 00:02:39,679: Epoch 10 average validation loss: 1.06e-06 -- Median validation metrics: avg_loss: 1.06e-06, NSE: 0.75668, MSE: 41683.64453
+2025-11-05 00:02:39,858: Epoch 11 average loss: avg_loss: 8.19e-07, avg_total_loss: 8.19e-07
+2025-11-05 00:02:40,014: Epoch 12 average loss: avg_loss: 7.15e-07, avg_total_loss: 7.15e-07
+2025-11-05 00:02:40,191: Epoch 13 average loss: avg_loss: 7.27e-07, avg_total_loss: 7.27e-07
+2025-11-05 00:02:40,341: Epoch 14 average loss: avg_loss: 7.80e-07, avg_total_loss: 7.80e-07
+2025-11-05 00:02:40,517: Epoch 15 average loss: avg_loss: 7.58e-07, avg_total_loss: 7.58e-07
+2025-11-05 00:02:40,731: Epoch 15 average validation loss: 1.19e-06 -- Median validation metrics: avg_loss: 1.19e-06, NSE: 0.72665, MSE: 46827.39844
+2025-11-05 00:02:40,733: Setting learning rate to 0.005
+2025-11-05 00:02:40,979: Epoch 16 average loss: avg_loss: 6.48e-07, avg_total_loss: 6.48e-07
+2025-11-05 00:02:41,221: Epoch 17 average loss: avg_loss: 6.16e-07, avg_total_loss: 6.16e-07
+2025-11-05 00:02:41,474: Epoch 18 average loss: avg_loss: 6.81e-07, avg_total_loss: 6.81e-07
+2025-11-05 00:02:41,640: Epoch 19 average loss: avg_loss: 6.07e-07, avg_total_loss: 6.07e-07
+2025-11-05 00:02:41,823: Epoch 20 average loss: avg_loss: 6.57e-07, avg_total_loss: 6.57e-07
+2025-11-05 00:02:42,194: Epoch 20 average validation loss: 1.07e-06 -- Median validation metrics: avg_loss: 1.07e-06, NSE: 0.75486, MSE: 41995.20703
+2025-11-05 00:02:42,398: Epoch 21 average loss: avg_loss: 6.17e-07, avg_total_loss: 6.17e-07
+2025-11-05 00:02:42,542: Epoch 22 average loss: avg_loss: 6.17e-07, avg_total_loss: 6.17e-07
+2025-11-05 00:02:42,717: Epoch 23 average loss: avg_loss: 6.09e-07, avg_total_loss: 6.09e-07
+2025-11-05 00:02:42,718: Setting learning rate to 0.001
+2025-11-05 00:02:42,903: Epoch 24 average loss: avg_loss: 5.11e-07, avg_total_loss: 5.11e-07
+2025-11-05 00:02:43,110: Epoch 25 average loss: avg_loss: 5.01e-07, avg_total_loss: 5.01e-07
+2025-11-05 00:02:43,351: Epoch 25 average validation loss: 1.06e-06 -- Median validation metrics: avg_loss: 1.06e-06, NSE: 0.75597, MSE: 41806.16016
+2025-11-05 00:02:43,352: ES[patience]: STOP at epoch=25 after 3 checks without improvement
+2025-11-05 00:02:43,352: Early stopping triggered at epoch 25
+2025-11-05 00:02:43,369: Using the model weights from C:\Users\arthu\OneDrive\Documents\GitHub\UCB-USACE-RR-PROJECT\outputs\calpella\daily_shared\runs\BASELINE\testing_run_0511_000236\model_epoch025.pt
+2025-11-05 00:02:43,542: Stored metrics at C:\Users\arthu\OneDrive\Documents\GitHub\UCB-USACE-RR-PROJECT\outputs\calpella\daily_shared\runs\BASELINE\testing_run_0511_000236\validation\model_epoch025\validation_metrics.csv
+2025-11-05 00:02:43,543: Stored results at C:\Users\arthu\OneDrive\Documents\GitHub\UCB-USACE-RR-PROJECT\outputs\calpella\daily_shared\runs\BASELINE\testing_run_0511_000236\validation\model_epoch025\validation_results.p
+2025-11-05 00:02:43,972: Using the model weights from C:\Users\arthu\OneDrive\Documents\GitHub\UCB-USACE-RR-PROJECT\outputs\calpella\daily_shared\runs\BASELINE\testing_run_0511_000236\model_epoch025.pt
+2025-11-05 00:02:44,175: Stored metrics at C:\Users\arthu\OneDrive\Documents\GitHub\UCB-USACE-RR-PROJECT\outputs\calpella\daily_shared\runs\BASELINE\testing_run_0511_000236\validation\model_epoch025\validation_metrics.csv
+2025-11-05 00:02:44,176: Stored results at C:\Users\arthu\OneDrive\Documents\GitHub\UCB-USACE-RR-PROJECT\outputs\calpella\daily_shared\runs\BASELINE\testing_run_0511_000236\validation\model_epoch025\validation_results.p

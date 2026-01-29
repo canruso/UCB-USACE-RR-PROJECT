@@ -386,6 +386,81 @@ class Config(object):
         return self._get_value_verbose("epochs")
 
     @property
+    def early_stopping(self) -> bool:
+        """Whether early stopping is enabled."""
+        return self._cfg.get("early_stopping", False)
+
+    @property
+    def early_stopping_mode(self) -> str:
+        """Early stopping mode: 'patience', 'slope', or 'none'."""
+        return self._cfg.get("early_stopping_mode", "patience")
+
+    @property
+    def patience_early_stopping(self) -> int:
+        """Number of validation epochs without improvement before stopping (patience mode)."""
+        return self._cfg.get("patience_early_stopping", 5)
+
+    @property
+    def min_delta_early_stopping(self) -> float:
+        """Minimum change to qualify as improvement (patience mode)."""
+        return self._cfg.get("min_delta_early_stopping", 0.0)
+
+    @property
+    def minimum_epochs_before_early_stopping(self) -> int:
+        """Minimum number of epochs before early stopping can trigger."""
+        return self._cfg.get("minimum_epochs_before_early_stopping", 1)
+
+    @property
+    def early_stopping_slope_window(self) -> int:
+        """Number of epochs in rolling window for trend analysis (slope mode)."""
+        return self._cfg.get("early_stopping_slope_window", 7)
+
+    @property
+    def early_stopping_slope_patience(self) -> int:
+        """Consecutive non-improving trend checks before stopping (slope mode)."""
+        return self._cfg.get("early_stopping_slope_patience", 2)
+
+    @property
+    def early_stopping_slope_min_epoch(self) -> int:
+        """Minimum epoch before slope checks begin (slope mode)."""
+        return self._cfg.get("early_stopping_slope_min_epoch", 8)
+
+    @property
+    def early_stopping_slope_ema_alpha(self) -> float:
+        """EMA smoothing factor in (0,1] (slope mode)."""
+        return self._cfg.get("early_stopping_slope_ema_alpha", 0.4)
+
+    @property
+    def early_stopping_slope_use_log(self) -> bool:
+        """Apply log transform to smoothed loss (slope mode)."""
+        return self._cfg.get("early_stopping_slope_use_log", True)
+
+    @property
+    def early_stopping_slope_log_eps(self) -> float:
+        """Epsilon added before log if loss <= 0 (slope mode)."""
+        return self._cfg.get("early_stopping_slope_log_eps", 1e-12)
+
+    @property
+    def early_stopping_slope_eps_slope(self) -> float:
+        """Per-epoch improvement threshold in log space (slope mode)."""
+        return self._cfg.get("early_stopping_slope_eps_slope", 1e-3)
+
+    @property
+    def early_stopping_slope_min_window_gain(self) -> float:
+        """Required total improvement across window in log space (slope mode)."""
+        return self._cfg.get("early_stopping_slope_min_window_gain", 0.01)
+
+    @property
+    def early_stopping_slope_variance_guard(self) -> bool:
+        """Check window stability before acting (slope mode)."""
+        return self._cfg.get("early_stopping_slope_variance_guard", True)
+
+    @property
+    def early_stopping_slope_variance_cv_max(self) -> float:
+        """Max coefficient of variation to consider stable (slope mode)."""
+        return self._cfg.get("early_stopping_slope_variance_cv_max", 0.01)
+
+    @property
     def evolving_attributes(self) -> List[str]:
         if "evolving_attributes" in self._cfg.keys():
             return self._as_default_list(self._cfg["evolving_attributes"])

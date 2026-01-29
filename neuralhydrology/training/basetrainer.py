@@ -4,7 +4,7 @@ import random
 import sys
 from datetime import datetime
 from pathlib import Path
-from typing import Dict
+from typing import Dict, Optional
 
 import numpy as np
 import torch
@@ -19,6 +19,7 @@ from neuralhydrology.evaluation import get_tester
 from neuralhydrology.evaluation.tester import BaseTester
 from neuralhydrology.modelzoo import get_model
 from neuralhydrology.training import get_loss_obj, get_optimizer, get_regularization_obj
+from neuralhydrology.training.early_stopping import create_early_stopper
 from neuralhydrology.training.logger import Logger
 from neuralhydrology.utils.config import Config
 from neuralhydrology.utils.logging_utils import setup_logging
@@ -44,6 +45,7 @@ class BaseTrainer(object):
         self.experiment_logger = None
         self.loader = None
         self.validator = None
+        self.early_stopper = None
         self.noise_sampler_y = None
         self._target_mean = None
         self._target_std = None
@@ -195,6 +197,13 @@ class BaseTrainer(object):
                 self.cfg.validate_n_random_basins = self.cfg.number_of_basins
             self.validator = self._get_tester()
 
+        # Initialize early stopper
+        if self.cfg.early_stopping and self.validator is not None:
+            tb_writer = self.experiment_logger.writer if self.cfg.log_tensorboard else None
+            self.early_stopper = create_early_stopper(self.cfg, logger=LOGGER, tb_writer=tb_writer)
+            if self.early_stopper is not None:
+                LOGGER.info(f"Early stopping enabled: mode={self.cfg.early_stopping_mode}")
+
         if self.cfg.target_noise_std is not None:
             self.noise_sampler_y = torch.distributions.Normal(loc=0, scale=self.cfg.target_noise_std)
             self._target_mean = torch.from_numpy(
@@ -217,7 +226,9 @@ class BaseTrainer(object):
 
             self._train_epoch(epoch=epoch)
             avg_losses = self.experiment_logger.summarise()
-            loss_str = ", ".join(f"{k}: {v:.5f}" for k, v in avg_losses.items())
+            # Use scientific notation for very small loss values
+            loss_str = ", ".join(f"{k}: {v:.2e}" if abs(v) < 1e-4 else f"{k}: {v:.5f}"
+                                for k, v in avg_losses.items())
             if self.cfg.verbose:
                 LOGGER.info(f"Epoch {epoch} average loss: {loss_str}")
 
@@ -233,12 +244,27 @@ class BaseTrainer(object):
                                         experiment_logger=self.experiment_logger.valid())
 
                 valid_metrics = self.experiment_logger.summarise()
-                print_msg = f"Epoch {epoch} average validation loss: {valid_metrics['avg_total_loss']:.5f}"
+                # Use scientific notation for very small loss values
+                val_loss = valid_metrics['avg_total_loss']
+                val_loss_fmt = f"{val_loss:.2e}" if abs(val_loss) < 1e-4 else f"{val_loss:.5f}"
+                print_msg = f"Epoch {epoch} average validation loss: {val_loss_fmt}"
                 if self.cfg.metrics:
                     print_msg += f" -- Median validation metrics: "
-                    print_msg += ", ".join(f"{k}: {v:.5f}" for k, v in valid_metrics.items() if k != 'avg_total_loss')
+                    print_msg += ", ".join(f"{k}: {v:.2e}" if abs(v) < 1e-4 else f"{k}: {v:.5f}"
+                                          for k, v in valid_metrics.items() if k != 'avg_total_loss')
                     if self.cfg.verbose:
                         LOGGER.info(print_msg)
+
+                # Check early stopping
+                if self.early_stopper is not None:
+                    val_loss = valid_metrics['avg_total_loss']
+                    should_stop = self.early_stopper.update(epoch, val_loss)
+                    if should_stop:
+                        if self.cfg.verbose:
+                            LOGGER.info(f"Early stopping triggered at epoch {epoch}")
+                        # Save final checkpoint before stopping
+                        self._save_weights_and_optimizer(epoch)
+                        break
 
         # make sure to close tensorboard to avoid losing the last epoch
         if self.cfg.log_tensorboard:
@@ -270,12 +296,25 @@ class BaseTrainer(object):
         self.model.load_state_dict(torch.load(weight_path, map_location=self.device))
         self.optimizer.load_state_dict(torch.load(str(optimizer_path), map_location=self.device))
 
+        # Restore early stopper state if present
+        if self.early_stopper is not None:
+            stopper_path = self.cfg.base_run_dir / f"early_stopper_state_epoch{epoch}.pt"
+            if stopper_path.exists():
+                self.early_stopper.load_state_dict(torch.load(str(stopper_path), map_location=self.device))
+                if self.cfg.verbose:
+                    LOGGER.info(f"Restored early stopper state from epoch {int(epoch)}")
+
     def _save_weights_and_optimizer(self, epoch: int):
         weight_path = self.cfg.run_dir / f"model_epoch{epoch:03d}.pt"
         torch.save(self.model.state_dict(), str(weight_path))
 
         optimizer_path = self.cfg.run_dir / f"optimizer_state_epoch{epoch:03d}.pt"
         torch.save(self.optimizer.state_dict(), str(optimizer_path))
+
+        # Save early stopper state if present
+        if self.early_stopper is not None:
+            stopper_path = self.cfg.run_dir / f"early_stopper_state_epoch{epoch:03d}.pt"
+            torch.save(self.early_stopper.state_dict(), str(stopper_path))
 
     def _train_epoch(self, epoch: int):
         self.model.train()

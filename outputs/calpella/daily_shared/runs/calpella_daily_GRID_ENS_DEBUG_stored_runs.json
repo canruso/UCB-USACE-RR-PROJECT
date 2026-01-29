@@ -1,0 +1,12 @@
+{
+  "no_physics": [
+    "testing_run_1311_174518",
+    "testing_run_1311_174518/testing_run_1311_174539",
+    "testing_run_1311_174518/testing_run_1311_174539/testing_run_1311_174554"
+  ],
+  "physics": [
+    "testing_run_1311_174704",
+    "testing_run_1311_174704/testing_run_1311_174730",
+    "testing_run_1311_174704/testing_run_1311_174730/testing_run_1311_174759"
+  ]
+}
