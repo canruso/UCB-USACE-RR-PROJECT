@@ -702,7 +702,7 @@ class UCB_trainer:
                 if self._is_mts and freq_key == "1H":
                     obs_df = self._observed.to_dataframe(name="Observed")
                     sim_df = self._predictions.to_dataframe(name="Predicted")
-                    merged_df = obs_df.join(sim_df, how="inner").reset_index()
+                    merged_df = obs_df.join(sim_df, how="inner", lsuffix='_obs', rsuffix='_sim').reset_index()
 
                     if "date_obs" in merged_df.columns and "time_step_obs" in merged_df.columns:
                         merged_df["Date"] = pd.to_datetime(merged_df["date_obs"]) \
