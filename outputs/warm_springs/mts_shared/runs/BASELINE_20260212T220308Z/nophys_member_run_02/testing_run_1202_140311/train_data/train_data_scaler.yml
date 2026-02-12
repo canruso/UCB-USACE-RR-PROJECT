@@ -1,0 +1,114 @@
+xarray_feature_scale:
+  coords: {}
+  attrs: {}
+  dims: {}
+  data_vars:
+    DRY CREEK 20 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR:
+      dims: []
+      attrs: {}
+      data: 0.007990480400621891
+    DRY CREEK 20 PRECIP-INC SCREENED:
+      dims: []
+      attrs: {}
+      data: 0.03286558762192726
+    DRY CREEK 30 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR:
+      dims: []
+      attrs: {}
+      data: 0.008257699199020863
+    DRY CREEK 30 PRECIP-INC SCREENED:
+      dims: []
+      attrs: {}
+      data: 0.02984391339123249
+    LAKE SONOMA FLOW-RES IN CALC-VAL-SHIFT-SMOOTH:
+      dims: []
+      attrs: {}
+      data: 1312.2635498046875
+    SANTA ROSA CA HUMIDITY USAF-NOAA:
+      dims: []
+      attrs: {}
+      data: 21.29205322265625
+    SANTA ROSA CA SOLAR RADIATION USAF-NOAA:
+      dims: []
+      attrs: {}
+      data: 294.78570556640625
+    SANTA ROSA CA TEMPERATURE USAF-NOAA:
+      dims: []
+      attrs: {}
+      data: 12.438920021057129
+    SANTA ROSA CA WINDSPEED USAF-NOAA:
+      dims: []
+      attrs: {}
+      data: 5.060116767883301
+    UKIAH CA HUMIDITY USAF-NOAA:
+      dims: []
+      attrs: {}
+      data: 21.930402755737305
+    UKIAH CA SOLAR RADIATION USAF-NOAA:
+      dims: []
+      attrs: {}
+      data: 293.4057922363281
+    UKIAH CA TEMPERATURE USAF-NOAA:
+      dims: []
+      attrs: {}
+      data: 14.312830924987793
+    UKIAH CA WINDSPEED USAF-NOAA:
+      dims: []
+      attrs: {}
+      data: 4.332910537719727
+xarray_feature_center:
+  coords: {}
+  attrs: {}
+  dims: {}
+  data_vars:
+    DRY CREEK 20 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR:
+      dims: []
+      attrs: {}
+      data: 0.004815720487385988
+    DRY CREEK 20 PRECIP-INC SCREENED:
+      dims: []
+      attrs: {}
+      data: 0.006470655556768179
+    DRY CREEK 30 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR:
+      dims: []
+      attrs: {}
+      data: 0.004899418912827969
+    DRY CREEK 30 PRECIP-INC SCREENED:
+      dims: []
+      attrs: {}
+      data: 0.006096374709159136
+    LAKE SONOMA FLOW-RES IN CALC-VAL-SHIFT-SMOOTH:
+      dims: []
+      attrs: {}
+      data: 480.9405822753906
+    SANTA ROSA CA HUMIDITY USAF-NOAA:
+      dims: []
+      attrs: {}
+      data: 72.34048461914062
+    SANTA ROSA CA SOLAR RADIATION USAF-NOAA:
+      dims: []
+      attrs: {}
+      data: 199.9555206298828
+    SANTA ROSA CA TEMPERATURE USAF-NOAA:
+      dims: []
+      attrs: {}
+      data: 56.87516784667969
+    SANTA ROSA CA WINDSPEED USAF-NOAA:
+      dims: []
+      attrs: {}
+      data: 4.689921855926514
+    UKIAH CA HUMIDITY USAF-NOAA:
+      dims: []
+      attrs: {}
+      data: 66.04891967773438
+    UKIAH CA SOLAR RADIATION USAF-NOAA:
+      dims: []
+      attrs: {}
+      data: 196.75152587890625
+    UKIAH CA TEMPERATURE USAF-NOAA:
+      dims: []
+      attrs: {}
+      data: 57.84477233886719
+    UKIAH CA WINDSPEED USAF-NOAA:
+      dims: []
+      attrs: {}
+      data: 3.9454898834228516

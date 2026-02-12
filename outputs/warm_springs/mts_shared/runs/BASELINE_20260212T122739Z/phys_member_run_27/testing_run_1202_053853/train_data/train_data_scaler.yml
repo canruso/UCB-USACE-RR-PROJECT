@@ -1,0 +1,218 @@
+xarray_feature_scale:
+  coords: {}
+  attrs: {}
+  dims: {}
+  data_vars:
+    DRY CREEK 20 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR:
+      dims: []
+      attrs: {}
+      data: 0.008101004175841808
+    DRY CREEK 20 PRECIP-INC SCREENED:
+      dims: []
+      attrs: {}
+      data: 0.028923511505126953
+    DRY CREEK 30 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR:
+      dims: []
+      attrs: {}
+      data: 0.008415485732257366
+    DRY CREEK 30 PRECIP-INC SCREENED:
+      dims: []
+      attrs: {}
+      data: 0.02626204490661621
+    Dry Creek 20 ET-POTENTIAL:
+      dims: []
+      attrs: {}
+      data: 0.002302637090906501
+    Dry Creek 20 FLOW:
+      dims: []
+      attrs: {}
+      data: 377.72222900390625
+    Dry Creek 20 FLOW-BASE:
+      dims: []
+      attrs: {}
+      data: 215.01556396484375
+    Dry Creek 20 INFILTRATION:
+      dims: []
+      attrs: {}
+      data: 0.022478921338915825
+    Dry Creek 20 PERC-SOIL:
+      dims: []
+      attrs: {}
+      data: 0.01869806833565235
+    Dry Creek 20 SATURATION FRACTION:
+      dims: []
+      attrs: {}
+      data: 0.4013606905937195
+    Dry Creek 30 ET-POTENTIAL:
+      dims: []
+      attrs: {}
+      data: 0.002389931585639715
+    Dry Creek 30 FLOW:
+      dims: []
+      attrs: {}
+      data: 610.2927856445312
+    Dry Creek 30 FLOW-BASE:
+      dims: []
+      attrs: {}
+      data: 392.0055847167969
+    Dry Creek 30 INFILTRATION:
+      dims: []
+      attrs: {}
+      data: 0.021064700558781624
+    Dry Creek 30 PERC-SOIL:
+      dims: []
+      attrs: {}
+      data: 0.017866002395749092
+    Dry Creek 30 SATURATION FRACTION:
+      dims: []
+      attrs: {}
+      data: 0.40777841210365295
+    LAKE SONOMA FLOW-RES IN CALC-VAL-SHIFT-SMOOTH:
+      dims: []
+      attrs: {}
+      data: 1168.899169921875
+    SANTA ROSA CA HUMIDITY USAF-NOAA:
+      dims: []
+      attrs: {}
+      data: 22.218063354492188
+    SANTA ROSA CA SOLAR RADIATION USAF-NOAA:
+      dims: []
+      attrs: {}
+      data: 301.0137023925781
+    SANTA ROSA CA TEMPERATURE USAF-NOAA:
+      dims: []
+      attrs: {}
+      data: 12.73445987701416
+    SANTA ROSA CA WINDSPEED USAF-NOAA:
+      dims: []
+      attrs: {}
+      data: 4.887555122375488
+    UKIAH CA HUMIDITY USAF-NOAA:
+      dims: []
+      attrs: {}
+      data: 22.38153839111328
+    UKIAH CA SOLAR RADIATION USAF-NOAA:
+      dims: []
+      attrs: {}
+      data: 299.82281494140625
+    UKIAH CA TEMPERATURE USAF-NOAA:
+      dims: []
+      attrs: {}
+      data: 14.631608963012695
+    UKIAH CA WINDSPEED USAF-NOAA:
+      dims: []
+      attrs: {}
+      data: 4.3693952560424805
+    Warm Springs Dam Inflow FLOW:
+      dims: []
+      attrs: {}
+      data: 955.5027465820312
+xarray_feature_center:
+  coords: {}
+  attrs: {}
+  dims: {}
+  data_vars:
+    DRY CREEK 20 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR:
+      dims: []
+      attrs: {}
+      data: 0.004938048776239157
+    DRY CREEK 20 PRECIP-INC SCREENED:
+      dims: []
+      attrs: {}
+      data: 0.0053659831173717976
+    DRY CREEK 30 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR:
+      dims: []
+      attrs: {}
+      data: 0.005094857420772314
+    DRY CREEK 30 PRECIP-INC SCREENED:
+      dims: []
+      attrs: {}
+      data: 0.00500443484634161
+    Dry Creek 20 ET-POTENTIAL:
+      dims: []
+      attrs: {}
+      data: 0.0015670430148020387
+    Dry Creek 20 FLOW:
+      dims: []
+      attrs: {}
+      data: 114.71859741210938
+    Dry Creek 20 FLOW-BASE:
+      dims: []
+      attrs: {}
+      data: 97.36007690429688
+    Dry Creek 20 INFILTRATION:
+      dims: []
+      attrs: {}
+      data: 0.004652689211070538
+    Dry Creek 20 PERC-SOIL:
+      dims: []
+      attrs: {}
+      data: 0.0036046348977833986
+    Dry Creek 20 SATURATION FRACTION:
+      dims: []
+      attrs: {}
+      data: 0.6063733100891113
+    Dry Creek 30 ET-POTENTIAL:
+      dims: []
+      attrs: {}
+      data: 0.0016211561160162091
+    Dry Creek 30 FLOW:
+      dims: []
+      attrs: {}
+      data: 220.48358154296875
+    Dry Creek 30 FLOW-BASE:
+      dims: []
+      attrs: {}
+      data: 191.14120483398438
+    Dry Creek 30 INFILTRATION:
+      dims: []
+      attrs: {}
+      data: 0.004412252455949783
+    Dry Creek 30 PERC-SOIL:
+      dims: []
+      attrs: {}
+      data: 0.003396048676222563
+    Dry Creek 30 SATURATION FRACTION:
+      dims: []
+      attrs: {}
+      data: 0.5930836796760559
+    LAKE SONOMA FLOW-RES IN CALC-VAL-SHIFT-SMOOTH:
+      dims: []
+      attrs: {}
+      data: 384.9022216796875
+    SANTA ROSA CA HUMIDITY USAF-NOAA:
+      dims: []
+      attrs: {}
+      data: 72.6893081665039
+    SANTA ROSA CA SOLAR RADIATION USAF-NOAA:
+      dims: []
+      attrs: {}
+      data: 206.37574768066406
+    SANTA ROSA CA TEMPERATURE USAF-NOAA:
+      dims: []
+      attrs: {}
+      data: 56.26622772216797
+    SANTA ROSA CA WINDSPEED USAF-NOAA:
+      dims: []
+      attrs: {}
+      data: 4.766504764556885
+    UKIAH CA HUMIDITY USAF-NOAA:
+      dims: []
+      attrs: {}
+      data: 65.69927215576172
+    UKIAH CA SOLAR RADIATION USAF-NOAA:
+      dims: []
+      attrs: {}
+      data: 204.75257873535156
+    UKIAH CA TEMPERATURE USAF-NOAA:
+      dims: []
+      attrs: {}
+      data: 57.465415954589844
+    UKIAH CA WINDSPEED USAF-NOAA:
+      dims: []
+      attrs: {}
+      data: 3.9484665393829346
+    Warm Springs Dam Inflow FLOW:
+      dims: []
+      attrs: {}
+      data: 335.2113037109375

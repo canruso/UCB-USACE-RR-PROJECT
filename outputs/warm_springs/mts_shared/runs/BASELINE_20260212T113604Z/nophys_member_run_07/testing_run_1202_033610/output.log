@@ -1,0 +1,249 @@
+2026-02-12 03:36:10,997: Logging to /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/warm_springs/mts_shared/runs/BASELINE_20260212T113604Z/nophys_member_run_07/testing_run_1202_033610/output.log initialized.
+2026-02-12 03:36:10,997: ### Folder structure created at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/warm_springs/mts_shared/runs/BASELINE_20260212T113604Z/nophys_member_run_07/testing_run_1202_033610
+2026-02-12 03:36:10,997: ### Run configurations for testing_run
+2026-02-12 03:36:10,997: experiment_name: testing_run
+2026-02-12 03:36:10,998: train_basin_file: warm springs
+2026-02-12 03:36:10,998: validation_basin_file: warm springs
+2026-02-12 03:36:10,998: test_basin_file: warm springs
+2026-02-12 03:36:10,998: train_ranges: ['01/10/1998-30/09/1999', '01/10/2001-30/09/2002', '01/10/1994-30/09/1995', '01/10/1995-30/09/1996', '01/10/1995-30/09/1996', '01/10/1999-30/09/2000', '01/10/2000-30/09/2001', '01/10/1999-30/09/2000']
+2026-02-12 03:36:10,998: validation_ranges: ['01/10/2002-30/09/2003', '01/10/2003-30/09/2004', '01/10/2004-30/09/2005']
+2026-02-12 03:36:10,998: test_ranges: ['01/10/2005-30/09/2006', '01/10/2006-30/09/2007', '01/10/2007-30/09/2008', '01/10/2008-30/09/2009']
+2026-02-12 03:36:10,998: device: cpu
+2026-02-12 03:36:10,998: physics_informed: False
+2026-02-12 03:36:10,998: physics_data_file: None
+2026-02-12 03:36:10,998: validate_every: 5
+2026-02-12 03:36:10,998: validate_n_random_basins: 1
+2026-02-12 03:36:10,998: save_validation_results: True
+2026-02-12 03:36:10,998: metrics: ['NSE', 'MSE']
+2026-02-12 03:36:10,998: model: mtslstm
+2026-02-12 03:36:10,998: shared_mtslstm: False
+2026-02-12 03:36:10,998: transfer_mtslstm_states: {'h': 'linear', 'c': 'linear'}
+2026-02-12 03:36:10,998: use_frequencies: ['1H', '1D']
+2026-02-12 03:36:10,998: head: regression
+2026-02-12 03:36:10,998: output_activation: linear
+2026-02-12 03:36:10,998: hidden_size: 64
+2026-02-12 03:36:10,998: initial_forget_bias: 3
+2026-02-12 03:36:10,999: output_dropout: 0.4
+2026-02-12 03:36:10,999: optimizer: Adam
+2026-02-12 03:36:10,999: loss: NSE
+2026-02-12 03:36:10,999: learning_rate: {0: 0.01, 16: 0.005, 24: 0.001}
+2026-02-12 03:36:10,999: batch_size: 64
+2026-02-12 03:36:10,999: epochs: 2
+2026-02-12 03:36:10,999: clip_gradient_norm: 1
+2026-02-12 03:36:10,999: predict_last_n: {'1D': 1, '1H': 24}
+2026-02-12 03:36:10,999: seq_length: {'1D': 120, '1H': 168}
+2026-02-12 03:36:10,999: log_interval: 16
+2026-02-12 03:36:10,999: log_tensorboard: True
+2026-02-12 03:36:10,999: log_n_figures: 1
+2026-02-12 03:36:10,999: save_weights_every: 2
+2026-02-12 03:36:10,999: dataset: synthetic_russian_river
+2026-02-12 03:36:10,999: data_dir: /Users/maxwellfung/UCB-USACE-RR-PROJECT/russian_river_data
+2026-02-12 03:36:10,999: dev_mode: True
+2026-02-12 03:36:10,999: dynamic_inputs: {'1D': ['DRY CREEK 20 PRECIP-INC SCREENED', 'DRY CREEK 20 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'DRY CREEK 30 PRECIP-INC SCREENED', 'DRY CREEK 30 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'UKIAH CA HUMIDITY USAF-NOAA', 'UKIAH CA SOLAR RADIATION USAF-NOAA', 'UKIAH CA TEMPERATURE USAF-NOAA', 'UKIAH CA WINDSPEED USAF-NOAA', 'SANTA ROSA CA HUMIDITY USAF-NOAA', 'SANTA ROSA CA SOLAR RADIATION USAF-NOAA', 'SANTA ROSA CA TEMPERATURE USAF-NOAA', 'SANTA ROSA CA WINDSPEED USAF-NOAA'], '1H': ['DRY CREEK 20 PRECIP-INC SCREENED', 'DRY CREEK 20 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'DRY CREEK 30 PRECIP-INC SCREENED', 'DRY CREEK 30 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'UKIAH CA HUMIDITY USAF-NOAA', 'UKIAH CA SOLAR RADIATION USAF-NOAA', 'UKIAH CA TEMPERATURE USAF-NOAA', 'UKIAH CA WINDSPEED USAF-NOAA', 'SANTA ROSA CA HUMIDITY USAF-NOAA', 'SANTA ROSA CA SOLAR RADIATION USAF-NOAA', 'SANTA ROSA CA TEMPERATURE USAF-NOAA', 'SANTA ROSA CA WINDSPEED USAF-NOAA']}
+2026-02-12 03:36:10,999: target_variables: ['LAKE SONOMA FLOW-RES IN CALC-VAL-SHIFT-SMOOTH']
+2026-02-12 03:36:10,999: clip_targets_to_zero: [['LAKE SONOMA FLOW-RES IN CALC-VAL-SHIFT-SMOOTH']]
+2026-02-12 03:36:10,999: early_stopping: False
+2026-02-12 03:36:10,999: early_stopping_mode: patience
+2026-02-12 03:36:10,999: patience_early_stopping: 3
+2026-02-12 03:36:10,999: min_delta_early_stopping: 0.0
+2026-02-12 03:36:11,000: minimum_epochs_before_early_stopping: 10
+2026-02-12 03:36:11,000: early_stopping_slope_window: 7
+2026-02-12 03:36:11,000: early_stopping_slope_patience: 2
+2026-02-12 03:36:11,000: early_stopping_slope_min_epoch: 8
+2026-02-12 03:36:11,000: early_stopping_slope_ema_alpha: 0.4
+2026-02-12 03:36:11,000: early_stopping_slope_use_log: True
+2026-02-12 03:36:11,000: early_stopping_slope_log_eps: 1e-12
+2026-02-12 03:36:11,000: early_stopping_slope_eps_slope: 0.001
+2026-02-12 03:36:11,000: early_stopping_slope_min_window_gain: 0.01
+2026-02-12 03:36:11,000: early_stopping_slope_variance_guard: True
+2026-02-12 03:36:11,000: early_stopping_slope_variance_cv_max: 0.01
+2026-02-12 03:36:11,000: train_start_date: 01/01/1900
+2026-02-12 03:36:11,000: train_end_date: 01/01/1901
+2026-02-12 03:36:11,000: validation_start_date: 01/01/1900
+2026-02-12 03:36:11,000: validation_end_date: 01/01/1901
+2026-02-12 03:36:11,000: test_start_date: 01/01/1900
+2026-02-12 03:36:11,000: test_end_date: 01/01/1901
+2026-02-12 03:36:11,000: num_layers: 1
+2026-02-12 03:36:11,000: hourly: True
+2026-02-12 03:36:11,000: is_mts: True
+2026-02-12 03:36:11,000: is_mts_data: False
+2026-02-12 03:36:11,000: verbose: True
+2026-02-12 03:36:11,000: run_dir: /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/warm_springs/mts_shared/runs/BASELINE_20260212T113604Z/nophys_member_run_07/testing_run_1202_033610
+2026-02-12 03:36:11,000: run_label: BASELINE
+2026-02-12 03:36:11,000: run_stamp: 20260212T113604Z
+2026-02-12 03:36:11,000: number_of_basins: 1
+2026-02-12 03:36:11,000: train_dir: /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/warm_springs/mts_shared/runs/BASELINE_20260212T113604Z/nophys_member_run_07/testing_run_1202_033610/train_data
+2026-02-12 03:36:11,000: img_log_dir: /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/warm_springs/mts_shared/runs/BASELINE_20260212T113604Z/nophys_member_run_07/testing_run_1202_033610/img_log
+2026-02-12 03:36:11,001: ### Device cpu will be used for training
+2026-02-12 03:36:11,002: Loading basin data into xarray data set.
+2026-02-12 03:36:26,593: Calculating target variable stds per basin
+2026-02-12 03:36:26,617: Create lookup table and convert to pytorch tensor
+2026-02-12 03:36:27,972: No specific hidden size for frequencies are specified. Same hidden size is used for all.
+2026-02-12 03:36:40,864: Epoch 1 average loss: avg_loss: 1.57e-06, avg_total_loss: 1.57e-06
+2026-02-12 03:36:53,964: Epoch 2 average loss: avg_loss: 1.01e-06, avg_total_loss: 1.01e-06
+2026-02-12 03:36:53,970: Logging to /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/warm_springs/mts_shared/runs/BASELINE_20260212T113604Z/nophys_member_run_12/testing_run_1202_033653/output.log initialized.
+2026-02-12 03:36:53,970: ### Folder structure created at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/warm_springs/mts_shared/runs/BASELINE_20260212T113604Z/nophys_member_run_12/testing_run_1202_033653
+2026-02-12 03:36:53,970: ### Run configurations for testing_run
+2026-02-12 03:36:53,970: experiment_name: testing_run
+2026-02-12 03:36:53,970: train_basin_file: warm springs
+2026-02-12 03:36:53,970: validation_basin_file: warm springs
+2026-02-12 03:36:53,970: test_basin_file: warm springs
+2026-02-12 03:36:53,971: train_ranges: ['01/10/2001-30/09/2002', '01/10/1997-30/09/1998', '01/10/1995-30/09/1996', '01/10/1997-30/09/1998', '01/10/2001-30/09/2002', '01/10/2001-30/09/2002', '01/10/1999-30/09/2000', '01/10/2001-30/09/2002']
+2026-02-12 03:36:53,971: validation_ranges: ['01/10/2002-30/09/2003', '01/10/2003-30/09/2004', '01/10/2004-30/09/2005']
+2026-02-12 03:36:53,971: test_ranges: ['01/10/2005-30/09/2006', '01/10/2006-30/09/2007', '01/10/2007-30/09/2008', '01/10/2008-30/09/2009']
+2026-02-12 03:36:53,971: device: cpu
+2026-02-12 03:36:53,971: physics_informed: False
+2026-02-12 03:36:53,971: physics_data_file: None
+2026-02-12 03:36:53,971: validate_every: 5
+2026-02-12 03:36:53,971: validate_n_random_basins: 1
+2026-02-12 03:36:53,971: save_validation_results: True
+2026-02-12 03:36:53,971: metrics: ['NSE', 'MSE']
+2026-02-12 03:36:53,971: model: mtslstm
+2026-02-12 03:36:53,971: shared_mtslstm: False
+2026-02-12 03:36:53,971: transfer_mtslstm_states: {'h': 'linear', 'c': 'linear'}
+2026-02-12 03:36:53,971: use_frequencies: ['1H', '1D']
+2026-02-12 03:36:53,971: head: regression
+2026-02-12 03:36:53,971: output_activation: linear
+2026-02-12 03:36:53,971: hidden_size: 64
+2026-02-12 03:36:53,971: initial_forget_bias: 3
+2026-02-12 03:36:53,971: output_dropout: 0.4
+2026-02-12 03:36:53,971: optimizer: Adam
+2026-02-12 03:36:53,971: loss: NSE
+2026-02-12 03:36:53,971: learning_rate: {0: 0.01, 16: 0.005, 24: 0.001}
+2026-02-12 03:36:53,971: batch_size: 64
+2026-02-12 03:36:53,971: epochs: 2
+2026-02-12 03:36:53,971: clip_gradient_norm: 1
+2026-02-12 03:36:53,971: predict_last_n: {'1D': 1, '1H': 24}
+2026-02-12 03:36:53,971: seq_length: {'1D': 120, '1H': 168}
+2026-02-12 03:36:53,971: log_interval: 16
+2026-02-12 03:36:53,971: log_tensorboard: True
+2026-02-12 03:36:53,971: log_n_figures: 1
+2026-02-12 03:36:53,971: save_weights_every: 2
+2026-02-12 03:36:53,971: dataset: synthetic_russian_river
+2026-02-12 03:36:53,971: data_dir: /Users/maxwellfung/UCB-USACE-RR-PROJECT/russian_river_data
+2026-02-12 03:36:53,971: dev_mode: True
+2026-02-12 03:36:53,971: dynamic_inputs: {'1D': ['DRY CREEK 20 PRECIP-INC SCREENED', 'DRY CREEK 20 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'DRY CREEK 30 PRECIP-INC SCREENED', 'DRY CREEK 30 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'UKIAH CA HUMIDITY USAF-NOAA', 'UKIAH CA SOLAR RADIATION USAF-NOAA', 'UKIAH CA TEMPERATURE USAF-NOAA', 'UKIAH CA WINDSPEED USAF-NOAA', 'SANTA ROSA CA HUMIDITY USAF-NOAA', 'SANTA ROSA CA SOLAR RADIATION USAF-NOAA', 'SANTA ROSA CA TEMPERATURE USAF-NOAA', 'SANTA ROSA CA WINDSPEED USAF-NOAA'], '1H': ['DRY CREEK 20 PRECIP-INC SCREENED', 'DRY CREEK 20 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'DRY CREEK 30 PRECIP-INC SCREENED', 'DRY CREEK 30 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'UKIAH CA HUMIDITY USAF-NOAA', 'UKIAH CA SOLAR RADIATION USAF-NOAA', 'UKIAH CA TEMPERATURE USAF-NOAA', 'UKIAH CA WINDSPEED USAF-NOAA', 'SANTA ROSA CA HUMIDITY USAF-NOAA', 'SANTA ROSA CA SOLAR RADIATION USAF-NOAA', 'SANTA ROSA CA TEMPERATURE USAF-NOAA', 'SANTA ROSA CA WINDSPEED USAF-NOAA']}
+2026-02-12 03:36:53,971: target_variables: ['LAKE SONOMA FLOW-RES IN CALC-VAL-SHIFT-SMOOTH']
+2026-02-12 03:36:53,971: clip_targets_to_zero: [['LAKE SONOMA FLOW-RES IN CALC-VAL-SHIFT-SMOOTH']]
+2026-02-12 03:36:53,971: early_stopping: False
+2026-02-12 03:36:53,971: early_stopping_mode: patience
+2026-02-12 03:36:53,971: patience_early_stopping: 3
+2026-02-12 03:36:53,971: min_delta_early_stopping: 0.0
+2026-02-12 03:36:53,971: minimum_epochs_before_early_stopping: 10
+2026-02-12 03:36:53,971: early_stopping_slope_window: 7
+2026-02-12 03:36:53,971: early_stopping_slope_patience: 2
+2026-02-12 03:36:53,971: early_stopping_slope_min_epoch: 8
+2026-02-12 03:36:53,971: early_stopping_slope_ema_alpha: 0.4
+2026-02-12 03:36:53,971: early_stopping_slope_use_log: True
+2026-02-12 03:36:53,971: early_stopping_slope_log_eps: 1e-12
+2026-02-12 03:36:53,971: early_stopping_slope_eps_slope: 0.001
+2026-02-12 03:36:53,971: early_stopping_slope_min_window_gain: 0.01
+2026-02-12 03:36:53,971: early_stopping_slope_variance_guard: True
+2026-02-12 03:36:53,971: early_stopping_slope_variance_cv_max: 0.01
+2026-02-12 03:36:53,971: train_start_date: 01/01/1900
+2026-02-12 03:36:53,971: train_end_date: 01/01/1901
+2026-02-12 03:36:53,971: validation_start_date: 01/01/1900
+2026-02-12 03:36:53,971: validation_end_date: 01/01/1901
+2026-02-12 03:36:53,971: test_start_date: 01/01/1900
+2026-02-12 03:36:53,971: test_end_date: 01/01/1901
+2026-02-12 03:36:53,971: num_layers: 1
+2026-02-12 03:36:53,971: hourly: True
+2026-02-12 03:36:53,971: is_mts: True
+2026-02-12 03:36:53,971: is_mts_data: False
+2026-02-12 03:36:53,971: verbose: True
+2026-02-12 03:36:53,971: run_dir: /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/warm_springs/mts_shared/runs/BASELINE_20260212T113604Z/nophys_member_run_12/testing_run_1202_033653
+2026-02-12 03:36:53,971: run_label: BASELINE
+2026-02-12 03:36:53,971: run_stamp: 20260212T113604Z
+2026-02-12 03:36:53,971: number_of_basins: 1
+2026-02-12 03:36:53,971: train_dir: /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/warm_springs/mts_shared/runs/BASELINE_20260212T113604Z/nophys_member_run_12/testing_run_1202_033653/train_data
+2026-02-12 03:36:53,971: img_log_dir: /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/warm_springs/mts_shared/runs/BASELINE_20260212T113604Z/nophys_member_run_12/testing_run_1202_033653/img_log
+2026-02-12 03:36:53,972: ### Device cpu will be used for training
+2026-02-12 03:36:53,972: Loading basin data into xarray data set.
+2026-02-12 03:37:09,062: Calculating target variable stds per basin
+2026-02-12 03:37:09,090: Create lookup table and convert to pytorch tensor
+2026-02-12 03:37:09,170: No specific hidden size for frequencies are specified. Same hidden size is used for all.
+2026-02-12 03:37:20,665: Epoch 1 average loss: avg_loss: 1.58e-06, avg_total_loss: 1.58e-06
+2026-02-12 03:37:33,261: Epoch 2 average loss: avg_loss: 1.04e-06, avg_total_loss: 1.04e-06
+2026-02-12 03:37:33,269: Logging to /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/warm_springs/mts_shared/runs/BASELINE_20260212T113604Z/nophys_member_run_29/testing_run_1202_033733/output.log initialized.
+2026-02-12 03:37:33,269: ### Folder structure created at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/warm_springs/mts_shared/runs/BASELINE_20260212T113604Z/nophys_member_run_29/testing_run_1202_033733
+2026-02-12 03:37:33,269: ### Run configurations for testing_run
+2026-02-12 03:37:33,269: experiment_name: testing_run
+2026-02-12 03:37:33,269: train_basin_file: warm springs
+2026-02-12 03:37:33,270: validation_basin_file: warm springs
+2026-02-12 03:37:33,270: test_basin_file: warm springs
+2026-02-12 03:37:33,270: train_ranges: ['01/10/1998-30/09/1999', '01/10/1999-30/09/2000', '01/10/1997-30/09/1998', '01/10/2001-30/09/2002', '01/10/1995-30/09/1996', '01/10/2000-30/09/2001', '01/10/2001-30/09/2002', '01/10/2000-30/09/2001']
+2026-02-12 03:37:33,270: validation_ranges: ['01/10/2002-30/09/2003', '01/10/2003-30/09/2004', '01/10/2004-30/09/2005']
+2026-02-12 03:37:33,270: test_ranges: ['01/10/2005-30/09/2006', '01/10/2006-30/09/2007', '01/10/2007-30/09/2008', '01/10/2008-30/09/2009']
+2026-02-12 03:37:33,270: device: cpu
+2026-02-12 03:37:33,270: physics_informed: False
+2026-02-12 03:37:33,270: physics_data_file: None
+2026-02-12 03:37:33,270: validate_every: 5
+2026-02-12 03:37:33,270: validate_n_random_basins: 1
+2026-02-12 03:37:33,270: save_validation_results: True
+2026-02-12 03:37:33,270: metrics: ['NSE', 'MSE']
+2026-02-12 03:37:33,270: model: mtslstm
+2026-02-12 03:37:33,270: shared_mtslstm: False
+2026-02-12 03:37:33,270: transfer_mtslstm_states: {'h': 'linear', 'c': 'linear'}
+2026-02-12 03:37:33,270: use_frequencies: ['1H', '1D']
+2026-02-12 03:37:33,270: head: regression
+2026-02-12 03:37:33,270: output_activation: linear
+2026-02-12 03:37:33,270: hidden_size: 64
+2026-02-12 03:37:33,270: initial_forget_bias: 3
+2026-02-12 03:37:33,270: output_dropout: 0.4
+2026-02-12 03:37:33,271: optimizer: Adam
+2026-02-12 03:37:33,271: loss: NSE
+2026-02-12 03:37:33,271: learning_rate: {0: 0.01, 16: 0.005, 24: 0.001}
+2026-02-12 03:37:33,271: batch_size: 64
+2026-02-12 03:37:33,271: epochs: 2
+2026-02-12 03:37:33,271: clip_gradient_norm: 1
+2026-02-12 03:37:33,271: predict_last_n: {'1D': 1, '1H': 24}
+2026-02-12 03:37:33,271: seq_length: {'1D': 120, '1H': 168}
+2026-02-12 03:37:33,271: log_interval: 16
+2026-02-12 03:37:33,271: log_tensorboard: True
+2026-02-12 03:37:33,271: log_n_figures: 1
+2026-02-12 03:37:33,271: save_weights_every: 2
+2026-02-12 03:37:33,271: dataset: synthetic_russian_river
+2026-02-12 03:37:33,271: data_dir: /Users/maxwellfung/UCB-USACE-RR-PROJECT/russian_river_data
+2026-02-12 03:37:33,271: dev_mode: True
+2026-02-12 03:37:33,271: dynamic_inputs: {'1D': ['DRY CREEK 20 PRECIP-INC SCREENED', 'DRY CREEK 20 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'DRY CREEK 30 PRECIP-INC SCREENED', 'DRY CREEK 30 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'UKIAH CA HUMIDITY USAF-NOAA', 'UKIAH CA SOLAR RADIATION USAF-NOAA', 'UKIAH CA TEMPERATURE USAF-NOAA', 'UKIAH CA WINDSPEED USAF-NOAA', 'SANTA ROSA CA HUMIDITY USAF-NOAA', 'SANTA ROSA CA SOLAR RADIATION USAF-NOAA', 'SANTA ROSA CA TEMPERATURE USAF-NOAA', 'SANTA ROSA CA WINDSPEED USAF-NOAA'], '1H': ['DRY CREEK 20 PRECIP-INC SCREENED', 'DRY CREEK 20 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'DRY CREEK 30 PRECIP-INC SCREENED', 'DRY CREEK 30 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'UKIAH CA HUMIDITY USAF-NOAA', 'UKIAH CA SOLAR RADIATION USAF-NOAA', 'UKIAH CA TEMPERATURE USAF-NOAA', 'UKIAH CA WINDSPEED USAF-NOAA', 'SANTA ROSA CA HUMIDITY USAF-NOAA', 'SANTA ROSA CA SOLAR RADIATION USAF-NOAA', 'SANTA ROSA CA TEMPERATURE USAF-NOAA', 'SANTA ROSA CA WINDSPEED USAF-NOAA']}
+2026-02-12 03:37:33,271: target_variables: ['LAKE SONOMA FLOW-RES IN CALC-VAL-SHIFT-SMOOTH']
+2026-02-12 03:37:33,271: clip_targets_to_zero: [['LAKE SONOMA FLOW-RES IN CALC-VAL-SHIFT-SMOOTH']]
+2026-02-12 03:37:33,271: early_stopping: False
+2026-02-12 03:37:33,272: early_stopping_mode: patience
+2026-02-12 03:37:33,272: patience_early_stopping: 3
+2026-02-12 03:37:33,272: min_delta_early_stopping: 0.0
+2026-02-12 03:37:33,272: minimum_epochs_before_early_stopping: 10
+2026-02-12 03:37:33,272: early_stopping_slope_window: 7
+2026-02-12 03:37:33,272: early_stopping_slope_patience: 2
+2026-02-12 03:37:33,272: early_stopping_slope_min_epoch: 8
+2026-02-12 03:37:33,272: early_stopping_slope_ema_alpha: 0.4
+2026-02-12 03:37:33,272: early_stopping_slope_use_log: True
+2026-02-12 03:37:33,272: early_stopping_slope_log_eps: 1e-12
+2026-02-12 03:37:33,272: early_stopping_slope_eps_slope: 0.001
+2026-02-12 03:37:33,272: early_stopping_slope_min_window_gain: 0.01
+2026-02-12 03:37:33,272: early_stopping_slope_variance_guard: True
+2026-02-12 03:37:33,272: early_stopping_slope_variance_cv_max: 0.01
+2026-02-12 03:37:33,272: train_start_date: 01/01/1900
+2026-02-12 03:37:33,272: train_end_date: 01/01/1901
+2026-02-12 03:37:33,272: validation_start_date: 01/01/1900
+2026-02-12 03:37:33,272: validation_end_date: 01/01/1901
+2026-02-12 03:37:33,272: test_start_date: 01/01/1900
+2026-02-12 03:37:33,272: test_end_date: 01/01/1901
+2026-02-12 03:37:33,272: num_layers: 1
+2026-02-12 03:37:33,272: hourly: True
+2026-02-12 03:37:33,272: is_mts: True
+2026-02-12 03:37:33,272: is_mts_data: False
+2026-02-12 03:37:33,272: verbose: True
+2026-02-12 03:37:33,272: run_dir: /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/warm_springs/mts_shared/runs/BASELINE_20260212T113604Z/nophys_member_run_29/testing_run_1202_033733
+2026-02-12 03:37:33,273: run_label: BASELINE
+2026-02-12 03:37:33,273: run_stamp: 20260212T113604Z
+2026-02-12 03:37:33,273: number_of_basins: 1
+2026-02-12 03:37:33,273: train_dir: /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/warm_springs/mts_shared/runs/BASELINE_20260212T113604Z/nophys_member_run_29/testing_run_1202_033733/train_data
+2026-02-12 03:37:33,273: img_log_dir: /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/warm_springs/mts_shared/runs/BASELINE_20260212T113604Z/nophys_member_run_29/testing_run_1202_033733/img_log
+2026-02-12 03:37:33,274: ### Device cpu will be used for training
+2026-02-12 03:37:33,274: Loading basin data into xarray data set.
+2026-02-12 03:37:49,636: Calculating target variable stds per basin
+2026-02-12 03:37:49,647: Create lookup table and convert to pytorch tensor
+2026-02-12 03:37:49,696: No specific hidden size for frequencies are specified. Same hidden size is used for all.
+2026-02-12 03:38:00,595: Epoch 1 average loss: avg_loss: 2.02e-06, avg_total_loss: 2.02e-06
+2026-02-12 03:38:07,946: Epoch 2 average loss: avg_loss: 1.38e-06, avg_total_loss: 1.38e-06

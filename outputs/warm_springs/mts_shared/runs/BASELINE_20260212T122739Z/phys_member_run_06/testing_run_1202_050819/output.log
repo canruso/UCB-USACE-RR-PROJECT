@@ -1,0 +1,474 @@
+2026-02-12 05:08:19,367: Logging to /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/warm_springs/mts_shared/runs/BASELINE_20260212T122739Z/phys_member_run_06/testing_run_1202_050819/output.log initialized.
+2026-02-12 05:08:19,367: ### Folder structure created at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/warm_springs/mts_shared/runs/BASELINE_20260212T122739Z/phys_member_run_06/testing_run_1202_050819
+2026-02-12 05:08:19,367: ### Run configurations for testing_run
+2026-02-12 05:08:19,367: experiment_name: testing_run
+2026-02-12 05:08:19,367: train_basin_file: warm springs
+2026-02-12 05:08:19,367: validation_basin_file: warm springs
+2026-02-12 05:08:19,367: test_basin_file: warm springs
+2026-02-12 05:08:19,367: train_ranges: ['01/10/2001-30/09/2002', '01/10/1997-30/09/1998', '01/10/2000-30/09/2001', '01/10/2000-30/09/2001', '01/10/1995-30/09/1996', '01/10/2001-30/09/2002', '01/10/2000-30/09/2001', '01/10/1996-30/09/1997']
+2026-02-12 05:08:19,367: validation_ranges: ['01/10/2002-30/09/2003', '01/10/2003-30/09/2004', '01/10/2004-30/09/2005']
+2026-02-12 05:08:19,367: test_ranges: ['01/10/2005-30/09/2006', '01/10/2006-30/09/2007', '01/10/2007-30/09/2008', '01/10/2008-30/09/2009']
+2026-02-12 05:08:19,367: device: cpu
+2026-02-12 05:08:19,367: physics_informed: True
+2026-02-12 05:08:19,367: physics_data_file: /Users/maxwellfung/UCB-USACE-RR-PROJECT/russian_river_data/WarmSprings_Inflow_hourly.csv
+2026-02-12 05:08:19,367: validate_every: 5
+2026-02-12 05:08:19,367: validate_n_random_basins: 1
+2026-02-12 05:08:19,367: save_validation_results: True
+2026-02-12 05:08:19,367: metrics: ['NSE', 'MSE']
+2026-02-12 05:08:19,367: model: mtslstm
+2026-02-12 05:08:19,367: shared_mtslstm: False
+2026-02-12 05:08:19,367: transfer_mtslstm_states: {'h': 'linear', 'c': 'linear'}
+2026-02-12 05:08:19,367: use_frequencies: ['1H', '1D']
+2026-02-12 05:08:19,367: head: regression
+2026-02-12 05:08:19,367: output_activation: linear
+2026-02-12 05:08:19,367: hidden_size: 64
+2026-02-12 05:08:19,367: initial_forget_bias: 3
+2026-02-12 05:08:19,367: output_dropout: 0.4
+2026-02-12 05:08:19,367: optimizer: Adam
+2026-02-12 05:08:19,367: loss: NSE
+2026-02-12 05:08:19,367: learning_rate: {0: 0.01, 24: 0.005, 36: 0.001}
+2026-02-12 05:08:19,367: batch_size: 64
+2026-02-12 05:08:19,367: epochs: 48
+2026-02-12 05:08:19,367: clip_gradient_norm: 1
+2026-02-12 05:08:19,367: predict_last_n: {'1D': 1, '1H': 24}
+2026-02-12 05:08:19,367: seq_length: {'1D': 120, '1H': 168}
+2026-02-12 05:08:19,367: log_interval: 16
+2026-02-12 05:08:19,367: log_tensorboard: True
+2026-02-12 05:08:19,367: log_n_figures: 1
+2026-02-12 05:08:19,367: save_weights_every: 48
+2026-02-12 05:08:19,367: dataset: synthetic_russian_river
+2026-02-12 05:08:19,367: data_dir: /Users/maxwellfung/UCB-USACE-RR-PROJECT/russian_river_data
+2026-02-12 05:08:19,367: dev_mode: True
+2026-02-12 05:08:19,367: dynamic_inputs: ['DRY CREEK 20 PRECIP-INC SCREENED', 'DRY CREEK 20 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'DRY CREEK 30 PRECIP-INC SCREENED', 'DRY CREEK 30 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'UKIAH CA HUMIDITY USAF-NOAA', 'UKIAH CA SOLAR RADIATION USAF-NOAA', 'UKIAH CA TEMPERATURE USAF-NOAA', 'UKIAH CA WINDSPEED USAF-NOAA', 'SANTA ROSA CA HUMIDITY USAF-NOAA', 'SANTA ROSA CA SOLAR RADIATION USAF-NOAA', 'SANTA ROSA CA TEMPERATURE USAF-NOAA', 'SANTA ROSA CA WINDSPEED USAF-NOAA', 'Dry Creek 20 ET-POTENTIAL', 'Dry Creek 20 FLOW', 'Dry Creek 20 FLOW-BASE', 'Dry Creek 20 INFILTRATION', 'Dry Creek 20 PERC-SOIL', 'Dry Creek 20 SATURATION FRACTION', 'Dry Creek 30 ET-POTENTIAL', 'Dry Creek 30 FLOW', 'Dry Creek 30 FLOW-BASE', 'Dry Creek 30 INFILTRATION', 'Dry Creek 30 PERC-SOIL', 'Dry Creek 30 SATURATION FRACTION', 'Warm Springs Dam Inflow FLOW']
+2026-02-12 05:08:19,367: target_variables: ['LAKE SONOMA FLOW-RES IN CALC-VAL-SHIFT-SMOOTH']
+2026-02-12 05:08:19,367: clip_targets_to_zero: [['LAKE SONOMA FLOW-RES IN CALC-VAL-SHIFT-SMOOTH']]
+2026-02-12 05:08:19,367: early_stopping: False
+2026-02-12 05:08:19,367: early_stopping_mode: patience
+2026-02-12 05:08:19,367: patience_early_stopping: 3
+2026-02-12 05:08:19,367: min_delta_early_stopping: 0.0
+2026-02-12 05:08:19,367: minimum_epochs_before_early_stopping: 10
+2026-02-12 05:08:19,367: early_stopping_slope_window: 7
+2026-02-12 05:08:19,367: early_stopping_slope_patience: 2
+2026-02-12 05:08:19,367: early_stopping_slope_min_epoch: 8
+2026-02-12 05:08:19,367: early_stopping_slope_ema_alpha: 0.4
+2026-02-12 05:08:19,367: early_stopping_slope_use_log: True
+2026-02-12 05:08:19,367: early_stopping_slope_log_eps: 1e-12
+2026-02-12 05:08:19,367: early_stopping_slope_eps_slope: 0.001
+2026-02-12 05:08:19,368: early_stopping_slope_min_window_gain: 0.01
+2026-02-12 05:08:19,368: early_stopping_slope_variance_guard: True
+2026-02-12 05:08:19,368: early_stopping_slope_variance_cv_max: 0.01
+2026-02-12 05:08:19,368: train_start_date: 01/01/1900
+2026-02-12 05:08:19,368: train_end_date: 01/01/1901
+2026-02-12 05:08:19,368: validation_start_date: 01/01/1900
+2026-02-12 05:08:19,368: validation_end_date: 01/01/1901
+2026-02-12 05:08:19,368: test_start_date: 01/01/1900
+2026-02-12 05:08:19,368: test_end_date: 01/01/1901
+2026-02-12 05:08:19,368: num_layers: 1
+2026-02-12 05:08:19,368: hourly: True
+2026-02-12 05:08:19,368: is_mts: True
+2026-02-12 05:08:19,368: is_mts_data: False
+2026-02-12 05:08:19,368: verbose: True
+2026-02-12 05:08:19,368: run_dir: /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/warm_springs/mts_shared/runs/BASELINE_20260212T122739Z/phys_member_run_06/testing_run_1202_050819
+2026-02-12 05:08:19,368: run_label: BASELINE
+2026-02-12 05:08:19,368: run_stamp: 20260212T122739Z
+2026-02-12 05:08:19,368: number_of_basins: 1
+2026-02-12 05:08:19,368: train_dir: /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/warm_springs/mts_shared/runs/BASELINE_20260212T122739Z/phys_member_run_06/testing_run_1202_050819/train_data
+2026-02-12 05:08:19,368: img_log_dir: /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/warm_springs/mts_shared/runs/BASELINE_20260212T122739Z/phys_member_run_06/testing_run_1202_050819/img_log
+2026-02-12 05:08:19,369: ### Device cpu will be used for training
+2026-02-12 05:08:19,370: Loading basin data into xarray data set.
+2026-02-12 05:08:50,551: Calculating target variable stds per basin
+2026-02-12 05:08:50,578: Create lookup table and convert to pytorch tensor
+2026-02-12 05:08:52,082: No specific hidden size for frequencies are specified. Same hidden size is used for all.
+2026-02-12 05:09:09,080: Epoch 1 average loss: avg_loss: 1.42e-06, avg_total_loss: 1.42e-06
+2026-02-12 05:09:24,351: Epoch 2 average loss: avg_loss: 9.73e-07, avg_total_loss: 9.73e-07
+2026-02-12 05:09:38,596: Epoch 3 average loss: avg_loss: 7.64e-07, avg_total_loss: 7.64e-07
+2026-02-12 05:09:52,859: Epoch 4 average loss: avg_loss: 6.68e-07, avg_total_loss: 6.68e-07
+2026-02-12 05:10:08,192: Epoch 5 average loss: avg_loss: 5.60e-07, avg_total_loss: 5.60e-07
+2026-02-12 05:10:50,253: Stored metrics at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/warm_springs/mts_shared/runs/BASELINE_20260212T122739Z/phys_member_run_06/testing_run_1202_050819/validation/model_epoch005/validation_metrics.csv
+2026-02-12 05:10:50,254: Stored results at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/warm_springs/mts_shared/runs/BASELINE_20260212T122739Z/phys_member_run_06/testing_run_1202_050819/validation/model_epoch005/validation_results.p
+2026-02-12 05:10:50,255: Epoch 5 average validation loss: 5.15e-07 -- Median validation metrics: avg_loss: 5.15e-07, NSE_1H: 0.69909, MSE_1H: 125816.49219, NSE_1D: 0.76422, MSE_1D: 79309.37500
+2026-02-12 05:11:06,536: Epoch 6 average loss: avg_loss: 5.34e-07, avg_total_loss: 5.34e-07
+2026-02-12 05:11:22,494: Epoch 7 average loss: avg_loss: 4.85e-07, avg_total_loss: 4.85e-07
+2026-02-12 05:11:37,525: Epoch 8 average loss: avg_loss: 5.13e-07, avg_total_loss: 5.13e-07
+2026-02-12 05:11:52,636: Epoch 9 average loss: avg_loss: 4.98e-07, avg_total_loss: 4.98e-07
+2026-02-12 05:12:09,343: Epoch 10 average loss: avg_loss: 3.99e-07, avg_total_loss: 3.99e-07
+2026-02-12 05:12:16,257: Stored metrics at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/warm_springs/mts_shared/runs/BASELINE_20260212T122739Z/phys_member_run_06/testing_run_1202_050819/validation/model_epoch010/validation_metrics.csv
+2026-02-12 05:12:16,259: Stored results at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/warm_springs/mts_shared/runs/BASELINE_20260212T122739Z/phys_member_run_06/testing_run_1202_050819/validation/model_epoch010/validation_results.p
+2026-02-12 05:12:16,260: Epoch 10 average validation loss: 3.90e-07 -- Median validation metrics: avg_loss: 3.90e-07, NSE_1H: 0.75468, MSE_1H: 102571.97656, NSE_1D: 0.84933, MSE_1D: 50681.25000
+2026-02-12 05:12:32,399: Epoch 11 average loss: avg_loss: 3.92e-07, avg_total_loss: 3.92e-07
+2026-02-12 05:12:48,951: Epoch 12 average loss: avg_loss: 4.01e-07, avg_total_loss: 4.01e-07
+2026-02-12 05:13:04,922: Epoch 13 average loss: avg_loss: 3.35e-07, avg_total_loss: 3.35e-07
+2026-02-12 05:13:20,339: Epoch 14 average loss: avg_loss: 3.26e-07, avg_total_loss: 3.26e-07
+2026-02-12 05:13:38,667: Epoch 15 average loss: avg_loss: 3.41e-07, avg_total_loss: 3.41e-07
+2026-02-12 05:13:46,585: Stored metrics at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/warm_springs/mts_shared/runs/BASELINE_20260212T122739Z/phys_member_run_06/testing_run_1202_050819/validation/model_epoch015/validation_metrics.csv
+2026-02-12 05:13:46,586: Stored results at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/warm_springs/mts_shared/runs/BASELINE_20260212T122739Z/phys_member_run_06/testing_run_1202_050819/validation/model_epoch015/validation_results.p
+2026-02-12 05:13:46,588: Epoch 15 average validation loss: 3.46e-07 -- Median validation metrics: avg_loss: 3.46e-07, NSE_1H: 0.78561, MSE_1H: 89641.55469, NSE_1D: 0.86451, MSE_1D: 45575.37891
+2026-02-12 05:14:05,846: Epoch 16 average loss: avg_loss: 3.38e-07, avg_total_loss: 3.38e-07
+2026-02-12 05:14:24,898: Epoch 17 average loss: avg_loss: 3.68e-07, avg_total_loss: 3.68e-07
+2026-02-12 05:14:44,022: Epoch 18 average loss: avg_loss: 3.22e-07, avg_total_loss: 3.22e-07
+2026-02-12 05:15:02,032: Epoch 19 average loss: avg_loss: 2.64e-07, avg_total_loss: 2.64e-07
+2026-02-12 05:15:20,495: Epoch 20 average loss: avg_loss: 3.71e-07, avg_total_loss: 3.71e-07
+2026-02-12 05:15:28,212: Stored metrics at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/warm_springs/mts_shared/runs/BASELINE_20260212T122739Z/phys_member_run_06/testing_run_1202_050819/validation/model_epoch020/validation_metrics.csv
+2026-02-12 05:15:28,214: Stored results at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/warm_springs/mts_shared/runs/BASELINE_20260212T122739Z/phys_member_run_06/testing_run_1202_050819/validation/model_epoch020/validation_results.p
+2026-02-12 05:15:28,215: Epoch 20 average validation loss: 3.71e-07 -- Median validation metrics: avg_loss: 3.71e-07, NSE_1H: 0.73972, MSE_1H: 108826.28906, NSE_1D: 0.88476, MSE_1D: 38761.75391
+2026-02-12 05:15:45,734: Epoch 21 average loss: avg_loss: 3.69e-07, avg_total_loss: 3.69e-07
+2026-02-12 05:16:02,196: Epoch 22 average loss: avg_loss: 3.77e-07, avg_total_loss: 3.77e-07
+2026-02-12 05:16:19,720: Epoch 23 average loss: avg_loss: 3.60e-07, avg_total_loss: 3.60e-07
+2026-02-12 05:16:19,721: Setting learning rate to 0.005
+2026-02-12 05:16:37,161: Epoch 24 average loss: avg_loss: 3.06e-07, avg_total_loss: 3.06e-07
+2026-02-12 05:16:54,625: Epoch 25 average loss: avg_loss: 2.89e-07, avg_total_loss: 2.89e-07
+2026-02-12 05:17:01,674: Stored metrics at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/warm_springs/mts_shared/runs/BASELINE_20260212T122739Z/phys_member_run_06/testing_run_1202_050819/validation/model_epoch025/validation_metrics.csv
+2026-02-12 05:17:01,675: Stored results at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/warm_springs/mts_shared/runs/BASELINE_20260212T122739Z/phys_member_run_06/testing_run_1202_050819/validation/model_epoch025/validation_results.p
+2026-02-12 05:17:01,676: Epoch 25 average validation loss: 3.94e-07 -- Median validation metrics: avg_loss: 3.94e-07, NSE_1H: 0.74990, MSE_1H: 104572.55469, NSE_1D: 0.84889, MSE_1D: 50829.16016
+2026-02-12 05:17:18,999: Epoch 26 average loss: avg_loss: 2.86e-07, avg_total_loss: 2.86e-07
+2026-02-12 05:17:36,660: Epoch 27 average loss: avg_loss: 2.65e-07, avg_total_loss: 2.65e-07
+2026-02-12 05:17:53,647: Epoch 28 average loss: avg_loss: 2.45e-07, avg_total_loss: 2.45e-07
+2026-02-12 05:18:11,257: Epoch 29 average loss: avg_loss: 2.58e-07, avg_total_loss: 2.58e-07
+2026-02-12 05:18:28,974: Epoch 30 average loss: avg_loss: 2.32e-07, avg_total_loss: 2.32e-07
+2026-02-12 05:18:36,029: Stored metrics at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/warm_springs/mts_shared/runs/BASELINE_20260212T122739Z/phys_member_run_06/testing_run_1202_050819/validation/model_epoch030/validation_metrics.csv
+2026-02-12 05:18:36,030: Stored results at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/warm_springs/mts_shared/runs/BASELINE_20260212T122739Z/phys_member_run_06/testing_run_1202_050819/validation/model_epoch030/validation_results.p
+2026-02-12 05:18:36,031: Epoch 30 average validation loss: 4.45e-07 -- Median validation metrics: avg_loss: 4.45e-07, NSE_1H: 0.77643, MSE_1H: 93478.35156, NSE_1D: 0.75528, MSE_1D: 82315.16406
+2026-02-12 05:18:53,439: Epoch 31 average loss: avg_loss: 2.45e-07, avg_total_loss: 2.45e-07
+2026-02-12 05:19:11,106: Epoch 32 average loss: avg_loss: 2.54e-07, avg_total_loss: 2.54e-07
+2026-02-12 05:19:28,862: Epoch 33 average loss: avg_loss: 2.53e-07, avg_total_loss: 2.53e-07
+2026-02-12 05:19:46,474: Epoch 34 average loss: avg_loss: 2.39e-07, avg_total_loss: 2.39e-07
+2026-02-12 05:20:02,424: Epoch 35 average loss: avg_loss: 2.29e-07, avg_total_loss: 2.29e-07
+2026-02-12 05:20:08,836: Stored metrics at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/warm_springs/mts_shared/runs/BASELINE_20260212T122739Z/phys_member_run_06/testing_run_1202_050819/validation/model_epoch035/validation_metrics.csv
+2026-02-12 05:20:08,838: Stored results at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/warm_springs/mts_shared/runs/BASELINE_20260212T122739Z/phys_member_run_06/testing_run_1202_050819/validation/model_epoch035/validation_results.p
+2026-02-12 05:20:08,839: Epoch 35 average validation loss: 3.94e-07 -- Median validation metrics: avg_loss: 3.94e-07, NSE_1H: 0.76935, MSE_1H: 96438.65625, NSE_1D: 0.82426, MSE_1D: 59112.11719
+2026-02-12 05:20:08,839: Setting learning rate to 0.001
+2026-02-12 05:20:26,085: Epoch 36 average loss: avg_loss: 2.07e-07, avg_total_loss: 2.07e-07
+2026-02-12 05:20:43,477: Epoch 37 average loss: avg_loss: 2.17e-07, avg_total_loss: 2.17e-07
+2026-02-12 05:21:00,197: Epoch 38 average loss: avg_loss: 2.18e-07, avg_total_loss: 2.18e-07
+2026-02-12 05:21:17,448: Epoch 39 average loss: avg_loss: 2.21e-07, avg_total_loss: 2.21e-07
+2026-02-12 05:21:35,000: Epoch 40 average loss: avg_loss: 2.12e-07, avg_total_loss: 2.12e-07
+2026-02-12 05:21:41,955: Stored metrics at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/warm_springs/mts_shared/runs/BASELINE_20260212T122739Z/phys_member_run_06/testing_run_1202_050819/validation/model_epoch040/validation_metrics.csv
+2026-02-12 05:21:41,957: Stored results at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/warm_springs/mts_shared/runs/BASELINE_20260212T122739Z/phys_member_run_06/testing_run_1202_050819/validation/model_epoch040/validation_results.p
+2026-02-12 05:21:41,958: Epoch 40 average validation loss: 4.09e-07 -- Median validation metrics: avg_loss: 4.09e-07, NSE_1H: 0.79768, MSE_1H: 84592.85156, NSE_1D: 0.77194, MSE_1D: 76710.65625
+2026-02-12 05:21:59,837: Epoch 41 average loss: avg_loss: 2.10e-07, avg_total_loss: 2.10e-07
+2026-02-12 05:22:17,002: Epoch 42 average loss: avg_loss: 2.11e-07, avg_total_loss: 2.11e-07
+2026-02-12 05:22:32,802: Epoch 43 average loss: avg_loss: 1.79e-07, avg_total_loss: 1.79e-07
+2026-02-12 05:22:50,004: Epoch 44 average loss: avg_loss: 1.90e-07, avg_total_loss: 1.90e-07
+2026-02-12 05:23:07,230: Epoch 45 average loss: avg_loss: 2.04e-07, avg_total_loss: 2.04e-07
+2026-02-12 05:23:14,730: Stored metrics at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/warm_springs/mts_shared/runs/BASELINE_20260212T122739Z/phys_member_run_06/testing_run_1202_050819/validation/model_epoch045/validation_metrics.csv
+2026-02-12 05:23:14,731: Stored results at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/warm_springs/mts_shared/runs/BASELINE_20260212T122739Z/phys_member_run_06/testing_run_1202_050819/validation/model_epoch045/validation_results.p
+2026-02-12 05:23:14,732: Epoch 45 average validation loss: 3.77e-07 -- Median validation metrics: avg_loss: 3.77e-07, NSE_1H: 0.80918, MSE_1H: 79786.32031, NSE_1D: 0.79636, MSE_1D: 68499.82031
+2026-02-12 05:23:35,186: Epoch 46 average loss: avg_loss: 1.89e-07, avg_total_loss: 1.89e-07
+2026-02-12 05:23:50,849: Epoch 47 average loss: avg_loss: 2.01e-07, avg_total_loss: 2.01e-07
+2026-02-12 05:24:09,052: Epoch 48 average loss: avg_loss: 1.98e-07, avg_total_loss: 1.98e-07
+2026-02-12 05:24:09,069: Logging to /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/warm_springs/mts_shared/runs/BASELINE_20260212T122739Z/phys_member_run_19/testing_run_1202_052409/output.log initialized.
+2026-02-12 05:24:09,069: ### Folder structure created at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/warm_springs/mts_shared/runs/BASELINE_20260212T122739Z/phys_member_run_19/testing_run_1202_052409
+2026-02-12 05:24:09,069: ### Run configurations for testing_run
+2026-02-12 05:24:09,069: experiment_name: testing_run
+2026-02-12 05:24:09,069: train_basin_file: warm springs
+2026-02-12 05:24:09,069: validation_basin_file: warm springs
+2026-02-12 05:24:09,069: test_basin_file: warm springs
+2026-02-12 05:24:09,069: train_ranges: ['01/10/1995-30/09/1996', '01/10/1994-30/09/1995', '01/10/1996-30/09/1997', '01/10/1995-30/09/1996', '01/10/1995-30/09/1996', '01/10/1994-30/09/1995', '01/10/1998-30/09/1999', '01/10/1995-30/09/1996']
+2026-02-12 05:24:09,069: validation_ranges: ['01/10/2002-30/09/2003', '01/10/2003-30/09/2004', '01/10/2004-30/09/2005']
+2026-02-12 05:24:09,069: test_ranges: ['01/10/2005-30/09/2006', '01/10/2006-30/09/2007', '01/10/2007-30/09/2008', '01/10/2008-30/09/2009']
+2026-02-12 05:24:09,069: device: cpu
+2026-02-12 05:24:09,069: physics_informed: True
+2026-02-12 05:24:09,069: physics_data_file: /Users/maxwellfung/UCB-USACE-RR-PROJECT/russian_river_data/WarmSprings_Inflow_hourly.csv
+2026-02-12 05:24:09,069: validate_every: 5
+2026-02-12 05:24:09,070: validate_n_random_basins: 1
+2026-02-12 05:24:09,070: save_validation_results: True
+2026-02-12 05:24:09,070: metrics: ['NSE', 'MSE']
+2026-02-12 05:24:09,070: model: mtslstm
+2026-02-12 05:24:09,070: shared_mtslstm: False
+2026-02-12 05:24:09,070: transfer_mtslstm_states: {'h': 'linear', 'c': 'linear'}
+2026-02-12 05:24:09,070: use_frequencies: ['1H', '1D']
+2026-02-12 05:24:09,070: head: regression
+2026-02-12 05:24:09,070: output_activation: linear
+2026-02-12 05:24:09,070: hidden_size: 64
+2026-02-12 05:24:09,070: initial_forget_bias: 3
+2026-02-12 05:24:09,070: output_dropout: 0.4
+2026-02-12 05:24:09,070: optimizer: Adam
+2026-02-12 05:24:09,070: loss: NSE
+2026-02-12 05:24:09,070: learning_rate: {0: 0.01, 24: 0.005, 36: 0.001}
+2026-02-12 05:24:09,070: batch_size: 64
+2026-02-12 05:24:09,070: epochs: 48
+2026-02-12 05:24:09,070: clip_gradient_norm: 1
+2026-02-12 05:24:09,070: predict_last_n: {'1D': 1, '1H': 24}
+2026-02-12 05:24:09,070: seq_length: {'1D': 120, '1H': 168}
+2026-02-12 05:24:09,070: log_interval: 16
+2026-02-12 05:24:09,070: log_tensorboard: True
+2026-02-12 05:24:09,070: log_n_figures: 1
+2026-02-12 05:24:09,070: save_weights_every: 48
+2026-02-12 05:24:09,070: dataset: synthetic_russian_river
+2026-02-12 05:24:09,070: data_dir: /Users/maxwellfung/UCB-USACE-RR-PROJECT/russian_river_data
+2026-02-12 05:24:09,070: dev_mode: True
+2026-02-12 05:24:09,070: dynamic_inputs: ['DRY CREEK 20 PRECIP-INC SCREENED', 'DRY CREEK 20 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'DRY CREEK 30 PRECIP-INC SCREENED', 'DRY CREEK 30 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'UKIAH CA HUMIDITY USAF-NOAA', 'UKIAH CA SOLAR RADIATION USAF-NOAA', 'UKIAH CA TEMPERATURE USAF-NOAA', 'UKIAH CA WINDSPEED USAF-NOAA', 'SANTA ROSA CA HUMIDITY USAF-NOAA', 'SANTA ROSA CA SOLAR RADIATION USAF-NOAA', 'SANTA ROSA CA TEMPERATURE USAF-NOAA', 'SANTA ROSA CA WINDSPEED USAF-NOAA', 'Dry Creek 20 ET-POTENTIAL', 'Dry Creek 20 FLOW', 'Dry Creek 20 FLOW-BASE', 'Dry Creek 20 INFILTRATION', 'Dry Creek 20 PERC-SOIL', 'Dry Creek 20 SATURATION FRACTION', 'Dry Creek 30 ET-POTENTIAL', 'Dry Creek 30 FLOW', 'Dry Creek 30 FLOW-BASE', 'Dry Creek 30 INFILTRATION', 'Dry Creek 30 PERC-SOIL', 'Dry Creek 30 SATURATION FRACTION', 'Warm Springs Dam Inflow FLOW']
+2026-02-12 05:24:09,070: target_variables: ['LAKE SONOMA FLOW-RES IN CALC-VAL-SHIFT-SMOOTH']
+2026-02-12 05:24:09,070: clip_targets_to_zero: [['LAKE SONOMA FLOW-RES IN CALC-VAL-SHIFT-SMOOTH']]
+2026-02-12 05:24:09,070: early_stopping: False
+2026-02-12 05:24:09,070: early_stopping_mode: patience
+2026-02-12 05:24:09,070: patience_early_stopping: 3
+2026-02-12 05:24:09,070: min_delta_early_stopping: 0.0
+2026-02-12 05:24:09,070: minimum_epochs_before_early_stopping: 10
+2026-02-12 05:24:09,070: early_stopping_slope_window: 7
+2026-02-12 05:24:09,070: early_stopping_slope_patience: 2
+2026-02-12 05:24:09,070: early_stopping_slope_min_epoch: 8
+2026-02-12 05:24:09,070: early_stopping_slope_ema_alpha: 0.4
+2026-02-12 05:24:09,070: early_stopping_slope_use_log: True
+2026-02-12 05:24:09,070: early_stopping_slope_log_eps: 1e-12
+2026-02-12 05:24:09,070: early_stopping_slope_eps_slope: 0.001
+2026-02-12 05:24:09,070: early_stopping_slope_min_window_gain: 0.01
+2026-02-12 05:24:09,070: early_stopping_slope_variance_guard: True
+2026-02-12 05:24:09,070: early_stopping_slope_variance_cv_max: 0.01
+2026-02-12 05:24:09,070: train_start_date: 01/01/1900
+2026-02-12 05:24:09,071: train_end_date: 01/01/1901
+2026-02-12 05:24:09,071: validation_start_date: 01/01/1900
+2026-02-12 05:24:09,071: validation_end_date: 01/01/1901
+2026-02-12 05:24:09,071: test_start_date: 01/01/1900
+2026-02-12 05:24:09,071: test_end_date: 01/01/1901
+2026-02-12 05:24:09,071: num_layers: 1
+2026-02-12 05:24:09,071: hourly: True
+2026-02-12 05:24:09,071: is_mts: True
+2026-02-12 05:24:09,071: is_mts_data: False
+2026-02-12 05:24:09,071: verbose: True
+2026-02-12 05:24:09,071: run_dir: /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/warm_springs/mts_shared/runs/BASELINE_20260212T122739Z/phys_member_run_19/testing_run_1202_052409
+2026-02-12 05:24:09,071: run_label: BASELINE
+2026-02-12 05:24:09,071: run_stamp: 20260212T122739Z
+2026-02-12 05:24:09,071: number_of_basins: 1
+2026-02-12 05:24:09,071: train_dir: /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/warm_springs/mts_shared/runs/BASELINE_20260212T122739Z/phys_member_run_19/testing_run_1202_052409/train_data
+2026-02-12 05:24:09,071: img_log_dir: /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/warm_springs/mts_shared/runs/BASELINE_20260212T122739Z/phys_member_run_19/testing_run_1202_052409/img_log
+2026-02-12 05:24:09,072: ### Device cpu will be used for training
+2026-02-12 05:24:09,073: Loading basin data into xarray data set.
+2026-02-12 05:24:39,578: Calculating target variable stds per basin
+2026-02-12 05:24:39,602: Create lookup table and convert to pytorch tensor
+2026-02-12 05:24:39,694: No specific hidden size for frequencies are specified. Same hidden size is used for all.
+2026-02-12 05:24:54,619: Epoch 1 average loss: avg_loss: 5.80e-07, avg_total_loss: 5.80e-07
+2026-02-12 05:25:09,281: Epoch 2 average loss: avg_loss: 3.82e-07, avg_total_loss: 3.82e-07
+2026-02-12 05:25:24,431: Epoch 3 average loss: avg_loss: 3.21e-07, avg_total_loss: 3.21e-07
+2026-02-12 05:25:39,965: Epoch 4 average loss: avg_loss: 2.52e-07, avg_total_loss: 2.52e-07
+2026-02-12 05:25:52,888: Epoch 5 average loss: avg_loss: 2.17e-07, avg_total_loss: 2.17e-07
+2026-02-12 05:26:32,994: Stored metrics at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/warm_springs/mts_shared/runs/BASELINE_20260212T122739Z/phys_member_run_19/testing_run_1202_052409/validation/model_epoch005/validation_metrics.csv
+2026-02-12 05:26:32,995: Stored results at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/warm_springs/mts_shared/runs/BASELINE_20260212T122739Z/phys_member_run_19/testing_run_1202_052409/validation/model_epoch005/validation_results.p
+2026-02-12 05:26:32,996: Epoch 5 average validation loss: 3.39e-07 -- Median validation metrics: avg_loss: 3.39e-07, NSE_1H: 0.56988, MSE_1H: 179842.35938, NSE_1D: 0.62467, MSE_1D: 126248.17188
+2026-02-12 05:26:48,291: Epoch 6 average loss: avg_loss: 1.86e-07, avg_total_loss: 1.86e-07
+2026-02-12 05:27:03,699: Epoch 7 average loss: avg_loss: 1.68e-07, avg_total_loss: 1.68e-07
+2026-02-12 05:27:17,852: Epoch 8 average loss: avg_loss: 1.57e-07, avg_total_loss: 1.57e-07
+2026-02-12 05:27:32,849: Epoch 9 average loss: avg_loss: 1.57e-07, avg_total_loss: 1.57e-07
+2026-02-12 05:27:46,141: Epoch 10 average loss: avg_loss: 1.39e-07, avg_total_loss: 1.39e-07
+2026-02-12 05:27:53,360: Stored metrics at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/warm_springs/mts_shared/runs/BASELINE_20260212T122739Z/phys_member_run_19/testing_run_1202_052409/validation/model_epoch010/validation_metrics.csv
+2026-02-12 05:27:53,361: Stored results at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/warm_springs/mts_shared/runs/BASELINE_20260212T122739Z/phys_member_run_19/testing_run_1202_052409/validation/model_epoch010/validation_results.p
+2026-02-12 05:27:53,362: Epoch 10 average validation loss: 2.08e-07 -- Median validation metrics: avg_loss: 2.08e-07, NSE_1H: 0.79805, MSE_1H: 84439.13281, NSE_1D: 0.70244, MSE_1D: 100090.67969
+2026-02-12 05:28:08,381: Epoch 11 average loss: avg_loss: 1.30e-07, avg_total_loss: 1.30e-07
+2026-02-12 05:28:23,607: Epoch 12 average loss: avg_loss: 1.27e-07, avg_total_loss: 1.27e-07
+2026-02-12 05:28:38,371: Epoch 13 average loss: avg_loss: 1.11e-07, avg_total_loss: 1.11e-07
+2026-02-12 05:28:52,687: Epoch 14 average loss: avg_loss: 1.06e-07, avg_total_loss: 1.06e-07
+2026-02-12 05:29:06,878: Epoch 15 average loss: avg_loss: 1.13e-07, avg_total_loss: 1.13e-07
+2026-02-12 05:29:14,246: Stored metrics at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/warm_springs/mts_shared/runs/BASELINE_20260212T122739Z/phys_member_run_19/testing_run_1202_052409/validation/model_epoch015/validation_metrics.csv
+2026-02-12 05:29:14,247: Stored results at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/warm_springs/mts_shared/runs/BASELINE_20260212T122739Z/phys_member_run_19/testing_run_1202_052409/validation/model_epoch015/validation_results.p
+2026-02-12 05:29:14,248: Epoch 15 average validation loss: 2.51e-07 -- Median validation metrics: avg_loss: 2.51e-07, NSE_1H: 0.66284, MSE_1H: 140972.75000, NSE_1D: 0.75167, MSE_1D: 83529.00000
+2026-02-12 05:29:29,081: Epoch 16 average loss: avg_loss: 9.72e-08, avg_total_loss: 9.72e-08
+2026-02-12 05:29:44,135: Epoch 17 average loss: avg_loss: 1.00e-07, avg_total_loss: 1.00e-07
+2026-02-12 05:29:59,287: Epoch 18 average loss: avg_loss: 9.34e-08, avg_total_loss: 9.34e-08
+2026-02-12 05:30:13,604: Epoch 19 average loss: avg_loss: 9.19e-08, avg_total_loss: 9.19e-08
+2026-02-12 05:30:28,658: Epoch 20 average loss: avg_loss: 8.55e-08, avg_total_loss: 8.55e-08
+2026-02-12 05:30:35,625: Stored metrics at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/warm_springs/mts_shared/runs/BASELINE_20260212T122739Z/phys_member_run_19/testing_run_1202_052409/validation/model_epoch020/validation_metrics.csv
+2026-02-12 05:30:35,626: Stored results at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/warm_springs/mts_shared/runs/BASELINE_20260212T122739Z/phys_member_run_19/testing_run_1202_052409/validation/model_epoch020/validation_results.p
+2026-02-12 05:30:35,626: Epoch 20 average validation loss: 2.39e-07 -- Median validation metrics: avg_loss: 2.39e-07, NSE_1H: 0.69508, MSE_1H: 127492.43750, NSE_1D: 0.74210, MSE_1D: 86750.39062
+2026-02-12 05:30:50,217: Epoch 21 average loss: avg_loss: 1.03e-07, avg_total_loss: 1.03e-07
+2026-02-12 05:31:05,217: Epoch 22 average loss: avg_loss: 9.95e-08, avg_total_loss: 9.95e-08
+2026-02-12 05:31:19,805: Epoch 23 average loss: avg_loss: 9.07e-08, avg_total_loss: 9.07e-08
+2026-02-12 05:31:19,806: Setting learning rate to 0.005
+2026-02-12 05:31:34,936: Epoch 24 average loss: avg_loss: 1.05e-07, avg_total_loss: 1.05e-07
+2026-02-12 05:31:49,381: Epoch 25 average loss: avg_loss: 8.39e-08, avg_total_loss: 8.39e-08
+2026-02-12 05:31:55,311: Stored metrics at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/warm_springs/mts_shared/runs/BASELINE_20260212T122739Z/phys_member_run_19/testing_run_1202_052409/validation/model_epoch025/validation_metrics.csv
+2026-02-12 05:31:55,312: Stored results at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/warm_springs/mts_shared/runs/BASELINE_20260212T122739Z/phys_member_run_19/testing_run_1202_052409/validation/model_epoch025/validation_results.p
+2026-02-12 05:31:55,313: Epoch 25 average validation loss: 2.01e-07 -- Median validation metrics: avg_loss: 2.01e-07, NSE_1H: 0.75821, MSE_1H: 101096.93750, NSE_1D: 0.76981, MSE_1D: 77429.40625
+2026-02-12 05:32:09,266: Epoch 26 average loss: avg_loss: 7.31e-08, avg_total_loss: 7.31e-08
+2026-02-12 05:32:24,129: Epoch 27 average loss: avg_loss: 7.17e-08, avg_total_loss: 7.17e-08
+2026-02-12 05:32:38,256: Epoch 28 average loss: avg_loss: 6.64e-08, avg_total_loss: 6.64e-08
+2026-02-12 05:32:53,132: Epoch 29 average loss: avg_loss: 7.23e-08, avg_total_loss: 7.23e-08
+2026-02-12 05:33:07,707: Epoch 30 average loss: avg_loss: 7.10e-08, avg_total_loss: 7.10e-08
+2026-02-12 05:33:14,641: Stored metrics at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/warm_springs/mts_shared/runs/BASELINE_20260212T122739Z/phys_member_run_19/testing_run_1202_052409/validation/model_epoch030/validation_metrics.csv
+2026-02-12 05:33:14,642: Stored results at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/warm_springs/mts_shared/runs/BASELINE_20260212T122739Z/phys_member_run_19/testing_run_1202_052409/validation/model_epoch030/validation_results.p
+2026-02-12 05:33:14,643: Epoch 30 average validation loss: 2.19e-07 -- Median validation metrics: avg_loss: 2.19e-07, NSE_1H: 0.73124, MSE_1H: 112371.71094, NSE_1D: 0.75077, MSE_1D: 83831.60938
+2026-02-12 05:33:27,789: Epoch 31 average loss: avg_loss: 7.20e-08, avg_total_loss: 7.20e-08
+2026-02-12 05:33:43,315: Epoch 32 average loss: avg_loss: 7.25e-08, avg_total_loss: 7.25e-08
+2026-02-12 05:33:59,427: Epoch 33 average loss: avg_loss: 7.04e-08, avg_total_loss: 7.04e-08
+2026-02-12 05:34:14,732: Epoch 34 average loss: avg_loss: 7.35e-08, avg_total_loss: 7.35e-08
+2026-02-12 05:34:30,848: Epoch 35 average loss: avg_loss: 6.02e-08, avg_total_loss: 6.02e-08
+2026-02-12 05:34:37,813: Stored metrics at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/warm_springs/mts_shared/runs/BASELINE_20260212T122739Z/phys_member_run_19/testing_run_1202_052409/validation/model_epoch035/validation_metrics.csv
+2026-02-12 05:34:37,814: Stored results at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/warm_springs/mts_shared/runs/BASELINE_20260212T122739Z/phys_member_run_19/testing_run_1202_052409/validation/model_epoch035/validation_results.p
+2026-02-12 05:34:37,815: Epoch 35 average validation loss: 2.06e-07 -- Median validation metrics: avg_loss: 2.06e-07, NSE_1H: 0.71547, MSE_1H: 118967.57031, NSE_1D: 0.80963, MSE_1D: 64034.13672
+2026-02-12 05:34:37,815: Setting learning rate to 0.001
+2026-02-12 05:34:52,115: Epoch 36 average loss: avg_loss: 6.26e-08, avg_total_loss: 6.26e-08
+2026-02-12 05:35:06,144: Epoch 37 average loss: avg_loss: 7.54e-08, avg_total_loss: 7.54e-08
+2026-02-12 05:35:20,459: Epoch 38 average loss: avg_loss: 6.59e-08, avg_total_loss: 6.59e-08
+2026-02-12 05:35:34,331: Epoch 39 average loss: avg_loss: 6.73e-08, avg_total_loss: 6.73e-08
+2026-02-12 05:35:48,560: Epoch 40 average loss: avg_loss: 6.59e-08, avg_total_loss: 6.59e-08
+2026-02-12 05:35:54,925: Stored metrics at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/warm_springs/mts_shared/runs/BASELINE_20260212T122739Z/phys_member_run_19/testing_run_1202_052409/validation/model_epoch040/validation_metrics.csv
+2026-02-12 05:35:54,927: Stored results at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/warm_springs/mts_shared/runs/BASELINE_20260212T122739Z/phys_member_run_19/testing_run_1202_052409/validation/model_epoch040/validation_results.p
+2026-02-12 05:35:54,927: Epoch 40 average validation loss: 2.01e-07 -- Median validation metrics: avg_loss: 2.01e-07, NSE_1H: 0.74366, MSE_1H: 107181.77344, NSE_1D: 0.78859, MSE_1D: 71110.40625
+2026-02-12 05:36:08,255: Epoch 41 average loss: avg_loss: 7.02e-08, avg_total_loss: 7.02e-08
+2026-02-12 05:36:22,368: Epoch 42 average loss: avg_loss: 7.06e-08, avg_total_loss: 7.06e-08
+2026-02-12 05:36:36,196: Epoch 43 average loss: avg_loss: 6.17e-08, avg_total_loss: 6.17e-08
+2026-02-12 05:36:50,345: Epoch 44 average loss: avg_loss: 5.86e-08, avg_total_loss: 5.86e-08
+2026-02-12 05:37:05,114: Epoch 45 average loss: avg_loss: 6.13e-08, avg_total_loss: 6.13e-08
+2026-02-12 05:37:12,435: Stored metrics at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/warm_springs/mts_shared/runs/BASELINE_20260212T122739Z/phys_member_run_19/testing_run_1202_052409/validation/model_epoch045/validation_metrics.csv
+2026-02-12 05:37:12,437: Stored results at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/warm_springs/mts_shared/runs/BASELINE_20260212T122739Z/phys_member_run_19/testing_run_1202_052409/validation/model_epoch045/validation_results.p
+2026-02-12 05:37:12,438: Epoch 45 average validation loss: 2.17e-07 -- Median validation metrics: avg_loss: 2.17e-07, NSE_1H: 0.74722, MSE_1H: 105693.80469, NSE_1D: 0.74052, MSE_1D: 87282.71875
+2026-02-12 05:37:27,980: Epoch 46 average loss: avg_loss: 6.40e-08, avg_total_loss: 6.40e-08
+2026-02-12 05:37:41,744: Epoch 47 average loss: avg_loss: 6.61e-08, avg_total_loss: 6.61e-08
+2026-02-12 05:37:55,840: Epoch 48 average loss: avg_loss: 6.82e-08, avg_total_loss: 6.82e-08
+2026-02-12 05:37:55,855: Logging to /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/warm_springs/mts_shared/runs/BASELINE_20260212T122739Z/phys_member_run_23/testing_run_1202_053755/output.log initialized.
+2026-02-12 05:37:55,855: ### Folder structure created at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/warm_springs/mts_shared/runs/BASELINE_20260212T122739Z/phys_member_run_23/testing_run_1202_053755
+2026-02-12 05:37:55,855: ### Run configurations for testing_run
+2026-02-12 05:37:55,855: experiment_name: testing_run
+2026-02-12 05:37:55,855: train_basin_file: warm springs
+2026-02-12 05:37:55,855: validation_basin_file: warm springs
+2026-02-12 05:37:55,855: test_basin_file: warm springs
+2026-02-12 05:37:55,855: train_ranges: ['01/10/1994-30/09/1995', '01/10/1996-30/09/1997', '01/10/1998-30/09/1999', '01/10/1999-30/09/2000', '01/10/1998-30/09/1999', '01/10/1995-30/09/1996', '01/10/2001-30/09/2002', '01/10/1995-30/09/1996']
+2026-02-12 05:37:55,855: validation_ranges: ['01/10/2002-30/09/2003', '01/10/2003-30/09/2004', '01/10/2004-30/09/2005']
+2026-02-12 05:37:55,855: test_ranges: ['01/10/2005-30/09/2006', '01/10/2006-30/09/2007', '01/10/2007-30/09/2008', '01/10/2008-30/09/2009']
+2026-02-12 05:37:55,855: device: cpu
+2026-02-12 05:37:55,855: physics_informed: True
+2026-02-12 05:37:55,855: physics_data_file: /Users/maxwellfung/UCB-USACE-RR-PROJECT/russian_river_data/WarmSprings_Inflow_hourly.csv
+2026-02-12 05:37:55,855: validate_every: 5
+2026-02-12 05:37:55,855: validate_n_random_basins: 1
+2026-02-12 05:37:55,855: save_validation_results: True
+2026-02-12 05:37:55,855: metrics: ['NSE', 'MSE']
+2026-02-12 05:37:55,855: model: mtslstm
+2026-02-12 05:37:55,855: shared_mtslstm: False
+2026-02-12 05:37:55,855: transfer_mtslstm_states: {'h': 'linear', 'c': 'linear'}
+2026-02-12 05:37:55,855: use_frequencies: ['1H', '1D']
+2026-02-12 05:37:55,855: head: regression
+2026-02-12 05:37:55,855: output_activation: linear
+2026-02-12 05:37:55,855: hidden_size: 64
+2026-02-12 05:37:55,855: initial_forget_bias: 3
+2026-02-12 05:37:55,856: output_dropout: 0.4
+2026-02-12 05:37:55,856: optimizer: Adam
+2026-02-12 05:37:55,856: loss: NSE
+2026-02-12 05:37:55,856: learning_rate: {0: 0.01, 24: 0.005, 36: 0.001}
+2026-02-12 05:37:55,856: batch_size: 64
+2026-02-12 05:37:55,856: epochs: 48
+2026-02-12 05:37:55,856: clip_gradient_norm: 1
+2026-02-12 05:37:55,856: predict_last_n: {'1D': 1, '1H': 24}
+2026-02-12 05:37:55,856: seq_length: {'1D': 120, '1H': 168}
+2026-02-12 05:37:55,856: log_interval: 16
+2026-02-12 05:37:55,856: log_tensorboard: True
+2026-02-12 05:37:55,856: log_n_figures: 1
+2026-02-12 05:37:55,856: save_weights_every: 48
+2026-02-12 05:37:55,856: dataset: synthetic_russian_river
+2026-02-12 05:37:55,856: data_dir: /Users/maxwellfung/UCB-USACE-RR-PROJECT/russian_river_data
+2026-02-12 05:37:55,856: dev_mode: True
+2026-02-12 05:37:55,856: dynamic_inputs: ['DRY CREEK 20 PRECIP-INC SCREENED', 'DRY CREEK 20 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'DRY CREEK 30 PRECIP-INC SCREENED', 'DRY CREEK 30 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR', 'UKIAH CA HUMIDITY USAF-NOAA', 'UKIAH CA SOLAR RADIATION USAF-NOAA', 'UKIAH CA TEMPERATURE USAF-NOAA', 'UKIAH CA WINDSPEED USAF-NOAA', 'SANTA ROSA CA HUMIDITY USAF-NOAA', 'SANTA ROSA CA SOLAR RADIATION USAF-NOAA', 'SANTA ROSA CA TEMPERATURE USAF-NOAA', 'SANTA ROSA CA WINDSPEED USAF-NOAA', 'Dry Creek 20 ET-POTENTIAL', 'Dry Creek 20 FLOW', 'Dry Creek 20 FLOW-BASE', 'Dry Creek 20 INFILTRATION', 'Dry Creek 20 PERC-SOIL', 'Dry Creek 20 SATURATION FRACTION', 'Dry Creek 30 ET-POTENTIAL', 'Dry Creek 30 FLOW', 'Dry Creek 30 FLOW-BASE', 'Dry Creek 30 INFILTRATION', 'Dry Creek 30 PERC-SOIL', 'Dry Creek 30 SATURATION FRACTION', 'Warm Springs Dam Inflow FLOW']
+2026-02-12 05:37:55,856: target_variables: ['LAKE SONOMA FLOW-RES IN CALC-VAL-SHIFT-SMOOTH']
+2026-02-12 05:37:55,856: clip_targets_to_zero: [['LAKE SONOMA FLOW-RES IN CALC-VAL-SHIFT-SMOOTH']]
+2026-02-12 05:37:55,856: early_stopping: False
+2026-02-12 05:37:55,856: early_stopping_mode: patience
+2026-02-12 05:37:55,856: patience_early_stopping: 3
+2026-02-12 05:37:55,856: min_delta_early_stopping: 0.0
+2026-02-12 05:37:55,856: minimum_epochs_before_early_stopping: 10
+2026-02-12 05:37:55,856: early_stopping_slope_window: 7
+2026-02-12 05:37:55,856: early_stopping_slope_patience: 2
+2026-02-12 05:37:55,856: early_stopping_slope_min_epoch: 8
+2026-02-12 05:37:55,856: early_stopping_slope_ema_alpha: 0.4
+2026-02-12 05:37:55,856: early_stopping_slope_use_log: True
+2026-02-12 05:37:55,856: early_stopping_slope_log_eps: 1e-12
+2026-02-12 05:37:55,856: early_stopping_slope_eps_slope: 0.001
+2026-02-12 05:37:55,856: early_stopping_slope_min_window_gain: 0.01
+2026-02-12 05:37:55,856: early_stopping_slope_variance_guard: True
+2026-02-12 05:37:55,856: early_stopping_slope_variance_cv_max: 0.01
+2026-02-12 05:37:55,856: train_start_date: 01/01/1900
+2026-02-12 05:37:55,856: train_end_date: 01/01/1901
+2026-02-12 05:37:55,856: validation_start_date: 01/01/1900
+2026-02-12 05:37:55,856: validation_end_date: 01/01/1901
+2026-02-12 05:37:55,856: test_start_date: 01/01/1900
+2026-02-12 05:37:55,856: test_end_date: 01/01/1901
+2026-02-12 05:37:55,856: num_layers: 1
+2026-02-12 05:37:55,856: hourly: True
+2026-02-12 05:37:55,856: is_mts: True
+2026-02-12 05:37:55,856: is_mts_data: False
+2026-02-12 05:37:55,856: verbose: True
+2026-02-12 05:37:55,856: run_dir: /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/warm_springs/mts_shared/runs/BASELINE_20260212T122739Z/phys_member_run_23/testing_run_1202_053755
+2026-02-12 05:37:55,856: run_label: BASELINE
+2026-02-12 05:37:55,856: run_stamp: 20260212T122739Z
+2026-02-12 05:37:55,856: number_of_basins: 1
+2026-02-12 05:37:55,856: train_dir: /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/warm_springs/mts_shared/runs/BASELINE_20260212T122739Z/phys_member_run_23/testing_run_1202_053755/train_data
+2026-02-12 05:37:55,856: img_log_dir: /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/warm_springs/mts_shared/runs/BASELINE_20260212T122739Z/phys_member_run_23/testing_run_1202_053755/img_log
+2026-02-12 05:37:55,857: ### Device cpu will be used for training
+2026-02-12 05:37:55,858: Loading basin data into xarray data set.
+2026-02-12 05:38:25,392: Calculating target variable stds per basin
+2026-02-12 05:38:25,422: Create lookup table and convert to pytorch tensor
+2026-02-12 05:38:25,534: No specific hidden size for frequencies are specified. Same hidden size is used for all.
+2026-02-12 05:38:45,234: Epoch 1 average loss: avg_loss: 5.34e-07, avg_total_loss: 5.34e-07
+2026-02-12 05:39:03,226: Epoch 2 average loss: avg_loss: 3.70e-07, avg_total_loss: 3.70e-07
+2026-02-12 05:39:22,355: Epoch 3 average loss: avg_loss: 3.16e-07, avg_total_loss: 3.16e-07
+2026-02-12 05:39:40,997: Epoch 4 average loss: avg_loss: 2.57e-07, avg_total_loss: 2.57e-07
+2026-02-12 05:39:56,580: Epoch 5 average loss: avg_loss: 2.36e-07, avg_total_loss: 2.36e-07
+2026-02-12 05:40:32,237: Stored metrics at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/warm_springs/mts_shared/runs/BASELINE_20260212T122739Z/phys_member_run_23/testing_run_1202_053755/validation/model_epoch005/validation_metrics.csv
+2026-02-12 05:40:32,239: Stored results at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/warm_springs/mts_shared/runs/BASELINE_20260212T122739Z/phys_member_run_23/testing_run_1202_053755/validation/model_epoch005/validation_results.p
+2026-02-12 05:40:32,240: Epoch 5 average validation loss: 2.84e-07 -- Median validation metrics: avg_loss: 2.84e-07, NSE_1H: 0.71416, MSE_1H: 119515.77344, NSE_1D: 0.84935, MSE_1D: 50674.96094
+2026-02-12 05:40:50,281: Epoch 6 average loss: avg_loss: 2.14e-07, avg_total_loss: 2.14e-07
+2026-02-12 05:41:09,364: Epoch 7 average loss: avg_loss: 1.95e-07, avg_total_loss: 1.95e-07
+2026-02-12 05:41:27,735: Epoch 8 average loss: avg_loss: 2.04e-07, avg_total_loss: 2.04e-07
+2026-02-12 05:41:44,340: Epoch 9 average loss: avg_loss: 1.79e-07, avg_total_loss: 1.79e-07
+2026-02-12 05:42:00,912: Epoch 10 average loss: avg_loss: 1.65e-07, avg_total_loss: 1.65e-07
+2026-02-12 05:42:07,843: Stored metrics at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/warm_springs/mts_shared/runs/BASELINE_20260212T122739Z/phys_member_run_23/testing_run_1202_053755/validation/model_epoch010/validation_metrics.csv
+2026-02-12 05:42:07,844: Stored results at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/warm_springs/mts_shared/runs/BASELINE_20260212T122739Z/phys_member_run_23/testing_run_1202_053755/validation/model_epoch010/validation_results.p
+2026-02-12 05:42:07,844: Epoch 10 average validation loss: 2.49e-07 -- Median validation metrics: avg_loss: 2.49e-07, NSE_1H: 0.76850, MSE_1H: 96795.14844, NSE_1D: 0.84767, MSE_1D: 51240.03906
+2026-02-12 05:42:24,315: Epoch 11 average loss: avg_loss: 1.55e-07, avg_total_loss: 1.55e-07
+2026-02-12 05:42:40,746: Epoch 12 average loss: avg_loss: 1.46e-07, avg_total_loss: 1.46e-07
+2026-02-12 05:42:57,910: Epoch 13 average loss: avg_loss: 1.53e-07, avg_total_loss: 1.53e-07
+2026-02-12 05:43:14,158: Epoch 14 average loss: avg_loss: 1.58e-07, avg_total_loss: 1.58e-07
+2026-02-12 05:43:30,320: Epoch 15 average loss: avg_loss: 1.41e-07, avg_total_loss: 1.41e-07
+2026-02-12 05:43:37,090: Stored metrics at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/warm_springs/mts_shared/runs/BASELINE_20260212T122739Z/phys_member_run_23/testing_run_1202_053755/validation/model_epoch015/validation_metrics.csv
+2026-02-12 05:43:37,091: Stored results at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/warm_springs/mts_shared/runs/BASELINE_20260212T122739Z/phys_member_run_23/testing_run_1202_053755/validation/model_epoch015/validation_results.p
+2026-02-12 05:43:37,092: Epoch 15 average validation loss: 1.80e-07 -- Median validation metrics: avg_loss: 1.80e-07, NSE_1H: 0.83229, MSE_1H: 70123.96094, NSE_1D: 0.89365, MSE_1D: 35773.39453
+2026-02-12 05:43:56,281: Epoch 16 average loss: avg_loss: 1.54e-07, avg_total_loss: 1.54e-07
+2026-02-12 05:44:13,333: Epoch 17 average loss: avg_loss: 1.63e-07, avg_total_loss: 1.63e-07
+2026-02-12 05:44:30,551: Epoch 18 average loss: avg_loss: 1.32e-07, avg_total_loss: 1.32e-07
+2026-02-12 05:44:47,659: Epoch 19 average loss: avg_loss: 1.47e-07, avg_total_loss: 1.47e-07
+2026-02-12 05:45:05,364: Epoch 20 average loss: avg_loss: 1.31e-07, avg_total_loss: 1.31e-07
+2026-02-12 05:45:12,202: Stored metrics at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/warm_springs/mts_shared/runs/BASELINE_20260212T122739Z/phys_member_run_23/testing_run_1202_053755/validation/model_epoch020/validation_metrics.csv
+2026-02-12 05:45:12,203: Stored results at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/warm_springs/mts_shared/runs/BASELINE_20260212T122739Z/phys_member_run_23/testing_run_1202_053755/validation/model_epoch020/validation_results.p
+2026-02-12 05:45:12,204: Epoch 20 average validation loss: 2.21e-07 -- Median validation metrics: avg_loss: 2.21e-07, NSE_1H: 0.79330, MSE_1H: 86426.45312, NSE_1D: 0.87171, MSE_1D: 43152.30469
+2026-02-12 05:45:29,027: Epoch 21 average loss: avg_loss: 1.19e-07, avg_total_loss: 1.19e-07
+2026-02-12 05:45:46,595: Epoch 22 average loss: avg_loss: 1.16e-07, avg_total_loss: 1.16e-07
+2026-02-12 05:46:03,109: Epoch 23 average loss: avg_loss: 1.21e-07, avg_total_loss: 1.21e-07
+2026-02-12 05:46:03,110: Setting learning rate to 0.005
+2026-02-12 05:46:19,106: Epoch 24 average loss: avg_loss: 1.15e-07, avg_total_loss: 1.15e-07
+2026-02-12 05:46:35,255: Epoch 25 average loss: avg_loss: 1.03e-07, avg_total_loss: 1.03e-07
+2026-02-12 05:46:41,148: Stored metrics at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/warm_springs/mts_shared/runs/BASELINE_20260212T122739Z/phys_member_run_23/testing_run_1202_053755/validation/model_epoch025/validation_metrics.csv
+2026-02-12 05:46:41,149: Stored results at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/warm_springs/mts_shared/runs/BASELINE_20260212T122739Z/phys_member_run_23/testing_run_1202_053755/validation/model_epoch025/validation_results.p
+2026-02-12 05:46:41,150: Epoch 25 average validation loss: 1.74e-07 -- Median validation metrics: avg_loss: 1.74e-07, NSE_1H: 0.83933, MSE_1H: 67180.23438, NSE_1D: 0.89686, MSE_1D: 34693.56250
+2026-02-12 05:46:58,200: Epoch 26 average loss: avg_loss: 1.05e-07, avg_total_loss: 1.05e-07
+2026-02-12 05:47:14,247: Epoch 27 average loss: avg_loss: 1.17e-07, avg_total_loss: 1.17e-07
+2026-02-12 05:47:31,053: Epoch 28 average loss: avg_loss: 1.06e-07, avg_total_loss: 1.06e-07
+2026-02-12 05:47:47,834: Epoch 29 average loss: avg_loss: 1.03e-07, avg_total_loss: 1.03e-07
+2026-02-12 05:48:04,609: Epoch 30 average loss: avg_loss: 9.49e-08, avg_total_loss: 9.49e-08
+2026-02-12 05:48:11,015: Stored metrics at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/warm_springs/mts_shared/runs/BASELINE_20260212T122739Z/phys_member_run_23/testing_run_1202_053755/validation/model_epoch030/validation_metrics.csv
+2026-02-12 05:48:11,016: Stored results at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/warm_springs/mts_shared/runs/BASELINE_20260212T122739Z/phys_member_run_23/testing_run_1202_053755/validation/model_epoch030/validation_results.p
+2026-02-12 05:48:11,017: Epoch 30 average validation loss: 1.72e-07 -- Median validation metrics: avg_loss: 1.72e-07, NSE_1H: 0.83258, MSE_1H: 70001.67188, NSE_1D: 0.90799, MSE_1D: 30948.77344
+2026-02-12 05:48:27,768: Epoch 31 average loss: avg_loss: 8.90e-08, avg_total_loss: 8.90e-08
+2026-02-12 05:48:44,359: Epoch 32 average loss: avg_loss: 9.03e-08, avg_total_loss: 9.03e-08
+2026-02-12 05:49:01,370: Epoch 33 average loss: avg_loss: 9.73e-08, avg_total_loss: 9.73e-08
+2026-02-12 05:49:17,963: Epoch 34 average loss: avg_loss: 9.66e-08, avg_total_loss: 9.66e-08
+2026-02-12 05:49:34,886: Epoch 35 average loss: avg_loss: 9.74e-08, avg_total_loss: 9.74e-08
+2026-02-12 05:49:41,361: Stored metrics at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/warm_springs/mts_shared/runs/BASELINE_20260212T122739Z/phys_member_run_23/testing_run_1202_053755/validation/model_epoch035/validation_metrics.csv
+2026-02-12 05:49:41,362: Stored results at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/warm_springs/mts_shared/runs/BASELINE_20260212T122739Z/phys_member_run_23/testing_run_1202_053755/validation/model_epoch035/validation_results.p
+2026-02-12 05:49:41,363: Epoch 35 average validation loss: 1.71e-07 -- Median validation metrics: avg_loss: 1.71e-07, NSE_1H: 0.84816, MSE_1H: 63485.22656, NSE_1D: 0.89075, MSE_1D: 36748.19531
+2026-02-12 05:49:41,363: Setting learning rate to 0.001
+2026-02-12 05:49:58,324: Epoch 36 average loss: avg_loss: 9.00e-08, avg_total_loss: 9.00e-08
+2026-02-12 05:50:14,519: Epoch 37 average loss: avg_loss: 8.78e-08, avg_total_loss: 8.78e-08
+2026-02-12 05:50:31,505: Epoch 38 average loss: avg_loss: 8.46e-08, avg_total_loss: 8.46e-08
+2026-02-12 05:50:47,997: Epoch 39 average loss: avg_loss: 9.28e-08, avg_total_loss: 9.28e-08
+2026-02-12 05:51:04,487: Epoch 40 average loss: avg_loss: 1.02e-07, avg_total_loss: 1.02e-07
+2026-02-12 05:51:10,780: Stored metrics at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/warm_springs/mts_shared/runs/BASELINE_20260212T122739Z/phys_member_run_23/testing_run_1202_053755/validation/model_epoch040/validation_metrics.csv
+2026-02-12 05:51:10,782: Stored results at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/warm_springs/mts_shared/runs/BASELINE_20260212T122739Z/phys_member_run_23/testing_run_1202_053755/validation/model_epoch040/validation_results.p
+2026-02-12 05:51:10,783: Epoch 40 average validation loss: 1.95e-07 -- Median validation metrics: avg_loss: 1.95e-07, NSE_1H: 0.81789, MSE_1H: 76142.32812, NSE_1D: 0.88524, MSE_1D: 38600.24609
+2026-02-12 05:51:27,204: Epoch 41 average loss: avg_loss: 8.57e-08, avg_total_loss: 8.57e-08
+2026-02-12 05:51:44,537: Epoch 42 average loss: avg_loss: 9.06e-08, avg_total_loss: 9.06e-08
+2026-02-12 05:52:00,462: Epoch 43 average loss: avg_loss: 9.22e-08, avg_total_loss: 9.22e-08
+2026-02-12 05:52:15,206: Epoch 44 average loss: avg_loss: 8.88e-08, avg_total_loss: 8.88e-08
+2026-02-12 05:52:30,358: Epoch 45 average loss: avg_loss: 8.86e-08, avg_total_loss: 8.86e-08
+2026-02-12 05:52:35,942: Stored metrics at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/warm_springs/mts_shared/runs/BASELINE_20260212T122739Z/phys_member_run_23/testing_run_1202_053755/validation/model_epoch045/validation_metrics.csv
+2026-02-12 05:52:35,943: Stored results at /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/warm_springs/mts_shared/runs/BASELINE_20260212T122739Z/phys_member_run_23/testing_run_1202_053755/validation/model_epoch045/validation_results.p
+2026-02-12 05:52:35,944: Epoch 45 average validation loss: 2.00e-07 -- Median validation metrics: avg_loss: 2.00e-07, NSE_1H: 0.81624, MSE_1H: 76833.28906, NSE_1D: 0.87918, MSE_1D: 40641.42969
+2026-02-12 05:52:51,207: Epoch 46 average loss: avg_loss: 8.04e-08, avg_total_loss: 8.04e-08
+2026-02-12 05:53:06,713: Epoch 47 average loss: avg_loss: 8.08e-08, avg_total_loss: 8.08e-08
+2026-02-12 05:53:19,168: Epoch 48 average loss: avg_loss: 8.09e-08, avg_total_loss: 8.09e-08
