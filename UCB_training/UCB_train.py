@@ -901,7 +901,8 @@ class UCB_trainer:
                 self._observed = obs_ref
 
                 # Restore synthetic dates if needed
-                self._restore_synthetic_dates(period, time_resolution_key)
+                if self._is_synthetic_rr():
+                    self._restore_synthetic_dates(period, time_resolution_key)
 
             # --------------------------------------------------
             # Normal mean ensemble
