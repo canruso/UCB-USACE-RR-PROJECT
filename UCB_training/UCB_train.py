@@ -32,6 +32,7 @@ def _train_single_member(args):
     return path
 
 def _train_single_bootstrap_member(args):
+    # needed to print from worker.
     import sys
     sys.stdout = sys.__stdout__
     sys.stderr = sys.__stderr__
@@ -430,12 +431,10 @@ class UCB_trainer:
         N = len(base)
         M = self._num_ensemble_members
 
-        # total slots = M * N
         slots = np.repeat(np.arange(N), M)
 
         np.random.shuffle(slots)
 
-        # reshape → each row = one member
         assignments = slots.reshape(M, N)
 
         self._balanced_bootstrap_assignments = assignments

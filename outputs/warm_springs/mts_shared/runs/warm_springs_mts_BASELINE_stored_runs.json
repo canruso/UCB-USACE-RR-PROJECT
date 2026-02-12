@@ -1,10 +1,8 @@
 {
   "no_physics": [
-    "nophys_member_run_01/testing_run_1202_023716",
-    "nophys_member_run_02/testing_run_1202_023716"
+    "testing_run_1202_143158"
   ],
   "physics": [
-    "phys_member_run_01/testing_run_1202_024121",
-    "phys_member_run_02/testing_run_1202_024121"
+    "testing_run_1202_143232"
   ]
 }
