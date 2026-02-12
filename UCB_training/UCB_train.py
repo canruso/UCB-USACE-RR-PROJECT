@@ -16,6 +16,54 @@ import yaml
 from UCB_training.UCB_utils import data_dir as _ucb_data_dir, resolve_basin_file as _ucb_resolve_basin_file
 from UCB_training.UCB_plotting import plot_loss_curves
 
+def _train_single_member(args):
+    trainer, idx = args
+
+    trainer = pickle.loads(pickle.dumps(trainer))
+
+    tag = "phys" if trainer._physics_informed else "nophys"
+    member_run = Path(trainer._runs_parent) / f"{tag}_member_run_{idx+1:02d}"
+    member_run.mkdir(parents=True, exist_ok=True)
+
+    trainer._config.update_config({'run_dir': member_run}, dev_mode=True)
+
+    path = trainer._train_model()
+
+    return path
+
+def _train_single_bootstrap_member(args):
+    import sys
+    sys.stdout = sys.__stdout__
+    sys.stderr = sys.__stderr__
+
+    trainer, idx = args
+
+    # deep copy trainer for isolation
+    trainer = pickle.loads(pickle.dumps(trainer))
+
+    tag = "phys" if trainer._physics_informed else "nophys"
+    member_run = Path(trainer._runs_parent) / f"{tag}_member_run_{idx+1:02d}"
+    member_run.mkdir(parents=True, exist_ok=True)
+
+    trainer._config.update_config({'run_dir': member_run}, dev_mode=True)
+
+    # First member uses ORIGINAL ranges
+    if trainer._bootstrap_model and idx > 0:
+        trainer._bootstrap_train_ranges(idx + 1)
+
+    if trainer._verbose:
+        ranges = trainer._config._cfg.get("train_ranges", [])
+        hdr = "[bootstrap member {:02d}]".format(idx + 1)
+        print(f"\n{hdr} TRAIN RANGES ({len(ranges)} blocks):")
+        for r in ranges:
+            print(" ", r)
+
+    path = trainer._train_model()
+
+    if trainer._bootstrap_model and idx > 0:
+        trainer._restore_train_ranges()
+
+    return path
 
 class UCB_trainer:
     """
@@ -23,18 +71,17 @@ class UCB_trainer:
     """
 
     def __init__(self, path_to_csv_folder: Path, yaml_path: Path, hyperparams: dict, input_features: List[str] = None,
-                 num_ensemble_members: int = 1, bootstrap_model: bool = False, physics_informed: bool = False,
-                 physics_data_file: Path = None,
+                 num_ensemble_members: int = 1, bootstrap_model: bool = False, physics_informed: bool = False, physics_data_file: Path = None,
                  hourly: bool = False, extend_train_period: bool = False, gpu: int = -1, is_mts: bool = False,
                  is_mts_data: bool = False, basin: bool = None, verbose: bool = True, runs_parent: Path = None,
-                 run_label: str = None, run_stamp: str = None, experiment_tag: str = None,
-                 adaboost_ensemble: bool = False):
+                 run_label: str = None, run_stamp: str = None, experiment_tag: str = None, adaboost_ensemble: bool = False):
         """
         Initialize the UCB_trainer class with configurations and training parameters.
         """
         self._hyperparams = hyperparams
         self._num_ensemble_members = num_ensemble_members
         self._bootstrap_model = bootstrap_model
+
         self._physics_informed = physics_informed
         self._physics_data_file = physics_data_file
         self._gpu = gpu
@@ -80,7 +127,7 @@ class UCB_trainer:
             return str(self._config.dataset).lower() == "synthetic_russian_river"
         except Exception:
             return False
-
+        
     def _compute_nse(self, obs: xr.DataArray, sim: xr.DataArray) -> float:
         mask = np.isfinite(obs.values) & np.isfinite(sim.values)
         o = obs.values[mask]
@@ -91,7 +138,7 @@ class UCB_trainer:
         if denom == 0:
             return -np.inf
         return 1.0 - np.sum((o - s) ** 2) / denom
-
+    
     def _adaboost_block_errors(self):
         """
         Compute NSE error per synthetic year block.
@@ -148,7 +195,7 @@ class UCB_trainer:
                 )
 
         return errs
-
+        
     def _adaboost_update_weights(self, prev_weights, block_errs):
         """
         Standard AdaBoost weight update using block NSE.
@@ -171,7 +218,7 @@ class UCB_trainer:
         self._ada_alphas.append(alpha)
 
         return new_w, alpha
-
+    
     def _adaboost_resample_train_ranges(self, weights, member_idx=None):
         """
         Increase dataset size via weighted resampling of synthetic year blocks.
@@ -207,29 +254,214 @@ class UCB_trainer:
 
         return (stacked * w).sum("member")
 
-    def _bootstrap_train_ranges(self, member_idx: int = None):
+    # Added 1/28/2026 for non-consecutive dates:
+    def _restore_synthetic_dates(self, period: str, time_res_key: str):
         """
-        Bootstrap train_ranges with replacement to 1.25x length.
-        Only applies to SyntheticRussianRiver.
+        Map 22XX synthetic dates back to real dates for disjoint ranges.
+        Also inserts NaNs between disjoint blocks so plots are discontinuous.
+        Applies to self._observed and self._predictions in-place.
+        """
+
+        cfg_dict = getattr(self._config, "_cfg", {}) or {}
+        ranges = cfg_dict.get(f"{period}_ranges", None)
+
+        if not ranges:
+            return
+
+        if getattr(self, "_verbose", False):
+            print(f"[UCB_trainer] Restoring synthetic {period} dates for analysis...")
+
+        is_hourly = (str(time_res_key).upper() == "1H") or (self._hourly and str(time_res_key).upper() != "1D")
+        freq = "1H" if is_hourly else "1D"
+
+        def _remove_leap_days(idx):
+            return idx[~((idx.month == 2) & (idx.day == 29))]
+
+        def _parse_range(r):
+            if isinstance(r, dict):
+                return r.get("start_date"), r.get("end_date")
+            if isinstance(r, (list, tuple)) and len(r) >= 2:
+                return r[0], r[1]
+            if isinstance(r, str) and "-" in r:
+                s, e = r.split("-", 1)
+                return s.strip(), e.strip()
+            raise ValueError(f"Unrecognized range format: {r}")
+
+        # build synthetic => real datetime map
+        date_map = {}
+
+        for i, r in enumerate(ranges):
+            start, end = _parse_range(r)
+
+            start_dt = pd.to_datetime(start, dayfirst=True, errors="raise")
+            end_dt   = pd.to_datetime(end,   dayfirst=True, errors="raise")
+
+            real_idx = pd.date_range(start=start_dt, end=end_dt, freq=freq)
+            real_idx = _remove_leap_days(real_idx)
+
+            syn_year = 2200 + i
+            syn_start = pd.Timestamp(f"{syn_year}-01-01")
+
+            syn_idx = pd.date_range(start=syn_start, periods=len(real_idx), freq=freq)
+
+            # remove leap year days
+            if syn_idx.is_leap_year.any():
+                pad = 48 if freq == "1H" else 2
+                padded = pd.date_range(start=syn_start, periods=len(real_idx) + pad, freq=freq)
+                padded = _remove_leap_days(padded)
+                syn_idx = padded[:len(real_idx)]
+
+            for s, rdt in zip(syn_idx, real_idx):
+                date_map[s] = rdt
+
+        # helper: insert NaNs to force plot discontinuity
+        def _insert_nan_gaps(da, max_gap):
+            if "date" in da.coords:
+                coord = "date"
+            elif "time" in da.coords:
+                coord = "time"
+            elif "datetime" in da.coords:        # ← ADD THIS
+                coord = "datetime"
+            else:
+                raise RuntimeError(
+                    f"No temporal coordinate found. dims={da.dims}, coords={list(da.coords)}"
+                )
+
+            t = pd.to_datetime(da.coords[coord].values)
+
+            dt = np.diff(t.values.astype("datetime64[s]").astype(np.int64))
+            gap_sec = max_gap.total_seconds()
+            gap_locs = np.where(dt > gap_sec)[0]
+
+            if len(gap_locs) == 0:
+                return da
+
+            new_vals = []
+            new_times = []
+
+            for i in range(len(da)):
+                new_vals.append(da.values[i])
+                new_times.append(t[i])
+                if i in gap_locs:
+                    new_vals.append(np.nan)
+                    new_times.append(t[i] + pd.Timedelta(seconds=1))
+
+            return xr.DataArray(
+                np.array(new_vals),
+                dims=[coord],
+                coords={coord: pd.DatetimeIndex(new_times)}
+            )
+
+        for attr_name in ["_observed", "_predictions"]:
+            da = getattr(self, attr_name, None)
+            if da is None:
+                continue
+
+            # Case A: MTS hourly stacked MultiIndex
+            if "time" in da.coords and isinstance(da.coords["time"].to_index(), pd.MultiIndex):
+                mi = da.coords["time"].to_index()
+                base_dates = pd.to_datetime(mi.get_level_values(0))
+                hours = mi.get_level_values(1).astype(int)
+                abs_times = base_dates + pd.to_timedelta(hours, unit="h")
+
+                mapped = pd.Series(abs_times).map(date_map)
+                valid = mapped.notna().values
+
+                if not valid.all():
+                    da = da.isel(time=valid)
+                    mapped = mapped[valid]
+
+                da = da.assign_coords(time=mapped.values)
+
+                # rename to 'date' for NH metrics + plotting work
+                da = da.rename({"time": "date"})
+
+                gap = pd.Timedelta(hours=2)
+                da = _insert_nan_gaps(da, gap)
+
+                setattr(self, attr_name, da)
+                continue
+
+            coord = (
+                "date" if "date" in da.coords
+                else "time" if "time" in da.coords
+                else "datetime" if "datetime" in da.coords
+                else None
+            )
+            if coord is None:
+                print(f"[WARN] {attr_name} has no time coord; skipping date restore.")
+                continue
+
+            cur = pd.to_datetime(da.coords[coord].values, errors="coerce")
+            mapped = pd.Series(cur).map(date_map)
+
+            valid = mapped.notna().values
+            if not valid.all():
+                print(f"[WARN] Dropping {(~valid).sum()} timesteps not in date_map.")
+                da = da.isel({coord: valid})
+                mapped = mapped[valid]
+
+            da = da.assign_coords({coord: mapped.values})
+
+            gap = pd.Timedelta(days=2)
+            da = _insert_nan_gaps(da, gap)
+
+            setattr(self, attr_name, da)
+
+        # sanity check
+        if getattr(self, "_verbose", False):
+            for name in ["_observed", "_predictions"]:
+                da = getattr(self, name, None)
+                if da is None:
+                    continue
+                cn = "date" if "date" in da.coords else ("time" if "time" in da.coords else None)
+                if cn:
+                    vals = pd.to_datetime(da.coords[cn].values)
+                    print(f"[UCB_trainer] {name} restored coord '{cn}': {vals.min()} → {vals.max()}")
+
+    def _prepare_balanced_bootstrap(self):
+        """
+        Precompute balanced block assignments for entire ensemble.
+        Each original block appears exactly M times across ensemble.
         """
 
         cfg = self._config._cfg
+        base = list(cfg["train_ranges"])
+        N = len(base)
+        M = self._num_ensemble_members
 
-        if "train_ranges" not in cfg or not cfg["train_ranges"]:
-            raise RuntimeError("bootstrap_model=True but no train_ranges found")
+        # total slots = M * N
+        slots = np.repeat(np.arange(N), M)
 
-        if not hasattr(self, "_orig_train_ranges"):
-            self._orig_train_ranges = list(cfg["train_ranges"])
+        np.random.shuffle(slots)
 
+        # reshape → each row = one member
+        assignments = slots.reshape(M, N)
+
+        self._balanced_bootstrap_assignments = assignments
+        self._orig_train_ranges = base
+
+    def _bootstrap_train_ranges(self, member_idx: int = None):
+        """
+        Balanced bootstrap: each block appears exactly M times across ensemble.
+        """
+
+        if not hasattr(self, "_balanced_bootstrap_assignments"):
+            self._prepare_balanced_bootstrap()
+
+        cfg = self._config._cfg
         base = self._orig_train_ranges
-        k = int(np.ceil(1.25 * len(base)))
 
-        boot = [str(x) for x in np.random.choice(base, size=k, replace=True)]
+        idx = member_idx - 1  # member_idx starts at 1
+        block_indices = self._balanced_bootstrap_assignments[idx]
+
+        boot = [base[i] for i in block_indices]
         cfg["train_ranges"] = boot
 
         if self._verbose:
-            hdr = f"[bootstrap member {member_idx}]" if member_idx else "[bootstrap]"
-            print(f"{hdr} train_ranges {len(base)} → {k}")
+            print(f"\n[balanced bootstrap member {member_idx}]")
+            for r in boot:
+                print(" ", r)
 
     def _restore_train_ranges(self):
         if hasattr(self, "_orig_train_ranges"):
@@ -260,11 +492,14 @@ class UCB_trainer:
 
         df = pd.concat([sim_df, obs_df], axis=1)
 
+        # ------------------------------------------
+
         fname = out_dir / f"{period}.csv"
         df.to_csv(fname, index=False)
 
         if self._verbose:
-            print(f"[ensemble] saved → {fname}")
+            print(f"[ensemble] saved → {fname}")   
+
 
     def train(self):
         """
@@ -339,172 +574,6 @@ class UCB_trainer:
         """Compact internal debug printer controlled by `self._verbose`."""
         if getattr(self, "_verbose", False):
             print(f"[DEBUG:{tag}]", *msg)
-
-    # Added 1/28/2026 for non-consecutive dates:
-    def _restore_synthetic_dates(self, period: str, time_res_key: str):
-        """
-        Map 22XX synthetic dates back to real dates for disjoint ranges.
-        Also inserts NaNs between disjoint blocks so plots are discontinuous.
-        Applies to self._observed and self._predictions in-place.
-        """
-
-        cfg_dict = getattr(self._config, "_cfg", {}) or {}
-        ranges = cfg_dict.get(f"{period}_ranges", None)
-
-        if not ranges:
-            return
-
-        if getattr(self, "_verbose", False):
-            print(f"[UCB_trainer] Restoring synthetic {period} dates for analysis...")
-
-        is_hourly = (str(time_res_key).upper() == "1H") or (self._hourly and str(time_res_key).upper() != "1D")
-        freq = "1H" if is_hourly else "1D"
-
-        def _remove_leap_days(idx):
-            return idx[~((idx.month == 2) & (idx.day == 29))]
-
-        def _parse_range(r):
-            if isinstance(r, dict):
-                return r.get("start_date"), r.get("end_date")
-            if isinstance(r, (list, tuple)) and len(r) >= 2:
-                return r[0], r[1]
-            if isinstance(r, str) and "-" in r:
-                s, e = r.split("-", 1)
-                return s.strip(), e.strip()
-            raise ValueError(f"Unrecognized range format: {r}")
-
-        # build synthetic => real datetime map
-        date_map = {}
-
-        for i, r in enumerate(ranges):
-            start, end = _parse_range(r)
-
-            start_dt = pd.to_datetime(start, dayfirst=True, errors="raise")
-            end_dt   = pd.to_datetime(end,   dayfirst=True, errors="raise")
-
-            real_idx = pd.date_range(start=start_dt, end=end_dt, freq=freq)
-            real_idx = _remove_leap_days(real_idx)
-
-            syn_year = 2200 + i
-            syn_start = pd.Timestamp(f"{syn_year}-01-01")
-
-            syn_idx = pd.date_range(start=syn_start, periods=len(real_idx), freq=freq)
-
-            # remove leap year days
-            if syn_idx.is_leap_year.any():
-                pad = 48 if freq == "1H" else 2
-                padded = pd.date_range(start=syn_start, periods=len(real_idx) + pad, freq=freq)
-                padded = _remove_leap_days(padded)
-                syn_idx = padded[:len(real_idx)]
-
-            for s, rdt in zip(syn_idx, real_idx):
-                date_map[s] = rdt
-
-        # helper: insert NaNs to force plot discontinuity
-        def _insert_nan_gaps(da, max_gap):
-            if "date" in da.coords:
-                coord = "date"
-            elif "time" in da.coords:
-                coord = "time"
-            elif "datetime" in da.coords:
-                coord = "datetime"
-            else:
-                raise RuntimeError(
-                    f"No temporal coordinate found. dims={da.dims}, coords={list(da.coords)}"
-                )
-            t = pd.to_datetime(da.coords[coord].values)
-
-            dt = np.diff(t.values.astype("datetime64[s]").astype(np.int64))
-            gap_sec = max_gap.total_seconds()
-            gap_locs = np.where(dt > gap_sec)[0]
-
-            if len(gap_locs) == 0:
-                return da
-
-            new_vals = []
-            new_times = []
-
-            for i in range(len(da)):
-                new_vals.append(da.values[i])
-                new_times.append(t[i])
-                if i in gap_locs:
-                    new_vals.append(np.nan)
-                    new_times.append(t[i] + pd.Timedelta(seconds=1))
-
-            return xr.DataArray(
-                np.array(new_vals),
-                dims=[coord],
-                coords={coord: pd.DatetimeIndex(new_times)}
-            )
-
-        for attr_name in ["_observed", "_predictions"]:
-            da = getattr(self, attr_name, None)
-            if da is None:
-                continue
-
-            # Case A: MTS hourly stacked MultiIndex
-            if "time" in da.coords and isinstance(da.coords["time"].to_index(), pd.MultiIndex):
-                mi = da.coords["time"].to_index()
-                base_dates = pd.to_datetime(mi.get_level_values(0))
-                hours = mi.get_level_values(1).astype(int)
-                abs_times = base_dates + pd.to_timedelta(hours, unit="h")
-
-                mapped = pd.Series(abs_times).map(date_map)
-                valid = mapped.notna().values
-
-                if not valid.all():
-                    da = da.isel(time=valid)
-                    mapped = mapped[valid]
-
-                da = da.assign_coords(time=mapped.values)
-
-                # rename to 'date' for NH metrics + plotting work
-                da = da.rename({"time": "date"})
-
-                gap = pd.Timedelta(hours=2)
-                da = _insert_nan_gaps(da, gap)
-
-                setattr(self, attr_name, da)
-                continue
-
-            # Case B: daily or already-flat hourly
-            coord = (
-                "date" if "date" in da.coords
-                else "time" if "time" in da.coords
-                else "datetime" if "datetime" in da.coords
-                else None
-            )
-            if coord is None:
-                print(f"[WARN] {attr_name} has no time coord; skipping date restore.")
-                continue
-
-            cur = pd.to_datetime(da.coords[coord].values, errors="coerce")
-            mapped = pd.Series(cur).map(date_map)
-
-            valid = mapped.notna().values
-            if not valid.all():
-                print(f"[WARN] Dropping {(~valid).sum()} timesteps not in date_map.")
-                da = da.isel({coord: valid})
-                mapped = mapped[valid]
-
-            da = da.assign_coords({coord: mapped.values})
-
-            gap = pd.Timedelta(days=2)
-            da = _insert_nan_gaps(da, gap)
-
-            setattr(self, attr_name, da)
-
-        # sanity check
-        if getattr(self, "_verbose", False):
-            for name in ["_observed", "_predictions"]:
-                da = getattr(self, name, None)
-                if da is None:
-                    continue
-                cn = "date" if "date" in da.coords else ("time" if "time" in da.coords else None)
-                if cn:
-                    vals = pd.to_datetime(da.coords[cn].values)
-                    print(f"[UCB_trainer] {name} restored coord '{cn}': {vals.min()} → {vals.max()}")
-
 
     def _predict_core(self, period: str = "test", mts_trk: Optional[str] = None, epoch: Optional[int] = None,
                       gpu: Optional[int] = None):
@@ -845,42 +914,24 @@ class UCB_trainer:
                 basin_dict = results[self._basin_name]
 
                 self._target_variable = self._config.target_variables[0]
-                observed_key = f"{self._target_variable}_obs"
-                simulated_key = f"{self._target_variable}_sim"
-
-                if time_resolution_key not in basin_dict:
-                    raise KeyError(
-                        f"time_resolution_key '{time_resolution_key}' not in ensemble results for "
-                        f"basin '{self._basin_name}'. Found keys: {list(basin_dict.keys())}")
+                obs_key = f"{self._target_variable}_obs"
+                sim_key = f"{self._target_variable}_sim"
 
                 xr_dict = basin_dict[time_resolution_key]["xr"]
-                obs_da = xr_dict[observed_key]
-                sim_da = xr_dict[simulated_key]
 
-                if self._is_mts:
-                    if time_resolution_key == "1D":
-                        if "time_step" in obs_da.dims:
-                            obs_da = obs_da.isel(time_step=0)
-                            sim_da = sim_da.isel(time_step=0)
-                    elif time_resolution_key == "1H":
-                        if "time_step" in obs_da.dims:
-                            obs_da = obs_da.stack(stacked_time=("date", "time_step"))
-                            sim_da = sim_da.stack(stacked_time=("date", "time_step"))
-                            obs_da = obs_da.rename({"stacked_time": "time"})
-                            sim_da = sim_da.rename({"stacked_time": "time"})
+                obs_da = xr_dict[obs_key]
+                sim_da = xr_dict[sim_key]
 
-                    self._observed = obs_da
-                    self._predictions = sim_da
+                if "time_step" in obs_da.dims:
+                    obs_da = obs_da.isel(time_step=0)
+                    sim_da = sim_da.isel(time_step=0)
 
-                else:  #  Ensemble logic
-                    if "time_step" in obs_da.dims:
-                        obs_da = obs_da.isel(time_step=0)
-                        sim_da = sim_da.isel(time_step=0)
+                self._observed = obs_da
+                self._predictions = sim_da
 
-                    self._observed = obs_da
-                    self._predictions = sim_da
 
-        self._restore_synthetic_dates(period, time_resolution_key)
+        # if self._is_synthetic_rr() and not is_ensemble_member:
+        #     self._restore_synthetic_dates(period, time_resolution_key)
 
     # Edited 1/28/2026 for non-consecutive date plotting:
     def _generate_obs_sim_plt(self, period='validation'):
@@ -1054,8 +1105,7 @@ class UCB_trainer:
                 "Predicted": self._predictions.values
             })
 
-        def _process_mts_1h(merged_df):
-            """Process MTS 1H merged dataframe into final CSV-ready form with Date column."""
+        def _process_mts_1h(merged_df, allow_fallback_date_handling=False):
             if "date_obs" in merged_df.columns and "time_step_obs" in merged_df.columns:
                 merged_df["Date"] = (
                     pd.to_datetime(merged_df["date_obs"])
@@ -1074,17 +1124,20 @@ class UCB_trainer:
                     merged_df.rename(columns={time_col: "Date"}, inplace=True)
                     final_df = merged_df[["Date", "Observed", "Predicted"]].sort_values("Date")
                 else:
-                    # Fallback: try various date column names
-                    if "date_obs" in merged_df.columns:
-                        merged_df["Date"] = pd.to_datetime(merged_df["date_obs"])
-                        final_df = merged_df[["Date", "Observed", "Predicted"]].sort_values("Date")
-                    elif "Date" in merged_df.columns:
-                        final_df = merged_df[["Date", "Observed", "Predicted"]].sort_values("Date")
-                    elif "date" in merged_df.columns:
-                        merged_df["Date"] = merged_df["date"]
-                        final_df = merged_df[["Date", "Observed", "Predicted"]].sort_values("Date")
+                    if allow_fallback_date_handling:
+                        # Maxwell: updated to handle non-consecutive dates
+                        if "date_obs" in merged_df.columns:
+                            merged_df["Date"] = pd.to_datetime(merged_df["date_obs"])
+                            final_df = merged_df[["Date", "Observed", "Predicted"]].sort_values("Date")
+                        elif "Date" in merged_df.columns:
+                            final_df = merged_df[["Date", "Observed", "Predicted"]].sort_values("Date")
+                        elif "date" in merged_df.columns:
+                            merged_df["Date"] = merged_df["date"]
+                            final_df = merged_df[["Date", "Observed", "Predicted"]].sort_values("Date")
+                        else:
+                            raise RuntimeError("Could not determine Date column when writing CSV")
                     else:
-                        raise RuntimeError("Could not determine Date column when writing CSV")
+                        final_df = merged_df[["Observed", "Predicted"]]
 
             return _finalize_df(final_df)
 
@@ -1094,16 +1147,14 @@ class UCB_trainer:
                 # MTS 1H
                 if self._is_mts and freq_key == "1H":
                     if self._is_synthetic_rr():
-                        # Synthetic: no lsuffix/rsuffix needed (MultiIndex already flattened)
                         obs_df = self._observed.to_dataframe(name="Observed")
                         sim_df = self._predictions.to_dataframe(name="Predicted")
                         merged_df = obs_df.join(sim_df, how="inner").reset_index()
-                        df = _process_mts_1h(merged_df)
+                        df = _process_mts_1h(merged_df, allow_fallback_date_handling=True)
                     else:
-                        # Non-synthetic: use lsuffix/rsuffix to handle overlapping columns
-                        obs_df = self._observed.to_dataframe(name="Observed")
-                        sim_df = self._predictions.to_dataframe(name="Predicted")
-                        merged_df = obs_df.join(sim_df, how="inner", lsuffix='_obs', rsuffix='_sim').reset_index()
+                        obs_df = self._observed.reset_index(self._observed.dims).to_dataframe(name="Observed")
+                        sim_df = self._predictions.reset_index(self._predictions.dims).to_dataframe(name="Predicted")
+                        merged_df = obs_df.join(sim_df, how="inner", lsuffix="_obs", rsuffix="_sim")
                         df = _process_mts_1h(merged_df)
                 else:
                     df = _build_simple_df()
@@ -1118,15 +1169,19 @@ class UCB_trainer:
 
         return out
 
+
     def _train_model(self) -> Path:
         """Train a single model instance with start_training()."""
         start_training(self._config)
         return self._config.run_dir
 
+    
     def _train_ensemble(self) -> List[Path]:
         run_dirs = []
 
         if self._is_synthetic_rr() and self._adaboost_ensemble:
+            if not self._adaboost_ensemble:
+                raise RuntimeError("Synthetic ensembles now require adaboost_ensemble=True")
 
             cfg = self._config._cfg
             base_ranges = list(cfg["train_ranges"])
@@ -1139,7 +1194,8 @@ class UCB_trainer:
 
             for i in range(self._num_ensemble_members):
 
-                member_run = Path(self._runs_parent) / f"member_run_{i+1:02d}"
+                tag = "phys" if self._physics_informed else "nophys"
+                member_run = Path(self._runs_parent) / f"{tag}_member_run_{i+1:02d}"
                 member_run.mkdir(parents=True, exist_ok=True)
 
                 self._config.update_config({'run_dir': member_run}, dev_mode=True)
@@ -1159,7 +1215,7 @@ class UCB_trainer:
                 # REQUIRED so create_results_ensemble(period="test") works later
                 self._eval_model(path, period="test")
 
-                self._get_predictions("1D", "train", True)
+                self._get_predictions("1D", "train",True)
 
                 # compute block errors + update weights AFTER first model
                 if i >= 0:
@@ -1191,21 +1247,30 @@ class UCB_trainer:
 
         elif self._is_synthetic_rr() and self._bootstrap_model:
 
-            for i in range(self._num_ensemble_members):
+            import multiprocessing as mp
 
-                member_run = Path(self._runs_parent) / f"member_run_{i+1:02d}"
-                member_run.mkdir(parents=True, exist_ok=True)
+            n = self._num_ensemble_members
+            workers = min(mp.cpu_count(), n)
 
-                self._config.update_config({'run_dir': member_run}, dev_mode=True)
+            nested = mp.current_process().daemon
 
-                if self._bootstrap_model:
-                    self._bootstrap_train_ranges(i + 1)
+            if nested:
+                if self._verbose:
+                    print("[ensemble] nested multiprocessing detected → running ensemble serially")
 
-                path = self._train_model()
-                run_dirs.append(path)
+                run_dirs = []
+                for i in range(n):
+                    run_dirs.append(_train_single_bootstrap_member((self, i)))
 
-                if self._bootstrap_model:
-                    self._restore_train_ranges()
+            else:
+                if self._verbose:
+                    print(f"[bootstrap ensemble] launching {n} members on {workers} cores")
+
+                with mp.get_context("spawn").Pool(workers) as pool:
+                    run_dirs = pool.map(
+                        _train_single_bootstrap_member,
+                        [(self, i) for i in range(n)]
+                    )
 
             for idx, rd in enumerate(run_dirs, 1):
                 self._eval_model(rd, period="validation")
@@ -1229,7 +1294,7 @@ class UCB_trainer:
 
                     basin = next(iter(res))
 
-                    for freq in res[basin]:   # loop both 1H and 1D
+                    for freq in res[basin]:   # <-- loop both 1H and 1D
 
                         xr_d = res[basin][freq]["xr"]
 
@@ -1265,6 +1330,7 @@ class UCB_trainer:
                         obs = self._observed
                         sim = self._predictions
 
+
                         self._save_member_prediction_csv(
                             rd,
                             f"{per}_{freq}",
@@ -1274,18 +1340,46 @@ class UCB_trainer:
                         )
 
         else:
-            run_dirs = []
-            for i in range(self._num_ensemble_members):
-                path = self._train_model()
-                run_dirs.append(path)
+            import multiprocessing as mp
+
+            n = self._num_ensemble_members
+            workers = min(mp.cpu_count(), n)
+
+            nested = mp.current_process().daemon
+
+            if nested:
+                if self._verbose:
+                    print("[ensemble] nested multiprocessing detected → running ensemble serially")
+
+                run_dirs = []
+                for i in range(n):
+                    run_dirs.append(_train_single_member((self, i)))
+
+            else:
+                if self._verbose:
+                    print(f"[ensemble] launching {n} members on {workers} cores")
+
+                with mp.get_context("spawn").Pool(workers) as pool:
+                    run_dirs = pool.map(
+                        _train_single_member,
+                        [(self, i) for i in range(n)]
+                    )
 
             for rd in run_dirs:
                 self._eval_model(rd, period="validation")
                 self._eval_model(rd, period="test")
 
+
         self._model = run_dirs
 
+        tag = "phys" if self._physics_informed else "nophys"
+        ens_dir = run_dirs[0].parent / f"{tag}_ensemble"
+        ens_dir.mkdir(exist_ok=True)
+
+        self._config.update_config({'run_dir': ens_dir})
+
         return run_dirs
+        
 
     def _create_config(self) -> Config:
         """
@@ -1330,8 +1424,8 @@ class UCB_trainer:
                     config._cfg[key] = dummy_start if "start" in key else dummy_end
                     if self._verbose:
                         print(f"[UCB_trainer:_create_config] Injected missing {key} → {config._cfg[key]}")
-        # --- Pad values for synthetic END ---
 
+        # --- Pad values for synthetic END ---
 
         if 'save_weights_every' not in self._hyperparams:
             self._hyperparams['save_weights_every'] = self._hyperparams['epochs']
@@ -1380,6 +1474,8 @@ class UCB_trainer:
 
         self._config = config
         return config
+
+
 
     def calculate_pbias(self, observed, simulated):
         if observed.shape != simulated.shape:
@@ -1445,7 +1541,7 @@ class UCB_trainer:
 
         return tidy
 
-    def cross_validate(self, intervalMonth='October', intervalLength=2, validationLength=1, no_leak=False, run_path=None, save_fold_details=False) -> dict:
+    def cross_validate(self, intervalMonth='October', intervalLength=2, validationLength=1, no_leak=False, run_path=None) -> dict:
         """
         Expanding-window time-series cross-validation.
 
@@ -1458,7 +1554,6 @@ class UCB_trainer:
             validationLength: int, validation window in years (default 1)
             no_leak: bool, if True validation excludes seq_length lookback (default False)
             run_path: Path, output directory (default: cwd/runs)
-            save_fold_details: bool, if True saves per-fold CSVs and plots (default False)
 
         Returns:
             dict of averaged metrics across folds (or tuple of daily/hourly dicts for MTS)
@@ -1494,9 +1589,7 @@ class UCB_trainer:
         original_val_end = getattr(self._config, "validation_end_date", None)
 
         n_years = original_end_year - original_start_year + 1
-        # Calculate max folds based on intervalLength: we need at least intervalLength years for initial training
-        # plus validationLength years for validation, and each fold adds intervalLength years
-        max_fold = (n_years - intervalLength) // intervalLength - validationLength
+        max_fold = (n_years - 2) // 2 - validationLength
 
         seq_length = getattr(self._config, "seq_length", None)
         if not is_mts:
@@ -1559,39 +1652,12 @@ class UCB_trainer:
             self.train()
 
             if not is_mts:
-                time_resolution_key = '1H' if self._hourly else '1D'
+                time_resolution_key = '1h' if self._hourly else '1D'
                 self._get_predictions(time_resolution_key, 'validation')
                 pred = self._predictions.loc[val_eval_start:fold_val_end_date]
                 obs = self._observed.loc[val_eval_start:fold_val_end_date]
                 metrics = calculate_all_metrics(obs, pred, resolution=time_resolution_key.upper())
                 cross_val_results[i] = metrics
-
-                # Save per-fold details if requested
-                if save_fold_details:
-                    # Save timeseries CSV
-                    ts_df = pd.DataFrame({
-                        'Date': pred.coords[list(pred.dims)[0]].values,
-                        'Observed': obs.values,
-                        'Predicted': pred.values
-                    })
-                    ts_df.to_csv(fold_dir / f'timeseries_validation.csv', index=False)
-
-                    # Save metrics CSV
-                    metrics_df = pd.DataFrame([metrics])
-                    metrics_df.insert(0, 'fold', i)
-                    metrics_df.insert(1, 'train_start', iso_date(fold_train_start_date))
-                    metrics_df.insert(2, 'train_end', iso_date(fold_train_end_date))
-                    metrics_df.insert(3, 'val_start', iso_date(val_eval_start))
-                    metrics_df.insert(4, 'val_end', iso_date(fold_val_end_date))
-                    metrics_df.to_csv(fold_dir / f'metrics_validation.csv', index=False)
-
-                    # Generate loss curve for this fold
-                    try:
-                        plot_loss_curves(fold_dir, save_path=fold_dir / 'loss_curves.png')
-                    except Exception as e:
-                        if self._verbose:
-                            print(f"Warning: Could not generate loss curve for fold {i}: {e}")
-
             else:
                 self._get_predictions('1D', 'validation')
                 pred = self._predictions.loc[val_eval_start:fold_val_end_date]
@@ -1613,41 +1679,6 @@ class UCB_trainer:
 
                 daily_results[i] = day_metrics
                 hourly_results[i] = hour_metrics
-
-                # Save per-fold details if requested (MTS version)
-                if save_fold_details:
-                    # Save daily timeseries
-                    ts_df_d = pd.DataFrame({
-                        'Date': pred.coords[list(pred.dims)[0]].values,
-                        'Observed': obs.values,
-                        'Predicted': pred.values
-                    })
-                    ts_df_d.to_csv(fold_dir / f'timeseries_validation_1D.csv', index=False)
-
-                    # Save hourly timeseries
-                    ts_df_h = pd.DataFrame({
-                        'Date': pred_fixed.coords['date'].values,
-                        'Observed': obs_fixed.values,
-                        'Predicted': pred_fixed.values
-                    })
-                    ts_df_h.to_csv(fold_dir / f'timeseries_validation_1H.csv', index=False)
-
-                    # Save metrics CSV (both daily and hourly)
-                    metrics_df = pd.DataFrame([{**{'fold': i, 'freq': '1D'}, **day_metrics}])
-                    metrics_df_h = pd.DataFrame([{**{'fold': i, 'freq': '1H'}, **hour_metrics}])
-                    combined_metrics = pd.concat([metrics_df, metrics_df_h], ignore_index=True)
-                    combined_metrics.insert(1, 'train_start', iso_date(fold_train_start_date))
-                    combined_metrics.insert(2, 'train_end', iso_date(fold_train_end_date))
-                    combined_metrics.insert(3, 'val_start', iso_date(val_eval_start))
-                    combined_metrics.insert(4, 'val_end', iso_date(fold_val_end_date))
-                    combined_metrics.to_csv(fold_dir / f'metrics_validation.csv', index=False)
-
-                    # Generate loss curve for this fold
-                    try:
-                        plot_loss_curves(fold_dir, save_path=fold_dir / 'loss_curves.png')
-                    except Exception as e:
-                        if self._verbose:
-                            print(f"Warning: Could not generate loss curve for fold {i}: {e}")
 
             i += 1
 
@@ -1700,48 +1731,6 @@ class UCB_trainer:
             for key in output_hourly:
                 output_hourly[key] = sum(output_hourly[key]) / len(output_hourly[key])
             output = (output_daily, output_hourly)
-
-        # Save CV summary CSV if fold details were saved
-        if save_fold_details:
-            if not is_mts:
-                # Compile all fold metrics into summary
-                summary_rows = []
-                for j in cross_val_results:
-                    row = {'fold': j, **cross_val_results[j]}
-                    summary_rows.append(row)
-                # Add average row
-                avg_row = {'fold': 'average'}
-                for metric in cross_val_results[1]:
-                    avg_row[metric] = output[f"avg {metric}"]
-                summary_rows.append(avg_row)
-                summary_df = pd.DataFrame(summary_rows)
-                summary_df.to_csv(run_dir / 'cv_summary.csv', index=False)
-                if self._verbose:
-                    print(f"\nCV Summary saved to: {run_dir / 'cv_summary.csv'}")
-            else:
-                # MTS: save daily and hourly summaries
-                summary_rows_d = []
-                for j in daily_results:
-                    row = {'fold': j, 'freq': '1D', **daily_results[j]}
-                    summary_rows_d.append(row)
-                avg_row_d = {'fold': 'average', 'freq': '1D'}
-                for metric in daily_results[1]:
-                    avg_row_d[metric] = output_daily[f"daily avg {metric}"]
-                summary_rows_d.append(avg_row_d)
-
-                summary_rows_h = []
-                for j in hourly_results:
-                    row = {'fold': j, 'freq': '1H', **hourly_results[j]}
-                    summary_rows_h.append(row)
-                avg_row_h = {'fold': 'average', 'freq': '1H'}
-                for metric in hourly_results[1]:
-                    avg_row_h[metric] = output_hourly[f"hourly avg {metric}"]
-                summary_rows_h.append(avg_row_h)
-
-                summary_df = pd.DataFrame(summary_rows_d + summary_rows_h)
-                summary_df.to_csv(run_dir / 'cv_summary.csv', index=False)
-                if self._verbose:
-                    print(f"\nCV Summary saved to: {run_dir / 'cv_summary.csv'}")
 
         return output
 

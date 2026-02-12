@@ -1,0 +1,135 @@
+batch_size: 64
+clip_gradient_norm: 1
+clip_targets_to_zero:
+- - LAKE SONOMA FLOW-RES IN CALC-VAL-SHIFT-SMOOTH
+commit_hash: 869189a
+data_dir: /Users/maxwellfung/UCB-USACE-RR-PROJECT/russian_river_data
+dataset: synthetic_russian_river
+dev_mode: true
+device: cpu
+dynamic_inputs:
+- DRY CREEK 20 PRECIP-INC SCREENED
+- DRY CREEK 20 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR
+- DRY CREEK 30 PRECIP-INC SCREENED
+- DRY CREEK 30 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR
+- UKIAH CA HUMIDITY USAF-NOAA
+- UKIAH CA SOLAR RADIATION USAF-NOAA
+- UKIAH CA TEMPERATURE USAF-NOAA
+- UKIAH CA WINDSPEED USAF-NOAA
+- SANTA ROSA CA HUMIDITY USAF-NOAA
+- SANTA ROSA CA SOLAR RADIATION USAF-NOAA
+- SANTA ROSA CA TEMPERATURE USAF-NOAA
+- SANTA ROSA CA WINDSPEED USAF-NOAA
+- Dry Creek 20 ET-POTENTIAL
+- Dry Creek 20 FLOW
+- Dry Creek 20 FLOW-BASE
+- Dry Creek 20 INFILTRATION
+- Dry Creek 20 PERC-SOIL
+- Dry Creek 20 SATURATION FRACTION
+- Dry Creek 30 ET-POTENTIAL
+- Dry Creek 30 FLOW
+- Dry Creek 30 FLOW-BASE
+- Dry Creek 30 INFILTRATION
+- Dry Creek 30 PERC-SOIL
+- Dry Creek 30 SATURATION FRACTION
+- Warm Springs Dam Inflow FLOW
+early_stopping: false
+early_stopping_mode: patience
+early_stopping_slope_ema_alpha: 0.4
+early_stopping_slope_eps_slope: 0.001
+early_stopping_slope_log_eps: 1e-12
+early_stopping_slope_min_epoch: 8
+early_stopping_slope_min_window_gain: 0.01
+early_stopping_slope_patience: 2
+early_stopping_slope_use_log: true
+early_stopping_slope_variance_cv_max: 0.01
+early_stopping_slope_variance_guard: true
+early_stopping_slope_window: 7
+epochs: 2
+experiment_name: testing_run
+head: regression
+hidden_size: 64
+hourly: true
+img_log_dir: 
+  /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/warm_springs/mts_shared/runs/BASELINE_20260212T113604Z/phys_member_run_03/testing_run_1202_035103/img_log
+initial_forget_bias: 3
+is_mts: true
+is_mts_data: false
+learning_rate:
+  0: 0.01
+  24: 0.005
+  36: 0.001
+log_interval: 16
+log_n_figures: 1
+log_tensorboard: true
+loss: NSE
+metrics:
+- NSE
+- MSE
+min_delta_early_stopping: 0.0
+minimum_epochs_before_early_stopping: 10
+model: mtslstm
+num_layers: 1
+number_of_basins: 1
+optimizer: Adam
+output_activation: linear
+output_dropout: 0.4
+package_version: 1.11.0
+patience_early_stopping: 3
+physics_data_file: 
+  /Users/maxwellfung/UCB-USACE-RR-PROJECT/russian_river_data/WarmSprings_Inflow_hourly.csv
+physics_informed: true
+predict_last_n:
+  1D: 1
+  1H: 24
+run_dir: 
+  /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/warm_springs/mts_shared/runs/BASELINE_20260212T113604Z/phys_member_run_03/testing_run_1202_035103
+run_label: BASELINE
+run_stamp: 20260212T113604Z
+save_validation_results: true
+save_weights_every: 2
+seed: 240427
+seq_length:
+  1D: 120
+  1H: 168
+shared_mtslstm: false
+target_variables:
+- LAKE SONOMA FLOW-RES IN CALC-VAL-SHIFT-SMOOTH
+test_basin_file: warm springs
+test_end_date: 31/12/2203
+test_ranges:
+- 01/10/2005-30/09/2006
+- 01/10/2006-30/09/2007
+- 01/10/2007-30/09/2008
+- 01/10/2008-30/09/2009
+test_start_date: 01/01/2200
+train_basin_file: warm springs
+train_dir: 
+  /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/warm_springs/mts_shared/runs/BASELINE_20260212T113604Z/phys_member_run_03/testing_run_1202_035103/train_data
+train_end_date: 31/12/2207
+train_ranges:
+- 01/10/1994-30/09/1995
+- 01/10/2000-30/09/2001
+- 01/10/2000-30/09/2001
+- 01/10/1996-30/09/1997
+- 01/10/2000-30/09/2001
+- 01/10/1997-30/09/1998
+- 01/10/1999-30/09/2000
+- 01/10/1996-30/09/1997
+train_start_date: 01/01/2200
+transfer_mtslstm_states:
+  h: linear
+  c: linear
+use_frequencies:
+- 1H
+- 1D
+validate_every: 5
+validate_n_random_basins: 1
+validation_basin_file: warm springs
+validation_end_date: 31/12/2202
+validation_ranges:
+- 01/10/2002-30/09/2003
+- 01/10/2003-30/09/2004
+- 01/10/2004-30/09/2005
+validation_start_date: 01/01/2200
+verbose: true
