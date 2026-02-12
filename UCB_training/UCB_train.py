@@ -23,15 +23,18 @@ class UCB_trainer:
     """
 
     def __init__(self, path_to_csv_folder: Path, yaml_path: Path, hyperparams: dict, input_features: List[str] = None,
-                 num_ensemble_members: int = 1, physics_informed: bool = False, physics_data_file: Path = None,
+                 num_ensemble_members: int = 1, bootstrap_model: bool = False, physics_informed: bool = False,
+                 physics_data_file: Path = None,
                  hourly: bool = False, extend_train_period: bool = False, gpu: int = -1, is_mts: bool = False,
                  is_mts_data: bool = False, basin: bool = None, verbose: bool = True, runs_parent: Path = None,
-                 run_label: str = None, run_stamp: str = None):
+                 run_label: str = None, run_stamp: str = None, experiment_tag: str = None,
+                 adaboost_ensemble: bool = False):
         """
         Initialize the UCB_trainer class with configurations and training parameters.
         """
         self._hyperparams = hyperparams
         self._num_ensemble_members = num_ensemble_members
+        self._bootstrap_model = bootstrap_model
         self._physics_informed = physics_informed
         self._physics_data_file = physics_data_file
         self._gpu = gpu
@@ -45,6 +48,16 @@ class UCB_trainer:
         self._basin = basin
         self._verbose = verbose
 
+        self._adaboost_ensemble = adaboost_ensemble
+        self._ada_alphas = []
+
+        self._adaboost_cfg = {
+            "eta": 0.5,
+            "alpha_clip": 2.0,
+            "eps": 1e-8,
+            "use_validation": True,
+        }
+
         self._config = None
         self._model = None
         self._predictions = None
@@ -55,7 +68,203 @@ class UCB_trainer:
         self._runs_parent = runs_parent
         self._run_label = run_label
         self._run_stamp = run_stamp
+        self._experiment_tag = experiment_tag
         self._create_config()
+
+    # Added for synthetic data functions:
+    def _is_synthetic_rr(self) -> bool:
+        """
+        Is using synthetic russian river dates
+        """
+        try:
+            return str(self._config.dataset).lower() == "synthetic_russian_river"
+        except Exception:
+            return False
+
+    def _compute_nse(self, obs: xr.DataArray, sim: xr.DataArray) -> float:
+        mask = np.isfinite(obs.values) & np.isfinite(sim.values)
+        o = obs.values[mask]
+        s = sim.values[mask]
+        if len(o) == 0:
+            return -np.inf
+        denom = np.sum((o - o.mean()) ** 2)
+        if denom == 0:
+            return -np.inf
+        return 1.0 - np.sum((o - s) ** 2) / denom
+
+    def _adaboost_block_errors(self):
+        """
+        Compute NSE error per synthetic year block.
+        Returns dict {block_index: error}
+        """
+
+        coord = (
+            "date" if "date" in self._observed.coords
+            else "time" if "time" in self._observed.coords
+            else "datetime" if "datetime" in self._observed.coords
+            else None
+        )
+
+        if coord is None:
+            raise RuntimeError(f"[AdaBoost] Could not find time coord in observed: {list(self._observed.coords)}")
+
+        dates = pd.to_datetime(self._observed.coords[coord].values)
+
+        print("[AdaDbg] years seen:", np.unique(dates.year))
+        years = dates.year
+
+        cfg = self._config._cfg
+        train_ranges = list(cfg["train_ranges"])
+        k = len(train_ranges)
+
+        errs = {}
+        for i in range(k):
+            y = 2200 + i
+            mask = years == y
+
+            if not mask.any():
+                errs[i] = 1.0
+                if self._verbose:
+                    print(f"[AdaDbg] block {i} year={y} EMPTY → err=1.0")
+                continue
+
+            obs = self._observed.sel({coord: mask})
+            sim = self._predictions.sel({coord: mask})
+
+            nse = self._compute_nse(obs, sim)
+
+            clipped = max(-1.0, min(1.0, nse))
+            err = np.clip((1.0 - clipped) * 0.5, 0.0, 1.0)
+
+            errs[i] = err
+
+            if self._verbose:
+                print(
+                    f"[AdaDbg] block {i} year={y} "
+                    f"N={obs.size} "
+                    f"NSE={nse:.6f} "
+                    f"clipped={clipped:.6f} "
+                    f"err={err:.6f}"
+                )
+
+        return errs
+
+    def _adaboost_update_weights(self, prev_weights, block_errs):
+        """
+        Standard AdaBoost weight update using block NSE.
+        """
+
+        eps = self._adaboost_cfg["eps"]
+
+        k = len(prev_weights)
+        e = np.array([block_errs[i] for i in range(k)])
+
+        weighted_err = np.sum(prev_weights * e)
+        weighted_err = np.clip(weighted_err, eps, 1 - eps)
+
+        alpha = self._adaboost_cfg["eta"] * np.log((1 - weighted_err) / weighted_err)
+        alpha = np.clip(alpha, -self._adaboost_cfg["alpha_clip"], self._adaboost_cfg["alpha_clip"])
+
+        new_w = prev_weights * np.exp(alpha * e)
+        new_w = new_w / new_w.sum()
+
+        self._ada_alphas.append(alpha)
+
+        return new_w, alpha
+
+    def _adaboost_resample_train_ranges(self, weights, member_idx=None):
+        """
+        Increase dataset size via weighted resampling of synthetic year blocks.
+        Never removes years.
+        """
+
+        cfg = self._config._cfg
+        base = list(cfg["train_ranges"])
+        k = len(base)
+
+        # expand dataset to ~1.5x
+        target = int(np.ceil(1.5 * k))
+
+        sampled = [str(x) for x in np.random.choice(base, size=target, replace=True, p=weights)]
+
+        cfg["train_ranges"] = sampled
+
+        if self._verbose:
+            print(f"\n[AdaBoost member {member_idx}] block weights:")
+            for i, w in enumerate(weights):
+                print(f"  block {i} (year {2200+i}): w={w:.4f}")
+
+            print(f"[AdaBoost member {member_idx}] resampled train_ranges ({len(sampled)}):")
+            for r in sampled:
+                print(" ", r)
+
+    def _adaboost_aggregate(self, sims: list[xr.DataArray]) -> xr.DataArray:
+        alphas = np.array(self._ada_alphas)
+        alphas = alphas / np.sum(np.abs(alphas))
+
+        stacked = xr.concat(sims, dim="member")
+        w = xr.DataArray(alphas, dims=["member"])
+
+        return (stacked * w).sum("member")
+
+    def _bootstrap_train_ranges(self, member_idx: int = None):
+        """
+        Bootstrap train_ranges with replacement to 1.25x length.
+        Only applies to SyntheticRussianRiver.
+        """
+
+        cfg = self._config._cfg
+
+        if "train_ranges" not in cfg or not cfg["train_ranges"]:
+            raise RuntimeError("bootstrap_model=True but no train_ranges found")
+
+        if not hasattr(self, "_orig_train_ranges"):
+            self._orig_train_ranges = list(cfg["train_ranges"])
+
+        base = self._orig_train_ranges
+        k = int(np.ceil(1.25 * len(base)))
+
+        boot = [str(x) for x in np.random.choice(base, size=k, replace=True)]
+        cfg["train_ranges"] = boot
+
+        if self._verbose:
+            hdr = f"[bootstrap member {member_idx}]" if member_idx else "[bootstrap]"
+            print(f"{hdr} train_ranges {len(base)} → {k}")
+
+    def _restore_train_ranges(self):
+        if hasattr(self, "_orig_train_ranges"):
+            self._config._cfg["train_ranges"] = list(self._orig_train_ranges)
+
+    def _save_member_prediction_csv(
+        self,
+        run_dir: Path,
+        period: str,
+        member_idx: int,
+        sim: xr.DataArray,
+        obs: xr.DataArray,
+    ):
+
+        root = self._runs_parent
+
+        top = self._run_label or self._run_stamp or "default_run"
+        exp = self._experiment_tag or "unnamed_experiment"
+        member_dir = f"member_{member_idx:02d}"
+
+        out_dir = root / "ensemble_predictions" / top / exp / member_dir
+        out_dir.mkdir(parents=True, exist_ok=True)
+
+        coord = "date" if "date" in sim.coords else sim.dims[0]
+
+        sim_df = sim.to_dataframe(name="Predicted").reset_index(drop=True)
+        obs_df = obs.to_dataframe(name="Observed").reset_index(drop=True)
+
+        df = pd.concat([sim_df, obs_df], axis=1)
+
+        fname = out_dir / f"{period}.csv"
+        df.to_csv(fname, index=False)
+
+        if self._verbose:
+            print(f"[ensemble] saved → {fname}")
 
     def train(self):
         """
@@ -193,7 +402,16 @@ class UCB_trainer:
 
         # helper: insert NaNs to force plot discontinuity
         def _insert_nan_gaps(da, max_gap):
-            coord = "date" if "date" in da.coords else "time"
+            if "date" in da.coords:
+                coord = "date"
+            elif "time" in da.coords:
+                coord = "time"
+            elif "datetime" in da.coords:
+                coord = "datetime"
+            else:
+                raise RuntimeError(
+                    f"No temporal coordinate found. dims={da.dims}, coords={list(da.coords)}"
+                )
             t = pd.to_datetime(da.coords[coord].values)
 
             dt = np.diff(t.values.astype("datetime64[s]").astype(np.int64))
@@ -250,7 +468,12 @@ class UCB_trainer:
                 continue
 
             # Case B: daily or already-flat hourly
-            coord = "date" if "date" in da.coords else ("time" if "time" in da.coords else None)
+            coord = (
+                "date" if "date" in da.coords
+                else "time" if "time" in da.coords
+                else "datetime" if "datetime" in da.coords
+                else None
+            )
             if coord is None:
                 print(f"[WARN] {attr_name} has no time coord; skipping date restore.")
                 continue
@@ -493,13 +716,13 @@ class UCB_trainer:
         else:
             print(f"[WARN] => results_file not found: {results_file}")
 
-    def _get_predictions(self, time_resolution_key, period='validation'):
+    def _get_predictions(self, time_resolution_key, period='validation', is_ensemble_member=False):
         """
             Load predictions from the model's result files for the given period.
             Only apply multi-timescale flattening logic if self._is_mts is True.
             Otherwise, keep old behavior.
             """
-        if self._num_ensemble_members == 1:
+        if isinstance(self._model, (str, Path)):
             actual_epoch = self._get_last_epoch(self._model)
             results_file = self._model / period / (f"model_"
                                                    f"epoch{str(actual_epoch).zfill(3)}") / f"{period}_results.p"
@@ -558,46 +781,105 @@ class UCB_trainer:
             self._predictions = sim_da
 
         else:
-            results = create_results_ensemble(run_dirs=self._model, period=period)
-            self._basin_name = next(iter(results.keys()))
-            basin_dict = results[self._basin_name]
+            # --------------------------------------------------
+            # AdaBoost synthetic ensemble (weighted aggregation)
+            # --------------------------------------------------
+            if self._adaboost_ensemble and self._is_synthetic_rr():
 
-            self._target_variable = self._config.target_variables[0]
-            observed_key = f"{self._target_variable}_obs"
-            simulated_key = f"{self._target_variable}_sim"
+                sims = []
+                obs_ref = None
 
-            if time_resolution_key not in basin_dict:
-                raise KeyError(
-                    f"time_resolution_key '{time_resolution_key}' not in ensemble results for "
-                    f"basin '{self._basin_name}'. Found keys: {list(basin_dict.keys())}")
+                for rd in self._model:
 
-            xr_dict = basin_dict[time_resolution_key]["xr"]
-            obs_da = xr_dict[observed_key]
-            sim_da = xr_dict[simulated_key]
+                    actual_epoch = self._get_last_epoch(rd)
+                    results_file = (
+                        rd / period /
+                        f"model_epoch{str(actual_epoch).zfill(3)}" /
+                        f"{period}_results.p"
+                    )
 
-            if self._is_mts:
-                if time_resolution_key == "1D":
+                    if not results_file.exists():
+                        self._eval_model(rd, period)
+
+                    with open(results_file, "rb") as fp:
+                        results = pickle.load(fp)
+
+                    basin_name = next(iter(results.keys()))
+                    basin_dict = results[basin_name]
+
+                    self._target_variable = self._config.target_variables[0]
+                    obs_key = f"{self._target_variable}_obs"
+                    sim_key = f"{self._target_variable}_sim"
+
+                    xr_dict = basin_dict[time_resolution_key]["xr"]
+
+                    obs_da = xr_dict[obs_key]
+                    sim_da = xr_dict[sim_key]
+
                     if "time_step" in obs_da.dims:
                         obs_da = obs_da.isel(time_step=0)
                         sim_da = sim_da.isel(time_step=0)
-                elif time_resolution_key == "1H":
+
+                    sims.append(sim_da)
+
+                    if obs_ref is None:
+                        obs_ref = obs_da
+
+                # Apply AdaBoost weighting
+                boosted = self._adaboost_aggregate(sims)
+
+                self._predictions = boosted
+                self._observed = obs_ref
+
+                # Restore synthetic dates if needed
+                self._restore_synthetic_dates(period, time_resolution_key)
+
+            # --------------------------------------------------
+            # Normal mean ensemble
+            # --------------------------------------------------
+            else:
+
+                results = create_results_ensemble(run_dirs=self._model, period=period)
+
+                self._basin_name = next(iter(results.keys()))
+                basin_dict = results[self._basin_name]
+
+                self._target_variable = self._config.target_variables[0]
+                observed_key = f"{self._target_variable}_obs"
+                simulated_key = f"{self._target_variable}_sim"
+
+                if time_resolution_key not in basin_dict:
+                    raise KeyError(
+                        f"time_resolution_key '{time_resolution_key}' not in ensemble results for "
+                        f"basin '{self._basin_name}'. Found keys: {list(basin_dict.keys())}")
+
+                xr_dict = basin_dict[time_resolution_key]["xr"]
+                obs_da = xr_dict[observed_key]
+                sim_da = xr_dict[simulated_key]
+
+                if self._is_mts:
+                    if time_resolution_key == "1D":
+                        if "time_step" in obs_da.dims:
+                            obs_da = obs_da.isel(time_step=0)
+                            sim_da = sim_da.isel(time_step=0)
+                    elif time_resolution_key == "1H":
+                        if "time_step" in obs_da.dims:
+                            obs_da = obs_da.stack(stacked_time=("date", "time_step"))
+                            sim_da = sim_da.stack(stacked_time=("date", "time_step"))
+                            obs_da = obs_da.rename({"stacked_time": "time"})
+                            sim_da = sim_da.rename({"stacked_time": "time"})
+
+                    self._observed = obs_da
+                    self._predictions = sim_da
+
+                else:  #  Ensemble logic
                     if "time_step" in obs_da.dims:
-                        obs_da = obs_da.stack(stacked_time=("date", "time_step"))
-                        sim_da = sim_da.stack(stacked_time=("date", "time_step"))
-                        obs_da = obs_da.rename({"stacked_time": "time"})
-                        sim_da = sim_da.rename({"stacked_time": "time"})
+                        obs_da = obs_da.isel(time_step=0)
+                        sim_da = sim_da.isel(time_step=0)
 
-                self._observed = obs_da
-                self._predictions = sim_da
+                    self._observed = obs_da
+                    self._predictions = sim_da
 
-            else:  #  Ensemble logic
-                if "time_step" in obs_da.dims:
-                    obs_da = obs_da.isel(time_step=0)
-                    sim_da = sim_da.isel(time_step=0)
-
-                self._observed = obs_da
-                self._predictions = sim_da
-        
         self._restore_synthetic_dates(period, time_resolution_key)
 
     # Edited 1/28/2026 for non-consecutive date plotting:
@@ -672,7 +954,56 @@ class UCB_trainer:
                 print("[WARN:_generate_obs_sim_plt] => 'date' not in coords, cannot plot easily.")
 
         else:
-            pass  # ensemble not implemented
+            key = "date" if "date" in self._observed.coords else "datetime"
+
+            dates = pd.to_datetime(self._observed[key].values)
+            y_obs = self._observed.values
+            y_sim = self._predictions.values
+
+            dt_days = np.diff(dates.values.astype("datetime64[D]").astype(int))
+            gap_idx = np.where(dt_days > 2)[0]
+
+            has_gaps = len(gap_idx) > 0
+
+            if has_gaps:
+                x = np.arange(len(dates))
+
+                ax.plot(x, y_obs, label="Observed", linewidth=1.5)
+                ax.plot(x, y_sim, label=simulated_label, linewidth=1.5)
+
+                for i in gap_idx:
+                    xpos = i + 0.5
+                    gap_days = int(dt_days[i])
+
+                    ax.axvline(x=xpos, color="red", linestyle="--", alpha=0.7, linewidth=1.5)
+
+                    ax.text(
+                        xpos, ax.get_ylim()[1],
+                        f"+{gap_days} days",
+                        color="red",
+                        fontsize=11,
+                        rotation=90,
+                        verticalalignment="top",
+                        horizontalalignment="right",
+                        bbox=dict(facecolor="white", edgecolor="none", alpha=0.7, pad=2)
+                    )
+
+                step = max(len(x) // 10, 1)
+                ticks = np.arange(0, len(x), step)
+
+                ax.set_xticks(ticks)
+                ax.set_xticklabels(
+                    [dates[i].strftime("%Y-%m-%d") for i in ticks],
+                    rotation=30,
+                    ha="right"
+                )
+
+                ax.set_xlabel("Date (discontinuous)")
+
+            else:
+                ax.plot(dates, y_obs, label="Observed", linewidth=1.5)
+                ax.plot(dates, y_sim, label=simulated_label, linewidth=1.5)
+                ax.set_xlabel("Date")
 
         ax.set_ylabel(f"{self._target_variable} (units)", fontsize=14)
         ax.set_title(f"{self._basin_name} - {self._target_variable} Over Time ({period})", fontsize=16)
@@ -695,73 +1026,90 @@ class UCB_trainer:
             base_name += f"_{freq_key}"
         out = self._config.run_dir / f"{base_name}.csv"
 
+        def _combine_tuple(tup):
+            base_ts, hour_offset = tup
+            return pd.to_datetime(base_ts) + pd.to_timedelta(hour_offset, unit="h")
+
+        def _finalize_df(df):
+            return df.reset_index(drop=True)
+
+        def _build_simple_df():
+            if "date" in self._observed.coords:
+                return pd.DataFrame({
+                    "Date": self._observed["date"].values,
+                    "Observed": self._observed.values,
+                    "Predicted": self._predictions.values
+                })
+            else:
+                return pd.DataFrame({
+                    "Date": range(len(self._observed)),
+                    "Observed": self._observed.values,
+                    "Predicted": self._predictions.values
+                })
+
+        def _build_ensemble_df():
+            return pd.DataFrame({
+                "Date": self._observed["datetime"].values,
+                "Observed": self._observed.values,
+                "Predicted": self._predictions.values
+            })
+
+        def _process_mts_1h(merged_df):
+            """Process MTS 1H merged dataframe into final CSV-ready form with Date column."""
+            if "date_obs" in merged_df.columns and "time_step_obs" in merged_df.columns:
+                merged_df["Date"] = (
+                    pd.to_datetime(merged_df["date_obs"])
+                    + pd.to_timedelta(merged_df["time_step_obs"], unit="h")
+                )
+                final_df = merged_df[["Date", "Observed", "Predicted"]].sort_values("Date")
+
+            elif "time" in merged_df.columns and merged_df["time"].dtype == "object":
+                merged_df["Date"] = merged_df["time"].apply(_combine_tuple)
+                final_df = merged_df[["Date", "Observed", "Predicted"]].sort_values("Date")
+
+            else:
+                possible_timecols = [c for c in merged_df.columns if "time" in c]
+                if possible_timecols:
+                    time_col = possible_timecols[0]
+                    merged_df.rename(columns={time_col: "Date"}, inplace=True)
+                    final_df = merged_df[["Date", "Observed", "Predicted"]].sort_values("Date")
+                else:
+                    # Fallback: try various date column names
+                    if "date_obs" in merged_df.columns:
+                        merged_df["Date"] = pd.to_datetime(merged_df["date_obs"])
+                        final_df = merged_df[["Date", "Observed", "Predicted"]].sort_values("Date")
+                    elif "Date" in merged_df.columns:
+                        final_df = merged_df[["Date", "Observed", "Predicted"]].sort_values("Date")
+                    elif "date" in merged_df.columns:
+                        merged_df["Date"] = merged_df["date"]
+                        final_df = merged_df[["Date", "Observed", "Predicted"]].sort_values("Date")
+                    else:
+                        raise RuntimeError("Could not determine Date column when writing CSV")
+
+            return _finalize_df(final_df)
+
         try:
             # SINGLE-MODEL RUN
             if self._num_ensemble_members == 1:
                 # MTS 1H
                 if self._is_mts and freq_key == "1H":
-                    obs_df = self._observed.to_dataframe(name="Observed")
-                    sim_df = self._predictions.to_dataframe(name="Predicted")
-                    merged_df = obs_df.join(sim_df, how="inner", lsuffix='_obs', rsuffix='_sim').reset_index()
-
-                    if "date_obs" in merged_df.columns and "time_step_obs" in merged_df.columns:
-                        merged_df["Date"] = pd.to_datetime(merged_df["date_obs"]) \
-                                            + pd.to_timedelta(merged_df["time_step_obs"], unit="h")
-
-                        final_df = merged_df[["Date", "Observed", "Predicted"]].sort_values("Date")
-
-                    elif "time" in merged_df.columns and merged_df["time"].dtype == "object":
-                        def combine_tuple(tup):
-                            base_ts, hour_offset = tup
-                            return pd.to_datetime(base_ts) + pd.to_timedelta(hour_offset, unit="h")
-
-                        merged_df["Date"] = merged_df["time"].apply(combine_tuple)
-                        final_df = merged_df[["Date", "Observed", "Predicted"]].sort_values("Date")
-
+                    if self._is_synthetic_rr():
+                        # Synthetic: no lsuffix/rsuffix needed (MultiIndex already flattened)
+                        obs_df = self._observed.to_dataframe(name="Observed")
+                        sim_df = self._predictions.to_dataframe(name="Predicted")
+                        merged_df = obs_df.join(sim_df, how="inner").reset_index()
+                        df = _process_mts_1h(merged_df)
                     else:
-                        possible_timecols = [c for c in merged_df.columns if "time" in c]
-                        if possible_timecols:
-                            time_col = possible_timecols[0]
-                            merged_df.rename(columns={time_col: "Date"}, inplace=True)
-                            final_df = merged_df[["Date", "Observed", "Predicted"]].sort_values("Date")
-                        else:
-                            # Maxwell: updated to handle non-consecutive dates
-                            if "date_obs" in merged_df.columns:
-                                merged_df["Date"] = pd.to_datetime(merged_df["date_obs"])
-                                final_df = merged_df[["Date", "Observed", "Predicted"]].sort_values("Date")
-                            elif "Date" in merged_df.columns:
-                                final_df = merged_df[["Date", "Observed", "Predicted"]].sort_values("Date")
-                            elif "date" in merged_df.columns:
-                                merged_df["Date"] = merged_df["date"]
-                                final_df = merged_df[["Date", "Observed", "Predicted"]].sort_values("Date")
-                            else:
-                                raise RuntimeError("Could not determine Date column when writing CSV")
-
-                    df = final_df.reset_index(drop=True)
-
+                        # Non-synthetic: use lsuffix/rsuffix to handle overlapping columns
+                        obs_df = self._observed.to_dataframe(name="Observed")
+                        sim_df = self._predictions.to_dataframe(name="Predicted")
+                        merged_df = obs_df.join(sim_df, how="inner", lsuffix='_obs', rsuffix='_sim').reset_index()
+                        df = _process_mts_1h(merged_df)
                 else:
-                    if "date" in self._observed.coords:
-                        obs_times = self._observed["date"].values
-                        sim_times = self._predictions["date"].values
-
-                        df = pd.DataFrame({
-                            "Date": obs_times,
-                            "Observed": self._observed.values,
-                            "Predicted": self._predictions.values
-                        })
-                    else:
-                        df = pd.DataFrame({
-                            "Date": range(len(self._observed)),
-                            "Observed": self._observed.values,
-                            "Predicted": self._predictions.values
-                        })
+                    df = _build_simple_df()
             # ENSEMBLE
             else:
-                df = pd.DataFrame({
-                    "Date": self._observed["datetime"].values,
-                    "Observed": self._observed.values,
-                    "Predicted": self._predictions.values
-                })
+                df = _build_ensemble_df()
 
             df.to_csv(out, index=False)
 
@@ -776,15 +1124,166 @@ class UCB_trainer:
         return self._config.run_dir
 
     def _train_ensemble(self) -> List[Path]:
-        """Train multiple models as an ensemble."""
         run_dirs = []
-        for i in range(self._num_ensemble_members):
-            path = self._train_model()
-            run_dirs.append(path)
 
-        for rd in run_dirs:
-            self._eval_model(rd, period="validation")
-            self._eval_model(rd, period="test")
+        if self._is_synthetic_rr() and self._adaboost_ensemble:
+
+            cfg = self._config._cfg
+            base_ranges = list(cfg["train_ranges"])
+            k = len(base_ranges)
+
+            # initial uniform weights
+            block_weights = np.ones(k) / k
+
+            sims_for_aggregation = []
+
+            for i in range(self._num_ensemble_members):
+
+                member_run = Path(self._runs_parent) / f"member_run_{i+1:02d}"
+                member_run.mkdir(parents=True, exist_ok=True)
+
+                self._config.update_config({'run_dir': member_run}, dev_mode=True)
+
+                # first model: no resampling
+                if i > 0:
+                    self._adaboost_resample_train_ranges(block_weights, i+1)
+
+                path = self._train_model()
+                run_dirs.append(path)
+
+                self._model = path
+
+                # needed for AdaBoost weighting
+                self._eval_model(path, period="train")
+
+                # REQUIRED so create_results_ensemble(period="test") works later
+                self._eval_model(path, period="test")
+
+                self._get_predictions("1D", "train", True)
+
+                # compute block errors + update weights AFTER first model
+                if i >= 0:
+                    errs = self._adaboost_block_errors()
+                    block_weights, alpha = self._adaboost_update_weights(block_weights, errs)
+
+                    if self._verbose:
+                        print(f"\n[AdaBoost member {i+1}] alpha = {alpha:.4f}")
+
+                sims_for_aggregation.append(self._predictions.copy())
+
+                # restore original ranges for next round
+                cfg["train_ranges"] = list(base_ranges)
+
+            # final aggregation
+            self._predictions = self._adaboost_aggregate(sims_for_aggregation)
+
+            if self._is_synthetic_rr():
+                self._restore_synthetic_dates("validation", "1D")
+
+            # save ensemble prediction CSV (synthetic only)
+            self._save_member_prediction_csv(
+                run_dirs[-1],
+                "adaboost_validation",
+                self._num_ensemble_members,
+                self._predictions,
+                self._observed,
+            )
+
+        elif self._is_synthetic_rr() and self._bootstrap_model:
+
+            for i in range(self._num_ensemble_members):
+
+                member_run = Path(self._runs_parent) / f"member_run_{i+1:02d}"
+                member_run.mkdir(parents=True, exist_ok=True)
+
+                self._config.update_config({'run_dir': member_run}, dev_mode=True)
+
+                if self._bootstrap_model:
+                    self._bootstrap_train_ranges(i + 1)
+
+                path = self._train_model()
+                run_dirs.append(path)
+
+                if self._bootstrap_model:
+                    self._restore_train_ranges()
+
+            for idx, rd in enumerate(run_dirs, 1):
+                self._eval_model(rd, period="validation")
+                self._eval_model(rd, period="test")
+
+                # load config ONCE per member
+                cfg = Config(rd / "config.yml")
+                tgt = cfg.target_variables[0]
+
+                for per in ("validation", "test"):
+                    ep = self._get_last_epoch(rd)
+
+                    pkl = rd / per / f"model_epoch{ep:03d}" / f"{per}_results.p"
+                    if not pkl.exists():
+                        if self._verbose:
+                            print(f"[ensemble] missing results: {pkl}")
+                        continue
+
+                    with open(pkl, "rb") as f:
+                        res = pickle.load(f)
+
+                    basin = next(iter(res))
+
+                    for freq in res[basin]:   # loop both 1H and 1D
+
+                        xr_d = res[basin][freq]["xr"]
+
+                        sim = xr_d[f"{tgt}_sim"]
+                        obs = xr_d[f"{tgt}_obs"]
+
+                        if freq == "1D" and "time_step" in sim.dims:
+                            sim = sim.isel(time_step=0)
+                            obs = obs.isel(time_step=0)
+
+                            # CRITICAL: also drop leftover coord
+                            sim = sim.drop_vars("time_step", errors="ignore")
+                            obs = obs.drop_vars("time_step", errors="ignore")
+
+                        elif freq == "1H" and "time_step" in sim.dims:
+                            sim = sim.stack(datetime=("date", "time_step"))
+                            obs = obs.stack(datetime=("date", "time_step"))
+
+                            mi = sim["datetime"].to_index()
+                            dt = pd.to_datetime(mi.get_level_values(0)) + pd.to_timedelta(
+                                mi.get_level_values(1), unit="h"
+                            )
+
+                            sim = sim.assign_coords(datetime=dt).rename({"datetime": "date"})
+                            obs = obs.assign_coords(datetime=dt).rename({"datetime": "date"})
+
+                            sim = sim.drop_vars("time_step", errors="ignore")
+                            obs = obs.drop_vars("time_step", errors="ignore")
+
+                        self._observed = obs
+                        self._predictions = sim
+                        self._restore_synthetic_dates(per, freq)
+                        obs = self._observed
+                        sim = self._predictions
+
+                        self._save_member_prediction_csv(
+                            rd,
+                            f"{per}_{freq}",
+                            idx,
+                            sim,
+                            obs,
+                        )
+
+        else:
+            run_dirs = []
+            for i in range(self._num_ensemble_members):
+                path = self._train_model()
+                run_dirs.append(path)
+
+            for rd in run_dirs:
+                self._eval_model(rd, period="validation")
+                self._eval_model(rd, period="test")
+
+        self._model = run_dirs
 
         return run_dirs
 
