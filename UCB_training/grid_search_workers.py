@@ -1,4 +1,5 @@
 import itertools
+from pathlib import Path
 import pandas as pd
 from tqdm import tqdm
 
@@ -33,9 +34,10 @@ def _build_hp_run(combinations, hyperparam_names, fractional_multi_lr):
 def _run_and_collect(trainer, is_mts, use_cv, cv_month, cv_interval, cv_val_len):
     """Train or cross-validate. Returns (metrics_1d, metrics_1h) for MTS, or metrics_dict for standalone."""
     if use_cv:
+        cv_run_path = Path(trainer._runs_parent) if trainer._runs_parent else None
         cv_out = trainer.cross_validate(
             intervalMonth=cv_month, intervalLength=cv_interval,
-            validationLength=cv_val_len, no_leak=True, save_fold_details=True)
+            validationLength=cv_val_len, no_leak=True, save_fold_details=True, run_path=cv_run_path)
         if is_mts:
             daily_d, hourly_d = cv_out
             return ({k.replace("daily avg ", ""): v for k, v in daily_d.items()},
