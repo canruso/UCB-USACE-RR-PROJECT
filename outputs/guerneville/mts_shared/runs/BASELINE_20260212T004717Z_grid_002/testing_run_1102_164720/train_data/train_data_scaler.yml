@@ -1,0 +1,322 @@
+xarray_feature_scale:
+  coords: {}
+  attrs: {}
+  dims: {}
+  data_vars:
+    BIG SULPHUR CR ET-POTENTIAL RUN:BASIN AVERAGE 60 YR:
+      dims: []
+      attrs: {}
+      data: 0.008591404184699059
+    BIG SULPHUR CR PRECIP-INC SCREENED:
+      dims: []
+      attrs: {}
+      data: 0.028139809146523476
+    DRY CREEK 10 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR:
+      dims: []
+      attrs: {}
+      data: 0.008194196037948132
+    DRY CREEK 10 PRECIP-INC SCREENED:
+      dims: []
+      attrs: {}
+      data: 0.02852461487054825
+    EF RUSSIAN 20 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR:
+      dims: []
+      attrs: {}
+      data: 0.008587329648435116
+    EF RUSSIAN 20 PRECIP-INC SCREENED:
+      dims: []
+      attrs: {}
+      data: 0.02260451763868332
+    GEYSERVILLE CA FLOW USGS-MERGED:
+      dims: []
+      attrs: {}
+      data: 570.9915771484375
+    GREEN VALLEY ET-POTENTIAL RUN:BASIN AVERAGE 60 YR:
+      dims: []
+      attrs: {}
+      data: 0.008193845860660076
+    GREEN VALLEY PRECIP-INC SCREENED:
+      dims: []
+      attrs: {}
+      data: 0.022642411291599274
+    LAGUNA ET-POTENTIAL RUN:BASIN AVERAGE 60 YR:
+      dims: []
+      attrs: {}
+      data: 0.00819401815533638
+    LAGUNA PRECIP-INC SCREENED:
+      dims: []
+      attrs: {}
+      data: 0.018808038905262947
+    NR GUERNEVILLE FLOW COE GRN:
+      dims: []
+      attrs: {}
+      data: 6050.65625
+    RUSSIAN 20 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR:
+      dims: []
+      attrs: {}
+      data: 0.008193674497306347
+    RUSSIAN 20 PRECIP-INC SCREENED:
+      dims: []
+      attrs: {}
+      data: 0.023572612553834915
+    RUSSIAN 30 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR:
+      dims: []
+      attrs: {}
+      data: 0.008195237256586552
+    RUSSIAN 30 PRECIP-INC SCREENED:
+      dims: []
+      attrs: {}
+      data: 0.02368435263633728
+    RUSSIAN 40 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR:
+      dims: []
+      attrs: {}
+      data: 0.008586195297539234
+    RUSSIAN 40 PRECIP-INC SCREENED:
+      dims: []
+      attrs: {}
+      data: 0.024732254445552826
+    RUSSIAN 50 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR:
+      dims: []
+      attrs: {}
+      data: 0.008587644435465336
+    RUSSIAN 50 PRECIP-INC SCREENED:
+      dims: []
+      attrs: {}
+      data: 0.024073053151369095
+    RUSSIAN 60 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR:
+      dims: []
+      attrs: {}
+      data: 0.008587190881371498
+    RUSSIAN 60 PRECIP-INC SCREENED:
+      dims: []
+      attrs: {}
+      data: 0.022238001227378845
+    RUSSIAN 70 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR:
+      dims: []
+      attrs: {}
+      data: 0.00858720950782299
+    RUSSIAN 70 PRECIP-INC SCREENED:
+      dims: []
+      attrs: {}
+      data: 0.021589010953903198
+    SANTA ROSA CA HUMIDITY USAF-NOAA:
+      dims: []
+      attrs: {}
+      data: 22.47035789489746
+    SANTA ROSA CA SOLAR RADIATION USAF-NOAA:
+      dims: []
+      attrs: {}
+      data: 302.62945556640625
+    SANTA ROSA CA TEMPERATURE USAF-NOAA:
+      dims: []
+      attrs: {}
+      data: 12.559989929199219
+    SANTA ROSA CA WINDSPEED USAF-NOAA:
+      dims: []
+      attrs: {}
+      data: 4.7999138832092285
+    SANTA ROSA CR 10 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR:
+      dims: []
+      attrs: {}
+      data: 0.00819488987326622
+    SANTA ROSA CR 10 PRECIP-INC SCREENED:
+      dims: []
+      attrs: {}
+      data: 0.019823919981718063
+    SANTA ROSA CR 20 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR:
+      dims: []
+      attrs: {}
+      data: 0.00819558184593916
+    SANTA ROSA CR 20 PRECIP-INC SCREENED:
+      dims: []
+      attrs: {}
+      data: 0.019331399351358414
+    UKIAH CA FLOW USGS-MERGED:
+      dims: []
+      attrs: {}
+      data: 431.2473449707031
+    UKIAH CA HUMIDITY USAF-NOAA:
+      dims: []
+      attrs: {}
+      data: 23.13544464111328
+    UKIAH CA SOLAR RADIATION USAF-NOAA:
+      dims: []
+      attrs: {}
+      data: 302.96197509765625
+    UKIAH CA TEMPERATURE USAF-NOAA:
+      dims: []
+      attrs: {}
+      data: 14.561704635620117
+    UKIAH CA WINDSPEED USAF-NOAA:
+      dims: []
+      attrs: {}
+      data: 4.262210845947266
+    WF RUSSIAN ET-POTENTIAL RUN:BASIN AVERAGE 60 YR:
+      dims: []
+      attrs: {}
+      data: 0.008586759679019451
+    WF RUSSIAN PRECIP-INC SCREENED:
+      dims: []
+      attrs: {}
+      data: 0.02238006703555584
+xarray_feature_center:
+  coords: {}
+  attrs: {}
+  dims: {}
+  data_vars:
+    BIG SULPHUR CR ET-POTENTIAL RUN:BASIN AVERAGE 60 YR:
+      dims: []
+      attrs: {}
+      data: 0.0052835638634860516
+    BIG SULPHUR CR PRECIP-INC SCREENED:
+      dims: []
+      attrs: {}
+      data: 0.005087415687739849
+    DRY CREEK 10 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR:
+      dims: []
+      attrs: {}
+      data: 0.005024894140660763
+    DRY CREEK 10 PRECIP-INC SCREENED:
+      dims: []
+      attrs: {}
+      data: 0.005111308302730322
+    EF RUSSIAN 20 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR:
+      dims: []
+      attrs: {}
+      data: 0.005275695119053125
+    EF RUSSIAN 20 PRECIP-INC SCREENED:
+      dims: []
+      attrs: {}
+      data: 0.004364341031759977
+    GEYSERVILLE CA FLOW USGS-MERGED:
+      dims: []
+      attrs: {}
+      data: 278.27142333984375
+    GREEN VALLEY ET-POTENTIAL RUN:BASIN AVERAGE 60 YR:
+      dims: []
+      attrs: {}
+      data: 0.0050253234803676605
+    GREEN VALLEY PRECIP-INC SCREENED:
+      dims: []
+      attrs: {}
+      data: 0.0035557113587856293
+    LAGUNA ET-POTENTIAL RUN:BASIN AVERAGE 60 YR:
+      dims: []
+      attrs: {}
+      data: 0.005025895312428474
+    LAGUNA PRECIP-INC SCREENED:
+      dims: []
+      attrs: {}
+      data: 0.0027487981133162975
+    NR GUERNEVILLE FLOW COE GRN:
+      dims: []
+      attrs: {}
+      data: 2559.45556640625
+    RUSSIAN 20 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR:
+      dims: []
+      attrs: {}
+      data: 0.005024178419262171
+    RUSSIAN 20 PRECIP-INC SCREENED:
+      dims: []
+      attrs: {}
+      data: 0.004292090889066458
+    RUSSIAN 30 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR:
+      dims: []
+      attrs: {}
+      data: 0.005026896949857473
+    RUSSIAN 30 PRECIP-INC SCREENED:
+      dims: []
+      attrs: {}
+      data: 0.004444889258593321
+    RUSSIAN 40 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR:
+      dims: []
+      attrs: {}
+      data: 0.005274693947285414
+    RUSSIAN 40 PRECIP-INC SCREENED:
+      dims: []
+      attrs: {}
+      data: 0.004374928306788206
+    RUSSIAN 50 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR:
+      dims: []
+      attrs: {}
+      data: 0.005276267416775227
+    RUSSIAN 50 PRECIP-INC SCREENED:
+      dims: []
+      attrs: {}
+      data: 0.004539315588772297
+    RUSSIAN 60 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR:
+      dims: []
+      attrs: {}
+      data: 0.005274836905300617
+    RUSSIAN 60 PRECIP-INC SCREENED:
+      dims: []
+      attrs: {}
+      data: 0.004355614073574543
+    RUSSIAN 70 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR:
+      dims: []
+      attrs: {}
+      data: 0.005274264607578516
+    RUSSIAN 70 PRECIP-INC SCREENED:
+      dims: []
+      attrs: {}
+      data: 0.004339447245001793
+    SANTA ROSA CA HUMIDITY USAF-NOAA:
+      dims: []
+      attrs: {}
+      data: 73.07362365722656
+    SANTA ROSA CA SOLAR RADIATION USAF-NOAA:
+      dims: []
+      attrs: {}
+      data: 208.3491668701172
+    SANTA ROSA CA TEMPERATURE USAF-NOAA:
+      dims: []
+      attrs: {}
+      data: 56.98100662231445
+    SANTA ROSA CA WINDSPEED USAF-NOAA:
+      dims: []
+      attrs: {}
+      data: 4.706462860107422
+    SANTA ROSA CR 10 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR:
+      dims: []
+      attrs: {}
+      data: 0.005026611033827066
+    SANTA ROSA CR 10 PRECIP-INC SCREENED:
+      dims: []
+      attrs: {}
+      data: 0.0034454045817255974
+    SANTA ROSA CR 20 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR:
+      dims: []
+      attrs: {}
+      data: 0.005028184503316879
+    SANTA ROSA CR 20 PRECIP-INC SCREENED:
+      dims: []
+      attrs: {}
+      data: 0.003201613901183009
+    UKIAH CA FLOW USGS-MERGED:
+      dims: []
+      attrs: {}
+      data: 342.454345703125
+    UKIAH CA HUMIDITY USAF-NOAA:
+      dims: []
+      attrs: {}
+      data: 65.70023345947266
+    UKIAH CA SOLAR RADIATION USAF-NOAA:
+      dims: []
+      attrs: {}
+      data: 209.93402099609375
+    UKIAH CA TEMPERATURE USAF-NOAA:
+      dims: []
+      attrs: {}
+      data: 58.23640441894531
+    UKIAH CA WINDSPEED USAF-NOAA:
+      dims: []
+      attrs: {}
+      data: 3.89536190032959
+    WF RUSSIAN ET-POTENTIAL RUN:BASIN AVERAGE 60 YR:
+      dims: []
+      attrs: {}
+      data: 0.005272690672427416
+    WF RUSSIAN PRECIP-INC SCREENED:
+      dims: []
+      attrs: {}
+      data: 0.004515995271503925

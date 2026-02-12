@@ -1503,7 +1503,9 @@ def plot_loss_curves(run_dir: Path, save_path: Path | None = None,
     plt.savefig(save_path, dpi=300, bbox_inches='tight')
     plt.close()
 
-    print(f"Loss curve saved to: {save_path}")
+
+
+    # print(f"Loss curve saved to: {save_path}")
     return save_path
 
 
