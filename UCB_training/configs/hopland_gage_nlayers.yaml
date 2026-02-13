@@ -26,7 +26,7 @@ physics_data_file: null
 # --- Validation configuration ---------------------------------------------------------------------
 
 # specify after how many epochs to perform validation
-validate_every: 5
+validate_every: 3
 
 # specify how many random basins to use for validation
 validate_n_random_basins: 1
@@ -113,7 +113,7 @@ save_weights_every: 16
 
 # --- Early Stopping Configuration ------------------------------------------------------------
 # Enable early stopping based on validation performance
-early_stopping: False
+early_stopping: True
 
 # Early stopping mode: "patience", "slope", or "none"
 # - "patience": Traditional approach (stops after N validations without improvement)
@@ -124,13 +124,13 @@ early_stopping_mode: "patience"
 # --- Patience Mode Settings ---
 # Number of validation epochs with no improvement before stopping training
 # With validate_every=5, patience=3 means stopping after 15 epochs of no improvement
-patience_early_stopping: 3
+patience_early_stopping: 5
 
 # Minimum change to qualify as improvement (default: 0.0)
 min_delta_early_stopping: 0.0
 
 # Minimum number of epochs before early stopping can trigger
-minimum_epochs_before_early_stopping: 10
+minimum_epochs_before_early_stopping: 16
 
 # --- Slope Mode Settings (only used if early_stopping_mode: "slope") ---
 # Number of epochs in rolling window for trend analysis
