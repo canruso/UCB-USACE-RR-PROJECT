@@ -1,12 +1,8 @@
 import itertools
 from pathlib import Path
-from pathlib import Path
 import pandas as pd
 from tqdm import tqdm
 
-
-def _build_hp_run(combinations, hyperparam_names, fractional_multi_lr):
-    """Parse the flat combination tuple into a hyperparams dict."""
 
 def _build_hp_run(combinations, hyperparam_names, fractional_multi_lr):
     """Parse the flat combination tuple into a hyperparams dict."""
