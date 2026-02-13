@@ -922,9 +922,21 @@ class UCB_trainer:
                 obs_da = xr_dict[obs_key]
                 sim_da = xr_dict[sim_key]
 
-                if "time_step" in obs_da.dims:
-                    obs_da = obs_da.isel(time_step=0)
-                    sim_da = sim_da.isel(time_step=0)
+                if self._is_mts:
+                    if time_resolution_key == "1D":
+                        if "time_step" in obs_da.dims:
+                            obs_da = obs_da.isel(time_step=0)
+                            sim_da = sim_da.isel(time_step=0)
+                    elif time_resolution_key == "1H":
+                        if "time_step" in obs_da.dims:
+                            obs_da = obs_da.stack(stacked_time=("date", "time_step"))
+                            sim_da = sim_da.stack(stacked_time=("date", "time_step"))
+                            obs_da = obs_da.rename({"stacked_time": "time"})
+                            sim_da = sim_da.rename({"stacked_time": "time"})
+                else:
+                    if "time_step" in obs_da.dims:
+                        obs_da = obs_da.isel(time_step=0)
+                        sim_da = sim_da.isel(time_step=0)
 
                 self._observed = obs_da
                 self._predictions = sim_da
@@ -1105,7 +1117,7 @@ class UCB_trainer:
                 "Predicted": self._predictions.values
             })
 
-        def _process_mts_1h(merged_df, allow_fallback_date_handling=False):
+        def _process_mts_1h(merged_df):
             if "date_obs" in merged_df.columns and "time_step_obs" in merged_df.columns:
                 merged_df["Date"] = (
                     pd.to_datetime(merged_df["date_obs"])
@@ -1124,20 +1136,16 @@ class UCB_trainer:
                     merged_df.rename(columns={time_col: "Date"}, inplace=True)
                     final_df = merged_df[["Date", "Observed", "Predicted"]].sort_values("Date")
                 else:
-                    if allow_fallback_date_handling:
-                        # Maxwell: updated to handle non-consecutive dates
-                        if "date_obs" in merged_df.columns:
-                            merged_df["Date"] = pd.to_datetime(merged_df["date_obs"])
-                            final_df = merged_df[["Date", "Observed", "Predicted"]].sort_values("Date")
-                        elif "Date" in merged_df.columns:
-                            final_df = merged_df[["Date", "Observed", "Predicted"]].sort_values("Date")
-                        elif "date" in merged_df.columns:
-                            merged_df["Date"] = merged_df["date"]
-                            final_df = merged_df[["Date", "Observed", "Predicted"]].sort_values("Date")
-                        else:
-                            raise RuntimeError("Could not determine Date column when writing CSV")
+                    if "date_obs" in merged_df.columns:
+                        merged_df["Date"] = pd.to_datetime(merged_df["date_obs"])
+                        final_df = merged_df[["Date", "Observed", "Predicted"]].sort_values("Date")
+                    elif "Date" in merged_df.columns:
+                        final_df = merged_df[["Date", "Observed", "Predicted"]].sort_values("Date")
+                    elif "date" in merged_df.columns:
+                        merged_df["Date"] = merged_df["date"]
+                        final_df = merged_df[["Date", "Observed", "Predicted"]].sort_values("Date")
                     else:
-                        final_df = merged_df[["Observed", "Predicted"]]
+                        raise RuntimeError("Could not determine Date column when writing CSV")
 
             return _finalize_df(final_df)
 
@@ -1150,7 +1158,7 @@ class UCB_trainer:
                         obs_df = self._observed.to_dataframe(name="Observed")
                         sim_df = self._predictions.to_dataframe(name="Predicted")
                         merged_df = obs_df.join(sim_df, how="inner").reset_index()
-                        df = _process_mts_1h(merged_df, allow_fallback_date_handling=True)
+                        df = _process_mts_1h(merged_df)
                     else:
                         obs_df = self._observed.reset_index(self._observed.dims).to_dataframe(name="Observed")
                         sim_df = self._predictions.reset_index(self._predictions.dims).to_dataframe(name="Predicted")
