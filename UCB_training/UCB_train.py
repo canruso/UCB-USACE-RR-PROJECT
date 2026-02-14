@@ -1691,7 +1691,9 @@ class UCB_trainer:
 
                     # Generate loss curve for this fold
                     try:
-                        plot_loss_curves(fold_dir, save_path=fold_dir / 'loss_curves.png')
+                        nh_run_dirs = sorted(fold_dir.glob("testing_run_*"))
+                        lc_dir = nh_run_dirs[-1] if nh_run_dirs else fold_dir
+                        plot_loss_curves(lc_dir, save_path=fold_dir / 'loss_curves.png')
                     except Exception as e:
                         if self._verbose:
                             print(f"Warning: Could not generate loss curve for fold {i}: {e}")
@@ -1748,7 +1750,9 @@ class UCB_trainer:
 
                     # Generate loss curve for this fold
                     try:
-                        plot_loss_curves(fold_dir, save_path=fold_dir / 'loss_curves.png')
+                        nh_run_dirs = sorted(fold_dir.glob("testing_run_*"))
+                        lc_dir = nh_run_dirs[-1] if nh_run_dirs else fold_dir
+                        plot_loss_curves(lc_dir, save_path=fold_dir / 'loss_curves.png')
                     except Exception as e:
                         if self._verbose:
                             print(f"Warning: Could not generate loss curve for fold {i}: {e}")
