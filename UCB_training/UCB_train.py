@@ -1584,10 +1584,40 @@ class UCB_trainer:
             daily_results = {}
             hourly_results = {}
 
-        original_start = getattr(self._config, "train_start_date", None)
-        original_start_year = int(original_start.year)
+        # --- Handle synthetic ranges pipeline ---
+        _cfg = self._config._cfg
+        _has_ranges = (
+            "train_ranges" in _cfg and _cfg["train_ranges"] and
+            "validation_ranges" in _cfg and _cfg["validation_ranges"]
+        )
 
-        original_end = getattr(self._config, "validation_end_date", None)
+        if _has_ranges:
+            # Extract date boundaries from range strings ("DD/MM/YYYY-DD/MM/YYYY")
+            first_train = _cfg["train_ranges"][0]
+            last_val = _cfg["validation_ranges"][-1]
+            original_start = pd.to_datetime(first_train.split("-")[0], dayfirst=True)
+            original_end = pd.to_datetime(last_val.split("-")[1], dayfirst=True)
+
+            # Save and clear ranges so fold-level start/end dates are honored
+            _saved_ranges = {
+                "train_ranges": list(_cfg["train_ranges"]),
+                "validation_ranges": list(_cfg["validation_ranges"]),
+            }
+            if "test_ranges" in _cfg:
+                _saved_ranges["test_ranges"] = list(_cfg["test_ranges"])
+                del _cfg["test_ranges"]
+            del _cfg["train_ranges"]
+            del _cfg["validation_ranges"]
+        else:
+            original_start = getattr(self._config, "train_start_date", None)
+            if isinstance(original_start, str):
+                original_start = pd.to_datetime(original_start, dayfirst=True)
+            original_end = getattr(self._config, "validation_end_date", None)
+            if isinstance(original_end, str):
+                original_end = pd.to_datetime(original_end, dayfirst=True)
+            _saved_ranges = None
+
+        original_start_year = int(original_start.year)
         original_end_year = int(original_end.year)
 
         # Store original dates to restore after CV completes
@@ -1770,6 +1800,11 @@ class UCB_trainer:
             self._config.update_config({'validation_end_date': original_val_end}, dev_mode=True)
         if is_mts:
             self._config.update_config({'validation_start_per_frequency': None}, dev_mode=True)
+
+        # Restore synthetic ranges if they were cleared for CV
+        if _saved_ranges:
+            for key, val in _saved_ranges.items():
+                self._config._cfg[key] = val
 
         if self._verbose and not is_mts:
             for j in range(1, len(cross_val_results) + 1):
