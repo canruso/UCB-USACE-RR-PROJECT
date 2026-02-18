@@ -835,6 +835,9 @@ class UCB_trainer:
                         sim_da = sim_da.stack(stacked_time=("date", "time_step"))
                         obs_da = obs_da.rename({"stacked_time": "time"})
                         sim_da = sim_da.rename({"stacked_time": "time"})
+                        # Sort stacked MultiIndex so .loc slicing works
+                        obs_da = obs_da.sortby("time")
+                        sim_da = sim_da.sortby("time")
                     else:
                         print("[WARN] => The 1H aggregator has no 'time_step' dimension? shape=", obs_da.shape)
                 else:
