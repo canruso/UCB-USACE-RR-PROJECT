@@ -21,6 +21,16 @@ def _train_single_member(args):
 
     trainer = pickle.loads(pickle.dumps(trainer))
 
+    # HYPERPARAM ENSEMBLE ROUTING
+    if trainer._hyperparam_ensemble:
+        plist = trainer._phys_param_list if trainer._physics_informed else trainer._no_phys_param_list
+        hp = plist[idx % len(plist)]
+        merged = trainer._hyperparams.copy()
+        merged.update(hp)
+
+        trainer._hyperparams = merged
+        trainer._config.update_config(merged, dev_mode=True)
+
     tag = "phys" if trainer._physics_informed else "nophys"
     member_run = Path(trainer._runs_parent) / f"{tag}_member_run_{idx+1:02d}"
     member_run.mkdir(parents=True, exist_ok=True)
@@ -75,7 +85,7 @@ class UCB_trainer:
                  num_ensemble_members: int = 1, bootstrap_model: bool = False, physics_informed: bool = False, physics_data_file: Path = None,
                  hourly: bool = False, extend_train_period: bool = False, gpu: int = -1, is_mts: bool = False,
                  is_mts_data: bool = False, basin: bool = None, verbose: bool = True, runs_parent: Path = None,
-                 run_label: str = None, run_stamp: str = None, experiment_tag: str = None, adaboost_ensemble: bool = False):
+                 run_label: str = None, run_stamp: str = None, experiment_tag: str = None, hyperparam_ensemble: bool = False, no_phys_param_list: List[str] = None, phys_param_list: List[str] = None):
         """
         Initialize the UCB_trainer class with configurations and training parameters.
         """
@@ -96,15 +106,9 @@ class UCB_trainer:
         self._basin = basin
         self._verbose = verbose
 
-        self._adaboost_ensemble = adaboost_ensemble
-        self._ada_alphas = []
-
-        self._adaboost_cfg = {
-            "eta": 0.5,
-            "alpha_clip": 2.0,
-            "eps": 1e-8,
-            "use_validation": True,
-        }
+        self._hyperparam_ensemble = hyperparam_ensemble
+        self._no_phys_param_list = no_phys_param_list
+        self._phys_param_list = phys_param_list
 
         self._config = None
         self._model = None
@@ -139,121 +143,6 @@ class UCB_trainer:
         if denom == 0:
             return -np.inf
         return 1.0 - np.sum((o - s) ** 2) / denom
-    
-    def _adaboost_block_errors(self):
-        """
-        Compute NSE error per synthetic year block.
-        Returns dict {block_index: error}
-        """
-
-        coord = (
-            "date" if "date" in self._observed.coords
-            else "time" if "time" in self._observed.coords
-            else "datetime" if "datetime" in self._observed.coords
-            else None
-        )
-
-        if coord is None:
-            raise RuntimeError(f"[AdaBoost] Could not find time coord in observed: {list(self._observed.coords)}")
-
-        dates = pd.to_datetime(self._observed.coords[coord].values)
-
-        print("[AdaDbg] years seen:", np.unique(dates.year))
-        years = dates.year
-
-        cfg = self._config._cfg
-        train_ranges = list(cfg["train_ranges"])
-        k = len(train_ranges)
-
-        errs = {}
-        for i in range(k):
-            y = 2200 + i
-            mask = years == y
-
-            if not mask.any():
-                errs[i] = 1.0
-                if self._verbose:
-                    print(f"[AdaDbg] block {i} year={y} EMPTY → err=1.0")
-                continue
-
-            obs = self._observed.sel({coord: mask})
-            sim = self._predictions.sel({coord: mask})
-
-            nse = self._compute_nse(obs, sim)
-
-            clipped = max(-1.0, min(1.0, nse))
-            err = np.clip((1.0 - clipped) * 0.5, 0.0, 1.0)
-
-            errs[i] = err
-
-            if self._verbose:
-                print(
-                    f"[AdaDbg] block {i} year={y} "
-                    f"N={obs.size} "
-                    f"NSE={nse:.6f} "
-                    f"clipped={clipped:.6f} "
-                    f"err={err:.6f}"
-                )
-
-        return errs
-        
-    def _adaboost_update_weights(self, prev_weights, block_errs):
-        """
-        Standard AdaBoost weight update using block NSE.
-        """
-
-        eps = self._adaboost_cfg["eps"]
-
-        k = len(prev_weights)
-        e = np.array([block_errs[i] for i in range(k)])
-
-        weighted_err = np.sum(prev_weights * e)
-        weighted_err = np.clip(weighted_err, eps, 1 - eps)
-
-        alpha = self._adaboost_cfg["eta"] * np.log((1 - weighted_err) / weighted_err)
-        alpha = np.clip(alpha, -self._adaboost_cfg["alpha_clip"], self._adaboost_cfg["alpha_clip"])
-
-        new_w = prev_weights * np.exp(alpha * e)
-        new_w = new_w / new_w.sum()
-
-        self._ada_alphas.append(alpha)
-
-        return new_w, alpha
-    
-    def _adaboost_resample_train_ranges(self, weights, member_idx=None):
-        """
-        Increase dataset size via weighted resampling of synthetic year blocks.
-        Never removes years.
-        """
-
-        cfg = self._config._cfg
-        base = list(cfg["train_ranges"])
-        k = len(base)
-
-        # expand dataset to ~1.5x
-        target = int(np.ceil(1.5 * k))
-
-        sampled = [str(x) for x in np.random.choice(base, size=target, replace=True, p=weights)]
-
-        cfg["train_ranges"] = sampled
-
-        if self._verbose:
-            print(f"\n[AdaBoost member {member_idx}] block weights:")
-            for i, w in enumerate(weights):
-                print(f"  block {i} (year {2200+i}): w={w:.4f}")
-
-            print(f"[AdaBoost member {member_idx}] resampled train_ranges ({len(sampled)}):")
-            for r in sampled:
-                print(" ", r)
-
-    def _adaboost_aggregate(self, sims: list[xr.DataArray]) -> xr.DataArray:
-        alphas = np.array(self._ada_alphas)
-        alphas = alphas / np.sum(np.abs(alphas))
-
-        stacked = xr.concat(sims, dim="member")
-        w = xr.DataArray(alphas, dims=["member"])
-
-        return (stacked * w).sum("member")
 
     # Added 1/28/2026 for non-consecutive dates:
     def _restore_synthetic_dates(self, period: str, time_res_key: str):
@@ -486,10 +375,13 @@ class UCB_trainer:
 
         coord = "date" if "date" in sim.coords else sim.dims[0]
 
-        sim_df = sim.to_dataframe(name="Predicted").reset_index(drop=True)
-        obs_df = obs.to_dataframe(name="Observed").reset_index(drop=True)
+        sim_df = sim.to_dataframe(name="Predicted").reset_index()
+        obs_df = obs.to_dataframe(name="Observed").reset_index()
 
-        df = pd.concat([sim_df, obs_df], axis=1)
+        sim_df = sim_df.rename(columns={sim_df.columns[0]: "Date"})
+        obs_df = obs_df.rename(columns={obs_df.columns[0]: "Date"})
+
+        df = sim_df.merge(obs_df[["Date", "Observed"]], on="Date", how="inner")
 
         # ------------------------------------------
 
@@ -849,63 +741,11 @@ class UCB_trainer:
             self._predictions = sim_da
 
         else:
-            # --------------------------------------------------
-            # AdaBoost synthetic ensemble (weighted aggregation)
-            # --------------------------------------------------
-            if self._adaboost_ensemble and self._is_synthetic_rr():
 
-                sims = []
-                obs_ref = None
+            if False:
 
-                for rd in self._model:
+                print("reimplement hyperparam ensemble prediction logic")
 
-                    actual_epoch = self._get_last_epoch(rd)
-                    results_file = (
-                        rd / period /
-                        f"model_epoch{str(actual_epoch).zfill(3)}" /
-                        f"{period}_results.p"
-                    )
-
-                    if not results_file.exists():
-                        self._eval_model(rd, period)
-
-                    with open(results_file, "rb") as fp:
-                        results = pickle.load(fp)
-
-                    basin_name = next(iter(results.keys()))
-                    basin_dict = results[basin_name]
-
-                    self._target_variable = self._config.target_variables[0]
-                    obs_key = f"{self._target_variable}_obs"
-                    sim_key = f"{self._target_variable}_sim"
-
-                    xr_dict = basin_dict[time_resolution_key]["xr"]
-
-                    obs_da = xr_dict[obs_key]
-                    sim_da = xr_dict[sim_key]
-
-                    if "time_step" in obs_da.dims:
-                        obs_da = obs_da.isel(time_step=0)
-                        sim_da = sim_da.isel(time_step=0)
-
-                    sims.append(sim_da)
-
-                    if obs_ref is None:
-                        obs_ref = obs_da
-
-                # Apply AdaBoost weighting
-                boosted = self._adaboost_aggregate(sims)
-
-                self._predictions = boosted
-                self._observed = obs_ref
-
-                # Restore synthetic dates if needed
-                if self._is_synthetic_rr():
-                    self._restore_synthetic_dates(period, time_resolution_key)
-
-            # --------------------------------------------------
-            # Normal mean ensemble
-            # --------------------------------------------------
             else:
 
                 results = create_results_ensemble(run_dirs=self._model, period=period)
@@ -1187,71 +1027,8 @@ class UCB_trainer:
     def _train_ensemble(self) -> List[Path]:
         run_dirs = []
 
-        if self._is_synthetic_rr() and self._adaboost_ensemble:
-            if not self._adaboost_ensemble:
-                raise RuntimeError("Synthetic ensembles now require adaboost_ensemble=True")
-
-            cfg = self._config._cfg
-            base_ranges = list(cfg["train_ranges"])
-            k = len(base_ranges)
-
-            # initial uniform weights
-            block_weights = np.ones(k) / k
-
-            sims_for_aggregation = []
-
-            for i in range(self._num_ensemble_members):
-
-                tag = "phys" if self._physics_informed else "nophys"
-                member_run = Path(self._runs_parent) / f"{tag}_member_run_{i+1:02d}"
-                member_run.mkdir(parents=True, exist_ok=True)
-
-                self._config.update_config({'run_dir': member_run}, dev_mode=True)
-
-                # first model: no resampling
-                if i > 0:
-                    self._adaboost_resample_train_ranges(block_weights, i+1)
-
-                path = self._train_model()
-                run_dirs.append(path)
-
-                self._model = path
-
-                # needed for AdaBoost weighting
-                self._eval_model(path, period="train")
-
-                # REQUIRED so create_results_ensemble(period="test") works later
-                self._eval_model(path, period="test")
-
-                self._get_predictions("1D", "train",True)
-
-                # compute block errors + update weights AFTER first model
-                if i >= 0:
-                    errs = self._adaboost_block_errors()
-                    block_weights, alpha = self._adaboost_update_weights(block_weights, errs)
-
-                    if self._verbose:
-                        print(f"\n[AdaBoost member {i+1}] alpha = {alpha:.4f}")
-
-                sims_for_aggregation.append(self._predictions.copy())
-
-                # restore original ranges for next round
-                cfg["train_ranges"] = list(base_ranges)
-
-            # final aggregation
-            self._predictions = self._adaboost_aggregate(sims_for_aggregation)
-
-            if self._is_synthetic_rr():
-                self._restore_synthetic_dates("validation", "1D")
-
-            # save ensemble prediction CSV (synthetic only)
-            self._save_member_prediction_csv(
-                run_dirs[-1],
-                "adaboost_validation",
-                self._num_ensemble_members,
-                self._predictions,
-                self._observed,
-            )
+        if False:
+            print("reimplement hyperparam ensemble training logic")
 
         elif self._is_synthetic_rr() and self._bootstrap_model:
 
@@ -1373,9 +1150,65 @@ class UCB_trainer:
                         [(self, i) for i in range(n)]
                     )
 
-            for rd in run_dirs:
+            for idx, rd in enumerate(run_dirs, 1):
+
                 self._eval_model(rd, period="validation")
                 self._eval_model(rd, period="test")
+
+                # Load config once per member
+                cfg = Config(rd / "config.yml")
+                tgt = cfg.target_variables[0]
+
+                for per in ("validation", "test"):
+                    ep = self._get_last_epoch(rd)
+                    pkl = rd / per / f"model_epoch{ep:03d}" / f"{per}_results.p"
+
+                    if not pkl.exists():
+                        if self._verbose:
+                            print(f"[ensemble] missing results: {pkl}")
+                        continue
+
+                    with open(pkl, "rb") as f:
+                        res = pickle.load(f)
+
+                    basin = next(iter(res))
+
+                    for freq in res[basin]:
+                        xr_d = res[basin][freq]["xr"]
+
+                        sim = xr_d[f"{tgt}_sim"]
+                        obs = xr_d[f"{tgt}_obs"]
+
+                        # MTS flattening (same logic as synthetic branch)
+                        if freq == "1D" and "time_step" in sim.dims:
+                            sim = sim.isel(time_step=0)
+                            obs = obs.isel(time_step=0)
+                            sim = sim.drop_vars("time_step", errors="ignore")
+                            obs = obs.drop_vars("time_step", errors="ignore")
+
+                        elif freq == "1H" and "time_step" in sim.dims:
+                            sim = sim.stack(datetime=("date", "time_step"))
+                            obs = obs.stack(datetime=("date", "time_step"))
+
+                            mi = sim["datetime"].to_index()
+                            dt = pd.to_datetime(mi.get_level_values(0)) + pd.to_timedelta(
+                                mi.get_level_values(1), unit="h"
+                            )
+
+                            sim = sim.assign_coords(datetime=dt).rename({"datetime": "date"})
+                            obs = obs.assign_coords(datetime=dt).rename({"datetime": "date"})
+
+                            sim = sim.drop_vars("time_step", errors="ignore")
+                            obs = obs.drop_vars("time_step", errors="ignore")
+
+                        # Save per-member CSV
+                        self._save_member_prediction_csv(
+                            rd,
+                            f"{per}_{freq}",
+                            idx,
+                            sim,
+                            obs,
+                        )
 
 
         self._model = run_dirs
@@ -1435,8 +1268,8 @@ class UCB_trainer:
 
         # --- Pad values for synthetic END ---
 
-        if 'save_weights_every' not in self._hyperparams:
-            self._hyperparams['save_weights_every'] = self._hyperparams['epochs']
+        if "save_weights_every" not in self._hyperparams:
+            self._hyperparams["save_weights_every"] = 1
 
         if self._dynamic_inputs is not None:
             config.update_config({'dynamic_inputs': self._dynamic_inputs}, dev_mode=True)

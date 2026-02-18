@@ -84,7 +84,7 @@ def run_single_experiment_nophysics(args):
 
     (idx, combinations, hyperparam_names, path_to_csv, path_to_yaml,
      GPU_SETTING, RUNS_PARENT, RUN_LABEL, RUN_STAMP, verbose,
-     UCB_trainer, fractional_multi_lr, NUM_ENSEMBLES, BOOTSTRAP_MODELS, ADABOOST_ENSEMBLE,
+     UCB_trainer, fractional_multi_lr, NUM_ENSEMBLES, BOOTSTRAP_MODELS, HYPERPARAM_ENSEMBLE,
      is_mts, hourly, use_cv, cv_month, cv_interval, cv_val_len) = args
 
     hp_run = _build_hp_run(combinations, hyperparam_names, fractional_multi_lr)
@@ -92,7 +92,7 @@ def run_single_experiment_nophysics(args):
     trainer = UCB_trainer(path_to_csv_folder=path_to_csv, yaml_path=path_to_yaml, hyperparams=hp_run,
                           input_features=None, physics_informed=False, physics_data_file=None,
                           hourly=hourly, extend_train_period=False, gpu=GPU_SETTING, is_mts=is_mts,
-                          num_ensemble_members=NUM_ENSEMBLES, adaboost_ensemble=ADABOOST_ENSEMBLE,
+                          num_ensemble_members=NUM_ENSEMBLES, hyperparam_ensemble=HYPERPARAM_ENSEMBLE,
                           bootstrap_model=BOOTSTRAP_MODELS, verbose=verbose,
                           runs_parent=f"{RUNS_PARENT}_grid_{idx:03d}", run_label=RUN_LABEL, run_stamp=RUN_STAMP)
 
@@ -108,7 +108,7 @@ def run_single_experiment_physics(args):
 
     (idx, combinations, hyperparam_names, path_to_csv, path_to_yaml,
      GPU_SETTING, RUNS_PARENT, RUN_LABEL, RUN_STAMP, verbose,
-     UCB_trainer, fractional_multi_lr, NUM_ENSEMBLES, BOOTSTRAP_MODELS, ADABOOST_ENSEMBLE,
+     UCB_trainer, fractional_multi_lr, NUM_ENSEMBLES, BOOTSTRAP_MODELS, HYPERPARAM_ENSEMBLE,
      features_with_physics, physics_data_file,
      is_mts, hourly, use_cv, cv_month, cv_interval, cv_val_len) = args
 
@@ -118,7 +118,7 @@ def run_single_experiment_physics(args):
                           input_features=features_with_physics, physics_informed=True,
                           physics_data_file=physics_data_file,
                           hourly=hourly, extend_train_period=False, gpu=GPU_SETTING, is_mts=is_mts,
-                          num_ensemble_members=NUM_ENSEMBLES, adaboost_ensemble=ADABOOST_ENSEMBLE,
+                          num_ensemble_members=NUM_ENSEMBLES, hyperparam_ensemble=HYPERPARAM_ENSEMBLE,
                           bootstrap_model=BOOTSTRAP_MODELS, verbose=verbose,
                           runs_parent=f"{RUNS_PARENT}_phys_grid_{idx:03d}", run_label=RUN_LABEL, run_stamp=RUN_STAMP)
 
