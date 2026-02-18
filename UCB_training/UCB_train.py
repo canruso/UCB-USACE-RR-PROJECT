@@ -1735,15 +1735,17 @@ class UCB_trainer:
                 day_metrics = calculate_all_metrics(obs, pred, resolution='1D')
 
                 self._get_predictions('1H', 'validation')
-                obs_fixed = obs.assign_coords(
-                    date=(list(obs.dims)[0], pd.date_range(start=val_eval_start,
-                                                           periods=obs.sizes[list(obs.dims)[0]],
-                                                           freq='H'))
+                pred_h = self._predictions.loc[val_eval_start:fold_val_end_date]
+                obs_h = self._observed.loc[val_eval_start:fold_val_end_date]
+                obs_fixed = obs_h.assign_coords(
+                    date=(list(obs_h.dims)[0], pd.date_range(start=val_eval_start,
+                                                              periods=obs_h.sizes[list(obs_h.dims)[0]],
+                                                              freq='H'))
                 )
-                pred_fixed = pred.assign_coords(
-                    date=(list(pred.dims)[0], pd.date_range(start=val_eval_start,
-                                                            periods=pred.sizes[list(pred.dims)[0]],
-                                                            freq='H'))
+                pred_fixed = pred_h.assign_coords(
+                    date=(list(pred_h.dims)[0], pd.date_range(start=val_eval_start,
+                                                               periods=pred_h.sizes[list(pred_h.dims)[0]],
+                                                               freq='H'))
                 )
                 hour_metrics = calculate_all_metrics(obs_fixed, pred_fixed, resolution='1H', datetime_coord='date')
 
