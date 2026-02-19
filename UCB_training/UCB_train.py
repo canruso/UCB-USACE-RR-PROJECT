@@ -1740,16 +1740,14 @@ class UCB_trainer:
                 self._get_predictions('1H', 'validation')
                 pred_h = self._predictions.loc[val_eval_start:fold_val_end_date]
                 obs_h = self._observed.loc[val_eval_start:fold_val_end_date]
-                obs_fixed = obs_h.assign_coords(
-                    date=(list(obs_h.dims)[0], pd.date_range(start=val_eval_start,
-                                                              periods=obs_h.sizes[list(obs_h.dims)[0]],
-                                                              freq='H'))
-                )
-                pred_fixed = pred_h.assign_coords(
-                    date=(list(pred_h.dims)[0], pd.date_range(start=val_eval_start,
-                                                               periods=pred_h.sizes[list(pred_h.dims)[0]],
-                                                               freq='H'))
-                )
+                # Rebuild as flat hourly DataArrays (stacked MultiIndex can't be re-coordinated)
+                dim_name = list(obs_h.dims)[0]
+                n_hours = obs_h.sizes[dim_name]
+                hourly_index = pd.date_range(start=val_eval_start, periods=n_hours, freq='H')
+                obs_fixed = xr.DataArray(obs_h.values, dims=['time'],
+                                         coords={'date': ('time', hourly_index)})
+                pred_fixed = xr.DataArray(pred_h.values, dims=['time'],
+                                          coords={'date': ('time', hourly_index)})
                 hour_metrics = calculate_all_metrics(obs_fixed, pred_fixed, resolution='1H', datetime_coord='date')
 
                 daily_results[i] = day_metrics
