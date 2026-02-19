@@ -1743,7 +1743,7 @@ class UCB_trainer:
                 # Rebuild as flat hourly DataArrays (stacked MultiIndex can't be re-coordinated)
                 dim_name = list(obs_h.dims)[0]
                 n_hours = obs_h.sizes[dim_name]
-                hourly_index = pd.date_range(start=val_eval_start, periods=n_hours, freq='H')
+                hourly_index = pd.date_range(start=val_eval_start, periods=n_hours, freq='h')
                 obs_fixed = xr.DataArray(obs_h.values, dims=['time'],
                                          coords={'date': ('time', hourly_index)})
                 pred_fixed = xr.DataArray(pred_h.values, dims=['time'],
