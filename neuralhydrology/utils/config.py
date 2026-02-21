@@ -768,6 +768,10 @@ class Config(object):
         return self._cfg.get("save_validation_results", False)
 
     @property
+    def save_results_every(self) -> int:
+        return self._cfg.get("save_results_every", 0)
+
+    @property
     def save_weights_every(self) -> int:
         return self._cfg.get("save_weights_every", 1)
 

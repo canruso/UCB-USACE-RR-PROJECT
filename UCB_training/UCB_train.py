@@ -1632,7 +1632,7 @@ class UCB_trainer:
         n_years = original_end_year - original_start_year + 1
         # Calculate max folds based on intervalLength: we need at least intervalLength years for initial training
         # plus validationLength years for validation, and each fold adds intervalLength years
-        max_fold = (n_years - intervalLength) // intervalLength - validationLength
+        max_fold = (n_years - 1 - validationLength) // intervalLength
 
 
         seq_length = getattr(self._config, "seq_length", None)

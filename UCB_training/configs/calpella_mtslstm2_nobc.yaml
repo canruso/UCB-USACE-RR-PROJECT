@@ -6,7 +6,8 @@ validation_basin_file: calpella
 test_basin_file: calpella
 
 train_start_date: "01/10/1994"
-train_end_date: "30/09/2002"
+train_end_date: "30/09/2005"       # 11yr CV pool → 5 folds
+# train_end_date: "30/09/2002"     # 8yr CV pool → 3 folds
 validation_start_date: "01/10/2002"
 validation_end_date: "30/09/2005"
 test_start_date: "01/10/2005"
@@ -45,6 +46,7 @@ physics_data_file: null
 validate_every: 1
 validate_n_random_basins: 1
 save_validation_results: True
+save_results_every: 10
 
 metrics:
   - NSE

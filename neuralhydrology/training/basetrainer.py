@@ -236,8 +236,15 @@ class BaseTrainer(object):
                 self._save_weights_and_optimizer(epoch)
 
             if (self.validator is not None) and (epoch % self.cfg.validate_every == 0):
-                self.validator.evaluate(epoch=epoch,
-                                        save_results=self.cfg.save_validation_results,
+                is_last_scheduled_epoch = (epoch == self._epoch + self.cfg.epochs)
+
+                # Gate result saving: save every N epochs + always at last epoch
+                save_results = self.cfg.save_validation_results
+                if save_results and self.cfg.save_results_every > 0:
+                    save_results = (epoch % self.cfg.save_results_every == 0) or is_last_scheduled_epoch
+
+                val_results = self.validator.evaluate(epoch=epoch,
+                                        save_results=save_results,
                                         save_all_output=self.cfg.save_all_output,
                                         metrics=self.cfg.metrics,
                                         model=self.model,
@@ -262,6 +269,9 @@ class BaseTrainer(object):
                     if should_stop:
                         if self.cfg.verbose:
                             LOGGER.info(f"Early stopping triggered at epoch {epoch}")
+                        # Save results for the final epoch if not already saved
+                        if self.cfg.save_validation_results and not save_results:
+                            self.validator._save_results(results=val_results, epoch=epoch)
                         # Save final checkpoint before stopping
                         self._save_weights_and_optimizer(epoch)
                         break
