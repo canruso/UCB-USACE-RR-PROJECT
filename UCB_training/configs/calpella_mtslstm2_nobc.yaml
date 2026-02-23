@@ -81,7 +81,7 @@ learning_rate:
   40: 1e-3
 
 batch_size: 64
-epochs: 32
+epochs: 200
 clip_gradient_norm: 1
 
 predict_last_n:
@@ -128,13 +128,13 @@ clip_targets_to_zero:
 
 # --- Early Stopping Configuration ------------------------------------------------------------
 # Enable early stopping based on validation performance
-early_stopping: False
+early_stopping: True
 
 # Early stopping mode: "patience", "slope", or "none"
 # - "patience": Traditional approach (stops after N validations without improvement)
 # - "slope": Trend-based approach (stops when loss trend shows no improvement)
 # - "none": Disables early stopping
-early_stopping_mode: "patience"
+early_stopping_mode: "slope"
 
 # --- Patience Mode Settings ---
 # Number of validation epochs with no improvement before stopping training
@@ -155,7 +155,7 @@ early_stopping_slope_window: 7
 early_stopping_slope_patience: 2
 
 # Minimum epoch before slope checks begin
-early_stopping_slope_min_epoch: 8
+early_stopping_slope_min_epoch: 20
 
 # EMA smoothing factor in (0,1]; higher = more reactive
 early_stopping_slope_ema_alpha: 0.4
