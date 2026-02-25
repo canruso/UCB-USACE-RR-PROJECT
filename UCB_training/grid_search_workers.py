@@ -2,9 +2,6 @@ import itertools
 from pathlib import Path
 import pandas as pd
 from tqdm import tqdm
-from UCB_training.UCB_train import UCB_trainer
-import os
-import shutil
 
 
 def _build_hp_run(combinations, hyperparam_names, fractional_multi_lr):
@@ -84,10 +81,10 @@ def run_single_experiment_nophysics(args):
     logging.getLogger("neuralhydrology").setLevel(logging.ERROR)
     logging.getLogger("pandas").setLevel(logging.ERROR)
     sys.stderr = open(os.devnull, "w")
-    print("WORKER STARTED", os.getpid(), flush=True)
 
     (idx, combinations, hyperparam_names, path_to_csv, path_to_yaml,
-     GPU_SETTING, RUNS_PARENT, RUN_LABEL, RUN_STAMP, verbose,fractional_multi_lr, NUM_ENSEMBLES, BOOTSTRAP_MODELS, HYPERPARAM_ENSEMBLE,
+     GPU_SETTING, RUNS_PARENT, RUN_LABEL, RUN_STAMP, verbose,
+     UCB_trainer, fractional_multi_lr, NUM_ENSEMBLES, BOOTSTRAP_MODELS, HYPERPARAM_ENSEMBLE,
      is_mts, hourly, use_cv, cv_month, cv_interval, cv_val_len) = args
 
     hp_run = _build_hp_run(combinations, hyperparam_names, fractional_multi_lr)
@@ -98,12 +95,8 @@ def run_single_experiment_nophysics(args):
                           num_ensemble_members=NUM_ENSEMBLES, hyperparam_ensemble=HYPERPARAM_ENSEMBLE,
                           bootstrap_model=BOOTSTRAP_MODELS, verbose=verbose,
                           runs_parent=f"{RUNS_PARENT}_grid_{idx:03d}", run_label=RUN_LABEL, run_stamp=RUN_STAMP)
-    
+
     result = _run_and_collect(trainer, is_mts, use_cv, cv_month, cv_interval, cv_val_len)
-
-    run_dir = f"{RUNS_PARENT}_grid_{idx:03d}"
-    shutil.rmtree(run_dir, ignore_errors=True)
-
     return _build_row(combinations, hyperparam_names, hp_run, result, is_mts, os.getpid(), idx)
 
 
@@ -114,7 +107,8 @@ def run_single_experiment_physics(args):
     sys.stderr = open(os.devnull, "w")
 
     (idx, combinations, hyperparam_names, path_to_csv, path_to_yaml,
-     GPU_SETTING, RUNS_PARENT, RUN_LABEL, RUN_STAMP, verbose, fractional_multi_lr, NUM_ENSEMBLES, BOOTSTRAP_MODELS, HYPERPARAM_ENSEMBLE,
+     GPU_SETTING, RUNS_PARENT, RUN_LABEL, RUN_STAMP, verbose,
+     UCB_trainer, fractional_multi_lr, NUM_ENSEMBLES, BOOTSTRAP_MODELS, HYPERPARAM_ENSEMBLE,
      features_with_physics, physics_data_file,
      is_mts, hourly, use_cv, cv_month, cv_interval, cv_val_len) = args
 
@@ -129,8 +123,4 @@ def run_single_experiment_physics(args):
                           runs_parent=f"{RUNS_PARENT}_phys_grid_{idx:03d}", run_label=RUN_LABEL, run_stamp=RUN_STAMP)
 
     result = _run_and_collect(trainer, is_mts, use_cv, cv_month, cv_interval, cv_val_len)
-
-    run_dir = f"{RUNS_PARENT}_phys_grid_{idx:03d}"
-    shutil.rmtree(run_dir, ignore_errors=True)
-
     return _build_row(combinations, hyperparam_names, hp_run, result, is_mts, os.getpid(), idx)

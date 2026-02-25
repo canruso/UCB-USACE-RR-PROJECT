@@ -1,0 +1,3 @@
+hidden_size,output_dropout,seq_length_1D,seq_length_1H,num_layers,epochs,batch_size,schedule_pairs,model_type
+128,0.3773874580472146,67,149,1,32,32,"((0.7, 0.2), (0.01, 0.002, 0.0005))",no_physics
+128,0.31389193299837287,103,120,1,96,32,"((0.7, 0.2), (0.01, 0.002, 0.0005))",physics
