@@ -1,8 +1,8 @@
 #!/bin/bash
-#SBATCH --job-name=cv_test_mts
+#SBATCH --job-name=cv_parallel
 #SBATCH --account=ac_esdl
 #SBATCH --partition=savio2
-#SBATCH --time=4:00:00
+#SBATCH --time=12:00:00
 #SBATCH --nodes=1
 #SBATCH --qos=savio_normal
 #SBATCH --mail-type=ALL
