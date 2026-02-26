@@ -412,17 +412,22 @@ class PlateauEarlyStopper:
         Consecutive non-improving checks at min_lr before stopping (default: 5).
     cooldown : int
         Cooldown epochs after LR reduction (default: 0).
+    min_epoch : int
+        Minimum epoch before scheduler steps or ES can fire (default: 1).
+        During warmup (epoch < min_epoch), scheduler.step() is skipped entirely
+        so no LR reductions occur during initial convergence.
     logger : logging.Logger, optional
     tb_writer : object, optional
     """
 
     def __init__(self, optimizer: torch.optim.Optimizer, factor: float = 0.5, patience: int = 10,
                  threshold: float = 1e-4, min_lr: float = 1e-6, final_patience: int = 5,
-                 cooldown: int = 0, logger: Optional[logging.Logger] = None,
+                 cooldown: int = 0, min_epoch: int = 1, logger: Optional[logging.Logger] = None,
                  tb_writer: Optional[Any] = None):
         self.optimizer = optimizer
         self.min_lr = min_lr
         self.final_patience = final_patience
+        self.min_epoch = min_epoch
         self.logger = logger or LOGGER
         self.tb_writer = tb_writer
 
@@ -459,6 +464,12 @@ class PlateauEarlyStopper:
             True if training should stop, False otherwise.
         """
         self.history.append((epoch, val_loss))
+
+        # Skip scheduler and ES during warmup
+        if epoch < self.min_epoch:
+            self.logger.info(f"ES[plateau]: epoch={epoch}, lr={self._current_lr():.2e}, val_loss={val_loss:.6f} (warmup, min_epoch={self.min_epoch})")
+            return False
+
         lr_before = self._current_lr()
 
         # Step the scheduler
@@ -589,7 +600,7 @@ def create_early_stopper(cfg, logger: Optional[logging.Logger] = None,
             optimizer=optimizer, factor=cfg.plateau_factor, patience=cfg.plateau_patience,
             threshold=cfg.plateau_threshold, min_lr=cfg.plateau_min_lr,
             final_patience=cfg.plateau_final_patience, cooldown=cfg.plateau_cooldown,
-            logger=logger, tb_writer=tb_writer
+            min_epoch=cfg.plateau_min_epoch, logger=logger, tb_writer=tb_writer
         )
     else:
         raise ValueError(f"Unknown early_stopping mode: '{mode}'. Must be 'patience', 'slope', 'plateau', or 'none'.")

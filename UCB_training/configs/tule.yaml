@@ -41,21 +41,34 @@ learning_rate:
   30: 1e-3
 
 batch_size: 256
-epochs: 32
+epochs: 300
 clip_gradient_norm: 1
 predict_last_n: 1
 seq_length: 365
 
 metrics: [NSE, MSE]
-validate_every: 5
+validate_every: 3
 validate_n_random_basins: 1
 
-# --- Early Stopping (disabled by default) ---
-early_stopping: False
-early_stopping_mode: "patience"
-patience_early_stopping: 3
-min_delta_early_stopping: 0.0
-minimum_epochs_before_early_stopping: 10
+# --- Early Stopping Configuration ---
+early_stopping: True
+early_stopping_mode: "plateau"
+
+# --- Plateau Mode Settings ---
+plateau_factor: 0.5
+plateau_patience: 3
+plateau_threshold: 1.0e-4
+plateau_min_lr: 1.0e-5
+plateau_final_patience: 5
+plateau_cooldown: 0
+plateau_min_epoch: 24
+
+# --- Previous settings (commented out) ---
+# early_stopping: False
+# early_stopping_mode: "patience"
+# patience_early_stopping: 3
+# min_delta_early_stopping: 0.0
+# minimum_epochs_before_early_stopping: 10
 
 # MAIN dynamic inputs (pick the 3 MET series you want to use)
 dynamic_inputs:

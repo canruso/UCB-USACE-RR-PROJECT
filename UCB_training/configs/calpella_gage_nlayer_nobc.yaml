@@ -25,7 +25,7 @@ physics_data_file: null
 # --- Validation configuration ---------------------------------------------------------------------
 
 # specify after how many epochs to perform validation
-validate_every: 1
+validate_every: 3
 
 # specify how many random basins to use for validation
 validate_n_random_basins: 1
@@ -82,7 +82,7 @@ learning_rate:
 batch_size: 256
 
 # Number of training epochs
-epochs: 32
+epochs: 300
 
 # If a value, clips the gradients during training to that norm.
 clip_gradient_norm: 1
@@ -113,55 +113,39 @@ save_weights_every: 16
 
 # --- Early Stopping Configuration ------------------------------------------------------------
 # Enable early stopping based on validation performance
-early_stopping: False
+early_stopping: True
 
-# Early stopping mode: "patience", "slope", or "none"
+# Early stopping mode: "patience", "slope", "plateau", or "none"
 # - "patience": Traditional approach (stops after N validations without improvement)
 # - "slope": Trend-based approach (stops when loss trend shows no improvement)
+# - "plateau": Coupled LR scheduler + ES (ReduceLROnPlateau, stops when min_lr reached + no improvement)
 # - "none": Disables early stopping
-early_stopping_mode: "patience"
+early_stopping_mode: "plateau"
 
-# --- Patience Mode Settings ---
-# Number of validation epochs with no improvement before stopping training
-# With validate_every=5, patience=3 means stopping after 15 epochs of no improvement
-patience_early_stopping: 5
+# --- Plateau Mode Settings ---
+plateau_factor: 0.5
+plateau_patience: 3
+plateau_threshold: 1.0e-4
+plateau_min_lr: 1.0e-5
+plateau_final_patience: 5
+plateau_cooldown: 0
+plateau_min_epoch: 24
 
-# Minimum change to qualify as improvement (default: 0.0)
-min_delta_early_stopping: 0.0
-
-# Minimum number of epochs before early stopping can trigger
-minimum_epochs_before_early_stopping: 16
-
-# --- Slope Mode Settings (only used if early_stopping_mode: "slope") ---
-# Number of epochs in rolling window for trend analysis
-early_stopping_slope_window: 7
-
-# Consecutive non-improving trend checks before stopping
-early_stopping_slope_patience: 2
-
-# Minimum epoch before slope checks begin
-early_stopping_slope_min_epoch: 8
-
-# EMA smoothing factor in (0,1]; higher = more reactive
-early_stopping_slope_ema_alpha: 0.4
-
-# Apply log transform to smoothed loss (makes thresholds represent % changes)
-early_stopping_slope_use_log: True
-
-# Epsilon added before log if loss <= 0
-early_stopping_slope_log_eps: 1.0e-12
-
-# Per-epoch improvement threshold in log space (~% change/epoch; 1e-3 ≈ 0.1%)
-early_stopping_slope_eps_slope: 1.0e-3
-
-# Required total improvement across window in log space (~%; 0.01 ≈ 1%)
-early_stopping_slope_min_window_gain: 0.01
-
-# Check window stability before acting
-early_stopping_slope_variance_guard: True
-
-# Max coefficient of variation to consider stable (~%; 0.01 ≈ 1%)
-early_stopping_slope_variance_cv_max: 0.01
+# --- Previous patience/slope settings (commented out) ---
+# early_stopping_mode: "patience"
+# patience_early_stopping: 5
+# min_delta_early_stopping: 0.0
+# minimum_epochs_before_early_stopping: 16
+# early_stopping_slope_window: 7
+# early_stopping_slope_patience: 2
+# early_stopping_slope_min_epoch: 8
+# early_stopping_slope_ema_alpha: 0.4
+# early_stopping_slope_use_log: True
+# early_stopping_slope_log_eps: 1.0e-12
+# early_stopping_slope_eps_slope: 1.0e-3
+# early_stopping_slope_min_window_gain: 0.01
+# early_stopping_slope_variance_guard: True
+# early_stopping_slope_variance_cv_max: 0.01
 
 # =============================================================================
 # EARLY STOPPING CONFIGURATION VARIANTS

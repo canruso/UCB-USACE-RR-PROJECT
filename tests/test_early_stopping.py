@@ -236,6 +236,7 @@ class _MockPlateauConfig:
     plateau_min_lr = 1e-6
     plateau_final_patience = 5
     plateau_cooldown = 0
+    plateau_min_epoch = 1
 
 
 class TestPlateauEarlyStopper:

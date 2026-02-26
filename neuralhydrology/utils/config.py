@@ -466,6 +466,11 @@ class Config(object):
         return self._cfg.get("plateau_cooldown", 0)
 
     @property
+    def plateau_min_epoch(self) -> int:
+        """Minimum epoch before scheduler steps or ES fires (plateau mode)."""
+        return self._cfg.get("plateau_min_epoch", 1)
+
+    @property
     def plateau_factor(self) -> float:
         """LR reduction factor for ReduceLROnPlateau (plateau mode)."""
         return self._cfg.get("plateau_factor", 0.5)
