@@ -392,7 +392,7 @@ class Config(object):
 
     @property
     def early_stopping_mode(self) -> str:
-        """Early stopping mode: 'patience', 'slope', or 'none'."""
+        """Early stopping mode: 'patience', 'slope', 'plateau', or 'none'."""
         return self._cfg.get("early_stopping_mode", "patience")
 
     @property
@@ -459,6 +459,36 @@ class Config(object):
     def early_stopping_slope_variance_cv_max(self) -> float:
         """Max coefficient of variation to consider stable (slope mode)."""
         return self._cfg.get("early_stopping_slope_variance_cv_max", 0.01)
+
+    @property
+    def plateau_cooldown(self) -> int:
+        """Cooldown epochs after LR reduction (plateau mode)."""
+        return self._cfg.get("plateau_cooldown", 0)
+
+    @property
+    def plateau_factor(self) -> float:
+        """LR reduction factor for ReduceLROnPlateau (plateau mode)."""
+        return self._cfg.get("plateau_factor", 0.5)
+
+    @property
+    def plateau_final_patience(self) -> int:
+        """Patience after hitting min_lr before stopping (plateau mode)."""
+        return self._cfg.get("plateau_final_patience", 5)
+
+    @property
+    def plateau_min_lr(self) -> float:
+        """Minimum LR before ES kicks in (plateau mode)."""
+        return self._cfg.get("plateau_min_lr", 1e-6)
+
+    @property
+    def plateau_patience(self) -> int:
+        """Epochs to wait before reducing LR (plateau mode)."""
+        return self._cfg.get("plateau_patience", 10)
+
+    @property
+    def plateau_threshold(self) -> float:
+        """Threshold for measuring improvement (plateau mode)."""
+        return self._cfg.get("plateau_threshold", 1e-4)
 
     @property
     def evolving_attributes(self) -> List[str]:

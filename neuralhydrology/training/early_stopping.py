@@ -7,8 +7,11 @@ using exponential moving average (EMA) smoothing and Theil-Sen regression.
 
 import logging
 from collections import deque
-from typing import Dict, Optional, Any
+from typing import Dict, List, Optional, Any
+
 import numpy as np
+import torch
+from torch.optim.lr_scheduler import ReduceLROnPlateau
 
 LOGGER = logging.getLogger(__name__)
 
@@ -386,8 +389,152 @@ class SlopeEarlyStopper:
         self._last_diagnostics = {}
 
 
+class PlateauEarlyStopper:
+    """Plateau-based early stopping using PyTorch's ReduceLROnPlateau.
+
+    Reduces LR automatically when validation loss plateaus. Early stopping triggers
+    when LR has been reduced to min_lr AND validation loss hasn't improved for
+    final_patience consecutive checks.
+
+    Parameters
+    ----------
+    optimizer : torch.optim.Optimizer
+        The optimizer whose LR will be managed.
+    factor : float
+        Factor by which LR is reduced (default: 0.5).
+    patience : int
+        Epochs to wait before reducing LR (default: 10).
+    threshold : float
+        Threshold for measuring improvement (default: 1e-4).
+    min_lr : float
+        Minimum LR; ES starts counting once this is reached (default: 1e-6).
+    final_patience : int
+        Consecutive non-improving checks at min_lr before stopping (default: 5).
+    cooldown : int
+        Cooldown epochs after LR reduction (default: 0).
+    logger : logging.Logger, optional
+    tb_writer : object, optional
+    """
+
+    def __init__(self, optimizer: torch.optim.Optimizer, factor: float = 0.5, patience: int = 10,
+                 threshold: float = 1e-4, min_lr: float = 1e-6, final_patience: int = 5,
+                 cooldown: int = 0, logger: Optional[logging.Logger] = None,
+                 tb_writer: Optional[Any] = None):
+        self.optimizer = optimizer
+        self.min_lr = min_lr
+        self.final_patience = final_patience
+        self.logger = logger or LOGGER
+        self.tb_writer = tb_writer
+
+        # Create the PyTorch scheduler
+        self.scheduler = ReduceLROnPlateau(optimizer, mode='min', factor=factor, patience=patience,
+                                           threshold=threshold, min_lr=min_lr, cooldown=cooldown)
+
+        # ES tracking state
+        self.best_loss_at_min_lr = float('inf')
+        self.bad_checks_at_min_lr = 0
+        self.at_min_lr = False
+        self.history: List = []
+
+    def _current_lr(self) -> float:
+        return self.optimizer.param_groups[0]['lr']
+
+    def _is_at_min_lr(self) -> bool:
+        """Check if all param groups have reached min_lr (with tolerance for float precision)."""
+        return all(pg['lr'] <= self.min_lr * (1 + 1e-8) for pg in self.optimizer.param_groups)
+
+    def update(self, epoch: int, val_loss: float) -> bool:
+        """Update with new validation loss. Same interface as other stoppers.
+
+        Parameters
+        ----------
+        epoch : int
+            Current epoch number.
+        val_loss : float
+            Validation loss for this epoch.
+
+        Returns
+        -------
+        bool
+            True if training should stop, False otherwise.
+        """
+        self.history.append((epoch, val_loss))
+        lr_before = self._current_lr()
+
+        # Step the scheduler
+        self.scheduler.step(val_loss)
+
+        lr_after = self._current_lr()
+
+        # Log LR changes
+        if abs(lr_before - lr_after) > 1e-12:
+            self.logger.info(f"ES[plateau]: LR reduced {lr_before:.2e} -> {lr_after:.2e} at epoch {epoch}")
+
+        # Check if at min_lr
+        was_at_min = self.at_min_lr
+        self.at_min_lr = self._is_at_min_lr()
+
+        if self.at_min_lr and not was_at_min:
+            self.logger.info(f"ES[plateau]: LR hit min_lr={self.min_lr:.2e} at epoch {epoch}. "
+                             f"Starting final patience countdown.")
+            self.best_loss_at_min_lr = val_loss
+            self.bad_checks_at_min_lr = 0
+
+        if self.at_min_lr:
+            if val_loss < self.best_loss_at_min_lr - 1e-8:
+                self.best_loss_at_min_lr = val_loss
+                self.bad_checks_at_min_lr = 0
+            else:
+                self.bad_checks_at_min_lr += 1
+
+            self.logger.info(
+                f"ES[plateau]: epoch={epoch}, lr={lr_after:.2e}, val_loss={val_loss:.6f}, "
+                f"best_at_min={self.best_loss_at_min_lr:.6f}, bad={self.bad_checks_at_min_lr}/{self.final_patience}"
+            )
+
+            if self.bad_checks_at_min_lr >= self.final_patience:
+                self.logger.info(f"ES[plateau]: STOP at epoch={epoch} - min_lr reached and "
+                                 f"no improvement for {self.final_patience} checks")
+                return True
+        else:
+            self.logger.info(f"ES[plateau]: epoch={epoch}, lr={lr_after:.2e}, val_loss={val_loss:.6f}")
+
+        # TensorBoard logging
+        if self.tb_writer is not None:
+            self.tb_writer.add_scalar('es/lr', lr_after, epoch)
+            self.tb_writer.add_scalar('es/at_min_lr', int(self.at_min_lr), epoch)
+            self.tb_writer.add_scalar('es/bad_checks_at_min_lr', self.bad_checks_at_min_lr, epoch)
+
+        return False
+
+    def state_dict(self) -> Dict[str, Any]:
+        """Return state for checkpointing."""
+        return {
+            'scheduler_state': self.scheduler.state_dict(),
+            'best_loss_at_min_lr': self.best_loss_at_min_lr,
+            'bad_checks_at_min_lr': self.bad_checks_at_min_lr,
+            'at_min_lr': self.at_min_lr,
+            'history': list(self.history)
+        }
+
+    def load_state_dict(self, state: Dict[str, Any]):
+        """Restore state from checkpoint."""
+        self.scheduler.load_state_dict(state['scheduler_state'])
+        self.best_loss_at_min_lr = state['best_loss_at_min_lr']
+        self.bad_checks_at_min_lr = state['bad_checks_at_min_lr']
+        self.at_min_lr = state['at_min_lr']
+        self.history = state['history']
+
+    def reset(self):
+        """Reset ES tracking state. Cannot fully reset ReduceLROnPlateau without re-creating it."""
+        self.best_loss_at_min_lr = float('inf')
+        self.bad_checks_at_min_lr = 0
+        self.at_min_lr = False
+        self.history = []
+
+
 def create_early_stopper(cfg, logger: Optional[logging.Logger] = None,
-                         tb_writer: Optional[Any] = None):
+                         tb_writer: Optional[Any] = None, optimizer: Optional[torch.optim.Optimizer] = None):
     """
     Factory function to create an early stopper based on config mode.
 
@@ -402,7 +549,7 @@ def create_early_stopper(cfg, logger: Optional[logging.Logger] = None,
 
     Returns
     -------
-    stopper : PatienceEarlyStopper, SlopeEarlyStopper, or None
+    stopper : PatienceEarlyStopper, SlopeEarlyStopper, PlateauEarlyStopper, or None
         Early stopper instance, or None if mode is "none" or early_stopping disabled
     """
     # Check if early stopping is enabled
@@ -435,5 +582,14 @@ def create_early_stopper(cfg, logger: Optional[logging.Logger] = None,
             logger=logger,
             tb_writer=tb_writer
         )
+    elif mode == "plateau":
+        if optimizer is None:
+            raise ValueError("Plateau mode requires an optimizer. Pass optimizer to create_early_stopper().")
+        return PlateauEarlyStopper(
+            optimizer=optimizer, factor=cfg.plateau_factor, patience=cfg.plateau_patience,
+            threshold=cfg.plateau_threshold, min_lr=cfg.plateau_min_lr,
+            final_patience=cfg.plateau_final_patience, cooldown=cfg.plateau_cooldown,
+            logger=logger, tb_writer=tb_writer
+        )
     else:
-        raise ValueError(f"Unknown early_stopping mode: '{mode}'. Must be 'patience', 'slope', or 'none'.")
+        raise ValueError(f"Unknown early_stopping mode: '{mode}'. Must be 'patience', 'slope', 'plateau', or 'none'.")
