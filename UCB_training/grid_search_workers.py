@@ -6,26 +6,21 @@ from tqdm import tqdm
 
 def _build_hp_run(combinations, hyperparam_names, fractional_multi_lr):
     """Parse the flat combination tuple into a hyperparams dict."""
+    combo_dict = dict(zip(hyperparam_names, combinations))
     hp_run = {}
-    j = 0
     schedule_pairs = None
-    while j < len(hyperparam_names):
-        name = hyperparam_names[j]
-        val = combinations[j]
-        if name in ("seq_length_1D", "seq_length_1H"):
-            hp_run["seq_length"] = {"1D": combinations[j], "1H": combinations[j + 1]}
-            j += 2
-            continue
-        if name == "schedule_pairs":
-            schedule_pairs = val
-            j += 1
-            continue
+    seq_1d = combo_dict.pop("seq_length_1D", None)
+    seq_1h = combo_dict.pop("seq_length_1H", None)
+    if seq_1d is not None and seq_1h is not None:
+        hp_run["seq_length"] = {"1D": seq_1d, "1H": seq_1h}
+    elif seq_1d is not None or seq_1h is not None:
+        raise ValueError("Must provide both seq_length_1D and seq_length_1H, or neither")
+    schedule_pairs = combo_dict.pop("schedule_pairs", None)
+    for name, val in combo_dict.items():
         hp_run[name] = val
-        j += 1
     if schedule_pairs is not None:
         fractions, rates = schedule_pairs
-        hp_run["learning_rate"] = fractional_multi_lr(
-            epochs=int(hp_run["epochs"]), fractions=list(fractions), lrs=list(rates))
+        hp_run["learning_rate"] = fractional_multi_lr(epochs=int(hp_run["epochs"]), fractions=list(fractions), lrs=list(rates))
     else:
         hp_run.setdefault("learning_rate", {0: 0.01, 30: 0.005, 40: 0.001})
     return hp_run
