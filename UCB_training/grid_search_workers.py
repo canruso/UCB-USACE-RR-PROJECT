@@ -135,4 +135,24 @@ def run_single_experiment_physics(args):
 
     return _build_row(combinations, hyperparam_names, hp_run, result, is_mts, os.getpid(), idx)
     
-    
+
+def bayes_worker_no_physics(args):
+    trial_num, comb, hyperparam_names, path_to_csv, path_to_yaml, \
+    GPU_SETTING, RUNS_PARENT, RUN_LABEL, RUN_STAMP, verbose, \
+    fractional_multi_lr, NUM_ENSEMBLES, BOOTSTRAP_MODELS, \
+    HYPERPARAM_ENSEMBLE, use_cv_for_selection, \
+    CV_INTERVAL_MONTH, CV_INTERVAL_LENGTH, CV_VALIDATION_LENGTH = args
+
+    result = run_single_experiment_nophysics(args)
+
+    nse_1d = result["NSE_1D"]
+    nse_1h = result["NSE_1H"]
+
+    value = 0.7 * nse_1h + 0.3 * nse_1d
+
+    return {
+        "trial_number": trial_num,
+        "value": value,
+        "NSE_1H": nse_1h,
+        "NSE_1D": nse_1d
+    }
