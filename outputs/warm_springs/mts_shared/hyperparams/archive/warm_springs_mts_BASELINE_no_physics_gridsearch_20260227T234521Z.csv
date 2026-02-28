@@ -1,2 +1,0 @@
-hidden_size,output_dropout,seq_length_1D,seq_length_1H,num_layers,epochs,batch_size,schedule_pairs,value,NSE_1H,NSE_1D
-64,0.34440391028303863,93,399,1,2,128,"((0.7, 0.2), (0.01, 0.002, 0.0005))",0.31936814188957213,0.3404375910758972,0.270206093788147

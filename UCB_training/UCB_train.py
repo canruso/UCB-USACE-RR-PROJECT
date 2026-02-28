@@ -1487,6 +1487,11 @@ class UCB_trainer:
 
         i = 1
         while i <= max_fold:
+            if self._verbose:
+                print("\n" + "="*70)
+                print(f"[CROSS VALIDATION] Fold {i}/{max_fold}")
+                print("="*70)
+
             fold_train_start_date = pd.to_datetime(f"{str(original_start_year)}-{interval}-01", format="%Y-%b-%d")
             fold_train_end_date = pd.to_datetime(f"{original_start_year + (intervalLength * i)}-{interval}-01", format="%Y-%b-%d")
             val_eval_start = pd.to_datetime(fold_train_end_date) + pd.Timedelta(days=1)
@@ -1517,12 +1522,25 @@ class UCB_trainer:
                     "run_dir": fold_dir
                 }, dev_mode=True)
             else:
+                if self._verbose:
+                    print(f"Fold {i} train: {iso_date(fold_train_start_date)} to {iso_date(fold_train_end_date)}"
+                        f" | val: {iso_date(val_eval_start)} to {iso_date(fold_val_end_date)}"
+                            f" | val_leak_start_d: {iso_date(val_leak_start_d)} | val_leak_start_h: {iso_date(val_leak_start_h)}",
+                        {'1D': iso_date(val_leak_start_d), '1H': iso_date(val_leak_start_h)})
+                        
                 self._config.update_config({
                     "train_start_date": iso_date(fold_train_start_date),
                     "train_end_date": iso_date(fold_train_end_date),
-                    "validation_start_per_frequency": {'1D': iso_date(val_leak_start_d), '1H': iso_date(val_leak_start_h)},
-                    "validation_start_date": "01/01/1900",
+
+                    "validation_start_date": iso_date(val_eval_start),
+
+                    "validation_start_per_frequency": {
+                        '1D': iso_date(val_leak_start_d),
+                        '1H': iso_date(val_leak_start_h)
+                    },
+
                     "validation_end_date": iso_date(fold_val_end_date),
+
                     "run_dir": fold_dir
                 }, dev_mode=True)
 

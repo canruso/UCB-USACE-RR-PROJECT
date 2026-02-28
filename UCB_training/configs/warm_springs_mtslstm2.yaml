@@ -93,7 +93,7 @@ seq_length:
 log_interval: 16
 log_tensorboard: True
 log_n_figures: 1
-save_weights_every: 16
+save_weights_every: 1
 
 # --- Data Configuration -----------------------------------------------------
 dataset: russian_river
