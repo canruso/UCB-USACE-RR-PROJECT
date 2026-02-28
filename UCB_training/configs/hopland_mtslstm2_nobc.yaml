@@ -1,0 +1,169 @@
+# --- Experiment Configs -----------------------------------------------------
+experiment_name: testing_run
+
+train_basin_file: hopland
+validation_basin_file: hopland
+test_basin_file: hopland
+
+train_start_date: "01/10/1994"
+train_end_date: "30/09/2002"
+validation_start_date: "01/10/2002"
+validation_end_date: "30/09/2005"
+test_start_date: "01/10/2005"
+test_end_date: "30/09/2009"
+
+# #Arman synthetic ranges
+# train_ranges:
+#   - "01/10/1994-30/09/1995" #1995
+#   - "01/10/1995-30/09/1996" #1996
+#   - "01/10/1996-30/09/1997" #1997
+#   - "01/10/1997-30/09/1998" #1998
+#   - "01/10/1998-30/09/1999" #1999
+#   - "01/10/1999-30/09/2000" #2000
+#   - "01/10/2001-30/09/2002" #2002
+#   - "01/10/2003-30/09/2004" #2004
+
+# validation_ranges:
+#   - "01/10/2004-30/09/2005" #2005
+#   - "01/10/2005-30/09/2006" #2006
+#   - "01/10/2007-30/09/2008" #2008
+
+# test_ranges:
+#   - "01/10/2000-30/09/2001" #2001
+#   - "01/10/2002-30/09/2003" #2003
+#   - "01/10/2006-30/09/2007" #2007
+#   - "01/10/2008-30/09/2009" #2009
+
+# You can also override the device in code if desired; defaulting to CPU or GPU here
+device: cuda:0
+
+# If not using physics, these are placeholders
+physics_informed: false
+physics_data_file: null
+
+# --- Validation Configuration ----------------------------------------------
+validate_every: 3
+validate_n_random_basins: 1
+save_validation_results: True
+save_results_every: 10
+
+metrics:
+  - NSE
+  - MSE
+
+# --- Model Configuration: MTS-LSTM ------------------------------------------
+model: mtslstm
+shared_mtslstm: false
+transfer_mtslstm_states:
+  h: linear
+  c: linear
+
+use_frequencies:
+  - 1H
+  - 1D
+
+head: regression
+output_activation: linear
+
+# LSTM cell size, dropout, etc.
+hidden_size: 64
+initial_forget_bias: 3
+output_dropout: 0.5
+
+# --- Training Configuration -------------------------------------------------
+optimizer: Adam
+loss: NSE
+learning_rate:
+  0: 1e-2
+  30: 5e-3
+  40: 1e-3
+
+batch_size: 64
+epochs: 300
+clip_gradient_norm: 1
+
+predict_last_n:
+  1D: 1
+  1H: 24
+
+seq_length:
+  1D: 90
+  1H: 336
+
+log_interval: 16
+log_tensorboard: True
+log_n_figures: 1
+save_weights_every: 16
+
+# --- Data Configuration -----------------------------------------------------
+dataset: russian_river
+data_dir: "F:/Dino/UCB-USACE-LSTMs/data/updated_russian_river_folder/"
+dev_mode: True
+
+dynamic_inputs:
+  1D:
+    - RUSSIAN 60 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR
+    - RUSSIAN 60 PRECIP-INC SCREENED
+    - RUSSIAN 70 PRECIP-INC SCREENED
+    - RUSSIAN 70 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR
+    - WF RUSSIAN PRECIP-INC SCREENED
+    - WF RUSSIAN ET-POTENTIAL RUN:BASIN AVERAGE 60 YR
+    - UKIAH CA HUMIDITY USAF-NOAA
+    - UKIAH CA SOLAR RADIATION USAF-NOAA
+    - UKIAH CA TEMPERATURE USAF-NOAA
+    - UKIAH CA WINDSPEED USAF-NOAA
+    # - UKIAH CA FLOW USGS-MERGED  # BC removed
+  1H:
+    - RUSSIAN 60 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR
+    - RUSSIAN 60 PRECIP-INC SCREENED
+    - RUSSIAN 70 PRECIP-INC SCREENED
+    - RUSSIAN 70 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR
+    - WF RUSSIAN PRECIP-INC SCREENED
+    - WF RUSSIAN ET-POTENTIAL RUN:BASIN AVERAGE 60 YR
+    - UKIAH CA HUMIDITY USAF-NOAA
+    - UKIAH CA SOLAR RADIATION USAF-NOAA
+    - UKIAH CA TEMPERATURE USAF-NOAA
+    - UKIAH CA WINDSPEED USAF-NOAA
+    # - UKIAH CA FLOW USGS-MERGED  # BC removed
+
+target_variables:
+  - NR HOPLAND FLOW COE HOP
+
+clip_targets_to_zero:
+  - [NR HOPLAND FLOW COE HOP]
+
+# --- Early Stopping Configuration ------------------------------------------------------------
+# Enable early stopping based on validation performance
+early_stopping: True
+
+# Early stopping mode: "patience", "slope", "plateau", or "none"
+# - "patience": Traditional approach (stops after N validations without improvement)
+# - "slope": Trend-based approach (stops when loss trend shows no improvement)
+# - "plateau": Coupled LR scheduler + ES (ReduceLROnPlateau, stops when min_lr reached + no improvement)
+# - "none": Disables early stopping
+early_stopping_mode: "plateau"
+
+# --- Plateau Mode Settings ---
+plateau_factor: 0.5
+plateau_patience: 3
+plateau_threshold: 1.0e-4
+plateau_min_lr: 1.0e-5
+plateau_final_patience: 5
+plateau_cooldown: 0
+plateau_min_epoch: 24
+
+# --- Previous patience/slope settings (commented out) ---
+# early_stopping_mode: "slope"
+# patience_early_stopping: 5
+# min_delta_early_stopping: 0.0
+# minimum_epochs_before_early_stopping: 16
+# early_stopping_slope_window: 7
+# early_stopping_slope_patience: 2
+# early_stopping_slope_min_epoch: 20
+# early_stopping_slope_ema_alpha: 0.4
+# early_stopping_slope_use_log: True
+# early_stopping_slope_log_eps: 1.0e-12
+# early_stopping_slope_eps_slope: 1.0e-3
+# early_stopping_slope_min_window_gain: 0.01
+# early_stopping_slope_variance_guard: True
+# early_stopping_slope_variance_cv_max: 0.01

@@ -727,6 +727,9 @@ class UCB_trainer:
                         sim_da = sim_da.stack(stacked_time=("date", "time_step"))
                         obs_da = obs_da.rename({"stacked_time": "time"})
                         sim_da = sim_da.rename({"stacked_time": "time"})
+                        # Sort stacked MultiIndex so .loc slicing works
+                        obs_da = obs_da.sortby("time")
+                        sim_da = sim_da.sortby("time")
                     else:
                         print("[WARN] => The 1H aggregator has no 'time_step' dimension? shape=", obs_da.shape)
                 else:
@@ -1417,10 +1420,40 @@ class UCB_trainer:
             daily_results = {}
             hourly_results = {}
 
-        original_start = getattr(self._config, "train_start_date", None)
-        original_start_year = int(original_start.year)
+        # --- Handle synthetic ranges pipeline ---
+        _cfg = self._config._cfg
+        _has_ranges = (
+            "train_ranges" in _cfg and _cfg["train_ranges"] and
+            "validation_ranges" in _cfg and _cfg["validation_ranges"]
+        )
 
-        original_end = getattr(self._config, "validation_end_date", None)
+        if _has_ranges:
+            # Extract date boundaries from range strings ("DD/MM/YYYY-DD/MM/YYYY")
+            first_train = _cfg["train_ranges"][0]
+            last_val = _cfg["validation_ranges"][-1]
+            original_start = pd.to_datetime(first_train.split("-")[0], dayfirst=True)
+            original_end = pd.to_datetime(last_val.split("-")[1], dayfirst=True)
+
+            # Save and clear ranges so fold-level start/end dates are honored
+            _saved_ranges = {
+                "train_ranges": list(_cfg["train_ranges"]),
+                "validation_ranges": list(_cfg["validation_ranges"]),
+            }
+            if "test_ranges" in _cfg:
+                _saved_ranges["test_ranges"] = list(_cfg["test_ranges"])
+                del _cfg["test_ranges"]
+            del _cfg["train_ranges"]
+            del _cfg["validation_ranges"]
+        else:
+            original_start = getattr(self._config, "train_start_date", None)
+            if isinstance(original_start, str):
+                original_start = pd.to_datetime(original_start, dayfirst=True)
+            original_end = getattr(self._config, "validation_end_date", None)
+            if isinstance(original_end, str):
+                original_end = pd.to_datetime(original_end, dayfirst=True)
+            _saved_ranges = None
+
+        original_start_year = int(original_start.year)
         original_end_year = int(original_end.year)
 
         # Store original dates to restore after CV completes
@@ -1432,7 +1465,7 @@ class UCB_trainer:
         n_years = original_end_year - original_start_year + 1
         # Calculate max folds based on intervalLength: we need at least intervalLength years for initial training
         # plus validationLength years for validation, and each fold adds intervalLength years
-        max_fold = (n_years - intervalLength) // intervalLength - validationLength
+        max_fold = (n_years - 1 - validationLength) // intervalLength
 
 
         seq_length = getattr(self._config, "seq_length", None)
@@ -1538,16 +1571,16 @@ class UCB_trainer:
                 day_metrics = calculate_all_metrics(obs, pred, resolution='1D')
 
                 self._get_predictions('1H', 'validation')
-                obs_fixed = obs.assign_coords(
-                    date=(list(obs.dims)[0], pd.date_range(start=val_eval_start,
-                                                           periods=obs.sizes[list(obs.dims)[0]],
-                                                           freq='H'))
-                )
-                pred_fixed = pred.assign_coords(
-                    date=(list(pred.dims)[0], pd.date_range(start=val_eval_start,
-                                                            periods=pred.sizes[list(pred.dims)[0]],
-                                                            freq='H'))
-                )
+                pred_h = self._predictions.loc[val_eval_start:fold_val_end_date]
+                obs_h = self._observed.loc[val_eval_start:fold_val_end_date]
+                # Rebuild as flat hourly DataArrays (stacked MultiIndex can't be re-coordinated)
+                dim_name = list(obs_h.dims)[0]
+                n_hours = obs_h.sizes[dim_name]
+                hourly_index = pd.date_range(start=val_eval_start, periods=n_hours, freq='h')
+                obs_fixed = xr.DataArray(obs_h.values, dims=['time'],
+                                         coords={'date': ('time', hourly_index)})
+                pred_fixed = xr.DataArray(pred_h.values, dims=['time'],
+                                          coords={'date': ('time', hourly_index)})
                 hour_metrics = calculate_all_metrics(obs_fixed, pred_fixed, resolution='1H', datetime_coord='date')
 
                 daily_results[i] = day_metrics
@@ -1603,6 +1636,11 @@ class UCB_trainer:
             self._config.update_config({'validation_end_date': original_val_end}, dev_mode=True)
         if is_mts:
             self._config.update_config({'validation_start_per_frequency': None}, dev_mode=True)
+
+        # Restore synthetic ranges if they were cleared for CV
+        if _saved_ranges:
+            for key, val in _saved_ranges.items():
+                self._config._cfg[key] = val
 
         if self._verbose and not is_mts:
             for j in range(1, len(cross_val_results) + 1):

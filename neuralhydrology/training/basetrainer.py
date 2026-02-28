@@ -46,6 +46,7 @@ class BaseTrainer(object):
         self.loader = None
         self.validator = None
         self.early_stopper = None
+        self._use_plateau_lr = False
         self.noise_sampler_y = None
         self._target_mean = None
         self._target_std = None
@@ -200,9 +201,10 @@ class BaseTrainer(object):
         # Initialize early stopper
         if self.cfg.early_stopping and self.validator is not None:
             tb_writer = self.experiment_logger.writer if self.cfg.log_tensorboard else None
-            self.early_stopper = create_early_stopper(self.cfg, logger=LOGGER, tb_writer=tb_writer)
+            self.early_stopper = create_early_stopper(self.cfg, logger=LOGGER, tb_writer=tb_writer, optimizer=self.optimizer)
             if self.early_stopper is not None:
                 LOGGER.info(f"Early stopping enabled: mode={self.cfg.early_stopping_mode}")
+            self._use_plateau_lr = (self.cfg.early_stopping_mode == "plateau" and self.early_stopper is not None)
 
         if self.cfg.target_noise_std is not None:
             self.noise_sampler_y = torch.distributions.Normal(loc=0, scale=self.cfg.target_noise_std)
@@ -218,7 +220,7 @@ class BaseTrainer(object):
         ``validate_every`` epochs. Model and optimizer state are saved after every ``save_weights_every`` epochs.
         """
         for epoch in range(self._epoch + 1, self._epoch + self.cfg.epochs + 1):
-            if epoch in self.cfg.learning_rate.keys():
+            if not self._use_plateau_lr and epoch in self.cfg.learning_rate.keys():
                 if self.cfg.verbose:
                     LOGGER.info(f"Setting learning rate to {self.cfg.learning_rate[epoch]}")
                 for param_group in self.optimizer.param_groups:
@@ -236,8 +238,15 @@ class BaseTrainer(object):
                 self._save_weights_and_optimizer(epoch)
 
             if (self.validator is not None) and (epoch % self.cfg.validate_every == 0):
-                self.validator.evaluate(epoch=epoch,
-                                        save_results=self.cfg.save_validation_results,
+                is_last_scheduled_epoch = (epoch == self._epoch + self.cfg.epochs)
+
+                # Gate result saving: save every N epochs + always at last epoch
+                save_results = self.cfg.save_validation_results
+                if save_results and self.cfg.save_results_every > 0:
+                    save_results = (epoch % self.cfg.save_results_every == 0) or is_last_scheduled_epoch
+
+                val_results = self.validator.evaluate(epoch=epoch,
+                                        save_results=save_results,
                                         save_all_output=self.cfg.save_all_output,
                                         metrics=self.cfg.metrics,
                                         model=self.model,
@@ -262,6 +271,9 @@ class BaseTrainer(object):
                     if should_stop:
                         if self.cfg.verbose:
                             LOGGER.info(f"Early stopping triggered at epoch {epoch}")
+                        # Save results for the final epoch if not already saved
+                        if self.cfg.save_validation_results and not save_results:
+                            self.validator._save_results(results=val_results, epoch=epoch)
                         # Save final checkpoint before stopping
                         self._save_weights_and_optimizer(epoch)
                         break
