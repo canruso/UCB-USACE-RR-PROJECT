@@ -13,12 +13,306 @@ import plotly.graph_objects as go
 import matplotlib.pyplot as plt
 from matplotlib.lines import Line2D
 from matplotlib.dates import DateFormatter
+from matplotlib.patches import Patch
+import matplotlib.dates as mdates
 
 from UCB_training.UCB_utils import (prepare_out_path, ensure_output_tree, set_active_context, data_dir, repo_root,
                                     clean_df)
 
 _BASINS = ("calpella", "guerneville", "hopland", "warm_springs")
 _ORDER_FIXED = ("Calpella", "Hopland", "Warm Springs", "Guerneville")
+
+SPLIT_COLORS = {'Train': '#1565C0', 'Validation': '#F57F17', 'Test': '#2E7D32'}
+
+
+def find_nan_gaps(series):
+    """Find contiguous NaN blocks. Returns list of (start, end, duration)."""
+    is_nan = series.isna()
+    if not is_nan.any():
+        return []
+    changes = is_nan.ne(is_nan.shift())
+    groups = changes.cumsum()
+    gaps = []
+    for gid in groups[is_nan].unique():
+        idx = series.index[(groups == gid) & is_nan]
+        gaps.append((idx[0], idx[-1], len(idx)))
+    return sorted(gaps, key=lambda x: -x[2])
+
+
+def plot_availability(basin_data, splits, split_colors=None, figsize=(16, 5), save_path=None):
+    """Plot data availability with NaN gaps and train/val/test split dividers.
+
+    Parameters
+    ----------
+    basin_data : dict of str -> DataFrame
+        Each DataFrame must have a 'flow' column with a DatetimeIndex.
+    splits : dict of str -> (start_str, end_str)
+    split_colors : dict or None
+        Mapping of split name to color. Defaults to SPLIT_COLORS.
+    save_path : str or Path or None
+        If provided, save figure to this path.
+    """
+    if split_colors is None:
+        split_colors = SPLIT_COLORS
+
+    basins = list(basin_data.keys())
+    fig, axes = plt.subplots(len(basins), 1, figsize=figsize, sharex=True)
+    t0 = min(bdf.index.min() for bdf in basin_data.values())
+    t1 = max(bdf.index.max() for bdf in basin_data.values())
+
+    for ax, basin in zip(axes, basins):
+        bdf = basin_data[basin]
+        ax.broken_barh([(t0, t1 - t0)], (0.2, 0.6), facecolor='#4CAF50', edgecolor='none')
+
+        for gs, ge, dur in find_nan_gaps(bdf['flow']):
+            ax.broken_barh([(gs, ge - gs + pd.Timedelta(days=1))], (0.2, 0.6),
+                           facecolor='#E53935', edgecolor='none')
+
+        for split, (start, end) in splits.items():
+            s = pd.Timestamp(start)
+            ax.axvline(s, color='white', lw=1.2, zorder=3)
+            ax.text(s + pd.Timedelta(days=90), 0.85, split, fontsize=9,
+                    color=split_colors.get(split, 'black'), fontweight='bold', ha='left',
+                    bbox=dict(boxstyle='round,pad=0.15', fc='white', ec='none', alpha=0.7))
+
+        ax.set_yticks([])
+        ax.set_ylabel(basin, fontsize=10, rotation=0, ha='right', va='center')
+        ax.set_ylim(0, 1)
+        ax.set_xlim(t0, t1)
+
+    axes[-1].xaxis.set_major_locator(mdates.YearLocator())
+    axes[-1].xaxis.set_major_formatter(mdates.DateFormatter('%Y'))
+    fig.suptitle('Observed Flow Data Availability (daily)', fontsize=13, y=1.01)
+    axes[0].legend(handles=[Patch(fc='#4CAF50', label='Available'),
+                            Patch(fc='#E53935', label='Missing / NaN')],
+                   loc='upper right', fontsize=8, framealpha=0.9)
+    plt.tight_layout()
+    if save_path:
+        Path(save_path).parent.mkdir(parents=True, exist_ok=True)
+        fig.savefig(save_path, dpi=200, bbox_inches='tight')
+    plt.show()
+
+
+def plot_flow_precip(basin_data, splits, water_years=None, basins=None, split_colors=None,
+                     figsize=(18, 12), save_path=None):
+    """Plot flow timeseries + inverted precip for one or more basins.
+
+    Parameters
+    ----------
+    basin_data : dict of str -> DataFrame
+        Each DataFrame must have 'flow', 'precip', 'water_year' columns
+        with a DatetimeIndex.
+    splits : dict of str -> (start_str, end_str)
+    water_years : list of int or None
+        If None, plot full record.
+    basins : list of str or None
+        Subset of basins to plot. If None, plot all.
+    split_colors : dict or None
+        Mapping of split name to color. Defaults to SPLIT_COLORS.
+    save_path : str or Path or None
+        If provided, save figure to this path.
+    """
+    if split_colors is None:
+        split_colors = SPLIT_COLORS
+
+    basins = basins or list(basin_data.keys())
+    n = len(basins)
+    fig, axes = plt.subplots(n, 1, figsize=figsize, sharex=True, squeeze=False)
+    axes = axes.ravel()
+
+    title_suffix = f" — WY {water_years}" if water_years else " — Full Record"
+
+    for ax, basin in zip(axes, basins):
+        bdf = basin_data[basin].copy()
+        if water_years:
+            bdf = bdf[bdf['water_year'].isin(water_years)]
+
+        ax.plot(bdf.index, bdf['flow'], color='black', lw=0.6, label='Daily Flow')
+        ax.set_ylabel(f'{basin}\nFlow (cfs)', fontsize=9)
+        ax.set_ylim(bottom=0)
+
+        ax2 = ax.twinx()
+        ax2.bar(bdf.index, bdf['precip'], color='steelblue', alpha=0.4, width=1.0, label='Precip')
+        precip_max = bdf['precip'].max()
+        ax2.set_ylim(precip_max * 3, 0)
+        ax2.set_ylabel('Precip (in)', fontsize=8, color='steelblue')
+        ax2.tick_params(axis='y', labelcolor='steelblue', labelsize=7)
+
+        if not water_years:
+            for split, (start, end) in splits.items():
+                s = pd.Timestamp(start)
+                if bdf.index.min() <= s <= bdf.index.max():
+                    ax.axvline(s, color=split_colors.get(split, 'gray'), lw=1.2, ls='--', alpha=0.7)
+                    ax.text(s + pd.Timedelta(days=30), ax.get_ylim()[1] * 0.9, split,
+                            fontsize=8, color=split_colors.get(split, 'gray'), fontweight='bold')
+
+    axes[0].set_title(f'Daily Flow & Basin-Mean Precipitation{title_suffix}', fontsize=12)
+    axes[-1].xaxis.set_major_locator(mdates.YearLocator())
+    axes[-1].xaxis.set_major_formatter(mdates.DateFormatter('%Y'))
+    plt.tight_layout()
+    if save_path:
+        Path(save_path).parent.mkdir(parents=True, exist_ok=True)
+        fig.savefig(save_path, dpi=200, bbox_inches='tight')
+    plt.show()
+
+
+def _wy_date_range(wy):
+    """Return (start, end) timestamps for a water year."""
+    return pd.Timestamp(f'{wy - 1}-10-01'), pd.Timestamp(f'{wy}-09-30')
+
+
+def _extremeness_color(exceedance):
+    """Map exceedance probability to color: blue (wet/low) → neutral → red (dry/high).
+
+    Uses a diverging colormap centered at 0.5 exceedance.
+    """
+    from matplotlib.colors import LinearSegmentedColormap
+    cmap = LinearSegmentedColormap.from_list(
+        'wet_dry', ['#0D47A1', '#42A5F5', '#E0E0E0', '#EF5350', '#B71C1C'])
+    return cmap(exceedance)
+
+
+def plot_basin_extremeness(basin_name, df_exceedance, splits=None, split_colors=None,
+                           figsize=(14, 4), save_path=None):
+    """Standalone bar chart of Pearson-III exceedance probabilities for one basin.
+
+    Parameters
+    ----------
+    basin_name : str
+        Basin column name in df_exceedance.
+    df_exceedance : DataFrame
+        Index = water_year, columns = basin names, values = exceedance probabilities.
+    splits : dict or None
+    save_path : str or Path or None
+    """
+    if split_colors is None:
+        split_colors = SPLIT_COLORS or {}
+
+    exc = df_exceedance[basin_name]
+    wys = exc.index.values
+    colors = [_extremeness_color(v) for v in exc.values]
+
+    fig, ax = plt.subplots(figsize=figsize)
+    bars = ax.bar(wys, 1 - exc.values, color=colors, edgecolor='gray', linewidth=0.5)
+
+    ax.set_ylabel('Flood Extremeness\n(1 − exceedance)', fontsize=10)
+    ax.set_xlabel('Water Year', fontsize=10)
+    ax.set_title(f'{basin_name} — Peak Flow Extremeness by Water Year', fontsize=12)
+    ax.set_xticks(wys)
+    ax.set_xticklabels(wys, rotation=45, ha='right', fontsize=8)
+    ax.set_ylim(0, 1.05)
+    ax.axhline(0.5, color='gray', ls='--', lw=0.8, alpha=0.5)
+
+    # Annotate split boundaries
+    if splits:
+        for split, (start, end) in splits.items():
+            s_wy = pd.Timestamp(start)
+            # Convert to water year
+            wy_start = s_wy.year + 1 if s_wy.month >= 10 else s_wy.year
+            ax.axvline(wy_start - 0.5, color=split_colors.get(split, 'gray'), lw=1.5, ls='--', alpha=0.7)
+
+    ax.grid(axis='y', alpha=0.3)
+    plt.tight_layout()
+    if save_path:
+        Path(save_path).parent.mkdir(parents=True, exist_ok=True)
+        fig.savefig(save_path, dpi=200, bbox_inches='tight')
+    plt.show()
+
+
+def plot_basin_flow_precip_extremeness(basin_name, basin_data, df_exceedance, splits=None,
+                                       water_years=None, split_colors=None,
+                                       figsize=(18, 6), save_path=None):
+    """Flow + inverted precip + extremeness bars overlay for a single basin.
+
+    Parameters
+    ----------
+    basin_name : str
+    basin_data : dict of str -> DataFrame (with 'flow', 'precip', 'water_year')
+    df_exceedance : DataFrame (index=water_year, columns=basin names)
+    splits : dict or None
+    water_years : list of int or None
+    save_path : str or Path or None
+    """
+    if split_colors is None:
+        split_colors = SPLIT_COLORS or {}
+
+    bdf = basin_data[basin_name].copy()
+    if water_years:
+        bdf = bdf[bdf['water_year'].isin(water_years)]
+
+    flow_max = bdf['flow'].max()
+    exc = df_exceedance[basin_name]
+
+    fig, ax = plt.subplots(figsize=figsize)
+
+    # Extremeness bars: two layers per water year
+    #   1) Full-height faint tint (context)
+    #   2) Sized bar proportional to extremeness (stronger opacity)
+    for wy in bdf['water_year'].unique():
+        if wy not in exc.index:
+            continue
+        wy_start, wy_end = _wy_date_range(wy)
+        wy_start = max(wy_start, bdf.index.min())
+        wy_end = min(wy_end, bdf.index.max())
+        val = exc.loc[wy]
+        extremeness = abs(val - 0.5) * 2  # 0 = neutral, 1 = most extreme
+        bar_height = (1 - val) * flow_max  # tall = wet
+        color = _extremeness_color(val)
+        width = wy_end - wy_start
+        center = wy_start + width / 2
+
+        # Faint full-height background tint (stronger for more extreme years)
+        ax.axvspan(wy_start, wy_end, color=color, alpha=0.04 + 0.08 * extremeness, zorder=0)
+
+        # Sized bar (opacity scales with extremeness)
+        ax.bar(center, bar_height, width=width, color=color,
+               alpha=0.15 + 0.25 * extremeness, zorder=1, edgecolor='none')
+
+    # Flow
+    ax.plot(bdf.index, bdf['flow'], color='black', lw=0.7, label='Daily Flow', zorder=3)
+    ax.set_ylabel('Flow (cfs)', fontsize=10)
+    ax.set_ylim(bottom=0)
+
+    # Precip (inverted, right axis)
+    ax2 = ax.twinx()
+    ax2.bar(bdf.index, bdf['precip'], color='steelblue', alpha=0.35, width=1.0, label='Precip', zorder=2)
+    precip_max = bdf['precip'].max()
+    ax2.set_ylim(precip_max * 3, 0)
+    ax2.set_ylabel('Precip (in)', fontsize=9, color='steelblue')
+    ax2.tick_params(axis='y', labelcolor='steelblue', labelsize=8)
+
+    # Split dividers
+    if splits and not water_years:
+        for split, (start, end) in splits.items():
+            s = pd.Timestamp(start)
+            if bdf.index.min() <= s <= bdf.index.max():
+                ax.axvline(s, color='black', lw=1.5, ls='--', alpha=0.6, zorder=4)
+                ax.text(s + pd.Timedelta(days=20), ax.get_ylim()[1] * 0.95, split,
+                        fontsize=9, color=split_colors.get(split, 'gray'), fontweight='bold',
+                        bbox=dict(boxstyle='round,pad=0.2', fc='white', ec='none', alpha=0.8),
+                        zorder=5)
+
+    title_suffix = f" — WY {water_years}" if water_years else ""
+    ax.set_title(f'{basin_name}: Flow, Precipitation & Peak Extremeness{title_suffix}', fontsize=12)
+    ax.xaxis.set_major_locator(mdates.YearLocator())
+    ax.xaxis.set_major_formatter(mdates.DateFormatter('%Y'))
+
+    # Legend
+    from matplotlib.patches import Patch as _Patch
+    handles = [
+        plt.Line2D([], [], color='black', lw=0.7, label='Daily Flow'),
+        _Patch(facecolor='steelblue', alpha=0.35, label='Precip (inverted)'),
+        _Patch(facecolor='#0D47A1', alpha=0.4, label='Wet year (low exceedance)'),
+        _Patch(facecolor='#B71C1C', alpha=0.4, label='Dry year (high exceedance)'),
+        _Patch(facecolor='#E0E0E0', alpha=0.2, label='Neutral year'),
+    ]
+    ax.legend(handles=handles, loc='upper right', fontsize=8, framealpha=0.9)
+
+    plt.tight_layout()
+    if save_path:
+        Path(save_path).parent.mkdir(parents=True, exist_ok=True)
+        fig.savefig(save_path, dpi=200, bbox_inches='tight')
+    plt.show()
 
 
 def plot_timeseries_comparison(source: Union[pd.DataFrame, Sequence[Path] | Sequence[str]], title: str, *,
