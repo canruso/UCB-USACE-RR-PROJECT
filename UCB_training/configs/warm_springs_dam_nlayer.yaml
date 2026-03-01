@@ -10,12 +10,11 @@ test_basin_file: warm springs
 
 # training, validation and test time periods (format = 'dd/mm/yyyy')
 train_start_date: "01/10/1994"
-train_end_date: "30/09/2002" 
+train_end_date: "30/09/2002"
 validation_start_date: "01/10/2002"
 validation_end_date: "30/09/2005"
 test_start_date: "01/10/2005"
 test_end_date: "29/09/2009"
-
 
 # which GPU (id) to use [in format of cuda:0, cuda:1 etc, or cpu or None]
 device: cuda:0
@@ -111,7 +110,6 @@ log_n_figures: 1
 # Save model weights every n epochs
 save_weights_every: 16
 
-
 # --- Early Stopping Configuration ------------------------------------------------------------
 # Enable early stopping based on validation performance
 early_stopping: True
@@ -178,7 +176,7 @@ dynamic_inputs:
   - SANTA ROSA CA SOLAR RADIATION USAF-NOAA
   - SANTA ROSA CA TEMPERATURE USAF-NOAA
   - SANTA ROSA CA WINDSPEED USAF-NOAA
-  
+
 # which columns to use as target
 target_variables:
   - LAKE SONOMA FLOW-RES IN CALC-VAL-SHIFT-SMOOTH

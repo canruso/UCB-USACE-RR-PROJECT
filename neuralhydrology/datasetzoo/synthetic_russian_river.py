@@ -93,7 +93,7 @@ class SyntheticRussianRiver(BaseDataset):
             cfg._cfg["test_start_date"] = te_s
             cfg._cfg["test_end_date"]   = te_e
 
-        print(f"[SyntheticRussianRiver] Synthetic 22XX bounds applied for {period}: {tr_s} to {tr_e}")
+        # print(f"[SyntheticRussianRiver] Synthetic 22XX bounds applied for {period}: {tr_s} to {tr_e}")
 
         super(SyntheticRussianRiver, self).__init__(
             cfg=cfg,
@@ -237,7 +237,7 @@ class SyntheticRussianRiver(BaseDataset):
             relabelled_chunks.append(chunk)
             
             # Debug log
-            print(f"[DEBUG] Chunk {i}: {start_dt.date()}->{end_dt.date()} mapped to {new_index[0]}->{new_index[-1]} (Len: {len(chunk)})")
+            # print(f"[DEBUG] Chunk {i}: {start_dt.date()}->{end_dt.date()} mapped to {new_index[0]}->{new_index[-1]} (Len: {len(chunk)})")
 
         if not relabelled_chunks:
             return pd.DataFrame()
