@@ -192,7 +192,7 @@ clip_targets_to_zero:
 
 # --- Early Stopping Configuration ------------------------------------------------------------
 # Enable early stopping based on validation performance
-early_stopping: False
+early_stopping: True
 
 # Early stopping mode: "patience", "slope", "plateau", or "none"
 # - "patience": Traditional approach (stops after N validations without improvement)
