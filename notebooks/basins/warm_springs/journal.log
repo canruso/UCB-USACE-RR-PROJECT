@@ -1,0 +1,10 @@
+{"op_code":0,"worker_id":"d7793d1d-95a0-45c3-a5d3-e19b23f05fd0-8374755904","study_name":"journal_storage_multiprocess","directions":[2]}
+{"op_code":4,"worker_id":"d7793d1d-95a0-45c3-a5d3-e19b23f05fd0-8374755904","study_id":0,"datetime_start":"2026-03-02T13:22:49.281318"}
+{"op_code":5,"worker_id":"d7793d1d-95a0-45c3-a5d3-e19b23f05fd0-8374755904","trial_id":0,"param_name":"hidden_size","param_value_internal":2,"distribution":"{\"name\": \"CategoricalDistribution\", \"attributes\": {\"choices\": [64, 128, 256]}}"}
+{"op_code":5,"worker_id":"d7793d1d-95a0-45c3-a5d3-e19b23f05fd0-8374755904","trial_id":0,"param_name":"output_dropout","param_value_internal":0,"distribution":"{\"name\": \"CategoricalDistribution\", \"attributes\": {\"choices\": [0.2, 0.6]}}"}
+{"op_code":5,"worker_id":"d7793d1d-95a0-45c3-a5d3-e19b23f05fd0-8374755904","trial_id":0,"param_name":"seq_length_1D","param_value_internal":0,"distribution":"{\"name\": \"CategoricalDistribution\", \"attributes\": {\"choices\": [90]}}"}
+{"op_code":5,"worker_id":"d7793d1d-95a0-45c3-a5d3-e19b23f05fd0-8374755904","trial_id":0,"param_name":"seq_length_1H","param_value_internal":0,"distribution":"{\"name\": \"CategoricalDistribution\", \"attributes\": {\"choices\": [168, 336]}}"}
+{"op_code":5,"worker_id":"d7793d1d-95a0-45c3-a5d3-e19b23f05fd0-8374755904","trial_id":0,"param_name":"num_layers","param_value_internal":0,"distribution":"{\"name\": \"CategoricalDistribution\", \"attributes\": {\"choices\": [1]}}"}
+{"op_code":5,"worker_id":"d7793d1d-95a0-45c3-a5d3-e19b23f05fd0-8374755904","trial_id":0,"param_name":"epochs","param_value_internal":0,"distribution":"{\"name\": \"CategoricalDistribution\", \"attributes\": {\"choices\": [2]}}"}
+{"op_code":5,"worker_id":"d7793d1d-95a0-45c3-a5d3-e19b23f05fd0-8374755904","trial_id":0,"param_name":"batch_size","param_value_internal":0,"distribution":"{\"name\": \"CategoricalDistribution\", \"attributes\": {\"choices\": [64]}}"}
+{"op_code":6,"worker_id":"d7793d1d-95a0-45c3-a5d3-e19b23f05fd0-8374755904","trial_id":0,"state":3,"values":null,"datetime_complete":"2026-03-02T13:23:40.715716"}
