@@ -12,6 +12,7 @@ Usage:
     C:/Users/SabiCan/miniforge3/envs/neuralhydrology/python.exe ../../../run_grid_search.py --basin guerneville
 """
 
+# -- Thread-limiting env vars BEFORE any imports
 import os
 os.environ["KMP_DUPLICATE_LIB_OK"] = "TRUE"
 os.environ["OMP_NUM_THREADS"] = "3"
@@ -28,10 +29,6 @@ import itertools
 import multiprocessing as mp
 from pathlib import Path
 
-import optuna
-from optuna.storages import JournalStorage
-from optuna.storages.journal import JournalFileBackend
-
 # -- Windows unicode safety
 if sys.platform == "win32":
     sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8", errors="replace")
@@ -46,6 +43,9 @@ def _ts():
     return f"[+{time.perf_counter() - _T0:7.2f}s]"
 def _print(*args):
     print(_ts(), *args, flush=True)
+
+
+# ── Basin-specific configurations ──────────────────────────────────────
 
 BASIN_CONFIGS = {
     "calpella": {
@@ -224,7 +224,7 @@ BASIN_CONFIGS = {
     },
 }
 
-# ── Hyperparameter grid ─────────────────────────────────────────
+# ── Hyperparameter grid (same for all basins) ─────────────────────────
 
 HYPERPARAM_SPACE = {
     "hidden_size": [64, 128, 256],
@@ -232,8 +232,9 @@ HYPERPARAM_SPACE = {
     "seq_length_1D": [90],
     "seq_length_1H": [168, 336],
     "num_layers": [1],
-    "epochs": [2],
+    "epochs": [300],
     "batch_size": [64],
+    # schedule_pairs removed — plateau ES handles LR scheduling via YAML config
 }
 
 # ── Cross-validation settings ─────────────────────────────────────────
@@ -242,34 +243,34 @@ CV_INTERVAL_MONTH = "October"
 CV_INTERVAL_LENGTH = 2
 CV_VALIDATION_LENGTH = 1
 
+# Grid ranking
 GRID_RANK_METRICS = ["NSE_1D", "NSE_1H"]
 GRID_RANK_WEIGHTS = [0.3, 0.7]
 
+# Other settings
 RUN_LABEL = "CROSS_VAL_V4"
-GPU_SETTING = -1
+GPU_SETTING = -1            # -1 = CPU, 0 = cuda:0
 NUM_ENSEMBLES = 1
 BOOTSTRAP_MODELS = False
 HYPERPARAM_ENSEMBLE = False
-VERBOSE = True
+VERBOSE = False
 
 
 def main():
-
     import pandas as pd
     from tqdm import tqdm
 
     parser = argparse.ArgumentParser(description="Run MTS-LSTM2 grid search from command line")
-
-    parser.add_argument("--basin", required=True, choices=list(BASIN_CONFIGS.keys()))
-    parser.add_argument("--gpu", type=int, default=-1)
-    parser.add_argument("--workers", type=int, default=0)
-    parser.add_argument("--verbose", action="store_true")
-    parser.add_argument("--no-physics", action="store_true")
-
-    # NEW (Bayesian)
-    parser.add_argument("--bayes", action="store_true", help="Run Bayesian optimization instead of grid search")
-    parser.add_argument("--bayes-trials", type=int, default=30)
-
+    parser.add_argument("--basin", required=True, choices=list(BASIN_CONFIGS.keys()),
+                        help="Basin to run grid search for")
+    parser.add_argument("--gpu", type=int, default=-1,
+                        help="GPU device ID (-1 for CPU)")
+    parser.add_argument("--workers", type=int, default=0,
+                        help="Max parallel workers (0 = auto)")
+    parser.add_argument("--verbose", action="store_true",
+                        help="Enable verbose training output")
+    parser.add_argument("--no-physics", action="store_true",
+                        help="Skip physics grid search")
     args = parser.parse_args()
 
     basin = args.basin
@@ -277,57 +278,39 @@ def main():
     verbose = args.verbose
     bcfg = BASIN_CONFIGS[basin]
 
-    USE_BAYESIAN = args.bayes
-    N_BAYES_TRIALS = args.bayes_trials
-
     _print(f"Basin: {basin}, GPU: {gpu_setting}, Verbose: {verbose}")
 
-    # -- Precompile numba
+    # -- Pre-compile numba JIT (cached to disk with cache=True)
     _print("Pre-warming numba JIT ...")
     import warnings
     import numpy as np
     from neuralhydrology.datasetzoo.basedataset import validate_samples
-
     with warnings.catch_warnings():
         warnings.simplefilter("ignore")
         validate_samples(
-            x_d=[np.zeros((10, 2))],
-            x_s=None,
-            y=[np.zeros((10, 1))],
-            frequency_maps=[np.arange(10)],
-            seq_length=[3],
-            predict_last_n=[1],
-        )
-
+            x_d=[np.zeros((10, 2))], x_s=None, y=[np.zeros((10, 1))],
+            frequency_maps=[np.arange(10)], seq_length=[3], predict_last_n=[1])
     _print("Numba JIT pre-compiled.")
 
-    # imports
+    # -- Imports
     _print("Importing UCB modules ...")
-
     from UCB_training.UCB_utils import (
-        fractional_multi_lr,
-        data_dir,
-        get_yaml_path,
-        ensure_shared_tree,
-        make_run_stamp,
-        hparams_exists,
-        save_hparams,
-        _artifact_root
+        fractional_multi_lr, data_dir, get_yaml_path,
+        ensure_shared_tree, make_run_stamp,
+        hparams_exists, save_hparams,
     )
-
     from UCB_training.grid_search_workers import (
         run_single_experiment_nophysics,
         run_single_experiment_physics,
     )
-
     _print("Imports complete.")
 
+    # -- Paths
     path_to_csv = data_dir()
     path_to_yaml = get_yaml_path(bcfg["yaml_key"])
     path_to_physics_1H = path_to_csv / bcfg["physics_file_1H"]
 
     _SHARED = ensure_shared_tree(basin, "mts")
-
     RUN_STAMP = make_run_stamp()
     RUNS_PARENT = str(_SHARED / "runs" / f"{RUN_LABEL}_{RUN_STAMP}")
 
@@ -335,103 +318,9 @@ def main():
     _print(f"YAML: {path_to_yaml}")
     _print(f"Runs parent: {RUNS_PARENT}")
 
-    hyperparam_space = HYPERPARAM_SPACE
-    hyperparam_names = list(hyperparam_space.keys())
-
-    if args.workers > 0:
-        num_cores = args.workers
-    else:
-        num_cores = max(1, mp.cpu_count() - 1)
-
-    # ──────────────────────────────────────────────────────────────
-    # Bayesian optimization
-    # ──────────────────────────────────────────────────────────────
-
-    if USE_BAYESIAN:
-
-        _print(f"[BAYESIAN OPTIMIZATION] {num_cores} workers")
-
-        JOURNAL_PATH = Path("./journal.log")
-
-        if JOURNAL_PATH.exists():
-            JOURNAL_PATH.unlink()
-
-        def suggest_from_space(trial):
-
-            comb = []
-
-            for hp, values in hyperparam_space.items():
-
-                if isinstance(values, tuple) and len(values) == 2:
-
-                    lo, hi = values
-
-                    if isinstance(lo, int):
-                        val = trial.suggest_int(hp, lo, hi)
-                    else:
-                        val = trial.suggest_float(hp, lo, hi)
-
-                else:
-                    val = trial.suggest_categorical(hp, values)
-
-                comb.append(val)
-
-            return tuple(comb)
-
-
-        def objective_no_physics(trial):
-
-            comb = suggest_from_space(trial)
-
-            args = (
-                trial.number, comb, hyperparam_names,
-                path_to_csv, path_to_yaml,
-                gpu_setting, RUNS_PARENT,
-                RUN_LABEL, RUN_STAMP, verbose,
-                fractional_multi_lr,
-                NUM_ENSEMBLES, BOOTSTRAP_MODELS,
-                HYPERPARAM_ENSEMBLE,
-                True, True,
-                True,
-                CV_INTERVAL_MONTH,
-                CV_INTERVAL_LENGTH,
-                CV_VALIDATION_LENGTH
-            )
-
-            result = run_single_experiment_nophysics(args)
-
-            nse_1d = result["NSE_1D"]
-            nse_1h = result["NSE_1H"]
-
-            return 0.7 * nse_1h + 0.3 * nse_1d
-
-
-        study = optuna.create_study(
-            study_name="hydro_bayes",
-            storage=JournalStorage(JournalFileBackend(file_path="./journal.log")),
-            load_if_exists=True,
-            direction="maximize",
-        )
-
-        study.optimize(
-            objective_no_physics,
-            n_trials=N_BAYES_TRIALS,
-            n_jobs=num_cores,
-        )
-
-        _print("Best parameters:", study.best_params)
-
-        return
-
-
-    # ──────────────────────────────────────────────────────────────
-    # GRID SEARCH (original code unchanged)
-    # ──────────────────────────────────────────────────────────────
-
-    all_combinations = list(itertools.product(
-        *[hyperparam_space[hp] for hp in hyperparam_names]
-    ))
-
+    # -- Build combinations
+    hp_names = list(HYPERPARAM_SPACE.keys())
+    all_combinations = list(itertools.product(*[HYPERPARAM_SPACE[n] for n in hp_names]))
     n_combos = len(all_combinations)
 
     if args.workers > 0:
@@ -441,12 +330,13 @@ def main():
 
     _print(f"{n_combos} combinations, {num_cores} workers")
 
+    # ── No-Physics Grid Search ─────────────────────────────────────────
     _print("=" * 60)
     _print("NO-PHYSICS GRID SEARCH")
     _print("=" * 60)
 
     task_args_no = [
-        (idx, comb, hyperparam_names, path_to_csv, path_to_yaml,
+        (idx, comb, hp_names, path_to_csv, path_to_yaml,
          gpu_setting, RUNS_PARENT, RUN_LABEL, RUN_STAMP, verbose,
          fractional_multi_lr,
          NUM_ENSEMBLES, BOOTSTRAP_MODELS, HYPERPARAM_ENSEMBLE,
@@ -455,40 +345,70 @@ def main():
         for idx, comb in enumerate(all_combinations)
     ]
 
+    t0 = time.perf_counter()
     with mp.Pool(processes=num_cores) as pool:
-
         no_physics_results = list(tqdm(
             pool.imap(run_single_experiment_nophysics, task_args_no),
-            total=n_combos,
-            desc="Grid No-Physics",
-            unit="it",
-            ncols=80,
-            ascii=True
-        ))
+            total=n_combos, desc="Grid No-Physics", unit="it", ncols=80, ascii=True))
+    _print(f"No-physics grid completed in {time.perf_counter() - t0:.1f}s")
 
     df_no_physics = pd.DataFrame(no_physics_results)
-
     df_no_physics["_rank_score"] = sum(
-        w * df_no_physics[m]
-        for m, w in zip(GRID_RANK_METRICS, GRID_RANK_WEIGHTS)
-    )
-
-    df_no_physics.sort_values(
-        by="_rank_score",
-        ascending=False,
-        inplace=True
-    )
-
+        w * df_no_physics[m] for m, w in zip(GRID_RANK_METRICS, GRID_RANK_WEIGHTS))
+    df_no_physics.sort_values(by="_rank_score", ascending=False, inplace=True)
     df_no_physics.reset_index(drop=True, inplace=True)
-
     _print("No-physics top 3:")
-    _print(df_no_physics.head(3).to_string())
+    _print(df_no_physics[["hidden_size", "output_dropout", "seq_length_1H", "NSE_1D", "NSE_1H", "_rank_score"]].head(3).to_string())
+
+    # ── Physics Grid Search ────────────────────────────────────────────
+    if not args.no_physics:
+        _print("=" * 60)
+        _print("PHYSICS GRID SEARCH")
+        _print("=" * 60)
+
+        task_args_phys = [
+            (idx, comb, hp_names, path_to_csv, path_to_yaml,
+             gpu_setting, RUNS_PARENT, RUN_LABEL, RUN_STAMP, verbose,
+             fractional_multi_lr,
+             NUM_ENSEMBLES, BOOTSTRAP_MODELS, HYPERPARAM_ENSEMBLE,
+             bcfg["features_with_physics"], path_to_physics_1H,
+             True, True,
+             True, CV_INTERVAL_MONTH, CV_INTERVAL_LENGTH, CV_VALIDATION_LENGTH)
+            for idx, comb in enumerate(all_combinations)
+        ]
+
+        t0 = time.perf_counter()
+        with mp.Pool(processes=num_cores) as pool:
+            physics_results = list(tqdm(
+                pool.imap(run_single_experiment_physics, task_args_phys),
+                total=n_combos, desc="Grid Physics", unit="it", ncols=80, ascii=True))
+        _print(f"Physics grid completed in {time.perf_counter() - t0:.1f}s")
+
+        df_physics = pd.DataFrame(physics_results)
+        df_physics["_rank_score"] = sum(
+            w * df_physics[m] for m, w in zip(GRID_RANK_METRICS, GRID_RANK_WEIGHTS))
+        df_physics.sort_values(by="_rank_score", ascending=False, inplace=True)
+        df_physics.reset_index(drop=True, inplace=True)
+        _print("Physics top 3:")
+        _print(df_physics[["hidden_size", "output_dropout", "seq_length_1H", "NSE_1D", "NSE_1H", "_rank_score"]].head(3).to_string())
+    else:
+        _print("Skipping physics grid search (--no-physics)")
+        df_physics = None
+
+    # ── Save best hyperparameters ──────────────────────────────────────
+    _print("=" * 60)
+    _print("SAVING BEST HYPERPARAMETERS")
+    _print("=" * 60)
 
     best_no_phys = df_no_physics.iloc[0].to_dict()
-
     best_no_phys["model_type"] = "no_physics"
 
-    best_params_df = pd.DataFrame([best_no_phys])
+    if df_physics is not None:
+        best_phys = df_physics.iloc[0].to_dict()
+        best_phys["model_type"] = "physics"
+        best_params_df = pd.DataFrame([best_no_phys, best_phys])
+    else:
+        best_params_df = pd.DataFrame([best_no_phys])
 
     save_hparams(
         best_df=best_params_df,
@@ -497,8 +417,22 @@ def main():
         label=RUN_LABEL,
         run_stamp=RUN_STAMP,
         df_no=df_no_physics,
-        df_phys=None,
+        df_phys=df_physics,
     )
+
+    _print(f"Best no-physics: hidden={best_no_phys.get('hidden_size')}, "
+           f"seq1H={best_no_phys.get('seq_length_1H')}, "
+           f"NSE_1D={best_no_phys.get('NSE_1D', 'N/A'):.4f}, "
+           f"NSE_1H={best_no_phys.get('NSE_1H', 'N/A'):.4f}")
+    if df_physics is not None:
+        _print(f"Best physics: hidden={best_phys.get('hidden_size')}, "
+               f"seq1H={best_phys.get('seq_length_1H')}, "
+               f"NSE_1D={best_phys.get('NSE_1D', 'N/A'):.4f}, "
+               f"NSE_1H={best_phys.get('NSE_1H', 'N/A'):.4f}")
+
+    _print("=" * 60)
+    _print(f"GRID SEARCH COMPLETE  (total: {time.perf_counter() - _T0:.1f}s)")
+    _print("=" * 60)
 
 
 if __name__ == "__main__":

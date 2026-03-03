@@ -42,7 +42,7 @@ physics_informed: false
 physics_data_file: null
 
 # --- Validation Configuration ----------------------------------------------
-validate_every: 10
+validate_every: 12
 validate_n_random_basins: 1
 save_validation_results: True
 save_results_every: 10
