@@ -127,9 +127,25 @@ class BaseTester(object):
 
     def _load_weights(self, epoch: int = None):
         """Load weights of a certain (or the last) epoch into the model."""
-        weight_file = self._get_weight_file(epoch)
+        # Prefer best checkpoint when no specific epoch is requested (configurable)
+        best_weight_file = self.run_dir / "model_best.pt"
+        use_best = epoch is None and best_weight_file.is_file() and self.cfg.save_best_checkpoint
+        if use_best:
+            weight_file = best_weight_file
+            # Log the gap between best epoch and last saved epoch
+            best_epoch_file = self.run_dir / "best_epoch.txt"
+            last_epoch_file = self._get_weight_file(None)
+            last_epoch_num = int(last_epoch_file.stem.replace("model_epoch", ""))
+            if best_epoch_file.is_file():
+                best_epoch_num = int(best_epoch_file.read_text().strip())
+                gap = last_epoch_num - best_epoch_num
+                LOGGER.info(f"Loading best checkpoint (epoch {best_epoch_num}), skipping {gap} epochs past best (last saved: epoch {last_epoch_num})")
+            else:
+                LOGGER.info(f"Loading best checkpoint (last saved: epoch {last_epoch_num})")
+        else:
+            weight_file = self._get_weight_file(epoch)
+            LOGGER.info(f"Using the model weights from {weight_file}")
 
-        LOGGER.info(f"Using the model weights from {weight_file}")
         self.model.load_state_dict(torch.load(weight_file, map_location=self.device))
 
     def _get_dataset(self, basin: str) -> BaseDataset:

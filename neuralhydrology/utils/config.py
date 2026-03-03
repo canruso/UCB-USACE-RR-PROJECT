@@ -807,6 +807,10 @@ class Config(object):
         return self._cfg.get("save_results_every", 0)
 
     @property
+    def save_best_checkpoint(self) -> bool:
+        return self._cfg.get("save_best_checkpoint", True)
+
+    @property
     def save_weights_every(self) -> int:
         return self._cfg.get("save_weights_every", 1)
 
