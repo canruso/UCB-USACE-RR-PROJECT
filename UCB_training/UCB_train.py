@@ -1272,7 +1272,7 @@ class UCB_trainer:
         # --- Pad values for synthetic END ---
 
         if "save_weights_every" not in self._hyperparams:
-            self._hyperparams["save_weights_every"] = 0
+            self._hyperparams["save_weights_every"] = 500
 
         if self._dynamic_inputs is not None:
             config.update_config({'dynamic_inputs': self._dynamic_inputs}, dev_mode=True)
