@@ -576,8 +576,6 @@ def run_physics_worker(args):
 
 
 def main():
-    setup_logging()
-
     global hyperparam_names, path_to_csv, path_to_yaml
     global features_with_physics, path_to_physics_data_1H
     global RUNS_PARENT, RUN_LABEL, RUN_STAMP
@@ -849,5 +847,6 @@ def main():
     print("hparams_exists =", hparams_exists(BASIN, MODE, RUN_LABEL))
 
 if __name__ == "__main__":
-    mp.set_start_method("fork", force=True)
+    mp.set_start_method("spawn", force=True)
+    setup_logging()
     main()
