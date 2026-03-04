@@ -79,7 +79,6 @@ def run_single_experiment_nophysics(args):
     logging.getLogger("neuralhydrology").setLevel(logging.ERROR)
     logging.getLogger("pandas").setLevel(logging.ERROR)
     sys.stderr = open(os.devnull, "w")
-    print("WORKER STARTED", os.getpid(), flush=True)
 
     (idx, combinations, hyperparam_names, path_to_csv, path_to_yaml,
      GPU_SETTING, RUNS_PARENT, RUN_LABEL, RUN_STAMP, verbose,fractional_multi_lr, NUM_ENSEMBLES, BOOTSTRAP_MODELS, HYPERPARAM_ENSEMBLE,
