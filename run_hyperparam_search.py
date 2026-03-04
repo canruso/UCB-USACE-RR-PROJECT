@@ -13,7 +13,7 @@ BASIN = "guerneville"  # "calpella", "warm_springs", "hopland", or "guerneville"
 GPU_SETTING = -1
 NUM_WORKERS = 0
 
-VERBOSE = True
+VERBOSE = False
 RUN_NO_PHYSICS_ONLY = False
 
 USE_BAYES = False
