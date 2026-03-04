@@ -1,11 +1,11 @@
 HYPERPARAM_SPACE = {
-    "hidden_size": [64, 128, 256],
-    "output_dropout": (0.1, 0.4),
-    "seq_length_1D": (90, 180),
-    "seq_length_1H": (168, 336),
-    "num_layers": [1],
-    "epochs": [2],
-    "batch_size": [64, 128],
+    "hidden_size": [64, 128, 256],      # 3
+    "output_dropout": [0.15, 0.3],      # 2
+    "seq_length_1D": [120, 180],        # 2
+    "seq_length_1H": [168, 336],        # 2
+    "num_layers": [1],                  # 1
+    "epochs": [300],                    # 1
+    "batch_size": [64, 128],            # 2
 }
 hyperparam_names = list(HYPERPARAM_SPACE.keys())
 
@@ -24,7 +24,7 @@ RUN_LABEL = "CROSS_VAL_V4"
 # READ_STAMP = "20260304T002129Z"
 READ_STAMP = ""
 
-USE_CV = False
+USE_CV = True
 CV_INTERVAL_MONTH = "October"
 CV_INTERVAL_LENGTH = 2
 CV_VALIDATION_LENGTH = 1
@@ -38,11 +38,43 @@ HYPERPARAM_ENSEMBLE = False
 
 import os
 os.environ["KMP_DUPLICATE_LIB_OK"] = "TRUE"
-os.environ["OMP_NUM_THREADS"] = "3"
-os.environ["MKL_NUM_THREADS"] = "3"
+os.environ["OMP_NUM_THREADS"] = "1"
+os.environ["MKL_NUM_THREADS"] = "1"
 os.environ["OPENBLAS_NUM_THREADS"] = "1"
-os.environ["NUMBA_NUM_THREADS"] = "3"
+os.environ["NUMBA_NUM_THREADS"] = "1"
 os.environ["NUMBA_THREADING_LAYER"] = "workqueue"
+
+import logging
+from pathlib import Path
+
+def setup_logging():
+    log_dir = Path("logs")
+    log_dir.mkdir(exist_ok=True)
+
+    log_file = log_dir / f"gridsearch_{RUN_STAMP}.log"
+
+    logging.basicConfig(
+        level=logging.INFO,
+        format="%(asctime)s | %(process)d | %(levelname)s | %(message)s",
+        handlers=[
+            logging.FileHandler(log_file),
+            logging.StreamHandler(sys.stdout),
+        ],
+    )
+
+    class LoggerWriter:
+        def __init__(self, level):
+            self.level = level
+        def write(self, message):
+            if message.strip():
+                self.level(message.strip())
+        def flush(self):
+            pass
+
+    sys.stdout = LoggerWriter(logging.info)
+    sys.stderr = LoggerWriter(logging.error)
+
+    print(f"Logging to {log_file}")
 
 import sys
 import io
@@ -281,8 +313,6 @@ BASIN_CONFIGS = {
 
 def log_trial(trial_num, value, params):
     import sys
-    sys.stdout = sys.__stdout__
-    sys.stderr = sys.__stderr__
 
     print(f"\n[Trial {trial_num}] NSE = {value:.5f}")
     print("Hyperparameters:")
@@ -515,6 +545,8 @@ def run_physics_worker(args):
 
 
 def main():
+    setup_logging()
+
     global hyperparam_names, path_to_csv, path_to_yaml
     global features_with_physics, path_to_physics_data_1H
     global RUNS_PARENT, RUN_LABEL, RUN_STAMP
@@ -553,6 +585,8 @@ def main():
         num_cores = min(n_combos, NUM_WORKERS)
     else:
         num_cores = min(n_combos, max(1, mp.cpu_count() - 1))
+
+    num_cores = 48
 
     _print(f"{n_combos} combinations, {num_cores} workers")
 
@@ -692,7 +726,13 @@ def main():
                 ncols=60,
                 ascii=True
             ):
+                result["_rank_score"] = (
+                    GRID_RANK_WEIGHTS[0] * result["NSE_1D"]
+                    + GRID_RANK_WEIGHTS[1] * result["NSE_1H"]
+                )
+
                 no_physics_results.append(result)
+
                 append_trial_row(
                     result,
                     basin=BASIN,
@@ -732,7 +772,13 @@ def main():
                 ncols=60,
                 ascii=True
             ):
+                result["_rank_score"] = (
+                    GRID_RANK_WEIGHTS[0] * result["NSE_1D"]
+                    + GRID_RANK_WEIGHTS[1] * result["NSE_1H"]
+                )
+
                 physics_results.append(result)
+
                 append_trial_row(
                     result,
                     basin=BASIN,
