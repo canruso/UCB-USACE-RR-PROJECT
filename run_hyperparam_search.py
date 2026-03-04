@@ -5,7 +5,7 @@ HYPERPARAM_SPACE = {
     "seq_length_1H": [168, 336],
     "num_layers": [1, 2],
     "epochs": [300],
-    "batch_size": [64, 128],
+    "batch_size": [64],
 }
 hyperparam_names = list(HYPERPARAM_SPACE.keys())
 
