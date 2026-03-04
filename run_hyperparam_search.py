@@ -1,11 +1,11 @@
 HYPERPARAM_SPACE = {
-    "hidden_size": [64, 128, 256],      # 3
-    "output_dropout": [0.15, 0.3],      # 2
-    "seq_length_1D": [120, 180],        # 2
-    "seq_length_1H": [168, 336],        # 2
-    "num_layers": [1],                  # 1
-    "epochs": [300],                    # 1
-    "batch_size": [64, 128],            # 2
+    "hidden_size": [64, 128, 256], 
+    "output_dropout": [0.1, 0.4],           
+    "seq_length_1D": [90, 120],
+    "seq_length_1H": [168, 336],
+    "num_layers": [1, 2],
+    "epochs": [300],
+    "batch_size": [64, 128],
 }
 hyperparam_names = list(HYPERPARAM_SPACE.keys())
 
@@ -59,7 +59,7 @@ def setup_logging():
     file_handler = RotatingFileHandler(
         log_file,
         maxBytes=20 * 1024 * 1024,   # ~20MB ≈ ~100k log lines
-        backupCount=0                # keep only latest logs
+        backupCount=1                # keep only latest logs
     )
 
     stream_handler = logging.StreamHandler(sys.stdout)
@@ -601,6 +601,8 @@ def main():
     path_to_yaml = get_yaml_path(bcfg["yaml_key"])
     path_to_physics_1H = path_to_csv / bcfg["physics_file_1H"]
 
+    print("YAML PATH:",path_to_yaml)
+
     _SHARED = ensure_shared_tree(BASIN, "mts")
     RUNS_PARENT = str(_SHARED / "runs" / f"{RUN_LABEL}_{RUN_STAMP}")
 
@@ -615,7 +617,7 @@ def main():
     else:
         num_cores = min(n_combos, max(1, mp.cpu_count() - 1))
 
-    num_cores = 48
+    num_cores = 1
 
     _print(f"{n_combos} combinations, {num_cores} workers")
 
