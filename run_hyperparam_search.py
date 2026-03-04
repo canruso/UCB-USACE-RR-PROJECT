@@ -13,7 +13,7 @@ BASIN = "guerneville"  # "calpella", "warm_springs", "hopland", or "guerneville"
 GPU_SETTING = -1
 NUM_WORKERS = 0
 
-VERBOSE = False
+VERBOSE = True
 RUN_NO_PHYSICS_ONLY = False
 
 USE_BAYES = False
@@ -45,6 +45,7 @@ os.environ["NUMBA_NUM_THREADS"] = "1"
 os.environ["NUMBA_THREADING_LAYER"] = "workqueue"
 
 import logging
+import sys
 from pathlib import Path
 
 def setup_logging():
@@ -53,13 +54,20 @@ def setup_logging():
 
     log_file = log_dir / f"gridsearch_{RUN_STAMP}.log"
 
+    from logging.handlers import RotatingFileHandler
+
+    file_handler = RotatingFileHandler(
+        log_file,
+        maxBytes=20 * 1024 * 1024,   # ~20MB ≈ ~100k log lines
+        backupCount=0                # keep only latest logs
+    )
+
+    stream_handler = logging.StreamHandler(sys.stdout)
+
     logging.basicConfig(
         level=logging.INFO,
         format="%(asctime)s | %(process)d | %(levelname)s | %(message)s",
-        handlers=[
-            logging.FileHandler(log_file),
-            logging.StreamHandler(sys.stdout),
-        ],
+        handlers=[file_handler, stream_handler],
     )
 
     class LoggerWriter:
@@ -74,8 +82,9 @@ def setup_logging():
     sys.stdout = LoggerWriter(logging.info)
     sys.stderr = LoggerWriter(logging.error)
 
-    print(f"Logging to {log_file}")
+    print(f"Logging to {log_file} (rotates at ~20MB ≈ 100k lines)")
 
+import traceback
 import sys
 import io
 import time
@@ -415,8 +424,10 @@ def objective_no_physics(trial):
 
         value = 0.7 * nse_1h + 0.3 * nse_1d
     except Exception as e:
+        import traceback
         print(f"[Trial {trial.number}] FAILED: {e}")
-        return -1e9
+        traceback.print_exc()
+        raise
 
     append_trial_row(
         {
@@ -461,8 +472,10 @@ def objective_physics(trial):
         value = 0.7 * nse_1h + 0.3 * nse_1d
 
     except Exception as e:
+        import traceback
         print(f"[Trial {trial.number}] FAILED: {e}")
-        return -1e9
+        traceback.print_exc()
+        raise
 
     append_trial_row(
         {
@@ -483,65 +496,83 @@ def objective_physics(trial):
     return value
 
 def run_no_physics_worker(args):
-    global path_to_csv, path_to_yaml, features_with_physics, path_to_physics_data_1H
-    global RUNS_PARENT, RUN_LABEL, RUN_STAMP, verbose, use_cv_for_selection
+    try:
+        global path_to_csv, path_to_yaml, features_with_physics, path_to_physics_data_1H
+        global RUNS_PARENT, RUN_LABEL, RUN_STAMP, verbose, use_cv_for_selection
 
-    remaining_no, num_cores, runs_parent, run_label, run_stamp = args
+        remaining_no, num_cores, runs_parent, run_label, run_stamp = args
 
-    RUNS_PARENT = runs_parent
-    RUN_LABEL  = run_label
-    RUN_STAMP  = run_stamp
-    verbose    = VERBOSE
-    use_cv_for_selection = USE_CV
+        RUNS_PARENT = runs_parent
+        RUN_LABEL  = run_label
+        RUN_STAMP  = run_stamp
+        verbose    = VERBOSE
+        use_cv_for_selection = USE_CV
 
-    bcfg = BASIN_CONFIGS[BASIN]
-    path_to_csv = data_dir()
-    path_to_yaml = get_yaml_path(bcfg["yaml_key"])
-    path_to_physics_data_1H = path_to_csv / bcfg["physics_file_1H"]
-    features_with_physics = bcfg["features_with_physics"]
+        bcfg = BASIN_CONFIGS[BASIN]
+        path_to_csv = data_dir()
+        path_to_yaml = get_yaml_path(bcfg["yaml_key"])
+        path_to_physics_data_1H = path_to_csv / bcfg["physics_file_1H"]
+        features_with_physics = bcfg["features_with_physics"]
 
-    journal_path = Path(RUNS_PARENT) / f"{RUN_LABEL}_{RUN_STAMP}_nophys_journal.log"
-    study = optuna.create_study(
-        study_name="journal_storage_multiprocess",
-        storage=JournalStorage(JournalFileBackend(file_path=str(journal_path))),
-        load_if_exists=True,
-        direction="maximize",
-    )
-    study.optimize(objective_no_physics, n_trials=math.ceil(remaining_no / num_cores), show_progress_bar=False)
+        journal_path = Path(RUNS_PARENT) / f"{RUN_LABEL}_{RUN_STAMP}_nophys_journal.log"
+
+        study = optuna.create_study(
+            study_name="journal_storage_multiprocess",
+            storage=JournalStorage(JournalFileBackend(file_path=str(journal_path))),
+            load_if_exists=True,
+            direction="maximize",
+        )
+
+        study.optimize(objective_no_physics,
+                       n_trials=math.ceil(remaining_no / num_cores),
+                       show_progress_bar=False)
+
+    except Exception:
+        import traceback, sys
+        traceback.print_exc()
+        sys.stderr.flush()
+        raise
 
 
 def run_physics_worker(args):
-    global path_to_csv, path_to_yaml, features_with_physics, path_to_physics_data_1H
-    global RUNS_PARENT, RUN_LABEL, RUN_STAMP, verbose, use_cv_for_selection
+    try:
+        global path_to_csv, path_to_yaml, features_with_physics, path_to_physics_data_1H
+        global RUNS_PARENT, RUN_LABEL, RUN_STAMP, verbose, use_cv_for_selection
 
-    remaining_phys, num_cores, runs_parent, run_label, run_stamp = args
+        remaining_phys, num_cores, runs_parent, run_label, run_stamp = args
 
-    RUNS_PARENT = runs_parent
-    RUN_LABEL = run_label
-    RUN_STAMP = run_stamp
-    verbose = VERBOSE
-    use_cv_for_selection = USE_CV
+        RUNS_PARENT = runs_parent
+        RUN_LABEL = run_label
+        RUN_STAMP = run_stamp
+        verbose = VERBOSE
+        use_cv_for_selection = USE_CV
 
-    bcfg = BASIN_CONFIGS[BASIN]
-    path_to_csv = data_dir()
-    path_to_yaml = get_yaml_path(bcfg["yaml_key"])
-    path_to_physics_data_1H = path_to_csv / bcfg["physics_file_1H"]
-    features_with_physics = bcfg["features_with_physics"]
+        bcfg = BASIN_CONFIGS[BASIN]
+        path_to_csv = data_dir()
+        path_to_yaml = get_yaml_path(bcfg["yaml_key"])
+        path_to_physics_data_1H = path_to_csv / bcfg["physics_file_1H"]
+        features_with_physics = bcfg["features_with_physics"]
 
-    journal_path = Path(RUNS_PARENT) / f"{RUN_LABEL}_{RUN_STAMP}_phys_journal.log"
+        journal_path = Path(RUNS_PARENT) / f"{RUN_LABEL}_{RUN_STAMP}_phys_journal.log"
 
-    study = optuna.create_study(
-        study_name="journal_storage_multiprocess",
-        storage=JournalStorage(JournalFileBackend(file_path=str(journal_path))),
-        load_if_exists=True,
-        direction="maximize",
-    )
+        study = optuna.create_study(
+            study_name="journal_storage_multiprocess",
+            storage=JournalStorage(JournalFileBackend(file_path=str(journal_path))),
+            load_if_exists=True,
+            direction="maximize",
+        )
 
-    study.optimize(
-        objective_physics,
-        n_trials=math.ceil(remaining_phys / num_cores),
-        show_progress_bar=False,
-    )
+        study.optimize(
+            objective_physics,
+            n_trials=math.ceil(remaining_phys / num_cores),
+            show_progress_bar=False,
+        )
+
+    except Exception:
+        import traceback, sys
+        traceback.print_exc()
+        sys.stderr.flush()
+        raise
 
 
 def main():
@@ -818,5 +849,5 @@ def main():
     print("hparams_exists =", hparams_exists(BASIN, MODE, RUN_LABEL))
 
 if __name__ == "__main__":
-    mp.set_start_method("spawn", force=True)
+    mp.set_start_method("fork", force=True)
     main()
