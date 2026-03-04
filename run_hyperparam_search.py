@@ -16,15 +16,15 @@ NUM_WORKERS = 0
 VERBOSE = True
 RUN_NO_PHYSICS_ONLY = False
 
-USE_BAYES = False
-N_BAYES_TRIALS = 36
+USE_BAYES = True
+N_BAYES_TRIALS = 42
 BAYES_JOURNAL_DIR = ""
 
 RUN_LABEL = "CROSS_VAL_V4"
 # READ_STAMP = "20260304T002129Z"
 READ_STAMP = ""
 
-USE_CV = True
+USE_CV = False
 CV_INTERVAL_MONTH = "October"
 CV_INTERVAL_LENGTH = 2
 CV_VALIDATION_LENGTH = 1
@@ -81,8 +81,6 @@ def setup_logging():
 
     sys.stdout = LoggerWriter(logging.info)
     sys.stderr = LoggerWriter(logging.error)
-
-    print(f"Logging to {log_file} (rotates at ~20MB ≈ 100k lines)")
 
 import traceback
 import sys
@@ -617,7 +615,7 @@ def main():
     else:
         num_cores = min(n_combos, max(1, mp.cpu_count() - 1))
 
-    num_cores = 1
+    num_cores = 14
 
     _print(f"{n_combos} combinations, {num_cores} workers")
 
