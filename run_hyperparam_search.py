@@ -16,7 +16,7 @@ NUM_WORKERS = 0
 VERBOSE = False
 RUN_NO_PHYSICS_ONLY = False
 
-USE_BAYES = True
+USE_BAYES = False
 N_BAYES_TRIALS = 48
 BAYES_JOURNAL_DIR = ""
 
@@ -696,10 +696,9 @@ def build_external_cv_queue(all_combinations, folds, include_physics=True):
 
     queue = []
 
-    # iterate folds first for better load balancing
-    for fold in folds:
-        for idx, comb in enumerate(all_combinations):
-
+    # FIRST: all no-physics
+    for idx, comb in enumerate(all_combinations):
+        for fold in folds:
             queue.append({
                 "job_type": "no_physics",
                 "iter_idx": idx,
@@ -707,8 +706,11 @@ def build_external_cv_queue(all_combinations, folds, include_physics=True):
                 "comb": comb,
                 "fold_cfg": fold,
             })
-
-            if include_physics:
+            
+    # THEN: all physics
+    if include_physics:
+        for idx, comb in enumerate(all_combinations):
+            for fold in folds:
                 queue.append({
                     "job_type": "physics",
                     "iter_idx": idx,
