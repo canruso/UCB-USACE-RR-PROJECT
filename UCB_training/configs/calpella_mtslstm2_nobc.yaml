@@ -126,6 +126,8 @@ target_variables:
 clip_targets_to_zero:
   - [NR CALPELLA FLOW COE CPL]
 
+# Save best validation checkpoint (model_best.pt). Set False for default NH last-epoch behavior.
+save_best_checkpoint: True
 # --- Early Stopping Configuration ------------------------------------------------------------
 # Enable early stopping based on validation performance
 early_stopping: True
