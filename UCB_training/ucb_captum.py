@@ -78,7 +78,9 @@ def load_model_for_ig(
     model = get_model(cfg).to(device)
 
     if epoch is None:
-        weight_file = sorted(run_dir.glob("model_epoch*.pt"))[-1]
+        # Prefer best checkpoint if available, fall back to last epoch
+        best_file = run_dir / "model_best.pt"
+        weight_file = best_file if best_file.is_file() else sorted(run_dir.glob("model_epoch*.pt"))[-1]
     else:
         weight_file = run_dir / f"model_epoch{epoch:03d}.pt"
 

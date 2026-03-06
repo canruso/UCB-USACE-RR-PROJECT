@@ -190,6 +190,8 @@ target_variables:
 clip_targets_to_zero:
   - [NR GUERNEVILLE FLOW COE GRN]
 
+# Save best validation checkpoint (model_best.pt). Set False for default NH last-epoch behavior.
+save_best_checkpoint: True
 # --- Early Stopping Configuration ------------------------------------------------------------
 # Enable early stopping based on validation performance
 early_stopping: True
@@ -206,7 +208,7 @@ plateau_factor: 0.5
 plateau_patience: 3
 plateau_threshold: 1.0e-4
 plateau_min_lr: 1.0e-5
-plateau_final_patience: 5
+plateau_final_patience: 3
 plateau_cooldown: 0
 plateau_min_epoch: 24
 

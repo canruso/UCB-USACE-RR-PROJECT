@@ -54,6 +54,8 @@ class BaseTrainer(object):
         self._allow_subsequent_nan_losses = cfg.allow_subsequent_nan_losses
         self._disable_pbar = cfg.verbose == 0
         self._max_updates_per_epoch = cfg.max_updates_per_epoch
+        self._best_val_loss = float('inf')
+        self._best_val_epoch = None
 
         # load train basin list and add number of basins to the config
         self.basins = load_basin_file(cfg.train_basin_file)
@@ -255,6 +257,16 @@ class BaseTrainer(object):
                 valid_metrics = self.experiment_logger.summarise()
                 # Use scientific notation for very small loss values
                 val_loss = valid_metrics['avg_total_loss']
+
+                # Save best checkpoint if validation loss improved
+                if self.cfg.save_best_checkpoint and not np.isnan(val_loss) and val_loss < self._best_val_loss:
+                    self._best_val_loss = val_loss
+                    self._best_val_epoch = epoch
+                    self._save_best_checkpoint()
+                    if self.cfg.verbose:
+                        best_fmt = f"{val_loss:.2e}" if abs(val_loss) < 1e-4 else f"{val_loss:.5f}"
+                        LOGGER.info(f"Best checkpoint saved at epoch {epoch} (val_loss={best_fmt})")
+
                 val_loss_fmt = f"{val_loss:.2e}" if abs(val_loss) < 1e-4 else f"{val_loss:.5f}"
                 print_msg = f"Epoch {epoch} average validation loss: {val_loss_fmt}"
                 if self.cfg.metrics:
@@ -316,6 +328,16 @@ class BaseTrainer(object):
                 if self.cfg.verbose:
                     LOGGER.info(f"Restored early stopper state from epoch {int(epoch)}")
 
+        # Restore best validation loss tracker if available
+        best_val_path = self.cfg.base_run_dir / "best_val_loss.txt"
+        if best_val_path.exists():
+            self._best_val_loss = float(best_val_path.read_text().strip())
+            best_epoch_path = self.cfg.base_run_dir / "best_epoch.txt"
+            if best_epoch_path.exists():
+                self._best_val_epoch = int(best_epoch_path.read_text().strip())
+            if self.cfg.verbose:
+                LOGGER.info(f"Restored best validation loss: {self._best_val_loss} (epoch {self._best_val_epoch})")
+
     def _save_weights_and_optimizer(self, epoch: int):
         weight_path = self.cfg.run_dir / f"model_epoch{epoch:03d}.pt"
         torch.save(self.model.state_dict(), str(weight_path))
@@ -327,6 +349,16 @@ class BaseTrainer(object):
         if self.early_stopper is not None:
             stopper_path = self.cfg.run_dir / f"early_stopper_state_epoch{epoch:03d}.pt"
             torch.save(self.early_stopper.state_dict(), str(stopper_path))
+
+    def _save_best_checkpoint(self):
+        """Save model, optimizer, and early stopper state as the best checkpoint."""
+        torch.save(self.model.state_dict(), str(self.cfg.run_dir / "model_best.pt"))
+        torch.save(self.optimizer.state_dict(), str(self.cfg.run_dir / "optimizer_best.pt"))
+        if self.early_stopper is not None:
+            torch.save(self.early_stopper.state_dict(), str(self.cfg.run_dir / "early_stopper_best.pt"))
+        # Save best validation loss and epoch for continue_training restoration and diagnostics
+        (self.cfg.run_dir / "best_val_loss.txt").write_text(str(self._best_val_loss))
+        (self.cfg.run_dir / "best_epoch.txt").write_text(str(self._best_val_epoch))
 
     def _train_epoch(self, epoch: int):
         self.model.train()

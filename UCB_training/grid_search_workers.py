@@ -159,7 +159,7 @@ def run_single_experiment_physics(args):
     import os, warnings, logging, sys
     warnings.filterwarnings("ignore")
     logging.getLogger().setLevel(logging.ERROR)
-    sys.stderr = open(os.devnull, "w")
+    # sys.stderr = open(os.devnull, "w")  # commented out for error visibility
 
     (
         idx, combinations, hyperparam_names, path_to_csv, path_to_yaml,
