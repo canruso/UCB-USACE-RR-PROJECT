@@ -1,0 +1,557 @@
+2026-03-05 18:48:21,788 | 52761 | INFO | [+   0.00s]
+2026-03-05 18:48:21,788 | 52761 | INFO | Basin: guerneville, GPU: -1, Verbose: True
+2026-03-05 18:48:21,788 | 52761 | INFO | [+   0.00s]
+2026-03-05 18:48:21,788 | 52761 | INFO | Pre-warming numba JIT ...
+2026-03-05 18:48:22,343 | 52761 | INFO | [+   0.56s]
+2026-03-05 18:48:22,343 | 52761 | INFO | Numba JIT pre-compiled.
+2026-03-05 18:48:22,344 | 52761 | INFO | YAML PATH:
+2026-03-05 18:48:22,344 | 52761 | INFO | /Users/maxwellfung/UCB-USACE-RR-PROJECT/UCB_training/configs/guerneville_mtslstm2.yaml
+2026-03-05 18:48:22,344 | 52761 | INFO | [+   0.56s]
+2026-03-05 18:48:22,344 | 52761 | INFO | 48 combinations, 1 workers
+2026-03-05 18:48:22,344 | 52761 | INFO | run_gridsearch =
+2026-03-05 18:48:22,344 | 52761 | INFO | True
+2026-03-05 18:48:22,344 | 52761 | INFO | hparams_exists =
+2026-03-05 18:48:22,344 | 52761 | INFO | False
+2026-03-05 18:48:22,347 | 52761 | INFO | [EXTERNAL CV FOLDS]
+2026-03-05 18:48:22,347 | 52761 | INFO | fold 1: train 01/10/1994 -> 01/10/1996 | val 02/10/1996 -> 01/10/1997 | eval 02/10/1996 -> 01/10/1997
+2026-03-05 18:48:22,347 | 52761 | INFO | fold 2: train 01/10/1994 -> 01/10/1998 | val 02/10/1998 -> 01/10/1999 | eval 02/10/1998 -> 01/10/1999
+2026-03-05 18:48:22,347 | 52761 | INFO | fold 3: train 01/10/1994 -> 01/10/2000 | val 02/10/2000 -> 01/10/2001 | eval 02/10/2000 -> 01/10/2001
+2026-03-05 18:48:22,347 | 52761 | INFO | fold 4: train 01/10/1994 -> 01/10/2002 | val 02/10/2002 -> 01/10/2003 | eval 02/10/2002 -> 01/10/2003
+2026-03-05 18:48:22,347 | 52761 | INFO | fold 5: train 01/10/1994 -> 01/10/2004 | val 02/10/2004 -> 01/10/2005 | eval 02/10/2004 -> 01/10/2005
+2026-03-05 18:48:22,347 | 52761 | INFO | [EXTERNAL CV FOLDS] total folds = 5
+2026-03-05 18:48:22,347 | 52761 | INFO | No READ_STAMP provided — starting fresh.
+2026-03-05 18:48:22,347 | 52761 | INFO | No READ_STAMP provided — starting fresh.
+2026-03-05 18:48:22,347 | 52761 | INFO | [Grid] Skipping first 0 no-physics trials
+2026-03-05 18:48:22,347 | 52761 | INFO | [Grid] Skipping first 0 physics trials
+2026-03-05 18:48:22,347 | 52761 | INFO | [GRID SEARCH] Spawning 1 workers
+2026-03-05 18:48:22,347 | 52761 | INFO | [EXTERNAL CV QUEUE]
+2026-03-05 18:48:22,347 | 52761 | INFO | queue[0001] iter 1 fold 1 no_physics
+2026-03-05 18:48:22,347 | 52761 | INFO | queue[0002] iter 1 fold 1 physics
+2026-03-05 18:48:22,348 | 52761 | INFO | queue[0003] iter 1 fold 2 no_physics
+2026-03-05 18:48:22,348 | 52761 | INFO | queue[0004] iter 1 fold 2 physics
+2026-03-05 18:48:22,348 | 52761 | INFO | queue[0005] iter 1 fold 3 no_physics
+2026-03-05 18:48:22,348 | 52761 | INFO | queue[0006] iter 1 fold 3 physics
+2026-03-05 18:48:22,348 | 52761 | INFO | queue[0007] iter 1 fold 4 no_physics
+2026-03-05 18:48:22,348 | 52761 | INFO | queue[0008] iter 1 fold 4 physics
+2026-03-05 18:48:22,348 | 52761 | INFO | queue[0009] iter 1 fold 5 no_physics
+2026-03-05 18:48:22,348 | 52761 | INFO | queue[0010] iter 1 fold 5 physics
+2026-03-05 18:48:22,348 | 52761 | INFO | queue[0011] iter 2 fold 1 no_physics
+2026-03-05 18:48:22,348 | 52761 | INFO | queue[0012] iter 2 fold 1 physics
+2026-03-05 18:48:22,348 | 52761 | INFO | queue[0013] iter 2 fold 2 no_physics
+2026-03-05 18:48:22,348 | 52761 | INFO | queue[0014] iter 2 fold 2 physics
+2026-03-05 18:48:22,348 | 52761 | INFO | queue[0015] iter 2 fold 3 no_physics
+2026-03-05 18:48:22,348 | 52761 | INFO | queue[0016] iter 2 fold 3 physics
+2026-03-05 18:48:22,348 | 52761 | INFO | queue[0017] iter 2 fold 4 no_physics
+2026-03-05 18:48:22,348 | 52761 | INFO | queue[0018] iter 2 fold 4 physics
+2026-03-05 18:48:22,348 | 52761 | INFO | queue[0019] iter 2 fold 5 no_physics
+2026-03-05 18:48:22,348 | 52761 | INFO | queue[0020] iter 2 fold 5 physics
+2026-03-05 18:48:22,348 | 52761 | INFO | queue[0021] iter 3 fold 1 no_physics
+2026-03-05 18:48:22,348 | 52761 | INFO | queue[0022] iter 3 fold 1 physics
+2026-03-05 18:48:22,348 | 52761 | INFO | queue[0023] iter 3 fold 2 no_physics
+2026-03-05 18:48:22,348 | 52761 | INFO | queue[0024] iter 3 fold 2 physics
+2026-03-05 18:48:22,348 | 52761 | INFO | queue[0025] iter 3 fold 3 no_physics
+2026-03-05 18:48:22,348 | 52761 | INFO | queue[0026] iter 3 fold 3 physics
+2026-03-05 18:48:22,348 | 52761 | INFO | queue[0027] iter 3 fold 4 no_physics
+2026-03-05 18:48:22,348 | 52761 | INFO | queue[0028] iter 3 fold 4 physics
+2026-03-05 18:48:22,348 | 52761 | INFO | queue[0029] iter 3 fold 5 no_physics
+2026-03-05 18:48:22,348 | 52761 | INFO | queue[0030] iter 3 fold 5 physics
+2026-03-05 18:48:22,348 | 52761 | INFO | queue[0031] iter 4 fold 1 no_physics
+2026-03-05 18:48:22,348 | 52761 | INFO | queue[0032] iter 4 fold 1 physics
+2026-03-05 18:48:22,348 | 52761 | INFO | queue[0033] iter 4 fold 2 no_physics
+2026-03-05 18:48:22,348 | 52761 | INFO | queue[0034] iter 4 fold 2 physics
+2026-03-05 18:48:22,348 | 52761 | INFO | queue[0035] iter 4 fold 3 no_physics
+2026-03-05 18:48:22,348 | 52761 | INFO | queue[0036] iter 4 fold 3 physics
+2026-03-05 18:48:22,348 | 52761 | INFO | queue[0037] iter 4 fold 4 no_physics
+2026-03-05 18:48:22,348 | 52761 | INFO | queue[0038] iter 4 fold 4 physics
+2026-03-05 18:48:22,348 | 52761 | INFO | queue[0039] iter 4 fold 5 no_physics
+2026-03-05 18:48:22,348 | 52761 | INFO | queue[0040] iter 4 fold 5 physics
+2026-03-05 18:48:22,348 | 52761 | INFO | queue[0041] iter 5 fold 1 no_physics
+2026-03-05 18:48:22,348 | 52761 | INFO | queue[0042] iter 5 fold 1 physics
+2026-03-05 18:48:22,348 | 52761 | INFO | queue[0043] iter 5 fold 2 no_physics
+2026-03-05 18:48:22,348 | 52761 | INFO | queue[0044] iter 5 fold 2 physics
+2026-03-05 18:48:22,348 | 52761 | INFO | queue[0045] iter 5 fold 3 no_physics
+2026-03-05 18:48:22,348 | 52761 | INFO | queue[0046] iter 5 fold 3 physics
+2026-03-05 18:48:22,348 | 52761 | INFO | queue[0047] iter 5 fold 4 no_physics
+2026-03-05 18:48:22,348 | 52761 | INFO | queue[0048] iter 5 fold 4 physics
+2026-03-05 18:48:22,348 | 52761 | INFO | queue[0049] iter 5 fold 5 no_physics
+2026-03-05 18:48:22,349 | 52761 | INFO | queue[0050] iter 5 fold 5 physics
+2026-03-05 18:48:22,349 | 52761 | INFO | queue[0051] iter 6 fold 1 no_physics
+2026-03-05 18:48:22,349 | 52761 | INFO | queue[0052] iter 6 fold 1 physics
+2026-03-05 18:48:22,349 | 52761 | INFO | queue[0053] iter 6 fold 2 no_physics
+2026-03-05 18:48:22,349 | 52761 | INFO | queue[0054] iter 6 fold 2 physics
+2026-03-05 18:48:22,349 | 52761 | INFO | queue[0055] iter 6 fold 3 no_physics
+2026-03-05 18:48:22,350 | 52761 | INFO | queue[0056] iter 6 fold 3 physics
+2026-03-05 18:48:22,350 | 52761 | INFO | queue[0057] iter 6 fold 4 no_physics
+2026-03-05 18:48:22,350 | 52761 | INFO | queue[0058] iter 6 fold 4 physics
+2026-03-05 18:48:22,350 | 52761 | INFO | queue[0059] iter 6 fold 5 no_physics
+2026-03-05 18:48:22,350 | 52761 | INFO | queue[0060] iter 6 fold 5 physics
+2026-03-05 18:48:22,350 | 52761 | INFO | queue[0061] iter 7 fold 1 no_physics
+2026-03-05 18:48:22,350 | 52761 | INFO | queue[0062] iter 7 fold 1 physics
+2026-03-05 18:48:22,350 | 52761 | INFO | queue[0063] iter 7 fold 2 no_physics
+2026-03-05 18:48:22,350 | 52761 | INFO | queue[0064] iter 7 fold 2 physics
+2026-03-05 18:48:22,350 | 52761 | INFO | queue[0065] iter 7 fold 3 no_physics
+2026-03-05 18:48:22,350 | 52761 | INFO | queue[0066] iter 7 fold 3 physics
+2026-03-05 18:48:22,350 | 52761 | INFO | queue[0067] iter 7 fold 4 no_physics
+2026-03-05 18:48:22,350 | 52761 | INFO | queue[0068] iter 7 fold 4 physics
+2026-03-05 18:48:22,350 | 52761 | INFO | queue[0069] iter 7 fold 5 no_physics
+2026-03-05 18:48:22,350 | 52761 | INFO | queue[0070] iter 7 fold 5 physics
+2026-03-05 18:48:22,350 | 52761 | INFO | queue[0071] iter 8 fold 1 no_physics
+2026-03-05 18:48:22,350 | 52761 | INFO | queue[0072] iter 8 fold 1 physics
+2026-03-05 18:48:22,350 | 52761 | INFO | queue[0073] iter 8 fold 2 no_physics
+2026-03-05 18:48:22,350 | 52761 | INFO | queue[0074] iter 8 fold 2 physics
+2026-03-05 18:48:22,350 | 52761 | INFO | queue[0075] iter 8 fold 3 no_physics
+2026-03-05 18:48:22,350 | 52761 | INFO | queue[0076] iter 8 fold 3 physics
+2026-03-05 18:48:22,350 | 52761 | INFO | queue[0077] iter 8 fold 4 no_physics
+2026-03-05 18:48:22,350 | 52761 | INFO | queue[0078] iter 8 fold 4 physics
+2026-03-05 18:48:22,350 | 52761 | INFO | queue[0079] iter 8 fold 5 no_physics
+2026-03-05 18:48:22,350 | 52761 | INFO | queue[0080] iter 8 fold 5 physics
+2026-03-05 18:48:22,350 | 52761 | INFO | queue[0081] iter 9 fold 1 no_physics
+2026-03-05 18:48:22,350 | 52761 | INFO | queue[0082] iter 9 fold 1 physics
+2026-03-05 18:48:22,350 | 52761 | INFO | queue[0083] iter 9 fold 2 no_physics
+2026-03-05 18:48:22,350 | 52761 | INFO | queue[0084] iter 9 fold 2 physics
+2026-03-05 18:48:22,350 | 52761 | INFO | queue[0085] iter 9 fold 3 no_physics
+2026-03-05 18:48:22,350 | 52761 | INFO | queue[0086] iter 9 fold 3 physics
+2026-03-05 18:48:22,350 | 52761 | INFO | queue[0087] iter 9 fold 4 no_physics
+2026-03-05 18:48:22,350 | 52761 | INFO | queue[0088] iter 9 fold 4 physics
+2026-03-05 18:48:22,350 | 52761 | INFO | queue[0089] iter 9 fold 5 no_physics
+2026-03-05 18:48:22,350 | 52761 | INFO | queue[0090] iter 9 fold 5 physics
+2026-03-05 18:48:22,350 | 52761 | INFO | queue[0091] iter 10 fold 1 no_physics
+2026-03-05 18:48:22,350 | 52761 | INFO | queue[0092] iter 10 fold 1 physics
+2026-03-05 18:48:22,350 | 52761 | INFO | queue[0093] iter 10 fold 2 no_physics
+2026-03-05 18:48:22,350 | 52761 | INFO | queue[0094] iter 10 fold 2 physics
+2026-03-05 18:48:22,350 | 52761 | INFO | queue[0095] iter 10 fold 3 no_physics
+2026-03-05 18:48:22,350 | 52761 | INFO | queue[0096] iter 10 fold 3 physics
+2026-03-05 18:48:22,350 | 52761 | INFO | queue[0097] iter 10 fold 4 no_physics
+2026-03-05 18:48:22,350 | 52761 | INFO | queue[0098] iter 10 fold 4 physics
+2026-03-05 18:48:22,350 | 52761 | INFO | queue[0099] iter 10 fold 5 no_physics
+2026-03-05 18:48:22,350 | 52761 | INFO | queue[0100] iter 10 fold 5 physics
+2026-03-05 18:48:22,350 | 52761 | INFO | queue[0101] iter 11 fold 1 no_physics
+2026-03-05 18:48:22,350 | 52761 | INFO | queue[0102] iter 11 fold 1 physics
+2026-03-05 18:48:22,350 | 52761 | INFO | queue[0103] iter 11 fold 2 no_physics
+2026-03-05 18:48:22,350 | 52761 | INFO | queue[0104] iter 11 fold 2 physics
+2026-03-05 18:48:22,350 | 52761 | INFO | queue[0105] iter 11 fold 3 no_physics
+2026-03-05 18:48:22,350 | 52761 | INFO | queue[0106] iter 11 fold 3 physics
+2026-03-05 18:48:22,350 | 52761 | INFO | queue[0107] iter 11 fold 4 no_physics
+2026-03-05 18:48:22,350 | 52761 | INFO | queue[0108] iter 11 fold 4 physics
+2026-03-05 18:48:22,351 | 52761 | INFO | queue[0109] iter 11 fold 5 no_physics
+2026-03-05 18:48:22,351 | 52761 | INFO | queue[0110] iter 11 fold 5 physics
+2026-03-05 18:48:22,351 | 52761 | INFO | queue[0111] iter 12 fold 1 no_physics
+2026-03-05 18:48:22,351 | 52761 | INFO | queue[0112] iter 12 fold 1 physics
+2026-03-05 18:48:22,351 | 52761 | INFO | queue[0113] iter 12 fold 2 no_physics
+2026-03-05 18:48:22,351 | 52761 | INFO | queue[0114] iter 12 fold 2 physics
+2026-03-05 18:48:22,351 | 52761 | INFO | queue[0115] iter 12 fold 3 no_physics
+2026-03-05 18:48:22,351 | 52761 | INFO | queue[0116] iter 12 fold 3 physics
+2026-03-05 18:48:22,351 | 52761 | INFO | queue[0117] iter 12 fold 4 no_physics
+2026-03-05 18:48:22,351 | 52761 | INFO | queue[0118] iter 12 fold 4 physics
+2026-03-05 18:48:22,351 | 52761 | INFO | queue[0119] iter 12 fold 5 no_physics
+2026-03-05 18:48:22,351 | 52761 | INFO | queue[0120] iter 12 fold 5 physics
+2026-03-05 18:48:22,351 | 52761 | INFO | queue[0121] iter 13 fold 1 no_physics
+2026-03-05 18:48:22,351 | 52761 | INFO | queue[0122] iter 13 fold 1 physics
+2026-03-05 18:48:22,351 | 52761 | INFO | queue[0123] iter 13 fold 2 no_physics
+2026-03-05 18:48:22,351 | 52761 | INFO | queue[0124] iter 13 fold 2 physics
+2026-03-05 18:48:22,351 | 52761 | INFO | queue[0125] iter 13 fold 3 no_physics
+2026-03-05 18:48:22,351 | 52761 | INFO | queue[0126] iter 13 fold 3 physics
+2026-03-05 18:48:22,351 | 52761 | INFO | queue[0127] iter 13 fold 4 no_physics
+2026-03-05 18:48:22,351 | 52761 | INFO | queue[0128] iter 13 fold 4 physics
+2026-03-05 18:48:22,351 | 52761 | INFO | queue[0129] iter 13 fold 5 no_physics
+2026-03-05 18:48:22,351 | 52761 | INFO | queue[0130] iter 13 fold 5 physics
+2026-03-05 18:48:22,351 | 52761 | INFO | queue[0131] iter 14 fold 1 no_physics
+2026-03-05 18:48:22,351 | 52761 | INFO | queue[0132] iter 14 fold 1 physics
+2026-03-05 18:48:22,351 | 52761 | INFO | queue[0133] iter 14 fold 2 no_physics
+2026-03-05 18:48:22,351 | 52761 | INFO | queue[0134] iter 14 fold 2 physics
+2026-03-05 18:48:22,351 | 52761 | INFO | queue[0135] iter 14 fold 3 no_physics
+2026-03-05 18:48:22,351 | 52761 | INFO | queue[0136] iter 14 fold 3 physics
+2026-03-05 18:48:22,351 | 52761 | INFO | queue[0137] iter 14 fold 4 no_physics
+2026-03-05 18:48:22,351 | 52761 | INFO | queue[0138] iter 14 fold 4 physics
+2026-03-05 18:48:22,351 | 52761 | INFO | queue[0139] iter 14 fold 5 no_physics
+2026-03-05 18:48:22,351 | 52761 | INFO | queue[0140] iter 14 fold 5 physics
+2026-03-05 18:48:22,351 | 52761 | INFO | queue[0141] iter 15 fold 1 no_physics
+2026-03-05 18:48:22,351 | 52761 | INFO | queue[0142] iter 15 fold 1 physics
+2026-03-05 18:48:22,351 | 52761 | INFO | queue[0143] iter 15 fold 2 no_physics
+2026-03-05 18:48:22,351 | 52761 | INFO | queue[0144] iter 15 fold 2 physics
+2026-03-05 18:48:22,351 | 52761 | INFO | queue[0145] iter 15 fold 3 no_physics
+2026-03-05 18:48:22,351 | 52761 | INFO | queue[0146] iter 15 fold 3 physics
+2026-03-05 18:48:22,351 | 52761 | INFO | queue[0147] iter 15 fold 4 no_physics
+2026-03-05 18:48:22,351 | 52761 | INFO | queue[0148] iter 15 fold 4 physics
+2026-03-05 18:48:22,351 | 52761 | INFO | queue[0149] iter 15 fold 5 no_physics
+2026-03-05 18:48:22,351 | 52761 | INFO | queue[0150] iter 15 fold 5 physics
+2026-03-05 18:48:22,351 | 52761 | INFO | queue[0151] iter 16 fold 1 no_physics
+2026-03-05 18:48:22,351 | 52761 | INFO | queue[0152] iter 16 fold 1 physics
+2026-03-05 18:48:22,351 | 52761 | INFO | queue[0153] iter 16 fold 2 no_physics
+2026-03-05 18:48:22,351 | 52761 | INFO | queue[0154] iter 16 fold 2 physics
+2026-03-05 18:48:22,351 | 52761 | INFO | queue[0155] iter 16 fold 3 no_physics
+2026-03-05 18:48:22,351 | 52761 | INFO | queue[0156] iter 16 fold 3 physics
+2026-03-05 18:48:22,351 | 52761 | INFO | queue[0157] iter 16 fold 4 no_physics
+2026-03-05 18:48:22,351 | 52761 | INFO | queue[0158] iter 16 fold 4 physics
+2026-03-05 18:48:22,351 | 52761 | INFO | queue[0159] iter 16 fold 5 no_physics
+2026-03-05 18:48:22,351 | 52761 | INFO | queue[0160] iter 16 fold 5 physics
+2026-03-05 18:48:22,351 | 52761 | INFO | queue[0161] iter 17 fold 1 no_physics
+2026-03-05 18:48:22,351 | 52761 | INFO | queue[0162] iter 17 fold 1 physics
+2026-03-05 18:48:22,351 | 52761 | INFO | queue[0163] iter 17 fold 2 no_physics
+2026-03-05 18:48:22,351 | 52761 | INFO | queue[0164] iter 17 fold 2 physics
+2026-03-05 18:48:22,351 | 52761 | INFO | queue[0165] iter 17 fold 3 no_physics
+2026-03-05 18:48:22,352 | 52761 | INFO | queue[0166] iter 17 fold 3 physics
+2026-03-05 18:48:22,352 | 52761 | INFO | queue[0167] iter 17 fold 4 no_physics
+2026-03-05 18:48:22,352 | 52761 | INFO | queue[0168] iter 17 fold 4 physics
+2026-03-05 18:48:22,352 | 52761 | INFO | queue[0169] iter 17 fold 5 no_physics
+2026-03-05 18:48:22,352 | 52761 | INFO | queue[0170] iter 17 fold 5 physics
+2026-03-05 18:48:22,352 | 52761 | INFO | queue[0171] iter 18 fold 1 no_physics
+2026-03-05 18:48:22,352 | 52761 | INFO | queue[0172] iter 18 fold 1 physics
+2026-03-05 18:48:22,352 | 52761 | INFO | queue[0173] iter 18 fold 2 no_physics
+2026-03-05 18:48:22,352 | 52761 | INFO | queue[0174] iter 18 fold 2 physics
+2026-03-05 18:48:22,352 | 52761 | INFO | queue[0175] iter 18 fold 3 no_physics
+2026-03-05 18:48:22,352 | 52761 | INFO | queue[0176] iter 18 fold 3 physics
+2026-03-05 18:48:22,352 | 52761 | INFO | queue[0177] iter 18 fold 4 no_physics
+2026-03-05 18:48:22,352 | 52761 | INFO | queue[0178] iter 18 fold 4 physics
+2026-03-05 18:48:22,352 | 52761 | INFO | queue[0179] iter 18 fold 5 no_physics
+2026-03-05 18:48:22,352 | 52761 | INFO | queue[0180] iter 18 fold 5 physics
+2026-03-05 18:48:22,352 | 52761 | INFO | queue[0181] iter 19 fold 1 no_physics
+2026-03-05 18:48:22,352 | 52761 | INFO | queue[0182] iter 19 fold 1 physics
+2026-03-05 18:48:22,352 | 52761 | INFO | queue[0183] iter 19 fold 2 no_physics
+2026-03-05 18:48:22,352 | 52761 | INFO | queue[0184] iter 19 fold 2 physics
+2026-03-05 18:48:22,352 | 52761 | INFO | queue[0185] iter 19 fold 3 no_physics
+2026-03-05 18:48:22,352 | 52761 | INFO | queue[0186] iter 19 fold 3 physics
+2026-03-05 18:48:22,352 | 52761 | INFO | queue[0187] iter 19 fold 4 no_physics
+2026-03-05 18:48:22,352 | 52761 | INFO | queue[0188] iter 19 fold 4 physics
+2026-03-05 18:48:22,352 | 52761 | INFO | queue[0189] iter 19 fold 5 no_physics
+2026-03-05 18:48:22,352 | 52761 | INFO | queue[0190] iter 19 fold 5 physics
+2026-03-05 18:48:22,352 | 52761 | INFO | queue[0191] iter 20 fold 1 no_physics
+2026-03-05 18:48:22,352 | 52761 | INFO | queue[0192] iter 20 fold 1 physics
+2026-03-05 18:48:22,352 | 52761 | INFO | queue[0193] iter 20 fold 2 no_physics
+2026-03-05 18:48:22,352 | 52761 | INFO | queue[0194] iter 20 fold 2 physics
+2026-03-05 18:48:22,352 | 52761 | INFO | queue[0195] iter 20 fold 3 no_physics
+2026-03-05 18:48:22,352 | 52761 | INFO | queue[0196] iter 20 fold 3 physics
+2026-03-05 18:48:22,352 | 52761 | INFO | queue[0197] iter 20 fold 4 no_physics
+2026-03-05 18:48:22,352 | 52761 | INFO | queue[0198] iter 20 fold 4 physics
+2026-03-05 18:48:22,352 | 52761 | INFO | queue[0199] iter 20 fold 5 no_physics
+2026-03-05 18:48:22,352 | 52761 | INFO | queue[0200] iter 20 fold 5 physics
+2026-03-05 18:48:22,352 | 52761 | INFO | queue[0201] iter 21 fold 1 no_physics
+2026-03-05 18:48:22,352 | 52761 | INFO | queue[0202] iter 21 fold 1 physics
+2026-03-05 18:48:22,352 | 52761 | INFO | queue[0203] iter 21 fold 2 no_physics
+2026-03-05 18:48:22,352 | 52761 | INFO | queue[0204] iter 21 fold 2 physics
+2026-03-05 18:48:22,352 | 52761 | INFO | queue[0205] iter 21 fold 3 no_physics
+2026-03-05 18:48:22,352 | 52761 | INFO | queue[0206] iter 21 fold 3 physics
+2026-03-05 18:48:22,352 | 52761 | INFO | queue[0207] iter 21 fold 4 no_physics
+2026-03-05 18:48:22,352 | 52761 | INFO | queue[0208] iter 21 fold 4 physics
+2026-03-05 18:48:22,352 | 52761 | INFO | queue[0209] iter 21 fold 5 no_physics
+2026-03-05 18:48:22,352 | 52761 | INFO | queue[0210] iter 21 fold 5 physics
+2026-03-05 18:48:22,352 | 52761 | INFO | queue[0211] iter 22 fold 1 no_physics
+2026-03-05 18:48:22,352 | 52761 | INFO | queue[0212] iter 22 fold 1 physics
+2026-03-05 18:48:22,352 | 52761 | INFO | queue[0213] iter 22 fold 2 no_physics
+2026-03-05 18:48:22,352 | 52761 | INFO | queue[0214] iter 22 fold 2 physics
+2026-03-05 18:48:22,353 | 52761 | INFO | queue[0215] iter 22 fold 3 no_physics
+2026-03-05 18:48:22,353 | 52761 | INFO | queue[0216] iter 22 fold 3 physics
+2026-03-05 18:48:22,353 | 52761 | INFO | queue[0217] iter 22 fold 4 no_physics
+2026-03-05 18:48:22,353 | 52761 | INFO | queue[0218] iter 22 fold 4 physics
+2026-03-05 18:48:22,353 | 52761 | INFO | queue[0219] iter 22 fold 5 no_physics
+2026-03-05 18:48:22,353 | 52761 | INFO | queue[0220] iter 22 fold 5 physics
+2026-03-05 18:48:22,353 | 52761 | INFO | queue[0221] iter 23 fold 1 no_physics
+2026-03-05 18:48:22,353 | 52761 | INFO | queue[0222] iter 23 fold 1 physics
+2026-03-05 18:48:22,353 | 52761 | INFO | queue[0223] iter 23 fold 2 no_physics
+2026-03-05 18:48:22,353 | 52761 | INFO | queue[0224] iter 23 fold 2 physics
+2026-03-05 18:48:22,353 | 52761 | INFO | queue[0225] iter 23 fold 3 no_physics
+2026-03-05 18:48:22,353 | 52761 | INFO | queue[0226] iter 23 fold 3 physics
+2026-03-05 18:48:22,353 | 52761 | INFO | queue[0227] iter 23 fold 4 no_physics
+2026-03-05 18:48:22,353 | 52761 | INFO | queue[0228] iter 23 fold 4 physics
+2026-03-05 18:48:22,353 | 52761 | INFO | queue[0229] iter 23 fold 5 no_physics
+2026-03-05 18:48:22,353 | 52761 | INFO | queue[0230] iter 23 fold 5 physics
+2026-03-05 18:48:22,353 | 52761 | INFO | queue[0231] iter 24 fold 1 no_physics
+2026-03-05 18:48:22,353 | 52761 | INFO | queue[0232] iter 24 fold 1 physics
+2026-03-05 18:48:22,353 | 52761 | INFO | queue[0233] iter 24 fold 2 no_physics
+2026-03-05 18:48:22,353 | 52761 | INFO | queue[0234] iter 24 fold 2 physics
+2026-03-05 18:48:22,353 | 52761 | INFO | queue[0235] iter 24 fold 3 no_physics
+2026-03-05 18:48:22,353 | 52761 | INFO | queue[0236] iter 24 fold 3 physics
+2026-03-05 18:48:22,353 | 52761 | INFO | queue[0237] iter 24 fold 4 no_physics
+2026-03-05 18:48:22,353 | 52761 | INFO | queue[0238] iter 24 fold 4 physics
+2026-03-05 18:48:22,353 | 52761 | INFO | queue[0239] iter 24 fold 5 no_physics
+2026-03-05 18:48:22,353 | 52761 | INFO | queue[0240] iter 24 fold 5 physics
+2026-03-05 18:48:22,353 | 52761 | INFO | queue[0241] iter 25 fold 1 no_physics
+2026-03-05 18:48:22,353 | 52761 | INFO | queue[0242] iter 25 fold 1 physics
+2026-03-05 18:48:22,353 | 52761 | INFO | queue[0243] iter 25 fold 2 no_physics
+2026-03-05 18:48:22,353 | 52761 | INFO | queue[0244] iter 25 fold 2 physics
+2026-03-05 18:48:22,353 | 52761 | INFO | queue[0245] iter 25 fold 3 no_physics
+2026-03-05 18:48:22,353 | 52761 | INFO | queue[0246] iter 25 fold 3 physics
+2026-03-05 18:48:22,353 | 52761 | INFO | queue[0247] iter 25 fold 4 no_physics
+2026-03-05 18:48:22,353 | 52761 | INFO | queue[0248] iter 25 fold 4 physics
+2026-03-05 18:48:22,353 | 52761 | INFO | queue[0249] iter 25 fold 5 no_physics
+2026-03-05 18:48:22,353 | 52761 | INFO | queue[0250] iter 25 fold 5 physics
+2026-03-05 18:48:22,353 | 52761 | INFO | queue[0251] iter 26 fold 1 no_physics
+2026-03-05 18:48:22,353 | 52761 | INFO | queue[0252] iter 26 fold 1 physics
+2026-03-05 18:48:22,353 | 52761 | INFO | queue[0253] iter 26 fold 2 no_physics
+2026-03-05 18:48:22,353 | 52761 | INFO | queue[0254] iter 26 fold 2 physics
+2026-03-05 18:48:22,353 | 52761 | INFO | queue[0255] iter 26 fold 3 no_physics
+2026-03-05 18:48:22,353 | 52761 | INFO | queue[0256] iter 26 fold 3 physics
+2026-03-05 18:48:22,353 | 52761 | INFO | queue[0257] iter 26 fold 4 no_physics
+2026-03-05 18:48:22,353 | 52761 | INFO | queue[0258] iter 26 fold 4 physics
+2026-03-05 18:48:22,353 | 52761 | INFO | queue[0259] iter 26 fold 5 no_physics
+2026-03-05 18:48:22,353 | 52761 | INFO | queue[0260] iter 26 fold 5 physics
+2026-03-05 18:48:22,353 | 52761 | INFO | queue[0261] iter 27 fold 1 no_physics
+2026-03-05 18:48:22,353 | 52761 | INFO | queue[0262] iter 27 fold 1 physics
+2026-03-05 18:48:22,353 | 52761 | INFO | queue[0263] iter 27 fold 2 no_physics
+2026-03-05 18:48:22,353 | 52761 | INFO | queue[0264] iter 27 fold 2 physics
+2026-03-05 18:48:22,353 | 52761 | INFO | queue[0265] iter 27 fold 3 no_physics
+2026-03-05 18:48:22,354 | 52761 | INFO | queue[0266] iter 27 fold 3 physics
+2026-03-05 18:48:22,354 | 52761 | INFO | queue[0267] iter 27 fold 4 no_physics
+2026-03-05 18:48:22,354 | 52761 | INFO | queue[0268] iter 27 fold 4 physics
+2026-03-05 18:48:22,354 | 52761 | INFO | queue[0269] iter 27 fold 5 no_physics
+2026-03-05 18:48:22,354 | 52761 | INFO | queue[0270] iter 27 fold 5 physics
+2026-03-05 18:48:22,354 | 52761 | INFO | queue[0271] iter 28 fold 1 no_physics
+2026-03-05 18:48:22,354 | 52761 | INFO | queue[0272] iter 28 fold 1 physics
+2026-03-05 18:48:22,354 | 52761 | INFO | queue[0273] iter 28 fold 2 no_physics
+2026-03-05 18:48:22,354 | 52761 | INFO | queue[0274] iter 28 fold 2 physics
+2026-03-05 18:48:22,354 | 52761 | INFO | queue[0275] iter 28 fold 3 no_physics
+2026-03-05 18:48:22,354 | 52761 | INFO | queue[0276] iter 28 fold 3 physics
+2026-03-05 18:48:22,354 | 52761 | INFO | queue[0277] iter 28 fold 4 no_physics
+2026-03-05 18:48:22,354 | 52761 | INFO | queue[0278] iter 28 fold 4 physics
+2026-03-05 18:48:22,354 | 52761 | INFO | queue[0279] iter 28 fold 5 no_physics
+2026-03-05 18:48:22,354 | 52761 | INFO | queue[0280] iter 28 fold 5 physics
+2026-03-05 18:48:22,354 | 52761 | INFO | queue[0281] iter 29 fold 1 no_physics
+2026-03-05 18:48:22,354 | 52761 | INFO | queue[0282] iter 29 fold 1 physics
+2026-03-05 18:48:22,354 | 52761 | INFO | queue[0283] iter 29 fold 2 no_physics
+2026-03-05 18:48:22,354 | 52761 | INFO | queue[0284] iter 29 fold 2 physics
+2026-03-05 18:48:22,354 | 52761 | INFO | queue[0285] iter 29 fold 3 no_physics
+2026-03-05 18:48:22,354 | 52761 | INFO | queue[0286] iter 29 fold 3 physics
+2026-03-05 18:48:22,354 | 52761 | INFO | queue[0287] iter 29 fold 4 no_physics
+2026-03-05 18:48:22,354 | 52761 | INFO | queue[0288] iter 29 fold 4 physics
+2026-03-05 18:48:22,354 | 52761 | INFO | queue[0289] iter 29 fold 5 no_physics
+2026-03-05 18:48:22,354 | 52761 | INFO | queue[0290] iter 29 fold 5 physics
+2026-03-05 18:48:22,354 | 52761 | INFO | queue[0291] iter 30 fold 1 no_physics
+2026-03-05 18:48:22,354 | 52761 | INFO | queue[0292] iter 30 fold 1 physics
+2026-03-05 18:48:22,354 | 52761 | INFO | queue[0293] iter 30 fold 2 no_physics
+2026-03-05 18:48:22,354 | 52761 | INFO | queue[0294] iter 30 fold 2 physics
+2026-03-05 18:48:22,354 | 52761 | INFO | queue[0295] iter 30 fold 3 no_physics
+2026-03-05 18:48:22,354 | 52761 | INFO | queue[0296] iter 30 fold 3 physics
+2026-03-05 18:48:22,354 | 52761 | INFO | queue[0297] iter 30 fold 4 no_physics
+2026-03-05 18:48:22,354 | 52761 | INFO | queue[0298] iter 30 fold 4 physics
+2026-03-05 18:48:22,354 | 52761 | INFO | queue[0299] iter 30 fold 5 no_physics
+2026-03-05 18:48:22,354 | 52761 | INFO | queue[0300] iter 30 fold 5 physics
+2026-03-05 18:48:22,354 | 52761 | INFO | queue[0301] iter 31 fold 1 no_physics
+2026-03-05 18:48:22,354 | 52761 | INFO | queue[0302] iter 31 fold 1 physics
+2026-03-05 18:48:22,354 | 52761 | INFO | queue[0303] iter 31 fold 2 no_physics
+2026-03-05 18:48:22,354 | 52761 | INFO | queue[0304] iter 31 fold 2 physics
+2026-03-05 18:48:22,354 | 52761 | INFO | queue[0305] iter 31 fold 3 no_physics
+2026-03-05 18:48:22,354 | 52761 | INFO | queue[0306] iter 31 fold 3 physics
+2026-03-05 18:48:22,354 | 52761 | INFO | queue[0307] iter 31 fold 4 no_physics
+2026-03-05 18:48:22,354 | 52761 | INFO | queue[0308] iter 31 fold 4 physics
+2026-03-05 18:48:22,354 | 52761 | INFO | queue[0309] iter 31 fold 5 no_physics
+2026-03-05 18:48:22,354 | 52761 | INFO | queue[0310] iter 31 fold 5 physics
+2026-03-05 18:48:22,354 | 52761 | INFO | queue[0311] iter 32 fold 1 no_physics
+2026-03-05 18:48:22,354 | 52761 | INFO | queue[0312] iter 32 fold 1 physics
+2026-03-05 18:48:22,354 | 52761 | INFO | queue[0313] iter 32 fold 2 no_physics
+2026-03-05 18:48:22,354 | 52761 | INFO | queue[0314] iter 32 fold 2 physics
+2026-03-05 18:48:22,354 | 52761 | INFO | queue[0315] iter 32 fold 3 no_physics
+2026-03-05 18:48:22,354 | 52761 | INFO | queue[0316] iter 32 fold 3 physics
+2026-03-05 18:48:22,355 | 52761 | INFO | queue[0317] iter 32 fold 4 no_physics
+2026-03-05 18:48:22,355 | 52761 | INFO | queue[0318] iter 32 fold 4 physics
+2026-03-05 18:48:22,355 | 52761 | INFO | queue[0319] iter 32 fold 5 no_physics
+2026-03-05 18:48:22,355 | 52761 | INFO | queue[0320] iter 32 fold 5 physics
+2026-03-05 18:48:22,355 | 52761 | INFO | queue[0321] iter 33 fold 1 no_physics
+2026-03-05 18:48:22,355 | 52761 | INFO | queue[0322] iter 33 fold 1 physics
+2026-03-05 18:48:22,355 | 52761 | INFO | queue[0323] iter 33 fold 2 no_physics
+2026-03-05 18:48:22,355 | 52761 | INFO | queue[0324] iter 33 fold 2 physics
+2026-03-05 18:48:22,355 | 52761 | INFO | queue[0325] iter 33 fold 3 no_physics
+2026-03-05 18:48:22,355 | 52761 | INFO | queue[0326] iter 33 fold 3 physics
+2026-03-05 18:48:22,355 | 52761 | INFO | queue[0327] iter 33 fold 4 no_physics
+2026-03-05 18:48:22,355 | 52761 | INFO | queue[0328] iter 33 fold 4 physics
+2026-03-05 18:48:22,355 | 52761 | INFO | queue[0329] iter 33 fold 5 no_physics
+2026-03-05 18:48:22,355 | 52761 | INFO | queue[0330] iter 33 fold 5 physics
+2026-03-05 18:48:22,355 | 52761 | INFO | queue[0331] iter 34 fold 1 no_physics
+2026-03-05 18:48:22,355 | 52761 | INFO | queue[0332] iter 34 fold 1 physics
+2026-03-05 18:48:22,355 | 52761 | INFO | queue[0333] iter 34 fold 2 no_physics
+2026-03-05 18:48:22,355 | 52761 | INFO | queue[0334] iter 34 fold 2 physics
+2026-03-05 18:48:22,355 | 52761 | INFO | queue[0335] iter 34 fold 3 no_physics
+2026-03-05 18:48:22,355 | 52761 | INFO | queue[0336] iter 34 fold 3 physics
+2026-03-05 18:48:22,355 | 52761 | INFO | queue[0337] iter 34 fold 4 no_physics
+2026-03-05 18:48:22,355 | 52761 | INFO | queue[0338] iter 34 fold 4 physics
+2026-03-05 18:48:22,355 | 52761 | INFO | queue[0339] iter 34 fold 5 no_physics
+2026-03-05 18:48:22,355 | 52761 | INFO | queue[0340] iter 34 fold 5 physics
+2026-03-05 18:48:22,355 | 52761 | INFO | queue[0341] iter 35 fold 1 no_physics
+2026-03-05 18:48:22,355 | 52761 | INFO | queue[0342] iter 35 fold 1 physics
+2026-03-05 18:48:22,355 | 52761 | INFO | queue[0343] iter 35 fold 2 no_physics
+2026-03-05 18:48:22,355 | 52761 | INFO | queue[0344] iter 35 fold 2 physics
+2026-03-05 18:48:22,355 | 52761 | INFO | queue[0345] iter 35 fold 3 no_physics
+2026-03-05 18:48:22,355 | 52761 | INFO | queue[0346] iter 35 fold 3 physics
+2026-03-05 18:48:22,355 | 52761 | INFO | queue[0347] iter 35 fold 4 no_physics
+2026-03-05 18:48:22,355 | 52761 | INFO | queue[0348] iter 35 fold 4 physics
+2026-03-05 18:48:22,355 | 52761 | INFO | queue[0349] iter 35 fold 5 no_physics
+2026-03-05 18:48:22,355 | 52761 | INFO | queue[0350] iter 35 fold 5 physics
+2026-03-05 18:48:22,355 | 52761 | INFO | queue[0351] iter 36 fold 1 no_physics
+2026-03-05 18:48:22,355 | 52761 | INFO | queue[0352] iter 36 fold 1 physics
+2026-03-05 18:48:22,355 | 52761 | INFO | queue[0353] iter 36 fold 2 no_physics
+2026-03-05 18:48:22,355 | 52761 | INFO | queue[0354] iter 36 fold 2 physics
+2026-03-05 18:48:22,355 | 52761 | INFO | queue[0355] iter 36 fold 3 no_physics
+2026-03-05 18:48:22,355 | 52761 | INFO | queue[0356] iter 36 fold 3 physics
+2026-03-05 18:48:22,355 | 52761 | INFO | queue[0357] iter 36 fold 4 no_physics
+2026-03-05 18:48:22,355 | 52761 | INFO | queue[0358] iter 36 fold 4 physics
+2026-03-05 18:48:22,356 | 52761 | INFO | queue[0359] iter 36 fold 5 no_physics
+2026-03-05 18:48:22,356 | 52761 | INFO | queue[0360] iter 36 fold 5 physics
+2026-03-05 18:48:22,356 | 52761 | INFO | queue[0361] iter 37 fold 1 no_physics
+2026-03-05 18:48:22,356 | 52761 | INFO | queue[0362] iter 37 fold 1 physics
+2026-03-05 18:48:22,356 | 52761 | INFO | queue[0363] iter 37 fold 2 no_physics
+2026-03-05 18:48:22,356 | 52761 | INFO | queue[0364] iter 37 fold 2 physics
+2026-03-05 18:48:22,356 | 52761 | INFO | queue[0365] iter 37 fold 3 no_physics
+2026-03-05 18:48:22,356 | 52761 | INFO | queue[0366] iter 37 fold 3 physics
+2026-03-05 18:48:22,356 | 52761 | INFO | queue[0367] iter 37 fold 4 no_physics
+2026-03-05 18:48:22,356 | 52761 | INFO | queue[0368] iter 37 fold 4 physics
+2026-03-05 18:48:22,356 | 52761 | INFO | queue[0369] iter 37 fold 5 no_physics
+2026-03-05 18:48:22,356 | 52761 | INFO | queue[0370] iter 37 fold 5 physics
+2026-03-05 18:48:22,356 | 52761 | INFO | queue[0371] iter 38 fold 1 no_physics
+2026-03-05 18:48:22,356 | 52761 | INFO | queue[0372] iter 38 fold 1 physics
+2026-03-05 18:48:22,356 | 52761 | INFO | queue[0373] iter 38 fold 2 no_physics
+2026-03-05 18:48:22,356 | 52761 | INFO | queue[0374] iter 38 fold 2 physics
+2026-03-05 18:48:22,356 | 52761 | INFO | queue[0375] iter 38 fold 3 no_physics
+2026-03-05 18:48:22,356 | 52761 | INFO | queue[0376] iter 38 fold 3 physics
+2026-03-05 18:48:22,356 | 52761 | INFO | queue[0377] iter 38 fold 4 no_physics
+2026-03-05 18:48:22,356 | 52761 | INFO | queue[0378] iter 38 fold 4 physics
+2026-03-05 18:48:22,356 | 52761 | INFO | queue[0379] iter 38 fold 5 no_physics
+2026-03-05 18:48:22,356 | 52761 | INFO | queue[0380] iter 38 fold 5 physics
+2026-03-05 18:48:22,356 | 52761 | INFO | queue[0381] iter 39 fold 1 no_physics
+2026-03-05 18:48:22,356 | 52761 | INFO | queue[0382] iter 39 fold 1 physics
+2026-03-05 18:48:22,356 | 52761 | INFO | queue[0383] iter 39 fold 2 no_physics
+2026-03-05 18:48:22,357 | 52761 | INFO | queue[0384] iter 39 fold 2 physics
+2026-03-05 18:48:22,357 | 52761 | INFO | queue[0385] iter 39 fold 3 no_physics
+2026-03-05 18:48:22,357 | 52761 | INFO | queue[0386] iter 39 fold 3 physics
+2026-03-05 18:48:22,357 | 52761 | INFO | queue[0387] iter 39 fold 4 no_physics
+2026-03-05 18:48:22,357 | 52761 | INFO | queue[0388] iter 39 fold 4 physics
+2026-03-05 18:48:22,357 | 52761 | INFO | queue[0389] iter 39 fold 5 no_physics
+2026-03-05 18:48:22,357 | 52761 | INFO | queue[0390] iter 39 fold 5 physics
+2026-03-05 18:48:22,357 | 52761 | INFO | queue[0391] iter 40 fold 1 no_physics
+2026-03-05 18:48:22,357 | 52761 | INFO | queue[0392] iter 40 fold 1 physics
+2026-03-05 18:48:22,357 | 52761 | INFO | queue[0393] iter 40 fold 2 no_physics
+2026-03-05 18:48:22,357 | 52761 | INFO | queue[0394] iter 40 fold 2 physics
+2026-03-05 18:48:22,357 | 52761 | INFO | queue[0395] iter 40 fold 3 no_physics
+2026-03-05 18:48:22,357 | 52761 | INFO | queue[0396] iter 40 fold 3 physics
+2026-03-05 18:48:22,357 | 52761 | INFO | queue[0397] iter 40 fold 4 no_physics
+2026-03-05 18:48:22,357 | 52761 | INFO | queue[0398] iter 40 fold 4 physics
+2026-03-05 18:48:22,357 | 52761 | INFO | queue[0399] iter 40 fold 5 no_physics
+2026-03-05 18:48:22,357 | 52761 | INFO | queue[0400] iter 40 fold 5 physics
+2026-03-05 18:48:22,357 | 52761 | INFO | queue[0401] iter 41 fold 1 no_physics
+2026-03-05 18:48:22,357 | 52761 | INFO | queue[0402] iter 41 fold 1 physics
+2026-03-05 18:48:22,357 | 52761 | INFO | queue[0403] iter 41 fold 2 no_physics
+2026-03-05 18:48:22,357 | 52761 | INFO | queue[0404] iter 41 fold 2 physics
+2026-03-05 18:48:22,357 | 52761 | INFO | queue[0405] iter 41 fold 3 no_physics
+2026-03-05 18:48:22,357 | 52761 | INFO | queue[0406] iter 41 fold 3 physics
+2026-03-05 18:48:22,357 | 52761 | INFO | queue[0407] iter 41 fold 4 no_physics
+2026-03-05 18:48:22,357 | 52761 | INFO | queue[0408] iter 41 fold 4 physics
+2026-03-05 18:48:22,358 | 52761 | INFO | queue[0409] iter 41 fold 5 no_physics
+2026-03-05 18:48:22,358 | 52761 | INFO | queue[0410] iter 41 fold 5 physics
+2026-03-05 18:48:22,358 | 52761 | INFO | queue[0411] iter 42 fold 1 no_physics
+2026-03-05 18:48:22,358 | 52761 | INFO | queue[0412] iter 42 fold 1 physics
+2026-03-05 18:48:22,358 | 52761 | INFO | queue[0413] iter 42 fold 2 no_physics
+2026-03-05 18:48:22,358 | 52761 | INFO | queue[0414] iter 42 fold 2 physics
+2026-03-05 18:48:22,358 | 52761 | INFO | queue[0415] iter 42 fold 3 no_physics
+2026-03-05 18:48:22,358 | 52761 | INFO | queue[0416] iter 42 fold 3 physics
+2026-03-05 18:48:22,358 | 52761 | INFO | queue[0417] iter 42 fold 4 no_physics
+2026-03-05 18:48:22,358 | 52761 | INFO | queue[0418] iter 42 fold 4 physics
+2026-03-05 18:48:22,358 | 52761 | INFO | queue[0419] iter 42 fold 5 no_physics
+2026-03-05 18:48:22,358 | 52761 | INFO | queue[0420] iter 42 fold 5 physics
+2026-03-05 18:48:22,358 | 52761 | INFO | queue[0421] iter 43 fold 1 no_physics
+2026-03-05 18:48:22,359 | 52761 | INFO | queue[0422] iter 43 fold 1 physics
+2026-03-05 18:48:22,359 | 52761 | INFO | queue[0423] iter 43 fold 2 no_physics
+2026-03-05 18:48:22,359 | 52761 | INFO | queue[0424] iter 43 fold 2 physics
+2026-03-05 18:48:22,359 | 52761 | INFO | queue[0425] iter 43 fold 3 no_physics
+2026-03-05 18:48:22,359 | 52761 | INFO | queue[0426] iter 43 fold 3 physics
+2026-03-05 18:48:22,359 | 52761 | INFO | queue[0427] iter 43 fold 4 no_physics
+2026-03-05 18:48:22,359 | 52761 | INFO | queue[0428] iter 43 fold 4 physics
+2026-03-05 18:48:22,360 | 52761 | INFO | queue[0429] iter 43 fold 5 no_physics
+2026-03-05 18:48:22,360 | 52761 | INFO | queue[0430] iter 43 fold 5 physics
+2026-03-05 18:48:22,360 | 52761 | INFO | queue[0431] iter 44 fold 1 no_physics
+2026-03-05 18:48:22,360 | 52761 | INFO | queue[0432] iter 44 fold 1 physics
+2026-03-05 18:48:22,360 | 52761 | INFO | queue[0433] iter 44 fold 2 no_physics
+2026-03-05 18:48:22,360 | 52761 | INFO | queue[0434] iter 44 fold 2 physics
+2026-03-05 18:48:22,360 | 52761 | INFO | queue[0435] iter 44 fold 3 no_physics
+2026-03-05 18:48:22,360 | 52761 | INFO | queue[0436] iter 44 fold 3 physics
+2026-03-05 18:48:22,360 | 52761 | INFO | queue[0437] iter 44 fold 4 no_physics
+2026-03-05 18:48:22,361 | 52761 | INFO | queue[0438] iter 44 fold 4 physics
+2026-03-05 18:48:22,361 | 52761 | INFO | queue[0439] iter 44 fold 5 no_physics
+2026-03-05 18:48:22,361 | 52761 | INFO | queue[0440] iter 44 fold 5 physics
+2026-03-05 18:48:22,361 | 52761 | INFO | queue[0441] iter 45 fold 1 no_physics
+2026-03-05 18:48:22,361 | 52761 | INFO | queue[0442] iter 45 fold 1 physics
+2026-03-05 18:48:22,361 | 52761 | INFO | queue[0443] iter 45 fold 2 no_physics
+2026-03-05 18:48:22,361 | 52761 | INFO | queue[0444] iter 45 fold 2 physics
+2026-03-05 18:48:22,361 | 52761 | INFO | queue[0445] iter 45 fold 3 no_physics
+2026-03-05 18:48:22,361 | 52761 | INFO | queue[0446] iter 45 fold 3 physics
+2026-03-05 18:48:22,362 | 52761 | INFO | queue[0447] iter 45 fold 4 no_physics
+2026-03-05 18:48:22,362 | 52761 | INFO | queue[0448] iter 45 fold 4 physics
+2026-03-05 18:48:22,362 | 52761 | INFO | queue[0449] iter 45 fold 5 no_physics
+2026-03-05 18:48:22,362 | 52761 | INFO | queue[0450] iter 45 fold 5 physics
+2026-03-05 18:48:22,362 | 52761 | INFO | queue[0451] iter 46 fold 1 no_physics
+2026-03-05 18:48:22,362 | 52761 | INFO | queue[0452] iter 46 fold 1 physics
+2026-03-05 18:48:22,362 | 52761 | INFO | queue[0453] iter 46 fold 2 no_physics
+2026-03-05 18:48:22,362 | 52761 | INFO | queue[0454] iter 46 fold 2 physics
+2026-03-05 18:48:22,362 | 52761 | INFO | queue[0455] iter 46 fold 3 no_physics
+2026-03-05 18:48:22,362 | 52761 | INFO | queue[0456] iter 46 fold 3 physics
+2026-03-05 18:48:22,362 | 52761 | INFO | queue[0457] iter 46 fold 4 no_physics
+2026-03-05 18:48:22,362 | 52761 | INFO | queue[0458] iter 46 fold 4 physics
+2026-03-05 18:48:22,362 | 52761 | INFO | queue[0459] iter 46 fold 5 no_physics
+2026-03-05 18:48:22,362 | 52761 | INFO | queue[0460] iter 46 fold 5 physics
+2026-03-05 18:48:22,362 | 52761 | INFO | queue[0461] iter 47 fold 1 no_physics
+2026-03-05 18:48:22,363 | 52761 | INFO | queue[0462] iter 47 fold 1 physics
+2026-03-05 18:48:22,363 | 52761 | INFO | queue[0463] iter 47 fold 2 no_physics
+2026-03-05 18:48:22,363 | 52761 | INFO | queue[0464] iter 47 fold 2 physics
+2026-03-05 18:48:22,363 | 52761 | INFO | queue[0465] iter 47 fold 3 no_physics
+2026-03-05 18:48:22,363 | 52761 | INFO | queue[0466] iter 47 fold 3 physics
+2026-03-05 18:48:22,363 | 52761 | INFO | queue[0467] iter 47 fold 4 no_physics
+2026-03-05 18:48:22,363 | 52761 | INFO | queue[0468] iter 47 fold 4 physics
+2026-03-05 18:48:22,363 | 52761 | INFO | queue[0469] iter 47 fold 5 no_physics
+2026-03-05 18:48:22,363 | 52761 | INFO | queue[0470] iter 47 fold 5 physics
+2026-03-05 18:48:22,363 | 52761 | INFO | queue[0471] iter 48 fold 1 no_physics
+2026-03-05 18:48:22,363 | 52761 | INFO | queue[0472] iter 48 fold 1 physics
+2026-03-05 18:48:22,363 | 52761 | INFO | queue[0473] iter 48 fold 2 no_physics
+2026-03-05 18:48:22,363 | 52761 | INFO | queue[0474] iter 48 fold 2 physics
+2026-03-05 18:48:22,363 | 52761 | INFO | queue[0475] iter 48 fold 3 no_physics
+2026-03-05 18:48:22,363 | 52761 | INFO | queue[0476] iter 48 fold 3 physics
+2026-03-05 18:48:22,363 | 52761 | INFO | queue[0477] iter 48 fold 4 no_physics
+2026-03-05 18:48:22,363 | 52761 | INFO | queue[0478] iter 48 fold 4 physics
+2026-03-05 18:48:22,363 | 52761 | INFO | queue[0479] iter 48 fold 5 no_physics
+2026-03-05 18:48:22,363 | 52761 | INFO | queue[0480] iter 48 fold 5 physics
+2026-03-05 18:48:22,363 | 52761 | INFO | [EXTERNAL CV QUEUE] total jobs = 480
+2026-03-05 18:48:22,383 | 52761 | ERROR | External CV Queue:   0%|                               | 0/480 [00:00<?, ?job/s]
+2026-03-05 18:48:42,099 | 52761 | ERROR | External CV Queue:   0%|                     | 1/480 [00:19<2:37:24, 19.72s/job]
+2026-03-05 18:49:16,433 | 52761 | ERROR | External CV Queue:   0%|                     | 2/480 [00:54<3:45:34, 28.31s/job]
+2026-03-05 18:49:53,874 | 52761 | ERROR | External CV Queue:   1%|1                    | 3/480 [01:31<4:18:13, 32.48s/job]
+2026-03-05 18:50:11,984 | 52761 | ERROR | External CV Queue:   1%|1                    | 4/480 [01:49<3:32:40, 26.81s/job]
+2026-03-05 18:50:49,803 | 52761 | ERROR | External CV Queue:   1%|2                    | 5/480 [02:27<4:03:39, 30.78s/job]
+2026-03-05 18:51:09,083 | 52761 | ERROR | External CV Queue:   1%|2                    | 6/480 [02:46<3:32:15, 26.87s/job]
+2026-03-05 18:51:48,369 | 52761 | ERROR | External CV Queue:   1%|3                    | 7/480 [03:25<4:03:49, 30.93s/job]
+2026-03-05 18:52:08,453 | 52761 | ERROR | External CV Queue:   1%|3                    | 7/480 [03:46<4:14:35, 32.30s/job]
+2026-03-05 18:52:08,469 | 52761 | ERROR | Traceback (most recent call last):
+2026-03-05 18:52:08,469 | 52761 | ERROR | File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/multiprocessing/pool.py", line 856, in next
+2026-03-05 18:52:08,469 | 52761 | ERROR | item = self._items.popleft()
+2026-03-05 18:52:08,469 | 52761 | ERROR | ^
+2026-03-05 18:52:08,469 | 52761 | ERROR | ^
+2026-03-05 18:52:08,469 | 52761 | ERROR | ^
+2026-03-05 18:52:08,469 | 52761 | ERROR | ^
+2026-03-05 18:52:08,469 | 52761 | ERROR | ^
+2026-03-05 18:52:08,469 | 52761 | ERROR | ^
+2026-03-05 18:52:08,469 | 52761 | ERROR | ^
+2026-03-05 18:52:08,469 | 52761 | ERROR | ^
+2026-03-05 18:52:08,469 | 52761 | ERROR | ^
+2026-03-05 18:52:08,469 | 52761 | ERROR | ^
+2026-03-05 18:52:08,469 | 52761 | ERROR | ^
+2026-03-05 18:52:08,469 | 52761 | ERROR | ^
+2026-03-05 18:52:08,469 | 52761 | ERROR | ^
+2026-03-05 18:52:08,469 | 52761 | ERROR | ^
+2026-03-05 18:52:08,469 | 52761 | ERROR | ^
+2026-03-05 18:52:08,469 | 52761 | ERROR | ^
+2026-03-05 18:52:08,469 | 52761 | ERROR | ^
+2026-03-05 18:52:08,469 | 52761 | ERROR | ^
+2026-03-05 18:52:08,469 | 52761 | ERROR | ^
+2026-03-05 18:52:08,469 | 52761 | ERROR | ^
+2026-03-05 18:52:08,469 | 52761 | ERROR | ^
+2026-03-05 18:52:08,469 | 52761 | ERROR | IndexError
+2026-03-05 18:52:08,469 | 52761 | ERROR | :
+2026-03-05 18:52:08,469 | 52761 | ERROR | pop from an empty deque
+2026-03-05 18:52:08,469 | 52761 | ERROR | During handling of the above exception, another exception occurred:
+2026-03-05 18:52:08,469 | 52761 | ERROR | Traceback (most recent call last):
+2026-03-05 18:52:08,470 | 52761 | ERROR | File "/Users/maxwellfung/UCB-USACE-RR-PROJECT/run_hyperparam_search.py", line 1212, in <module>
+2026-03-05 18:52:08,470 | 52761 | ERROR | main()
+2026-03-05 18:52:08,470 | 52761 | ERROR | File "/Users/maxwellfung/UCB-USACE-RR-PROJECT/run_hyperparam_search.py", line 1001, in main
+2026-03-05 18:52:08,470 | 52761 | ERROR | for result in tqdm(
+2026-03-05 18:52:08,470 | 52761 | ERROR | File "/Users/maxwellfung/UCB-USACE-RR-PROJECT/venv/lib/python3.11/site-packages/tqdm/std.py", line 1181, in __iter__
+2026-03-05 18:52:08,470 | 52761 | ERROR | for obj in iterable:
+2026-03-05 18:52:08,470 | 52761 | ERROR | File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/multiprocessing/pool.py", line 861, in next
+2026-03-05 18:52:08,470 | 52761 | ERROR | self._cond.wait(timeout)
+2026-03-05 18:52:08,470 | 52761 | ERROR | File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/threading.py", line 320, in wait
+2026-03-05 18:52:08,470 | 52761 | ERROR | waiter.acquire()
+2026-03-05 18:52:08,470 | 52761 | ERROR | KeyboardInterrupt

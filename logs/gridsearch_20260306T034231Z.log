@@ -1,0 +1,68 @@
+2026-03-05 19:42:31,417 | 60028 | INFO | [+   0.00s]
+2026-03-05 19:42:31,417 | 60028 | INFO | Basin: guerneville, GPU: -1, Verbose: True
+2026-03-05 19:42:31,417 | 60028 | INFO | [+   0.00s]
+2026-03-05 19:42:31,417 | 60028 | INFO | Pre-warming numba JIT ...
+2026-03-05 19:42:31,977 | 60028 | INFO | [+   0.56s]
+2026-03-05 19:42:31,977 | 60028 | INFO | Numba JIT pre-compiled.
+2026-03-05 19:42:31,977 | 60028 | INFO | YAML PATH:
+2026-03-05 19:42:31,977 | 60028 | INFO | /Users/maxwellfung/UCB-USACE-RR-PROJECT/UCB_training/configs/guerneville_mtslstm2.yaml
+2026-03-05 19:42:31,978 | 60028 | INFO | [+   0.56s]
+2026-03-05 19:42:31,978 | 60028 | INFO | 48 combinations, 9 workers
+2026-03-05 19:42:31,978 | 60028 | INFO | run_gridsearch =
+2026-03-05 19:42:31,978 | 60028 | INFO | False
+2026-03-05 19:42:31,978 | 60028 | INFO | hparams_exists =
+2026-03-05 19:42:31,978 | 60028 | INFO | False
+2026-03-05 19:42:31,981 | 60028 | INFO | [EXTERNAL CV FOLDS]
+2026-03-05 19:42:31,981 | 60028 | INFO | fold 1: train 01/10/1994 -> 01/10/1996 | val 02/10/1996 -> 01/10/1997 | eval 02/10/1996 -> 01/10/1997
+2026-03-05 19:42:31,981 | 60028 | INFO | fold 2: train 01/10/1994 -> 01/10/1998 | val 02/10/1998 -> 01/10/1999 | eval 02/10/1998 -> 01/10/1999
+2026-03-05 19:42:31,981 | 60028 | INFO | fold 3: train 01/10/1994 -> 01/10/2000 | val 02/10/2000 -> 01/10/2001 | eval 02/10/2000 -> 01/10/2001
+2026-03-05 19:42:31,981 | 60028 | INFO | fold 4: train 01/10/1994 -> 01/10/2002 | val 02/10/2002 -> 01/10/2003 | eval 02/10/2002 -> 01/10/2003
+2026-03-05 19:42:31,981 | 60028 | INFO | fold 5: train 01/10/1994 -> 01/10/2004 | val 02/10/2004 -> 01/10/2005 | eval 02/10/2004 -> 01/10/2005
+2026-03-05 19:42:31,981 | 60028 | INFO | [EXTERNAL CV FOLDS] total folds = 5
+2026-03-05 19:42:31,981 | 60028 | INFO | [BAYESIAN OPTIMIZATION] Using 9 parallel workers
+2026-03-05 19:42:31,982 | 60028 | INFO | [BAYES] no_physics: 1 parallel trials x 5 folds = up to 5 workers
+2026-03-05 19:42:31,995 | 60028 | INFO | Bayes No-Physics Trials:   0%|                         | 0/1 [00:00<?, ?trial/s]
+2026-03-05 19:42:33,281 | 60028 | INFO | Bayes No-Physics Trials: 100%|#################| 1/1 [00:01<00:00,  1.29s/trial]
+2026-03-05 19:42:33,281 | 60028 | INFO | Bayes No-Physics Trials: 100%|#################| 1/1 [00:01<00:00,  1.29s/trial]
+2026-03-05 19:42:33,290 | 60028 | INFO | Bayes No-Physics Trials:   0%|                         | 0/1 [00:00<?, ?trial/s]
+2026-03-05 19:42:34,547 | 60028 | INFO | Bayes No-Physics Trials:   0%|                         | 0/1 [00:01<?, ?trial/s]
+2026-03-05 19:42:34,551 | 60028 | INFO | multiprocessing.pool
+2026-03-05 19:42:34,551 | 60028 | INFO | .
+2026-03-05 19:42:34,551 | 60028 | INFO | RemoteTraceback
+2026-03-05 19:42:34,551 | 60028 | INFO | :
+2026-03-05 19:42:34,552 | 60028 | INFO | """
+Traceback (most recent call last):
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/multiprocessing/pool.py", line 125, in worker
+    result = (True, func(*args, **kwds))
+                    ^^^^^^^^^^^^^^^^^^^
+  File "/Users/maxwellfung/UCB-USACE-RR-PROJECT/run_hyperparam_search.py", line 898, in run_parallel_bayes_worker
+    study.optimize(
+  File "/Users/maxwellfung/UCB-USACE-RR-PROJECT/venv/lib/python3.11/site-packages/optuna/study/study.py", line 490, in optimize
+    _optimize(
+  File "/Users/maxwellfung/UCB-USACE-RR-PROJECT/venv/lib/python3.11/site-packages/optuna/study/_optimize.py", line 68, in _optimize
+    _optimize_sequential(
+  File "/Users/maxwellfung/UCB-USACE-RR-PROJECT/venv/lib/python3.11/site-packages/optuna/study/_optimize.py", line 165, in _optimize_sequential
+    frozen_trial_id = _run_trial(study, func, catch)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/maxwellfung/UCB-USACE-RR-PROJECT/venv/lib/python3.11/site-packages/optuna/study/_optimize.py", line 263, in _run_trial
+    raise func_err
+  File "/Users/maxwellfung/UCB-USACE-RR-PROJECT/venv/lib/python3.11/site-packages/optuna/study/_optimize.py", line 206, in _run_trial
+    value_or_values = func(trial)
+                      ^^^^^^^^^^^
+  File "/Users/maxwellfung/UCB-USACE-RR-PROJECT/run_hyperparam_search.py", line 838, in objective
+    raise RuntimeError(
+RuntimeError: Worker expected trial.number=1, got 0
+"""
+2026-03-05 19:42:34,552 | 60028 | INFO | The above exception was the direct cause of the following exception:
+2026-03-05 19:42:34,552 | 60028 | INFO | Traceback (most recent call last):
+2026-03-05 19:42:34,552 | 60028 | INFO | File "/Users/maxwellfung/UCB-USACE-RR-PROJECT/run_hyperparam_search.py", line 1362, in <module>
+2026-03-05 19:42:34,552 | 60028 | INFO | main()
+2026-03-05 19:42:34,552 | 60028 | INFO | File "/Users/maxwellfung/UCB-USACE-RR-PROJECT/run_hyperparam_search.py", line 1025, in main
+2026-03-05 19:42:34,552 | 60028 | INFO | list(tqdm(
+2026-03-05 19:42:34,552 | 60028 | INFO | File "/Users/maxwellfung/UCB-USACE-RR-PROJECT/venv/lib/python3.11/site-packages/tqdm/std.py", line 1181, in __iter__
+2026-03-05 19:42:34,552 | 60028 | INFO | for obj in iterable:
+2026-03-05 19:42:34,552 | 60028 | INFO | File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/multiprocessing/pool.py", line 873, in next
+2026-03-05 19:42:34,552 | 60028 | INFO | raise value
+2026-03-05 19:42:34,552 | 60028 | INFO | RuntimeError
+2026-03-05 19:42:34,552 | 60028 | INFO | :
+2026-03-05 19:42:34,552 | 60028 | INFO | Worker expected trial.number=1, got 0

@@ -4,7 +4,7 @@ HYPERPARAM_SPACE = {
     "seq_length_1D": [90, 120],
     "seq_length_1H": [168, 336],
     "num_layers": [1, 2],
-    "epochs": [300],
+    "epochs": [2],
     "batch_size": [64],
 }
 hyperparam_names = list(HYPERPARAM_SPACE.keys())
@@ -13,18 +13,18 @@ BASIN = "guerneville"  # "calpella", "warm_springs", "hopland", or "guerneville"
 GPU_SETTING = -1
 NUM_WORKERS = 0
 
-VERBOSE = True
+VERBOSE = False
 RUN_NO_PHYSICS_ONLY = False
 
 USE_BAYES = True
-N_BAYES_TRIALS = 42
+N_BAYES_TRIALS = 48
 BAYES_JOURNAL_DIR = ""
 
 RUN_LABEL = "CROSS_VAL_V4"
 # READ_STAMP = "20260304T002129Z"
 READ_STAMP = ""
 
-USE_CV = False
+USE_CV = True
 CV_INTERVAL_MONTH = "October"
 CV_INTERVAL_LENGTH = 2
 CV_VALIDATION_LENGTH = 1
@@ -80,7 +80,8 @@ def setup_logging():
             pass
 
     sys.stdout = LoggerWriter(logging.info)
-    sys.stderr = LoggerWriter(logging.error)
+    sys.stderr = LoggerWriter(logging.info)
+
 
 import traceback
 import sys
@@ -97,6 +98,7 @@ import optuna
 import math
 from optuna.storages import JournalStorage
 from optuna.storages.journal import JournalFileBackend
+from neuralhydrology.utils.config import Config
 from UCB_training.UCB_utils import (
     fractional_multi_lr, data_dir, get_yaml_path,
     ensure_shared_tree, make_run_stamp,
@@ -573,12 +575,397 @@ def run_physics_worker(args):
         raise
 
 
+def _parse_cfg_date(v):
+    if v is None:
+        return None
+    return pd.to_datetime(v, dayfirst=True)
+
+def _iso_date(dt) -> str:
+    return pd.to_datetime(dt).strftime("%d/%m/%Y")
+
+def _round_timedelta_up_to_day(delta: pd.Timedelta) -> pd.Timedelta:
+    days = delta / pd.Timedelta(days=1)
+    days_ceiled = np.ceil(days)
+    return pd.Timedelta(days=int(days_ceiled))
+
+def generate_cv_folds_external(yaml_path: Path,
+                               intervalMonth: str = "October",
+                               intervalLength: int = 2,
+                               validationLength: int = 1):
+    """
+    Externalized copy of the fold-generation logic from UCB_trainer.cross_validate().
+    Returns a list of fold dicts with the exact dates needed for one-fold training/eval jobs.
+    """
+    cfg = Config(yaml_path, dev_mode=True)
+
+    MonthsLib = {
+        'january': 'Jan', 'february': 'Feb', 'march': 'Mar', 'april': 'Apr',
+        'may': 'May', 'june': 'Jun', 'july': 'Jul', 'august': 'Aug',
+        'september': 'Sep', 'october': 'Oct', 'november': 'Nov', 'december': 'Dec'
+    }
+    interval = MonthsLib[intervalMonth.lower()]
+
+    is_mts = bool(getattr(cfg, "is_mts", False))
+    _cfg = cfg._cfg
+
+    _has_ranges = (
+        "train_ranges" in _cfg and _cfg["train_ranges"] and
+        "validation_ranges" in _cfg and _cfg["validation_ranges"]
+    )
+
+    if _has_ranges:
+        first_train = _cfg["train_ranges"][0]
+        last_val = _cfg["validation_ranges"][-1]
+        original_start = pd.to_datetime(first_train.split("-")[0], dayfirst=True)
+        original_end = pd.to_datetime(last_val.split("-")[1], dayfirst=True)
+    else:
+        original_start = _parse_cfg_date(getattr(cfg, "train_start_date", None))
+        original_end = _parse_cfg_date(getattr(cfg, "validation_end_date", None))
+
+    if original_start is None or original_end is None:
+        raise ValueError("Could not determine train/validation date span from YAML for external CV queue generation.")
+
+    original_start_year = int(original_start.year)
+    original_end_year = int(original_end.year)
+
+    n_years = original_end_year - original_start_year + 1
+    max_fold = (n_years - 1 - validationLength) // intervalLength
+
+    seq_length = getattr(cfg, "seq_length", None)
+
+    # robust detection
+    if isinstance(seq_length, dict):
+        is_mts = True
+        lookback_dict = seq_length
+    else:
+        is_mts = False
+        lookback = int(seq_length)
+
+    folds = []
+
+    i = 1
+    while i <= max_fold:
+        fold_train_start_date = pd.to_datetime(
+            f"{str(original_start_year)}-{interval}-01", format="%Y-%b-%d"
+        )
+        fold_train_end_date = pd.to_datetime(
+            f"{original_start_year + (intervalLength * i)}-{interval}-01", format="%Y-%b-%d"
+        )
+        val_eval_start = pd.to_datetime(fold_train_end_date) + pd.Timedelta(days=1)
+        fold_val_end_date = pd.to_datetime(
+            f"{original_start_year + (intervalLength * i + validationLength)}-{interval}-01",
+            format="%Y-%b-%d"
+        )
+
+        if not is_mts:
+            val_leak_start = val_eval_start - pd.Timedelta(days=lookback - 1)
+            folds.append({
+                "fold": i,
+                "train_start_date": _iso_date(fold_train_start_date),
+                "train_end_date": _iso_date(fold_train_end_date),
+                "validation_start_date": _iso_date(val_leak_start),
+                "validation_end_date": _iso_date(fold_val_end_date),
+                "val_eval_start": _iso_date(val_eval_start),
+                "val_eval_end": _iso_date(fold_val_end_date),
+                "validation_start_per_frequency": None,
+            })
+        else:
+            val_leak_start_d = val_eval_start - pd.Timedelta(days=lookback_dict['1D'] - 1)
+            val_leak_start_h = val_eval_start - _round_timedelta_up_to_day(
+                pd.Timedelta(hours=lookback_dict['1H'])
+            )
+            folds.append({
+                "fold": i,
+                "train_start_date": _iso_date(fold_train_start_date),
+                "train_end_date": _iso_date(fold_train_end_date),
+                "validation_start_date": _iso_date(val_eval_start),
+                "validation_end_date": _iso_date(fold_val_end_date),
+                "val_eval_start": _iso_date(val_eval_start),
+                "val_eval_end": _iso_date(fold_val_end_date),
+                "validation_start_per_frequency": {
+                    "1D": _iso_date(val_leak_start_d),
+                    "1H": _iso_date(val_leak_start_h),
+                },
+            })
+
+        i += 1
+
+    return folds
+
+def build_external_cv_queue(all_combinations, folds, include_physics=True):
+
+    queue = []
+
+    # iterate folds first for better load balancing
+    for fold in folds:
+        for idx, comb in enumerate(all_combinations):
+
+            queue.append({
+                "job_type": "no_physics",
+                "iter_idx": idx,
+                "fold": fold["fold"],
+                "comb": comb,
+                "fold_cfg": fold,
+            })
+
+            if include_physics:
+                queue.append({
+                    "job_type": "physics",
+                    "iter_idx": idx,
+                    "fold": fold["fold"],
+                    "comb": comb,
+                    "fold_cfg": fold,
+                })
+
+    return queue
+
+def print_external_cv_queue(queue):
+    print("\n[EXTERNAL CV QUEUE]")
+    for q_idx, job in enumerate(queue, start=1):
+        print(
+            f"queue[{q_idx:04d}] "
+            f"iter {job['iter_idx'] + 1} "
+            f"fold {job['fold']} "
+            f"{job['job_type']}"
+        )
+    print(f"[EXTERNAL CV QUEUE] total jobs = {len(queue)}\n")
+
+def _run_external_cv_queue_job(job):
+
+    global path_to_csv, path_to_yaml, features_with_physics
+    global path_to_physics_data_1H
+    global RUNS_PARENT, RUN_LABEL, RUN_STAMP
+
+    # Ensure globals exist in worker
+    if RUNS_PARENT is None:
+        bcfg = BASIN_CONFIGS[BASIN]
+
+        path_to_csv = data_dir()
+        path_to_yaml = get_yaml_path(bcfg["yaml_key"])
+        path_to_physics_data_1H = path_to_csv / bcfg["physics_file_1H"]
+        features_with_physics = bcfg["features_with_physics"]
+
+        _SHARED = ensure_shared_tree(BASIN, "mts")
+        RUNS_PARENT = str(_SHARED / "runs" / f"{RUN_LABEL}_{RUN_STAMP}")
+
+    job_type = job["job_type"]
+    idx = job["iter_idx"]
+    comb = job["comb"]
+    fold = job["fold_cfg"]
+
+    common_tail = (
+        True, True,
+        False,  # use_cv_for_selection -> False because CV is now externalized into the queue
+        CV_INTERVAL_MONTH, CV_INTERVAL_LENGTH, CV_VALIDATION_LENGTH,
+        fold["train_start_date"],
+        fold["train_end_date"],
+        fold["validation_start_date"],
+        fold["validation_end_date"],
+        fold["val_eval_start"],
+        fold["val_eval_end"],
+        fold["validation_start_per_frequency"],
+        fold["fold"],
+        len(EXTERNAL_CV_FOLDS),
+        True,  # cv_external_queue_mode
+    )
+
+    if job_type == "no_physics":
+        args = (
+            idx, comb, hyperparam_names, path_to_csv, path_to_yaml,
+            GPU_SETTING, RUNS_PARENT, RUN_LABEL, RUN_STAMP, verbose,
+            fractional_multi_lr,
+            NUM_ENSEMBLES, BOOTSTRAP_MODELS, HYPERPARAM_ENSEMBLE,
+            *common_tail
+        )
+        result = run_single_experiment_nophysics(args)
+    else:
+        args = (
+            idx, comb, hyperparam_names, path_to_csv, path_to_yaml,
+            GPU_SETTING, RUNS_PARENT, RUN_LABEL, RUN_STAMP, verbose,
+            fractional_multi_lr,
+            NUM_ENSEMBLES, BOOTSTRAP_MODELS, HYPERPARAM_ENSEMBLE,
+            features_with_physics,
+            path_to_physics_data_1H,
+            *common_tail
+        )
+        result = run_single_experiment_physics(args)
+
+    result["_queue_job_type"] = job_type
+    result["_queue_iter_idx"] = idx
+    result["_queue_fold"] = fold["fold"]
+
+    print(
+        f"[QUEUE COMPLETED] iter {idx + 1} fold {fold['fold']} {job_type} "
+        f"NSE_1D={result.get('NSE_1D', float('nan')):.5f} "
+        f"NSE_1H={result.get('NSE_1H', float('nan')):.5f}"
+    )
+
+    return result
+
+def log_bayes_queue(pending_jobs, inflight):
+
+    print("\n[BAYES QUEUE STATE]")
+    print(f"pending_jobs = {len(pending_jobs)}")
+    print(f"inflight_trials = {list(inflight.keys())}")
+
+    for i, job in enumerate(pending_jobs):
+        print(
+            f"queue[{i:04d}] "
+            f"trial {job['iter_idx'] + 1} "
+            f"fold {job['fold']} "
+            f"{job['job_type']}"
+        )
+
+    print("[END BAYES QUEUE]\n")
+
+def run_bayes_streaming_queue(study, model_type, total_trials, num_cores):
+
+    global EXTERNAL_CV_FOLDS
+
+    folds_per_trial = len(EXTERNAL_CV_FOLDS)
+
+    from collections import defaultdict
+
+    pending_jobs = []
+    inflight = {}
+
+    completed_trials = len([t for t in study.trials if t.value is not None])
+    launched_trials = len(study.trials)
+
+    target_queue = num_cores + 1
+
+    def enqueue_trial():
+
+        nonlocal launched_trials
+
+        if launched_trials >= total_trials:
+            return False
+
+        trial = study.ask()
+        comb = suggest_from_space(trial)
+
+        inflight[trial.number] = {
+            "trial": trial,
+            "comb": comb,
+            "fold_results": []
+        }
+
+        for fold in EXTERNAL_CV_FOLDS:
+            pending_jobs.append({
+                "job_type": model_type,
+                "iter_idx": trial.number,
+                "fold": fold["fold"],
+                "comb": comb,
+                "fold_cfg": fold,
+            })
+
+        print(f"\n[ENQUEUE TRIAL] trial {trial.number+1} {model_type}")
+        log_bayes_queue(pending_jobs, inflight)
+
+        launched_trials += 1
+        return True
+
+
+    while len(pending_jobs) < target_queue:
+        if not enqueue_trial():
+            break
+
+
+    with mp.Pool(processes=num_cores) as pool:
+
+        active = []
+
+        while True:
+
+            while pending_jobs and len(active) < num_cores:
+                job = pending_jobs.pop(0)
+                res = pool.apply_async(run_parallel_bayes_worker, (job,))
+                active.append((res, job))
+
+            new_active = []
+
+            for res, job in active:
+
+                if res.ready():
+
+                    result = res.get()
+
+                    trial_number = result["_queue_iter_idx"]
+
+                    inflight[trial_number]["fold_results"].append(result)
+
+                    if len(inflight[trial_number]["fold_results"]) == folds_per_trial:
+
+                        folds = inflight[trial_number]["fold_results"]
+
+                        mean_1d = np.mean([f["NSE_1D"] for f in folds])
+                        mean_1h = np.mean([f["NSE_1H"] for f in folds])
+
+                        value = 0.7 * mean_1h + 0.3 * mean_1d
+
+                        trial = inflight[trial_number]["trial"]
+                        comb = inflight[trial_number]["comb"]
+
+                        hp_dict = dict(zip(hyperparam_names, comb))
+
+                        append_trial_row(
+                            {
+                                **hp_dict,
+                                "NSE_1D": mean_1d,
+                                "NSE_1H": mean_1h,
+                                "value": value
+                            },
+                            basin=BASIN,
+                            mode=MODE,
+                            label=RUN_LABEL,
+                            run_stamp=RUN_STAMP,
+                            tag=model_type,
+                        )
+
+                        study.tell(trial, value)
+
+                        print(
+                            f"[TRIAL COMPLETE] trial {trial.number+1} {model_type} "
+                            f"NSE_1D={mean_1d:.5f} NSE_1H={mean_1h:.5f}"
+                        )
+
+                        del inflight[trial_number]
+
+                        while len(pending_jobs) < target_queue:
+                            if not enqueue_trial():
+                                break
+
+                    completed_trials = len([t for t in study.trials if t.value is not None])
+
+                    if completed_trials >= total_trials:
+                        return
+
+                else:
+                    new_active.append((res, job))
+
+            active = new_active
+
+            time.sleep(0.1)
+
+def run_parallel_bayes_worker(job):
+    """
+    Executes ONE fold job.
+    This is now the worker entrypoint used by the streaming scheduler.
+    """
+
+    return _run_external_cv_queue_job(job)
+
+
+EXTERNAL_CV_FOLDS = []
+
+
 def main():
     global hyperparam_names, path_to_csv, path_to_yaml
     global features_with_physics, path_to_physics_data_1H
     global RUNS_PARENT, RUN_LABEL, RUN_STAMP
     global verbose, fractional_multi_lr
     global use_cv_for_selection, MODE
+    global EXTERNAL_CV_FOLDS
 
     os.chdir(PROJECT_ROOT / "notebooks" / "basins" / BASIN)
 
@@ -615,7 +1002,7 @@ def main():
     else:
         num_cores = min(n_combos, max(1, mp.cpu_count() - 1))
 
-    num_cores = 14
+    num_cores = os.cpu_count() - 1
 
     _print(f"{n_combos} combinations, {num_cores} workers")
 
@@ -635,6 +1022,22 @@ def main():
     print("run_gridsearch =", run_gridsearch)
     print("hparams_exists =", hparams_exists(BASIN, MODE, RUN_LABEL))
 
+    if USE_CV:
+        EXTERNAL_CV_FOLDS = generate_cv_folds_external(
+            path_to_yaml,
+            intervalMonth=CV_INTERVAL_MONTH,
+            intervalLength=CV_INTERVAL_LENGTH,
+            validationLength=CV_VALIDATION_LENGTH
+        )
+        print("\n[EXTERNAL CV FOLDS]")
+        for f in EXTERNAL_CV_FOLDS:
+            print(
+                f"fold {f['fold']}: "
+                f"train {f['train_start_date']} -> {f['train_end_date']} | "
+                f"val {f['validation_start_date']} -> {f['validation_end_date']} | "
+                f"eval {f['val_eval_start']} -> {f['val_eval_end']}"
+            )
+        print(f"[EXTERNAL CV FOLDS] total folds = {len(EXTERNAL_CV_FOLDS)}\n")
 
     if USE_BAYESIAN:
 
@@ -642,12 +1045,9 @@ def main():
 
         print(f"\n[BAYESIAN OPTIMIZATION] Using {num_cores} parallel workers\n")
 
-        _, done_no = load_checkpoint("no_physics")
-        remaining_no = max(N_BAYES_TRIALS - done_no, 0)
-
-        print(f"[Bayes] No-physics remaining trials: {remaining_no}")
 
         journal_path = Path(RUNS_PARENT) / f"{RUN_LABEL}_{RUN_STAMP}_nophys_journal.log"
+
         study_no = optuna.create_study(
             study_name="journal_storage_multiprocess",
             storage=JournalStorage(JournalFileBackend(file_path=str(journal_path))),
@@ -655,23 +1055,25 @@ def main():
             direction="maximize",
         )
 
-        if remaining_no > 0:
-            with mp.Pool(processes=num_cores) as pool:
-                worker_args = [
-                    (remaining_no, num_cores, RUNS_PARENT, RUN_LABEL, RUN_STAMP)
-                    for _ in range(num_cores)
-                ]
+        workers_per_trial = len(EXTERNAL_CV_FOLDS)
 
-                pool.map(run_no_physics_worker, worker_args)
-        else:
-            print("[Bayes] No-physics already complete — skipping.")
+        # correct scheduling
+        parallel_trials = max(1, math.ceil(num_cores / workers_per_trial))
 
-        _, done_phys = load_checkpoint("physics")
-        remaining_phys = max(N_BAYES_TRIALS - done_phys, 0)
+        print(
+            f"[BAYES] no_physics: {parallel_trials} parallel trials "
+            f"x {workers_per_trial} folds = up to {parallel_trials * workers_per_trial} workers"
+        )
 
-        print(f"[Bayes] Physics remaining trials: {remaining_phys}")
+        run_bayes_streaming_queue(
+            study_no,
+            "no_physics",
+            N_BAYES_TRIALS,
+            num_cores
+        )
 
         journal_path = Path(RUNS_PARENT) / f"{RUN_LABEL}_{RUN_STAMP}_phys_journal.log"
+
         study_phys = optuna.create_study(
             study_name="journal_storage_multiprocess",
             storage=JournalStorage(JournalFileBackend(file_path=str(journal_path))),
@@ -679,19 +1081,20 @@ def main():
             direction="maximize",
         )
 
-        if remaining_phys > 0:
-            with mp.Pool(processes=num_cores) as pool:
-                worker_args = [
-                    (remaining_phys, num_cores, RUNS_PARENT, RUN_LABEL, RUN_STAMP)
-                    for _ in range(num_cores)
-                ]
+        print(
+            f"[BAYES] physics: {parallel_trials} parallel trials "
+            f"x {workers_per_trial} folds = up to {parallel_trials * workers_per_trial} workers"
+        )
 
-                pool.map(run_physics_worker, worker_args)
-        else:
-            print("[Bayes] Physics already complete — skipping.")
+        run_bayes_streaming_queue(
+            study_phys,
+            "physics",
+            N_BAYES_TRIALS,
+            num_cores
+        )
 
         df_no_physics = study_no.trials_dataframe()
-        df_physics    = study_phys.trials_dataframe()
+        df_physics = study_phys.trials_dataframe()
 
         df_no_physics.sort_values(by="value", ascending=False, inplace=True)
         df_physics.sort_values(by="value", ascending=False, inplace=True)
@@ -717,7 +1120,6 @@ def main():
             df_phys=df_physics
         )
 
-
     elif run_gridsearch:
 
         all_combinations = list(itertools.product(
@@ -732,113 +1134,245 @@ def main():
 
         print(f"\n[GRID SEARCH] Spawning {num_cores} workers\n")
 
-        task_args_no = [
-            (idx, comb, hyperparam_names, path_to_csv, path_to_yaml,
-            GPU_SETTING, RUNS_PARENT, RUN_LABEL, RUN_STAMP, verbose,
-            fractional_multi_lr,
-            NUM_ENSEMBLES, BOOTSTRAP_MODELS, HYPERPARAM_ENSEMBLE,
-            True, True,
-            use_cv_for_selection,
-            CV_INTERVAL_MONTH, CV_INTERVAL_LENGTH, CV_VALIDATION_LENGTH)
-            for idx, comb in enumerate(all_combinations[done_no:], start=done_no)
-        ]
+        if USE_CV:
+            shared_queue = build_external_cv_queue(
+                all_combinations=all_combinations,
+                folds=EXTERNAL_CV_FOLDS,
+                include_physics=(not RUN_NO_PHYSICS_ONLY)
+            )
 
-        no_physics_results = [] if prev_no is None else prev_no.to_dict("records")
+            print_external_cv_queue(shared_queue)
 
-        with mp.Pool(processes=num_cores) as pool:
-            for result in tqdm(
-                pool.imap(run_single_experiment_nophysics, task_args_no),
-                total=len(all_combinations) - done_no,
-                initial=done_no,
-                desc="Grid No-Physics",
-                unit="it",
-                ncols=60,
-                ascii=True
-            ):
-                result["_rank_score"] = (
-                    GRID_RANK_WEIGHTS[0] * result["NSE_1D"]
-                    + GRID_RANK_WEIGHTS[1] * result["NSE_1H"]
+            from collections import defaultdict
+
+            queue_results = []
+            fold_buffer = defaultdict(list)
+            logged_configs = set()
+
+            with mp.Pool(processes=num_cores) as pool:
+                for result in tqdm(
+                    pool.imap(_run_external_cv_queue_job, shared_queue),
+                    total=len(shared_queue),
+                    desc="External CV Queue",
+                    unit="job",
+                    ncols=80,
+                    ascii=True
+                ):
+
+                    queue_results.append(result)
+
+                    iter_idx = result["_queue_iter_idx"]
+                    job_type = result["_queue_job_type"]
+
+                    key = (iter_idx, job_type)
+                    fold_buffer[key].append(result)
+
+                    # if all folds done → aggregate immediately
+                    if len(fold_buffer[key]) == len(EXTERNAL_CV_FOLDS) and key not in logged_configs:
+
+                        folds = fold_buffer[key]
+
+                        mean_1d = np.mean([f["NSE_1D"] for f in folds])
+                        mean_1h = np.mean([f["NSE_1H"] for f in folds])
+
+                        comb = all_combinations[iter_idx]
+
+                        hp_dict = dict(zip(hyperparam_names, comb))
+
+                        row = {
+                            **hp_dict,
+                            "NSE_1D": mean_1d,
+                            "NSE_1H": mean_1h,
+                            "_rank_score": GRID_RANK_WEIGHTS[0]*mean_1d + GRID_RANK_WEIGHTS[1]*mean_1h
+                        }
+
+                        append_trial_row(
+                            row,
+                            basin=BASIN,
+                            mode=MODE,
+                            label=RUN_LABEL,
+                            run_stamp=RUN_STAMP,
+                            tag=job_type,
+                        )
+
+                        logged_configs.add(key)
+
+                        print(
+                            f"[CONFIG COMPLETE] iter {iter_idx+1} {job_type} "
+                            f"NSE_1D={mean_1d:.5f} NSE_1H={mean_1h:.5f}"
+                        )
+
+            df_queue = pd.DataFrame(queue_results)
+
+            df_no_physics_folds = df_queue[df_queue["_queue_job_type"] == "no_physics"].copy()
+            df_no_physics = (
+                df_no_physics_folds
+                .groupby("_queue_iter_idx", as_index=False)[["NSE_1D", "NSE_1H"]]
+                .mean()
+            )
+
+            hp_df_no = pd.DataFrame(
+                [dict(zip(hyperparam_names, comb)) for comb in all_combinations]
+            ).reset_index().rename(columns={"index": "_queue_iter_idx"})
+
+            df_no_physics = hp_df_no.merge(df_no_physics, on="_queue_iter_idx", how="inner")
+            df_no_physics["_rank_score"] = (
+                GRID_RANK_WEIGHTS[0] * df_no_physics["NSE_1D"] +
+                GRID_RANK_WEIGHTS[1] * df_no_physics["NSE_1H"]
+            )
+            df_no_physics.sort_values(by="_rank_score", ascending=False, inplace=True)
+            df_no_physics.reset_index(drop=True, inplace=True)
+
+            if not RUN_NO_PHYSICS_ONLY:
+                df_physics_folds = df_queue[df_queue["_queue_job_type"] == "physics"].copy()
+                df_physics = (
+                    df_physics_folds
+                    .groupby("_queue_iter_idx", as_index=False)[["NSE_1D", "NSE_1H"]]
+                    .mean()
                 )
 
-                no_physics_results.append(result)
+                hp_df_phys = pd.DataFrame(
+                    [dict(zip(hyperparam_names, comb)) for comb in all_combinations]
+                ).reset_index().rename(columns={"index": "_queue_iter_idx"})
 
-                append_trial_row(
-                    result,
-                    basin=BASIN,
-                    mode=MODE,
-                    label=RUN_LABEL,
-                    run_stamp=RUN_STAMP,
-                    tag="no_physics",
+                df_physics = hp_df_phys.merge(df_physics, on="_queue_iter_idx", how="inner")
+                df_physics["_rank_score"] = (
+                    GRID_RANK_WEIGHTS[0] * df_physics["NSE_1D"] +
+                    GRID_RANK_WEIGHTS[1] * df_physics["NSE_1H"]
                 )
+                df_physics.sort_values(by="_rank_score", ascending=False, inplace=True)
+                df_physics.reset_index(drop=True, inplace=True)
+            else:
+                df_physics = pd.DataFrame()
 
-        df_no_physics = pd.DataFrame(no_physics_results)
-        df_no_physics["_rank_score"] = sum(w * df_no_physics[m] for m, w in zip(GRID_RANK_METRICS, GRID_RANK_WEIGHTS))
-        df_no_physics.sort_values(by="_rank_score", ascending=False, inplace=True)
-        df_no_physics.reset_index(drop=True, inplace=True)
+            best_no_phys = df_no_physics.iloc[0].to_dict()
+            best_no_phys["model_type"] = "no_physics"
 
-        task_args_phys = [
-            (idx, comb, hyperparam_names, path_to_csv, path_to_yaml,
-            GPU_SETTING, RUNS_PARENT, RUN_LABEL, RUN_STAMP, verbose,
-            fractional_multi_lr,
-            NUM_ENSEMBLES, BOOTSTRAP_MODELS, HYPERPARAM_ENSEMBLE,
-            features_with_physics,
-            path_to_physics_data_1H,
-            True, True,
-            use_cv_for_selection,
-            CV_INTERVAL_MONTH, CV_INTERVAL_LENGTH, CV_VALIDATION_LENGTH)
-            for idx, comb in enumerate(all_combinations[done_phys:], start=done_phys)
-        ]
+            if not df_physics.empty:
+                best_phys = df_physics.iloc[0].to_dict()
+                best_phys["model_type"] = "physics"
+                best_params_df = pd.DataFrame([best_no_phys, best_phys])
+            else:
+                best_params_df = pd.DataFrame([best_no_phys])
 
-        physics_results = [] if prev_phys is None else prev_phys.to_dict("records")
+            save_hparams(
+                best_df=best_params_df,
+                basin=BASIN,
+                mode=MODE,
+                label=RUN_LABEL,
+                run_stamp=RUN_STAMP,
+                df_no=df_no_physics,
+                df_phys=df_physics if not df_physics.empty else pd.DataFrame()
+            )
 
-        with mp.Pool(processes=num_cores) as pool:
-            for result in tqdm(
-                pool.imap(run_single_experiment_physics, task_args_phys),
-                total=len(all_combinations) - done_phys,
-                initial=done_phys,
-                desc="Grid Physics",
-                unit="it",
-                ncols=60,
-                ascii=True
-            ):
-                result["_rank_score"] = (
-                    GRID_RANK_WEIGHTS[0] * result["NSE_1D"]
-                    + GRID_RANK_WEIGHTS[1] * result["NSE_1H"]
-                )
+        else:
+            task_args_no = [
+                (idx, comb, hyperparam_names, path_to_csv, path_to_yaml,
+                GPU_SETTING, RUNS_PARENT, RUN_LABEL, RUN_STAMP, verbose,
+                fractional_multi_lr,
+                NUM_ENSEMBLES, BOOTSTRAP_MODELS, HYPERPARAM_ENSEMBLE,
+                True, True,
+                use_cv_for_selection,
+                CV_INTERVAL_MONTH, CV_INTERVAL_LENGTH, CV_VALIDATION_LENGTH)
+                for idx, comb in enumerate(all_combinations[done_no:], start=done_no)
+            ]
 
-                physics_results.append(result)
+            no_physics_results = [] if prev_no is None else prev_no.to_dict("records")
 
-                append_trial_row(
-                    result,
-                    basin=BASIN,
-                    mode=MODE,
-                    label=RUN_LABEL,
-                    run_stamp=RUN_STAMP,
-                    tag="physics",
-                )
+            with mp.Pool(processes=num_cores) as pool:
+                for result in tqdm(
+                    pool.imap(run_single_experiment_nophysics, task_args_no),
+                    total=len(all_combinations) - done_no,
+                    initial=done_no,
+                    desc="Grid No-Physics",
+                    unit="it",
+                    ncols=60,
+                    ascii=True
+                ):
+                    result["_rank_score"] = (
+                        GRID_RANK_WEIGHTS[0] * result["NSE_1D"]
+                        + GRID_RANK_WEIGHTS[1] * result["NSE_1H"]
+                    )
 
-        df_physics = pd.DataFrame(physics_results)
-        df_physics["_rank_score"] = sum(w * df_physics[m] for m, w in zip(GRID_RANK_METRICS, GRID_RANK_WEIGHTS))
-        df_physics.sort_values(by="_rank_score", ascending=False, inplace=True)
-        df_physics.reset_index(drop=True, inplace=True)
+                    no_physics_results.append(result)
 
-        best_no_phys = df_no_physics.iloc[0].to_dict()
-        best_phys = df_physics.iloc[0].to_dict()
+                    append_trial_row(
+                        result,
+                        basin=BASIN,
+                        mode=MODE,
+                        label=RUN_LABEL,
+                        run_stamp=RUN_STAMP,
+                        tag="no_physics",
+                    )
 
-        best_no_phys["model_type"] = "no_physics"
-        best_phys["model_type"] = "physics"
+            df_no_physics = pd.DataFrame(no_physics_results)
+            df_no_physics["_rank_score"] = sum(w * df_no_physics[m] for m, w in zip(GRID_RANK_METRICS, GRID_RANK_WEIGHTS))
+            df_no_physics.sort_values(by="_rank_score", ascending=False, inplace=True)
+            df_no_physics.reset_index(drop=True, inplace=True)
 
-        best_params_df = pd.DataFrame([best_no_phys, best_phys])
+            task_args_phys = [
+                (idx, comb, hyperparam_names, path_to_csv, path_to_yaml,
+                GPU_SETTING, RUNS_PARENT, RUN_LABEL, RUN_STAMP, verbose,
+                fractional_multi_lr,
+                NUM_ENSEMBLES, BOOTSTRAP_MODELS, HYPERPARAM_ENSEMBLE,
+                features_with_physics,
+                path_to_physics_data_1H,
+                True, True,
+                use_cv_for_selection,
+                CV_INTERVAL_MONTH, CV_INTERVAL_LENGTH, CV_VALIDATION_LENGTH)
+                for idx, comb in enumerate(all_combinations[done_phys:], start=done_phys)
+            ]
 
-        save_hparams(
-            best_df=best_params_df,
-            basin=BASIN,
-            mode=MODE,
-            label=RUN_LABEL,
-            run_stamp=RUN_STAMP,
-            df_no=df_no_physics,
-            df_phys=df_physics
-        )
+            physics_results = [] if prev_phys is None else prev_phys.to_dict("records")
+
+            with mp.Pool(processes=num_cores) as pool:
+                for result in tqdm(
+                    pool.imap(run_single_experiment_physics, task_args_phys),
+                    total=len(all_combinations) - done_phys,
+                    initial=done_phys,
+                    desc="Grid Physics",
+                    unit="it",
+                    ncols=60,
+                    ascii=True
+                ):
+                    result["_rank_score"] = (
+                        GRID_RANK_WEIGHTS[0] * result["NSE_1D"]
+                        + GRID_RANK_WEIGHTS[1] * result["NSE_1H"]
+                    )
+
+                    physics_results.append(result)
+
+                    append_trial_row(
+                        result,
+                        basin=BASIN,
+                        mode=MODE,
+                        label=RUN_LABEL,
+                        run_stamp=RUN_STAMP,
+                        tag="physics",
+                    )
+
+            df_physics = pd.DataFrame(physics_results)
+            df_physics["_rank_score"] = sum(w * df_physics[m] for m, w in zip(GRID_RANK_METRICS, GRID_RANK_WEIGHTS))
+            df_physics.sort_values(by="_rank_score", ascending=False, inplace=True)
+            df_physics.reset_index(drop=True, inplace=True)
+
+            best_no_phys = df_no_physics.iloc[0].to_dict()
+            best_phys = df_physics.iloc[0].to_dict()
+
+            best_no_phys["model_type"] = "no_physics"
+            best_phys["model_type"] = "physics"
+
+            best_params_df = pd.DataFrame([best_no_phys, best_phys])
+
+            save_hparams(
+                best_df=best_params_df,
+                basin=BASIN,
+                mode=MODE,
+                label=RUN_LABEL,
+                run_stamp=RUN_STAMP,
+                df_no=df_no_physics,
+                df_phys=df_physics
+            )
 
     else:
         print("Skipping search!")
