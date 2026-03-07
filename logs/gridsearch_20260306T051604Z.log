@@ -1,0 +1,56 @@
+2026-03-05 21:16:04,819 | 78123 | INFO | [+   0.00s]
+2026-03-05 21:16:04,819 | 78123 | INFO | Basin: guerneville, GPU: -1, Verbose: False
+2026-03-05 21:16:04,819 | 78123 | INFO | [+   0.00s]
+2026-03-05 21:16:04,819 | 78123 | INFO | Pre-warming numba JIT ...
+2026-03-05 21:16:05,359 | 78123 | INFO | [+   0.54s]
+2026-03-05 21:16:05,359 | 78123 | INFO | Numba JIT pre-compiled.
+2026-03-05 21:16:05,359 | 78123 | INFO | YAML PATH:
+2026-03-05 21:16:05,359 | 78123 | INFO | /Users/maxwellfung/UCB-USACE-RR-PROJECT/UCB_training/configs/guerneville_mtslstm2.yaml
+2026-03-05 21:16:05,359 | 78123 | INFO | [+   0.54s]
+2026-03-05 21:16:05,359 | 78123 | INFO | 48 combinations, 9 workers
+2026-03-05 21:16:05,359 | 78123 | INFO | run_gridsearch =
+2026-03-05 21:16:05,359 | 78123 | INFO | False
+2026-03-05 21:16:05,359 | 78123 | INFO | hparams_exists =
+2026-03-05 21:16:05,359 | 78123 | INFO | False
+2026-03-05 21:16:05,363 | 78123 | INFO | [EXTERNAL CV FOLDS]
+2026-03-05 21:16:05,363 | 78123 | INFO | fold 1: train 01/10/1994 -> 01/10/1996 | val 02/10/1996 -> 01/10/1997 | eval 02/10/1996 -> 01/10/1997
+2026-03-05 21:16:05,363 | 78123 | INFO | fold 2: train 01/10/1994 -> 01/10/1998 | val 02/10/1998 -> 01/10/1999 | eval 02/10/1998 -> 01/10/1999
+2026-03-05 21:16:05,363 | 78123 | INFO | fold 3: train 01/10/1994 -> 01/10/2000 | val 02/10/2000 -> 01/10/2001 | eval 02/10/2000 -> 01/10/2001
+2026-03-05 21:16:05,363 | 78123 | INFO | fold 4: train 01/10/1994 -> 01/10/2002 | val 02/10/2002 -> 01/10/2003 | eval 02/10/2002 -> 01/10/2003
+2026-03-05 21:16:05,363 | 78123 | INFO | fold 5: train 01/10/1994 -> 01/10/2004 | val 02/10/2004 -> 01/10/2005 | eval 02/10/2004 -> 01/10/2005
+2026-03-05 21:16:05,363 | 78123 | INFO | [EXTERNAL CV FOLDS] total folds = 5
+2026-03-05 21:16:05,364 | 78123 | INFO | [BAYESIAN OPTIMIZATION] Using 9 parallel workers
+2026-03-05 21:16:05,364 | 78123 | INFO | [BAYES] no_physics: 2 parallel trials x 5 folds = up to 10 workers
+2026-03-05 21:16:05,367 | 78123 | INFO | [ENQUEUE TRIAL] trial 1 no_physics
+2026-03-05 21:16:05,367 | 78123 | INFO | [BAYES QUEUE STATE]
+2026-03-05 21:16:05,367 | 78123 | INFO | pending_jobs = 5
+2026-03-05 21:16:05,367 | 78123 | INFO | inflight_trials = [0]
+2026-03-05 21:16:05,367 | 78123 | INFO | queue[0000] trial 1 fold 1 no_physics
+2026-03-05 21:16:05,367 | 78123 | INFO | queue[0001] trial 1 fold 2 no_physics
+2026-03-05 21:16:05,367 | 78123 | INFO | queue[0002] trial 1 fold 3 no_physics
+2026-03-05 21:16:05,367 | 78123 | INFO | queue[0003] trial 1 fold 4 no_physics
+2026-03-05 21:16:05,367 | 78123 | INFO | queue[0004] trial 1 fold 5 no_physics
+2026-03-05 21:16:05,367 | 78123 | INFO | [END BAYES QUEUE]
+2026-03-05 21:16:05,368 | 78123 | INFO | [ENQUEUE TRIAL] trial 2 no_physics
+2026-03-05 21:16:05,369 | 78123 | INFO | [BAYES QUEUE STATE]
+2026-03-05 21:16:05,369 | 78123 | INFO | pending_jobs = 10
+2026-03-05 21:16:05,369 | 78123 | INFO | inflight_trials = [0, 1]
+2026-03-05 21:16:05,369 | 78123 | INFO | queue[0000] trial 1 fold 1 no_physics
+2026-03-05 21:16:05,369 | 78123 | INFO | queue[0001] trial 1 fold 2 no_physics
+2026-03-05 21:16:05,369 | 78123 | INFO | queue[0002] trial 1 fold 3 no_physics
+2026-03-05 21:16:05,369 | 78123 | INFO | queue[0003] trial 1 fold 4 no_physics
+2026-03-05 21:16:05,369 | 78123 | INFO | queue[0004] trial 1 fold 5 no_physics
+2026-03-05 21:16:05,369 | 78123 | INFO | queue[0005] trial 2 fold 1 no_physics
+2026-03-05 21:16:05,369 | 78123 | INFO | queue[0006] trial 2 fold 2 no_physics
+2026-03-05 21:16:05,369 | 78123 | INFO | queue[0007] trial 2 fold 3 no_physics
+2026-03-05 21:16:05,369 | 78123 | INFO | queue[0008] trial 2 fold 4 no_physics
+2026-03-05 21:16:05,369 | 78123 | INFO | queue[0009] trial 2 fold 5 no_physics
+2026-03-05 21:16:05,369 | 78123 | INFO | [END BAYES QUEUE]
+2026-03-05 21:16:26,302 | 78123 | INFO | Traceback (most recent call last):
+2026-03-05 21:16:26,303 | 78123 | INFO | File "/Users/maxwellfung/UCB-USACE-RR-PROJECT/run_hyperparam_search.py", line 1388, in <module>
+2026-03-05 21:16:26,304 | 78123 | INFO | main()
+2026-03-05 21:16:26,304 | 78123 | INFO | File "/Users/maxwellfung/UCB-USACE-RR-PROJECT/run_hyperparam_search.py", line 1070, in main
+2026-03-05 21:16:26,304 | 78123 | INFO | run_bayes_streaming_queue(
+2026-03-05 21:16:26,304 | 78123 | INFO | File "/Users/maxwellfung/UCB-USACE-RR-PROJECT/run_hyperparam_search.py", line 950, in run_bayes_streaming_queue
+2026-03-05 21:16:26,304 | 78123 | INFO | time.sleep(0.1)
+2026-03-05 21:16:26,304 | 78123 | INFO | KeyboardInterrupt

@@ -4,7 +4,7 @@ HYPERPARAM_SPACE = {
     "seq_length_1D": [90, 120],
     "seq_length_1H": [168, 336],
     "num_layers": [1, 2],
-    "epochs": [2],
+    "epochs": [300],
     "batch_size": [64],
 }
 hyperparam_names = list(HYPERPARAM_SPACE.keys())
@@ -16,7 +16,7 @@ NUM_WORKERS = 0
 VERBOSE = False
 RUN_NO_PHYSICS_ONLY = False
 
-USE_BAYES = False
+USE_BAYES = True
 N_BAYES_TRIALS = 48
 BAYES_JOURNAL_DIR = ""
 
@@ -340,7 +340,16 @@ def append_trial_row(df_row: dict, *, basin: str, mode: str, label: str, run_sta
     path_latest = hp_dir / f"{prefix}_{tag}_gridsearch.csv"
     path_arch   = arch / f"{prefix}_{tag}_gridsearch_{run_stamp}.csv"
 
-    row = pd.DataFrame([df_row])
+    INT_FIELDS = {"hidden_size", "seq_length_1D", "seq_length_1H", "num_layers", "epochs", "batch_size"}
+
+    clean_row = {}
+    for k, v in df_row.items():
+        if k in INT_FIELDS and pd.notna(v):
+            clean_row[k] = int(v)
+        else:
+            clean_row[k] = v
+
+    row = pd.DataFrame([clean_row])
 
     for p in (path_latest, path_arch):
         write_header = not p.exists()
@@ -706,7 +715,7 @@ def build_external_cv_queue(all_combinations, folds, include_physics=True):
                 "comb": comb,
                 "fold_cfg": fold,
             })
-            
+
     # THEN: all physics
     if include_physics:
         for idx, comb in enumerate(all_combinations):
