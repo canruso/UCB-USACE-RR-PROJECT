@@ -9,7 +9,7 @@ HYPERPARAM_SPACE = {
 }
 hyperparam_names = list(HYPERPARAM_SPACE.keys())
 
-BASIN = "guerneville"  # "calpella", "warm_springs", "hopland", or "guerneville"
+BASIN = "warm_springs"  # "calpella", "warm_springs", "hopland", or "guerneville"
 GPU_SETTING = -1
 NUM_WORKERS = 0
 
@@ -921,10 +921,12 @@ def run_bayes_streaming_queue(study, model_type, total_trials, num_cores):
 
                         append_trial_row(
                             {
+                                "_queue_iter_idx": trial.number,
                                 **hp_dict,
                                 "NSE_1D": mean_1d,
                                 "NSE_1H": mean_1h,
-                                "value": value
+                                "_rank_score": value,
+                                "model_type": model_type
                             },
                             basin=BASIN,
                             mode=MODE,
@@ -1104,11 +1106,8 @@ def main():
             num_cores
         )
 
-        df_no_physics = study_no.trials_dataframe()
-        df_physics = study_phys.trials_dataframe()
-
-        df_no_physics.sort_values(by="value", ascending=False, inplace=True)
-        df_physics.sort_values(by="value", ascending=False, inplace=True)
+        df_no_physics = load_hparams(BASIN, MODE, RUN_LABEL, stamp=RUN_STAMP, tag="no_physics")
+        df_physics = load_hparams(BASIN, MODE, RUN_LABEL, stamp=RUN_STAMP, tag="physics")
 
         df_no_physics.reset_index(drop=True, inplace=True)
         df_physics.reset_index(drop=True, inplace=True)
@@ -1191,10 +1190,12 @@ def main():
                         hp_dict = dict(zip(hyperparam_names, comb))
 
                         row = {
+                            "_queue_iter_idx": iter_idx,
                             **hp_dict,
                             "NSE_1D": mean_1d,
                             "NSE_1H": mean_1h,
-                            "_rank_score": GRID_RANK_WEIGHTS[0]*mean_1d + GRID_RANK_WEIGHTS[1]*mean_1h
+                            "_rank_score": GRID_RANK_WEIGHTS[0]*mean_1d + GRID_RANK_WEIGHTS[1]*mean_1h,
+                            "model_type": job_type
                         }
 
                         append_trial_row(
