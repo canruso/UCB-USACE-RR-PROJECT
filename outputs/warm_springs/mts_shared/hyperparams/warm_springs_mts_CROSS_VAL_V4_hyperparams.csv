@@ -1,3 +1,0 @@
-hidden_size,output_dropout,seq_length_1D,seq_length_1H,num_layers,epochs,batch_size,_rank_score,model_type
-64,0.4,90,168,2,300,64,0.8494215838611126,no_physics
-64,0.4,120,168,1,300,64,0.8779424539208411,physics

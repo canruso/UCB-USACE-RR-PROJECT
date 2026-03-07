@@ -1,19 +1,31 @@
+# HYPERPARAM_SPACE = {
+#     "hidden_size": [64, 128, 256], 
+#     "output_dropout": [0.1, 0.4],           
+#     "seq_length_1D": [90, 120],
+#     "seq_length_1H": [168, 336],
+#     "num_layers": [1, 2],
+#     "epochs": [300],
+#     "batch_size": [64],
+# }
+
+#Bayes
 HYPERPARAM_SPACE = {
-    "hidden_size": [64, 128, 256], 
-    "output_dropout": [0.1, 0.4],           
-    "seq_length_1D": [90, 120],
-    "seq_length_1H": [168, 336],
+    "hidden_size": [64, 128, 256, 384],
+    "output_dropout": (0.05, 0.6),
+    "seq_length_1D": [60, 90, 120],
+    "seq_length_1H": [168, 240, 336],
     "num_layers": [1, 2],
     "epochs": [300],
-    "batch_size": [64],
+    "batch_size": [64, 128],
 }
+
 hyperparam_names = list(HYPERPARAM_SPACE.keys())
 
-BASIN = "warm_springs"  # "calpella", "warm_springs", "hopland", or "guerneville"
+BASIN = "guerneville"  # "calpella", "warm_springs", "hopland", or "guerneville"
 GPU_SETTING = -1
 NUM_WORKERS = 0
 
-VERBOSE = False
+VERBOSE = True
 RUN_NO_PHYSICS_ONLY = False
 
 USE_BAYES = True
@@ -1112,13 +1124,13 @@ def main():
         df_no_physics.reset_index(drop=True, inplace=True)
         df_physics.reset_index(drop=True, inplace=True)
 
-        best_no_phys = study_no.best_params
-        best_phys = study_phys.best_params
+        best_no_phys = df_no_physics.sort_values("_rank_score", ascending=False).iloc[0]
+        best_phys = df_physics.sort_values("_rank_score", ascending=False).iloc[0]
 
-        best_no_phys["model_type"] = "no_physics"
-        best_phys["model_type"] = "physics"
-
-        best_params_df = pd.DataFrame([best_no_phys, best_phys])
+        best_params_df = pd.DataFrame([
+            best_no_phys,
+            best_phys
+        ]).reset_index(drop=True)
 
         save_hparams(
             best_df=best_params_df,
