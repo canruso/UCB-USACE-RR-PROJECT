@@ -1027,7 +1027,7 @@ def main():
     else:
         num_cores = min(n_combos, max(1, mp.cpu_count() - 1))
 
-    num_cores = os.cpu_count() - 1
+    num_cores = 50
 
     _print(f"{n_combos} combinations, {num_cores} workers")
 

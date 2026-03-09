@@ -1,0 +1,473 @@
+2026-03-07 04:19:48,471 | 2110568 | INFO | [+   0.05s]
+2026-03-07 04:19:48,488 | 2110568 | INFO | Basin: guerneville, GPU: -1, Verbose: True
+2026-03-07 04:19:48,488 | 2110568 | INFO | [+   0.07s]
+2026-03-07 04:19:48,489 | 2110568 | INFO | Pre-warming numba JIT ...
+2026-03-07 04:19:52,364 | 2110568 | INFO | [+   3.95s]
+2026-03-07 04:19:52,384 | 2110568 | INFO | Numba JIT pre-compiled.
+2026-03-07 04:19:52,398 | 2110568 | INFO | YAML PATH:
+2026-03-07 04:19:52,399 | 2110568 | INFO | /global/scratch/users/maxwellfung/UCB-USACE-RR-PROJECT/UCB_training/configs/guerneville_mtslstm2.yaml
+2026-03-07 04:19:52,443 | 2110568 | INFO | [+   4.02s]
+2026-03-07 04:19:52,444 | 2110568 | INFO | 288 combinations, 55 workers
+2026-03-07 04:19:52,444 | 2110568 | INFO | run_gridsearch =
+2026-03-07 04:19:52,445 | 2110568 | INFO | False
+2026-03-07 04:19:52,465 | 2110568 | INFO | hparams_exists =
+2026-03-07 04:19:52,465 | 2110568 | INFO | False
+2026-03-07 04:19:52,543 | 2110568 | INFO | [EXTERNAL CV FOLDS]
+2026-03-07 04:19:52,543 | 2110568 | INFO | fold 1: train 01/10/1994 -> 01/10/1996 | val 02/10/1996 -> 01/10/1997 | eval 02/10/1996 -> 01/10/1997
+2026-03-07 04:19:52,543 | 2110568 | INFO | fold 2: train 01/10/1994 -> 01/10/1998 | val 02/10/1998 -> 01/10/1999 | eval 02/10/1998 -> 01/10/1999
+2026-03-07 04:19:52,543 | 2110568 | INFO | fold 3: train 01/10/1994 -> 01/10/2000 | val 02/10/2000 -> 01/10/2001 | eval 02/10/2000 -> 01/10/2001
+2026-03-07 04:19:52,543 | 2110568 | INFO | fold 4: train 01/10/1994 -> 01/10/2002 | val 02/10/2002 -> 01/10/2003 | eval 02/10/2002 -> 01/10/2003
+2026-03-07 04:19:52,543 | 2110568 | INFO | fold 5: train 01/10/1994 -> 01/10/2004 | val 02/10/2004 -> 01/10/2005 | eval 02/10/2004 -> 01/10/2005
+2026-03-07 04:19:52,544 | 2110568 | INFO | [EXTERNAL CV FOLDS] total folds = 5
+2026-03-07 04:19:52,544 | 2110568 | INFO | [BAYESIAN OPTIMIZATION] Using 55 parallel workers
+2026-03-07 04:19:52,633 | 2110568 | INFO | [BAYES] no_physics: 11 parallel trials x 5 folds = up to 55 workers
+2026-03-07 04:19:52,974 | 2110568 | INFO | [ENQUEUE TRIAL] trial 1 no_physics
+2026-03-07 04:19:52,974 | 2110568 | INFO | [BAYES QUEUE STATE]
+2026-03-07 04:19:52,975 | 2110568 | INFO | pending_jobs = 5
+2026-03-07 04:19:52,975 | 2110568 | INFO | inflight_trials = [0]
+2026-03-07 04:19:52,975 | 2110568 | INFO | queue[0000] trial 1 fold 1 no_physics
+2026-03-07 04:19:52,976 | 2110568 | INFO | queue[0001] trial 1 fold 2 no_physics
+2026-03-07 04:19:52,976 | 2110568 | INFO | queue[0002] trial 1 fold 3 no_physics
+2026-03-07 04:19:52,976 | 2110568 | INFO | queue[0003] trial 1 fold 4 no_physics
+2026-03-07 04:19:52,977 | 2110568 | INFO | queue[0004] trial 1 fold 5 no_physics
+2026-03-07 04:19:52,977 | 2110568 | INFO | [END BAYES QUEUE]
+2026-03-07 04:19:53,299 | 2110568 | INFO | [ENQUEUE TRIAL] trial 2 no_physics
+2026-03-07 04:19:53,300 | 2110568 | INFO | [BAYES QUEUE STATE]
+2026-03-07 04:19:53,300 | 2110568 | INFO | pending_jobs = 10
+2026-03-07 04:19:53,301 | 2110568 | INFO | inflight_trials = [0, 1]
+2026-03-07 04:19:53,301 | 2110568 | INFO | queue[0000] trial 1 fold 1 no_physics
+2026-03-07 04:19:53,301 | 2110568 | INFO | queue[0001] trial 1 fold 2 no_physics
+2026-03-07 04:19:53,302 | 2110568 | INFO | queue[0002] trial 1 fold 3 no_physics
+2026-03-07 04:19:53,302 | 2110568 | INFO | queue[0003] trial 1 fold 4 no_physics
+2026-03-07 04:19:53,302 | 2110568 | INFO | queue[0004] trial 1 fold 5 no_physics
+2026-03-07 04:19:53,302 | 2110568 | INFO | queue[0005] trial 2 fold 1 no_physics
+2026-03-07 04:19:53,303 | 2110568 | INFO | queue[0006] trial 2 fold 2 no_physics
+2026-03-07 04:19:53,303 | 2110568 | INFO | queue[0007] trial 2 fold 3 no_physics
+2026-03-07 04:19:53,303 | 2110568 | INFO | queue[0008] trial 2 fold 4 no_physics
+2026-03-07 04:19:53,304 | 2110568 | INFO | queue[0009] trial 2 fold 5 no_physics
+2026-03-07 04:19:53,304 | 2110568 | INFO | [END BAYES QUEUE]
+2026-03-07 04:19:53,664 | 2110568 | INFO | [ENQUEUE TRIAL] trial 3 no_physics
+2026-03-07 04:19:53,676 | 2110568 | INFO | [BAYES QUEUE STATE]
+2026-03-07 04:19:53,677 | 2110568 | INFO | pending_jobs = 15
+2026-03-07 04:19:53,677 | 2110568 | INFO | inflight_trials = [0, 1, 2]
+2026-03-07 04:19:53,677 | 2110568 | INFO | queue[0000] trial 1 fold 1 no_physics
+2026-03-07 04:19:53,678 | 2110568 | INFO | queue[0001] trial 1 fold 2 no_physics
+2026-03-07 04:19:53,678 | 2110568 | INFO | queue[0002] trial 1 fold 3 no_physics
+2026-03-07 04:19:53,678 | 2110568 | INFO | queue[0003] trial 1 fold 4 no_physics
+2026-03-07 04:19:53,679 | 2110568 | INFO | queue[0004] trial 1 fold 5 no_physics
+2026-03-07 04:19:53,679 | 2110568 | INFO | queue[0005] trial 2 fold 1 no_physics
+2026-03-07 04:19:53,679 | 2110568 | INFO | queue[0006] trial 2 fold 2 no_physics
+2026-03-07 04:19:53,680 | 2110568 | INFO | queue[0007] trial 2 fold 3 no_physics
+2026-03-07 04:19:53,680 | 2110568 | INFO | queue[0008] trial 2 fold 4 no_physics
+2026-03-07 04:19:53,680 | 2110568 | INFO | queue[0009] trial 2 fold 5 no_physics
+2026-03-07 04:19:53,681 | 2110568 | INFO | queue[0010] trial 3 fold 1 no_physics
+2026-03-07 04:19:53,681 | 2110568 | INFO | queue[0011] trial 3 fold 2 no_physics
+2026-03-07 04:19:53,681 | 2110568 | INFO | queue[0012] trial 3 fold 3 no_physics
+2026-03-07 04:19:53,682 | 2110568 | INFO | queue[0013] trial 3 fold 4 no_physics
+2026-03-07 04:19:53,682 | 2110568 | INFO | queue[0014] trial 3 fold 5 no_physics
+2026-03-07 04:19:53,682 | 2110568 | INFO | [END BAYES QUEUE]
+2026-03-07 04:19:54,013 | 2110568 | INFO | [ENQUEUE TRIAL] trial 4 no_physics
+2026-03-07 04:19:54,013 | 2110568 | INFO | [BAYES QUEUE STATE]
+2026-03-07 04:19:54,014 | 2110568 | INFO | pending_jobs = 20
+2026-03-07 04:19:54,014 | 2110568 | INFO | inflight_trials = [0, 1, 2, 3]
+2026-03-07 04:19:54,014 | 2110568 | INFO | queue[0000] trial 1 fold 1 no_physics
+2026-03-07 04:19:54,015 | 2110568 | INFO | queue[0001] trial 1 fold 2 no_physics
+2026-03-07 04:19:54,015 | 2110568 | INFO | queue[0002] trial 1 fold 3 no_physics
+2026-03-07 04:19:54,015 | 2110568 | INFO | queue[0003] trial 1 fold 4 no_physics
+2026-03-07 04:19:54,016 | 2110568 | INFO | queue[0004] trial 1 fold 5 no_physics
+2026-03-07 04:19:54,016 | 2110568 | INFO | queue[0005] trial 2 fold 1 no_physics
+2026-03-07 04:19:54,016 | 2110568 | INFO | queue[0006] trial 2 fold 2 no_physics
+2026-03-07 04:19:54,017 | 2110568 | INFO | queue[0007] trial 2 fold 3 no_physics
+2026-03-07 04:19:54,017 | 2110568 | INFO | queue[0008] trial 2 fold 4 no_physics
+2026-03-07 04:19:54,017 | 2110568 | INFO | queue[0009] trial 2 fold 5 no_physics
+2026-03-07 04:19:54,018 | 2110568 | INFO | queue[0010] trial 3 fold 1 no_physics
+2026-03-07 04:19:54,018 | 2110568 | INFO | queue[0011] trial 3 fold 2 no_physics
+2026-03-07 04:19:54,018 | 2110568 | INFO | queue[0012] trial 3 fold 3 no_physics
+2026-03-07 04:19:54,019 | 2110568 | INFO | queue[0013] trial 3 fold 4 no_physics
+2026-03-07 04:19:54,019 | 2110568 | INFO | queue[0014] trial 3 fold 5 no_physics
+2026-03-07 04:19:54,019 | 2110568 | INFO | queue[0015] trial 4 fold 1 no_physics
+2026-03-07 04:19:54,019 | 2110568 | INFO | queue[0016] trial 4 fold 2 no_physics
+2026-03-07 04:19:54,020 | 2110568 | INFO | queue[0017] trial 4 fold 3 no_physics
+2026-03-07 04:19:54,020 | 2110568 | INFO | queue[0018] trial 4 fold 4 no_physics
+2026-03-07 04:19:54,020 | 2110568 | INFO | queue[0019] trial 4 fold 5 no_physics
+2026-03-07 04:19:54,020 | 2110568 | INFO | [END BAYES QUEUE]
+2026-03-07 04:19:54,409 | 2110568 | INFO | [ENQUEUE TRIAL] trial 5 no_physics
+2026-03-07 04:19:54,410 | 2110568 | INFO | [BAYES QUEUE STATE]
+2026-03-07 04:19:54,410 | 2110568 | INFO | pending_jobs = 25
+2026-03-07 04:19:54,410 | 2110568 | INFO | inflight_trials = [0, 1, 2, 3, 4]
+2026-03-07 04:19:54,411 | 2110568 | INFO | queue[0000] trial 1 fold 1 no_physics
+2026-03-07 04:19:54,411 | 2110568 | INFO | queue[0001] trial 1 fold 2 no_physics
+2026-03-07 04:19:54,411 | 2110568 | INFO | queue[0002] trial 1 fold 3 no_physics
+2026-03-07 04:19:54,412 | 2110568 | INFO | queue[0003] trial 1 fold 4 no_physics
+2026-03-07 04:19:54,412 | 2110568 | INFO | queue[0004] trial 1 fold 5 no_physics
+2026-03-07 04:19:54,412 | 2110568 | INFO | queue[0005] trial 2 fold 1 no_physics
+2026-03-07 04:19:54,413 | 2110568 | INFO | queue[0006] trial 2 fold 2 no_physics
+2026-03-07 04:19:54,413 | 2110568 | INFO | queue[0007] trial 2 fold 3 no_physics
+2026-03-07 04:19:54,413 | 2110568 | INFO | queue[0008] trial 2 fold 4 no_physics
+2026-03-07 04:19:54,414 | 2110568 | INFO | queue[0009] trial 2 fold 5 no_physics
+2026-03-07 04:19:54,414 | 2110568 | INFO | queue[0010] trial 3 fold 1 no_physics
+2026-03-07 04:19:54,414 | 2110568 | INFO | queue[0011] trial 3 fold 2 no_physics
+2026-03-07 04:19:54,415 | 2110568 | INFO | queue[0012] trial 3 fold 3 no_physics
+2026-03-07 04:19:54,415 | 2110568 | INFO | queue[0013] trial 3 fold 4 no_physics
+2026-03-07 04:19:54,415 | 2110568 | INFO | queue[0014] trial 3 fold 5 no_physics
+2026-03-07 04:19:54,416 | 2110568 | INFO | queue[0015] trial 4 fold 1 no_physics
+2026-03-07 04:19:54,416 | 2110568 | INFO | queue[0016] trial 4 fold 2 no_physics
+2026-03-07 04:19:54,416 | 2110568 | INFO | queue[0017] trial 4 fold 3 no_physics
+2026-03-07 04:19:54,416 | 2110568 | INFO | queue[0018] trial 4 fold 4 no_physics
+2026-03-07 04:19:54,417 | 2110568 | INFO | queue[0019] trial 4 fold 5 no_physics
+2026-03-07 04:19:54,417 | 2110568 | INFO | queue[0020] trial 5 fold 1 no_physics
+2026-03-07 04:19:54,417 | 2110568 | INFO | queue[0021] trial 5 fold 2 no_physics
+2026-03-07 04:19:54,417 | 2110568 | INFO | queue[0022] trial 5 fold 3 no_physics
+2026-03-07 04:19:54,418 | 2110568 | INFO | queue[0023] trial 5 fold 4 no_physics
+2026-03-07 04:19:54,418 | 2110568 | INFO | queue[0024] trial 5 fold 5 no_physics
+2026-03-07 04:19:54,418 | 2110568 | INFO | [END BAYES QUEUE]
+2026-03-07 04:19:54,760 | 2110568 | INFO | [ENQUEUE TRIAL] trial 6 no_physics
+2026-03-07 04:19:54,772 | 2110568 | INFO | [BAYES QUEUE STATE]
+2026-03-07 04:19:54,772 | 2110568 | INFO | pending_jobs = 30
+2026-03-07 04:19:54,773 | 2110568 | INFO | inflight_trials = [0, 1, 2, 3, 4, 5]
+2026-03-07 04:19:54,773 | 2110568 | INFO | queue[0000] trial 1 fold 1 no_physics
+2026-03-07 04:19:54,773 | 2110568 | INFO | queue[0001] trial 1 fold 2 no_physics
+2026-03-07 04:19:54,773 | 2110568 | INFO | queue[0002] trial 1 fold 3 no_physics
+2026-03-07 04:19:54,774 | 2110568 | INFO | queue[0003] trial 1 fold 4 no_physics
+2026-03-07 04:19:54,774 | 2110568 | INFO | queue[0004] trial 1 fold 5 no_physics
+2026-03-07 04:19:54,774 | 2110568 | INFO | queue[0005] trial 2 fold 1 no_physics
+2026-03-07 04:19:54,775 | 2110568 | INFO | queue[0006] trial 2 fold 2 no_physics
+2026-03-07 04:19:54,775 | 2110568 | INFO | queue[0007] trial 2 fold 3 no_physics
+2026-03-07 04:19:54,775 | 2110568 | INFO | queue[0008] trial 2 fold 4 no_physics
+2026-03-07 04:19:54,776 | 2110568 | INFO | queue[0009] trial 2 fold 5 no_physics
+2026-03-07 04:19:54,776 | 2110568 | INFO | queue[0010] trial 3 fold 1 no_physics
+2026-03-07 04:19:54,776 | 2110568 | INFO | queue[0011] trial 3 fold 2 no_physics
+2026-03-07 04:19:54,777 | 2110568 | INFO | queue[0012] trial 3 fold 3 no_physics
+2026-03-07 04:19:54,777 | 2110568 | INFO | queue[0013] trial 3 fold 4 no_physics
+2026-03-07 04:19:54,777 | 2110568 | INFO | queue[0014] trial 3 fold 5 no_physics
+2026-03-07 04:19:54,778 | 2110568 | INFO | queue[0015] trial 4 fold 1 no_physics
+2026-03-07 04:19:54,778 | 2110568 | INFO | queue[0016] trial 4 fold 2 no_physics
+2026-03-07 04:19:54,778 | 2110568 | INFO | queue[0017] trial 4 fold 3 no_physics
+2026-03-07 04:19:54,779 | 2110568 | INFO | queue[0018] trial 4 fold 4 no_physics
+2026-03-07 04:19:54,779 | 2110568 | INFO | queue[0019] trial 4 fold 5 no_physics
+2026-03-07 04:19:54,779 | 2110568 | INFO | queue[0020] trial 5 fold 1 no_physics
+2026-03-07 04:19:54,779 | 2110568 | INFO | queue[0021] trial 5 fold 2 no_physics
+2026-03-07 04:19:54,779 | 2110568 | INFO | queue[0022] trial 5 fold 3 no_physics
+2026-03-07 04:19:54,780 | 2110568 | INFO | queue[0023] trial 5 fold 4 no_physics
+2026-03-07 04:19:54,780 | 2110568 | INFO | queue[0024] trial 5 fold 5 no_physics
+2026-03-07 04:19:54,780 | 2110568 | INFO | queue[0025] trial 6 fold 1 no_physics
+2026-03-07 04:19:54,780 | 2110568 | INFO | queue[0026] trial 6 fold 2 no_physics
+2026-03-07 04:19:54,780 | 2110568 | INFO | queue[0027] trial 6 fold 3 no_physics
+2026-03-07 04:19:54,780 | 2110568 | INFO | queue[0028] trial 6 fold 4 no_physics
+2026-03-07 04:19:54,780 | 2110568 | INFO | queue[0029] trial 6 fold 5 no_physics
+2026-03-07 04:19:54,781 | 2110568 | INFO | [END BAYES QUEUE]
+2026-03-07 04:19:55,103 | 2110568 | INFO | [ENQUEUE TRIAL] trial 7 no_physics
+2026-03-07 04:19:55,104 | 2110568 | INFO | [BAYES QUEUE STATE]
+2026-03-07 04:19:55,104 | 2110568 | INFO | pending_jobs = 35
+2026-03-07 04:19:55,105 | 2110568 | INFO | inflight_trials = [0, 1, 2, 3, 4, 5, 6]
+2026-03-07 04:19:55,105 | 2110568 | INFO | queue[0000] trial 1 fold 1 no_physics
+2026-03-07 04:19:55,105 | 2110568 | INFO | queue[0001] trial 1 fold 2 no_physics
+2026-03-07 04:19:55,106 | 2110568 | INFO | queue[0002] trial 1 fold 3 no_physics
+2026-03-07 04:19:55,106 | 2110568 | INFO | queue[0003] trial 1 fold 4 no_physics
+2026-03-07 04:19:55,106 | 2110568 | INFO | queue[0004] trial 1 fold 5 no_physics
+2026-03-07 04:19:55,107 | 2110568 | INFO | queue[0005] trial 2 fold 1 no_physics
+2026-03-07 04:19:55,107 | 2110568 | INFO | queue[0006] trial 2 fold 2 no_physics
+2026-03-07 04:19:55,107 | 2110568 | INFO | queue[0007] trial 2 fold 3 no_physics
+2026-03-07 04:19:55,107 | 2110568 | INFO | queue[0008] trial 2 fold 4 no_physics
+2026-03-07 04:19:55,108 | 2110568 | INFO | queue[0009] trial 2 fold 5 no_physics
+2026-03-07 04:19:55,108 | 2110568 | INFO | queue[0010] trial 3 fold 1 no_physics
+2026-03-07 04:19:55,108 | 2110568 | INFO | queue[0011] trial 3 fold 2 no_physics
+2026-03-07 04:19:55,109 | 2110568 | INFO | queue[0012] trial 3 fold 3 no_physics
+2026-03-07 04:19:55,109 | 2110568 | INFO | queue[0013] trial 3 fold 4 no_physics
+2026-03-07 04:19:55,109 | 2110568 | INFO | queue[0014] trial 3 fold 5 no_physics
+2026-03-07 04:19:55,110 | 2110568 | INFO | queue[0015] trial 4 fold 1 no_physics
+2026-03-07 04:19:55,110 | 2110568 | INFO | queue[0016] trial 4 fold 2 no_physics
+2026-03-07 04:19:55,110 | 2110568 | INFO | queue[0017] trial 4 fold 3 no_physics
+2026-03-07 04:19:55,111 | 2110568 | INFO | queue[0018] trial 4 fold 4 no_physics
+2026-03-07 04:19:55,111 | 2110568 | INFO | queue[0019] trial 4 fold 5 no_physics
+2026-03-07 04:19:55,111 | 2110568 | INFO | queue[0020] trial 5 fold 1 no_physics
+2026-03-07 04:19:55,112 | 2110568 | INFO | queue[0021] trial 5 fold 2 no_physics
+2026-03-07 04:19:55,112 | 2110568 | INFO | queue[0022] trial 5 fold 3 no_physics
+2026-03-07 04:19:55,112 | 2110568 | INFO | queue[0023] trial 5 fold 4 no_physics
+2026-03-07 04:19:55,112 | 2110568 | INFO | queue[0024] trial 5 fold 5 no_physics
+2026-03-07 04:19:55,112 | 2110568 | INFO | queue[0025] trial 6 fold 1 no_physics
+2026-03-07 04:19:55,112 | 2110568 | INFO | queue[0026] trial 6 fold 2 no_physics
+2026-03-07 04:19:55,113 | 2110568 | INFO | queue[0027] trial 6 fold 3 no_physics
+2026-03-07 04:19:55,113 | 2110568 | INFO | queue[0028] trial 6 fold 4 no_physics
+2026-03-07 04:19:55,113 | 2110568 | INFO | queue[0029] trial 6 fold 5 no_physics
+2026-03-07 04:19:55,113 | 2110568 | INFO | queue[0030] trial 7 fold 1 no_physics
+2026-03-07 04:19:55,113 | 2110568 | INFO | queue[0031] trial 7 fold 2 no_physics
+2026-03-07 04:19:55,113 | 2110568 | INFO | queue[0032] trial 7 fold 3 no_physics
+2026-03-07 04:19:55,113 | 2110568 | INFO | queue[0033] trial 7 fold 4 no_physics
+2026-03-07 04:19:55,114 | 2110568 | INFO | queue[0034] trial 7 fold 5 no_physics
+2026-03-07 04:19:55,114 | 2110568 | INFO | [END BAYES QUEUE]
+2026-03-07 04:19:55,429 | 2110568 | INFO | [ENQUEUE TRIAL] trial 8 no_physics
+2026-03-07 04:19:55,429 | 2110568 | INFO | [BAYES QUEUE STATE]
+2026-03-07 04:19:55,430 | 2110568 | INFO | pending_jobs = 40
+2026-03-07 04:19:55,430 | 2110568 | INFO | inflight_trials = [0, 1, 2, 3, 4, 5, 6, 7]
+2026-03-07 04:19:55,430 | 2110568 | INFO | queue[0000] trial 1 fold 1 no_physics
+2026-03-07 04:19:55,431 | 2110568 | INFO | queue[0001] trial 1 fold 2 no_physics
+2026-03-07 04:19:55,431 | 2110568 | INFO | queue[0002] trial 1 fold 3 no_physics
+2026-03-07 04:19:55,431 | 2110568 | INFO | queue[0003] trial 1 fold 4 no_physics
+2026-03-07 04:19:55,432 | 2110568 | INFO | queue[0004] trial 1 fold 5 no_physics
+2026-03-07 04:19:55,432 | 2110568 | INFO | queue[0005] trial 2 fold 1 no_physics
+2026-03-07 04:19:55,432 | 2110568 | INFO | queue[0006] trial 2 fold 2 no_physics
+2026-03-07 04:19:55,433 | 2110568 | INFO | queue[0007] trial 2 fold 3 no_physics
+2026-03-07 04:19:55,433 | 2110568 | INFO | queue[0008] trial 2 fold 4 no_physics
+2026-03-07 04:19:55,433 | 2110568 | INFO | queue[0009] trial 2 fold 5 no_physics
+2026-03-07 04:19:55,434 | 2110568 | INFO | queue[0010] trial 3 fold 1 no_physics
+2026-03-07 04:19:55,434 | 2110568 | INFO | queue[0011] trial 3 fold 2 no_physics
+2026-03-07 04:19:55,434 | 2110568 | INFO | queue[0012] trial 3 fold 3 no_physics
+2026-03-07 04:19:55,434 | 2110568 | INFO | queue[0013] trial 3 fold 4 no_physics
+2026-03-07 04:19:55,434 | 2110568 | INFO | queue[0014] trial 3 fold 5 no_physics
+2026-03-07 04:19:55,435 | 2110568 | INFO | queue[0015] trial 4 fold 1 no_physics
+2026-03-07 04:19:55,435 | 2110568 | INFO | queue[0016] trial 4 fold 2 no_physics
+2026-03-07 04:19:55,435 | 2110568 | INFO | queue[0017] trial 4 fold 3 no_physics
+2026-03-07 04:19:55,435 | 2110568 | INFO | queue[0018] trial 4 fold 4 no_physics
+2026-03-07 04:19:55,436 | 2110568 | INFO | queue[0019] trial 4 fold 5 no_physics
+2026-03-07 04:19:55,436 | 2110568 | INFO | queue[0020] trial 5 fold 1 no_physics
+2026-03-07 04:19:55,436 | 2110568 | INFO | queue[0021] trial 5 fold 2 no_physics
+2026-03-07 04:19:55,436 | 2110568 | INFO | queue[0022] trial 5 fold 3 no_physics
+2026-03-07 04:19:55,436 | 2110568 | INFO | queue[0023] trial 5 fold 4 no_physics
+2026-03-07 04:19:55,437 | 2110568 | INFO | queue[0024] trial 5 fold 5 no_physics
+2026-03-07 04:19:55,437 | 2110568 | INFO | queue[0025] trial 6 fold 1 no_physics
+2026-03-07 04:19:55,437 | 2110568 | INFO | queue[0026] trial 6 fold 2 no_physics
+2026-03-07 04:19:55,437 | 2110568 | INFO | queue[0027] trial 6 fold 3 no_physics
+2026-03-07 04:19:55,437 | 2110568 | INFO | queue[0028] trial 6 fold 4 no_physics
+2026-03-07 04:19:55,438 | 2110568 | INFO | queue[0029] trial 6 fold 5 no_physics
+2026-03-07 04:19:55,438 | 2110568 | INFO | queue[0030] trial 7 fold 1 no_physics
+2026-03-07 04:19:55,438 | 2110568 | INFO | queue[0031] trial 7 fold 2 no_physics
+2026-03-07 04:19:55,438 | 2110568 | INFO | queue[0032] trial 7 fold 3 no_physics
+2026-03-07 04:19:55,438 | 2110568 | INFO | queue[0033] trial 7 fold 4 no_physics
+2026-03-07 04:19:55,439 | 2110568 | INFO | queue[0034] trial 7 fold 5 no_physics
+2026-03-07 04:19:55,439 | 2110568 | INFO | queue[0035] trial 8 fold 1 no_physics
+2026-03-07 04:19:55,439 | 2110568 | INFO | queue[0036] trial 8 fold 2 no_physics
+2026-03-07 04:19:55,439 | 2110568 | INFO | queue[0037] trial 8 fold 3 no_physics
+2026-03-07 04:19:55,439 | 2110568 | INFO | queue[0038] trial 8 fold 4 no_physics
+2026-03-07 04:19:55,440 | 2110568 | INFO | queue[0039] trial 8 fold 5 no_physics
+2026-03-07 04:19:55,440 | 2110568 | INFO | [END BAYES QUEUE]
+2026-03-07 04:19:55,782 | 2110568 | INFO | [ENQUEUE TRIAL] trial 9 no_physics
+2026-03-07 04:19:55,793 | 2110568 | INFO | [BAYES QUEUE STATE]
+2026-03-07 04:19:55,794 | 2110568 | INFO | pending_jobs = 45
+2026-03-07 04:19:55,794 | 2110568 | INFO | inflight_trials = [0, 1, 2, 3, 4, 5, 6, 7, 8]
+2026-03-07 04:19:55,795 | 2110568 | INFO | queue[0000] trial 1 fold 1 no_physics
+2026-03-07 04:19:55,795 | 2110568 | INFO | queue[0001] trial 1 fold 2 no_physics
+2026-03-07 04:19:55,795 | 2110568 | INFO | queue[0002] trial 1 fold 3 no_physics
+2026-03-07 04:19:55,795 | 2110568 | INFO | queue[0003] trial 1 fold 4 no_physics
+2026-03-07 04:19:55,796 | 2110568 | INFO | queue[0004] trial 1 fold 5 no_physics
+2026-03-07 04:19:55,796 | 2110568 | INFO | queue[0005] trial 2 fold 1 no_physics
+2026-03-07 04:19:55,796 | 2110568 | INFO | queue[0006] trial 2 fold 2 no_physics
+2026-03-07 04:19:55,797 | 2110568 | INFO | queue[0007] trial 2 fold 3 no_physics
+2026-03-07 04:19:55,797 | 2110568 | INFO | queue[0008] trial 2 fold 4 no_physics
+2026-03-07 04:19:55,797 | 2110568 | INFO | queue[0009] trial 2 fold 5 no_physics
+2026-03-07 04:19:55,798 | 2110568 | INFO | queue[0010] trial 3 fold 1 no_physics
+2026-03-07 04:19:55,798 | 2110568 | INFO | queue[0011] trial 3 fold 2 no_physics
+2026-03-07 04:19:55,798 | 2110568 | INFO | queue[0012] trial 3 fold 3 no_physics
+2026-03-07 04:19:55,799 | 2110568 | INFO | queue[0013] trial 3 fold 4 no_physics
+2026-03-07 04:19:55,799 | 2110568 | INFO | queue[0014] trial 3 fold 5 no_physics
+2026-03-07 04:19:55,799 | 2110568 | INFO | queue[0015] trial 4 fold 1 no_physics
+2026-03-07 04:19:55,800 | 2110568 | INFO | queue[0016] trial 4 fold 2 no_physics
+2026-03-07 04:19:55,800 | 2110568 | INFO | queue[0017] trial 4 fold 3 no_physics
+2026-03-07 04:19:55,800 | 2110568 | INFO | queue[0018] trial 4 fold 4 no_physics
+2026-03-07 04:19:55,800 | 2110568 | INFO | queue[0019] trial 4 fold 5 no_physics
+2026-03-07 04:19:55,800 | 2110568 | INFO | queue[0020] trial 5 fold 1 no_physics
+2026-03-07 04:19:55,800 | 2110568 | INFO | queue[0021] trial 5 fold 2 no_physics
+2026-03-07 04:19:55,801 | 2110568 | INFO | queue[0022] trial 5 fold 3 no_physics
+2026-03-07 04:19:55,801 | 2110568 | INFO | queue[0023] trial 5 fold 4 no_physics
+2026-03-07 04:19:55,801 | 2110568 | INFO | queue[0024] trial 5 fold 5 no_physics
+2026-03-07 04:19:55,801 | 2110568 | INFO | queue[0025] trial 6 fold 1 no_physics
+2026-03-07 04:19:55,801 | 2110568 | INFO | queue[0026] trial 6 fold 2 no_physics
+2026-03-07 04:19:55,801 | 2110568 | INFO | queue[0027] trial 6 fold 3 no_physics
+2026-03-07 04:19:55,802 | 2110568 | INFO | queue[0028] trial 6 fold 4 no_physics
+2026-03-07 04:19:55,802 | 2110568 | INFO | queue[0029] trial 6 fold 5 no_physics
+2026-03-07 04:19:55,802 | 2110568 | INFO | queue[0030] trial 7 fold 1 no_physics
+2026-03-07 04:19:55,802 | 2110568 | INFO | queue[0031] trial 7 fold 2 no_physics
+2026-03-07 04:19:55,802 | 2110568 | INFO | queue[0032] trial 7 fold 3 no_physics
+2026-03-07 04:19:55,802 | 2110568 | INFO | queue[0033] trial 7 fold 4 no_physics
+2026-03-07 04:19:55,802 | 2110568 | INFO | queue[0034] trial 7 fold 5 no_physics
+2026-03-07 04:19:55,803 | 2110568 | INFO | queue[0035] trial 8 fold 1 no_physics
+2026-03-07 04:19:55,803 | 2110568 | INFO | queue[0036] trial 8 fold 2 no_physics
+2026-03-07 04:19:55,803 | 2110568 | INFO | queue[0037] trial 8 fold 3 no_physics
+2026-03-07 04:19:55,803 | 2110568 | INFO | queue[0038] trial 8 fold 4 no_physics
+2026-03-07 04:19:55,803 | 2110568 | INFO | queue[0039] trial 8 fold 5 no_physics
+2026-03-07 04:19:55,803 | 2110568 | INFO | queue[0040] trial 9 fold 1 no_physics
+2026-03-07 04:19:55,803 | 2110568 | INFO | queue[0041] trial 9 fold 2 no_physics
+2026-03-07 04:19:55,804 | 2110568 | INFO | queue[0042] trial 9 fold 3 no_physics
+2026-03-07 04:19:55,804 | 2110568 | INFO | queue[0043] trial 9 fold 4 no_physics
+2026-03-07 04:19:55,804 | 2110568 | INFO | queue[0044] trial 9 fold 5 no_physics
+2026-03-07 04:19:55,804 | 2110568 | INFO | [END BAYES QUEUE]
+2026-03-07 04:19:56,120 | 2110568 | INFO | [ENQUEUE TRIAL] trial 10 no_physics
+2026-03-07 04:19:56,121 | 2110568 | INFO | [BAYES QUEUE STATE]
+2026-03-07 04:19:56,121 | 2110568 | INFO | pending_jobs = 50
+2026-03-07 04:19:56,122 | 2110568 | INFO | inflight_trials = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+2026-03-07 04:19:56,122 | 2110568 | INFO | queue[0000] trial 1 fold 1 no_physics
+2026-03-07 04:19:56,122 | 2110568 | INFO | queue[0001] trial 1 fold 2 no_physics
+2026-03-07 04:19:56,123 | 2110568 | INFO | queue[0002] trial 1 fold 3 no_physics
+2026-03-07 04:19:56,123 | 2110568 | INFO | queue[0003] trial 1 fold 4 no_physics
+2026-03-07 04:19:56,123 | 2110568 | INFO | queue[0004] trial 1 fold 5 no_physics
+2026-03-07 04:19:56,124 | 2110568 | INFO | queue[0005] trial 2 fold 1 no_physics
+2026-03-07 04:19:56,124 | 2110568 | INFO | queue[0006] trial 2 fold 2 no_physics
+2026-03-07 04:19:56,124 | 2110568 | INFO | queue[0007] trial 2 fold 3 no_physics
+2026-03-07 04:19:56,125 | 2110568 | INFO | queue[0008] trial 2 fold 4 no_physics
+2026-03-07 04:19:56,125 | 2110568 | INFO | queue[0009] trial 2 fold 5 no_physics
+2026-03-07 04:19:56,125 | 2110568 | INFO | queue[0010] trial 3 fold 1 no_physics
+2026-03-07 04:19:56,125 | 2110568 | INFO | queue[0011] trial 3 fold 2 no_physics
+2026-03-07 04:19:56,126 | 2110568 | INFO | queue[0012] trial 3 fold 3 no_physics
+2026-03-07 04:19:56,126 | 2110568 | INFO | queue[0013] trial 3 fold 4 no_physics
+2026-03-07 04:19:56,127 | 2110568 | INFO | queue[0014] trial 3 fold 5 no_physics
+2026-03-07 04:19:56,127 | 2110568 | INFO | queue[0015] trial 4 fold 1 no_physics
+2026-03-07 04:19:56,127 | 2110568 | INFO | queue[0016] trial 4 fold 2 no_physics
+2026-03-07 04:19:56,127 | 2110568 | INFO | queue[0017] trial 4 fold 3 no_physics
+2026-03-07 04:19:56,128 | 2110568 | INFO | queue[0018] trial 4 fold 4 no_physics
+2026-03-07 04:19:56,128 | 2110568 | INFO | queue[0019] trial 4 fold 5 no_physics
+2026-03-07 04:19:56,128 | 2110568 | INFO | queue[0020] trial 5 fold 1 no_physics
+2026-03-07 04:19:56,128 | 2110568 | INFO | queue[0021] trial 5 fold 2 no_physics
+2026-03-07 04:19:56,129 | 2110568 | INFO | queue[0022] trial 5 fold 3 no_physics
+2026-03-07 04:19:56,129 | 2110568 | INFO | queue[0023] trial 5 fold 4 no_physics
+2026-03-07 04:19:56,129 | 2110568 | INFO | queue[0024] trial 5 fold 5 no_physics
+2026-03-07 04:19:56,129 | 2110568 | INFO | queue[0025] trial 6 fold 1 no_physics
+2026-03-07 04:19:56,129 | 2110568 | INFO | queue[0026] trial 6 fold 2 no_physics
+2026-03-07 04:19:56,129 | 2110568 | INFO | queue[0027] trial 6 fold 3 no_physics
+2026-03-07 04:19:56,129 | 2110568 | INFO | queue[0028] trial 6 fold 4 no_physics
+2026-03-07 04:19:56,129 | 2110568 | INFO | queue[0029] trial 6 fold 5 no_physics
+2026-03-07 04:19:56,130 | 2110568 | INFO | queue[0030] trial 7 fold 1 no_physics
+2026-03-07 04:19:56,130 | 2110568 | INFO | queue[0031] trial 7 fold 2 no_physics
+2026-03-07 04:19:56,130 | 2110568 | INFO | queue[0032] trial 7 fold 3 no_physics
+2026-03-07 04:19:56,130 | 2110568 | INFO | queue[0033] trial 7 fold 4 no_physics
+2026-03-07 04:19:56,130 | 2110568 | INFO | queue[0034] trial 7 fold 5 no_physics
+2026-03-07 04:19:56,130 | 2110568 | INFO | queue[0035] trial 8 fold 1 no_physics
+2026-03-07 04:19:56,130 | 2110568 | INFO | queue[0036] trial 8 fold 2 no_physics
+2026-03-07 04:19:56,131 | 2110568 | INFO | queue[0037] trial 8 fold 3 no_physics
+2026-03-07 04:19:56,131 | 2110568 | INFO | queue[0038] trial 8 fold 4 no_physics
+2026-03-07 04:19:56,131 | 2110568 | INFO | queue[0039] trial 8 fold 5 no_physics
+2026-03-07 04:19:56,131 | 2110568 | INFO | queue[0040] trial 9 fold 1 no_physics
+2026-03-07 04:19:56,131 | 2110568 | INFO | queue[0041] trial 9 fold 2 no_physics
+2026-03-07 04:19:56,131 | 2110568 | INFO | queue[0042] trial 9 fold 3 no_physics
+2026-03-07 04:19:56,131 | 2110568 | INFO | queue[0043] trial 9 fold 4 no_physics
+2026-03-07 04:19:56,131 | 2110568 | INFO | queue[0044] trial 9 fold 5 no_physics
+2026-03-07 04:19:56,132 | 2110568 | INFO | queue[0045] trial 10 fold 1 no_physics
+2026-03-07 04:19:56,132 | 2110568 | INFO | queue[0046] trial 10 fold 2 no_physics
+2026-03-07 04:19:56,132 | 2110568 | INFO | queue[0047] trial 10 fold 3 no_physics
+2026-03-07 04:19:56,132 | 2110568 | INFO | queue[0048] trial 10 fold 4 no_physics
+2026-03-07 04:19:56,132 | 2110568 | INFO | queue[0049] trial 10 fold 5 no_physics
+2026-03-07 04:19:56,132 | 2110568 | INFO | [END BAYES QUEUE]
+2026-03-07 04:19:56,458 | 2110568 | INFO | [ENQUEUE TRIAL] trial 11 no_physics
+2026-03-07 04:19:56,458 | 2110568 | INFO | [BAYES QUEUE STATE]
+2026-03-07 04:19:56,459 | 2110568 | INFO | pending_jobs = 55
+2026-03-07 04:19:56,459 | 2110568 | INFO | inflight_trials = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+2026-03-07 04:19:56,459 | 2110568 | INFO | queue[0000] trial 1 fold 1 no_physics
+2026-03-07 04:19:56,460 | 2110568 | INFO | queue[0001] trial 1 fold 2 no_physics
+2026-03-07 04:19:56,460 | 2110568 | INFO | queue[0002] trial 1 fold 3 no_physics
+2026-03-07 04:19:56,460 | 2110568 | INFO | queue[0003] trial 1 fold 4 no_physics
+2026-03-07 04:19:56,461 | 2110568 | INFO | queue[0004] trial 1 fold 5 no_physics
+2026-03-07 04:19:56,461 | 2110568 | INFO | queue[0005] trial 2 fold 1 no_physics
+2026-03-07 04:19:56,461 | 2110568 | INFO | queue[0006] trial 2 fold 2 no_physics
+2026-03-07 04:19:56,461 | 2110568 | INFO | queue[0007] trial 2 fold 3 no_physics
+2026-03-07 04:19:56,462 | 2110568 | INFO | queue[0008] trial 2 fold 4 no_physics
+2026-03-07 04:19:56,462 | 2110568 | INFO | queue[0009] trial 2 fold 5 no_physics
+2026-03-07 04:19:56,462 | 2110568 | INFO | queue[0010] trial 3 fold 1 no_physics
+2026-03-07 04:19:56,463 | 2110568 | INFO | queue[0011] trial 3 fold 2 no_physics
+2026-03-07 04:19:56,463 | 2110568 | INFO | queue[0012] trial 3 fold 3 no_physics
+2026-03-07 04:19:56,463 | 2110568 | INFO | queue[0013] trial 3 fold 4 no_physics
+2026-03-07 04:19:56,464 | 2110568 | INFO | queue[0014] trial 3 fold 5 no_physics
+2026-03-07 04:19:56,464 | 2110568 | INFO | queue[0015] trial 4 fold 1 no_physics
+2026-03-07 04:19:56,464 | 2110568 | INFO | queue[0016] trial 4 fold 2 no_physics
+2026-03-07 04:19:56,464 | 2110568 | INFO | queue[0017] trial 4 fold 3 no_physics
+2026-03-07 04:19:56,465 | 2110568 | INFO | queue[0018] trial 4 fold 4 no_physics
+2026-03-07 04:19:56,465 | 2110568 | INFO | queue[0019] trial 4 fold 5 no_physics
+2026-03-07 04:19:56,465 | 2110568 | INFO | queue[0020] trial 5 fold 1 no_physics
+2026-03-07 04:19:56,465 | 2110568 | INFO | queue[0021] trial 5 fold 2 no_physics
+2026-03-07 04:19:56,465 | 2110568 | INFO | queue[0022] trial 5 fold 3 no_physics
+2026-03-07 04:19:56,465 | 2110568 | INFO | queue[0023] trial 5 fold 4 no_physics
+2026-03-07 04:19:56,466 | 2110568 | INFO | queue[0024] trial 5 fold 5 no_physics
+2026-03-07 04:19:56,466 | 2110568 | INFO | queue[0025] trial 6 fold 1 no_physics
+2026-03-07 04:19:56,466 | 2110568 | INFO | queue[0026] trial 6 fold 2 no_physics
+2026-03-07 04:19:56,466 | 2110568 | INFO | queue[0027] trial 6 fold 3 no_physics
+2026-03-07 04:19:56,466 | 2110568 | INFO | queue[0028] trial 6 fold 4 no_physics
+2026-03-07 04:19:56,466 | 2110568 | INFO | queue[0029] trial 6 fold 5 no_physics
+2026-03-07 04:19:56,466 | 2110568 | INFO | queue[0030] trial 7 fold 1 no_physics
+2026-03-07 04:19:56,467 | 2110568 | INFO | queue[0031] trial 7 fold 2 no_physics
+2026-03-07 04:19:56,467 | 2110568 | INFO | queue[0032] trial 7 fold 3 no_physics
+2026-03-07 04:19:56,467 | 2110568 | INFO | queue[0033] trial 7 fold 4 no_physics
+2026-03-07 04:19:56,467 | 2110568 | INFO | queue[0034] trial 7 fold 5 no_physics
+2026-03-07 04:19:56,467 | 2110568 | INFO | queue[0035] trial 8 fold 1 no_physics
+2026-03-07 04:19:56,467 | 2110568 | INFO | queue[0036] trial 8 fold 2 no_physics
+2026-03-07 04:19:56,467 | 2110568 | INFO | queue[0037] trial 8 fold 3 no_physics
+2026-03-07 04:19:56,468 | 2110568 | INFO | queue[0038] trial 8 fold 4 no_physics
+2026-03-07 04:19:56,468 | 2110568 | INFO | queue[0039] trial 8 fold 5 no_physics
+2026-03-07 04:19:56,468 | 2110568 | INFO | queue[0040] trial 9 fold 1 no_physics
+2026-03-07 04:19:56,468 | 2110568 | INFO | queue[0041] trial 9 fold 2 no_physics
+2026-03-07 04:19:56,468 | 2110568 | INFO | queue[0042] trial 9 fold 3 no_physics
+2026-03-07 04:19:56,468 | 2110568 | INFO | queue[0043] trial 9 fold 4 no_physics
+2026-03-07 04:19:56,468 | 2110568 | INFO | queue[0044] trial 9 fold 5 no_physics
+2026-03-07 04:19:56,469 | 2110568 | INFO | queue[0045] trial 10 fold 1 no_physics
+2026-03-07 04:19:56,469 | 2110568 | INFO | queue[0046] trial 10 fold 2 no_physics
+2026-03-07 04:19:56,469 | 2110568 | INFO | queue[0047] trial 10 fold 3 no_physics
+2026-03-07 04:19:56,469 | 2110568 | INFO | queue[0048] trial 10 fold 4 no_physics
+2026-03-07 04:19:56,469 | 2110568 | INFO | queue[0049] trial 10 fold 5 no_physics
+2026-03-07 04:19:56,469 | 2110568 | INFO | queue[0050] trial 11 fold 1 no_physics
+2026-03-07 04:19:56,470 | 2110568 | INFO | queue[0051] trial 11 fold 2 no_physics
+2026-03-07 04:19:56,470 | 2110568 | INFO | queue[0052] trial 11 fold 3 no_physics
+2026-03-07 04:19:56,470 | 2110568 | INFO | queue[0053] trial 11 fold 4 no_physics
+2026-03-07 04:19:56,470 | 2110568 | INFO | queue[0054] trial 11 fold 5 no_physics
+2026-03-07 04:19:56,470 | 2110568 | INFO | [END BAYES QUEUE]
+2026-03-07 04:19:56,812 | 2110568 | INFO | [ENQUEUE TRIAL] trial 12 no_physics
+2026-03-07 04:19:56,823 | 2110568 | INFO | [BAYES QUEUE STATE]
+2026-03-07 04:19:56,824 | 2110568 | INFO | pending_jobs = 60
+2026-03-07 04:19:56,824 | 2110568 | INFO | inflight_trials = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+2026-03-07 04:19:56,825 | 2110568 | INFO | queue[0000] trial 1 fold 1 no_physics
+2026-03-07 04:19:56,825 | 2110568 | INFO | queue[0001] trial 1 fold 2 no_physics
+2026-03-07 04:19:56,825 | 2110568 | INFO | queue[0002] trial 1 fold 3 no_physics
+2026-03-07 04:19:56,826 | 2110568 | INFO | queue[0003] trial 1 fold 4 no_physics
+2026-03-07 04:19:56,826 | 2110568 | INFO | queue[0004] trial 1 fold 5 no_physics
+2026-03-07 04:19:56,826 | 2110568 | INFO | queue[0005] trial 2 fold 1 no_physics
+2026-03-07 04:19:56,827 | 2110568 | INFO | queue[0006] trial 2 fold 2 no_physics
+2026-03-07 04:19:56,827 | 2110568 | INFO | queue[0007] trial 2 fold 3 no_physics
+2026-03-07 04:19:56,827 | 2110568 | INFO | queue[0008] trial 2 fold 4 no_physics
+2026-03-07 04:19:56,828 | 2110568 | INFO | queue[0009] trial 2 fold 5 no_physics
+2026-03-07 04:19:56,828 | 2110568 | INFO | queue[0010] trial 3 fold 1 no_physics
+2026-03-07 04:19:56,828 | 2110568 | INFO | queue[0011] trial 3 fold 2 no_physics
+2026-03-07 04:19:56,828 | 2110568 | INFO | queue[0012] trial 3 fold 3 no_physics
+2026-03-07 04:19:56,828 | 2110568 | INFO | queue[0013] trial 3 fold 4 no_physics
+2026-03-07 04:19:56,829 | 2110568 | INFO | queue[0014] trial 3 fold 5 no_physics
+2026-03-07 04:19:56,829 | 2110568 | INFO | queue[0015] trial 4 fold 1 no_physics
+2026-03-07 04:19:56,829 | 2110568 | INFO | queue[0016] trial 4 fold 2 no_physics
+2026-03-07 04:19:56,829 | 2110568 | INFO | queue[0017] trial 4 fold 3 no_physics
+2026-03-07 04:19:56,830 | 2110568 | INFO | queue[0018] trial 4 fold 4 no_physics
+2026-03-07 04:19:56,830 | 2110568 | INFO | queue[0019] trial 4 fold 5 no_physics
+2026-03-07 04:19:56,830 | 2110568 | INFO | queue[0020] trial 5 fold 1 no_physics
+2026-03-07 04:19:56,830 | 2110568 | INFO | queue[0021] trial 5 fold 2 no_physics
+2026-03-07 04:19:56,830 | 2110568 | INFO | queue[0022] trial 5 fold 3 no_physics
+2026-03-07 04:19:56,831 | 2110568 | INFO | queue[0023] trial 5 fold 4 no_physics
+2026-03-07 04:19:56,831 | 2110568 | INFO | queue[0024] trial 5 fold 5 no_physics
+2026-03-07 04:19:56,831 | 2110568 | INFO | queue[0025] trial 6 fold 1 no_physics
+2026-03-07 04:19:56,831 | 2110568 | INFO | queue[0026] trial 6 fold 2 no_physics
+2026-03-07 04:19:56,831 | 2110568 | INFO | queue[0027] trial 6 fold 3 no_physics
+2026-03-07 04:19:56,832 | 2110568 | INFO | queue[0028] trial 6 fold 4 no_physics
+2026-03-07 04:19:56,832 | 2110568 | INFO | queue[0029] trial 6 fold 5 no_physics
+2026-03-07 04:19:56,832 | 2110568 | INFO | queue[0030] trial 7 fold 1 no_physics
+2026-03-07 04:19:56,832 | 2110568 | INFO | queue[0031] trial 7 fold 2 no_physics
+2026-03-07 04:19:56,832 | 2110568 | INFO | queue[0032] trial 7 fold 3 no_physics
+2026-03-07 04:19:56,833 | 2110568 | INFO | queue[0033] trial 7 fold 4 no_physics
+2026-03-07 04:19:56,833 | 2110568 | INFO | queue[0034] trial 7 fold 5 no_physics
+2026-03-07 04:19:56,833 | 2110568 | INFO | queue[0035] trial 8 fold 1 no_physics
+2026-03-07 04:19:56,833 | 2110568 | INFO | queue[0036] trial 8 fold 2 no_physics
+2026-03-07 04:19:56,833 | 2110568 | INFO | queue[0037] trial 8 fold 3 no_physics
+2026-03-07 04:19:56,834 | 2110568 | INFO | queue[0038] trial 8 fold 4 no_physics
+2026-03-07 04:19:56,834 | 2110568 | INFO | queue[0039] trial 8 fold 5 no_physics
+2026-03-07 04:19:56,834 | 2110568 | INFO | queue[0040] trial 9 fold 1 no_physics
+2026-03-07 04:19:56,834 | 2110568 | INFO | queue[0041] trial 9 fold 2 no_physics
+2026-03-07 04:19:56,834 | 2110568 | INFO | queue[0042] trial 9 fold 3 no_physics
+2026-03-07 04:19:56,834 | 2110568 | INFO | queue[0043] trial 9 fold 4 no_physics
+2026-03-07 04:19:56,835 | 2110568 | INFO | queue[0044] trial 9 fold 5 no_physics
+2026-03-07 04:19:56,835 | 2110568 | INFO | queue[0045] trial 10 fold 1 no_physics
+2026-03-07 04:19:56,835 | 2110568 | INFO | queue[0046] trial 10 fold 2 no_physics
+2026-03-07 04:19:56,835 | 2110568 | INFO | queue[0047] trial 10 fold 3 no_physics
+2026-03-07 04:19:56,835 | 2110568 | INFO | queue[0048] trial 10 fold 4 no_physics
+2026-03-07 04:19:56,835 | 2110568 | INFO | queue[0049] trial 10 fold 5 no_physics
+2026-03-07 04:19:56,835 | 2110568 | INFO | queue[0050] trial 11 fold 1 no_physics
+2026-03-07 04:19:56,835 | 2110568 | INFO | queue[0051] trial 11 fold 2 no_physics
+2026-03-07 04:19:56,836 | 2110568 | INFO | queue[0052] trial 11 fold 3 no_physics
+2026-03-07 04:19:56,836 | 2110568 | INFO | queue[0053] trial 11 fold 4 no_physics
+2026-03-07 04:19:56,836 | 2110568 | INFO | queue[0054] trial 11 fold 5 no_physics
+2026-03-07 04:19:56,836 | 2110568 | INFO | queue[0055] trial 12 fold 1 no_physics
+2026-03-07 04:19:56,836 | 2110568 | INFO | queue[0056] trial 12 fold 2 no_physics
+2026-03-07 04:19:56,836 | 2110568 | INFO | queue[0057] trial 12 fold 3 no_physics
+2026-03-07 04:19:56,836 | 2110568 | INFO | queue[0058] trial 12 fold 4 no_physics
+2026-03-07 04:19:56,836 | 2110568 | INFO | queue[0059] trial 12 fold 5 no_physics
+2026-03-07 04:19:56,837 | 2110568 | INFO | [END BAYES QUEUE]
