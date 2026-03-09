@@ -1,0 +1,150 @@
+# --- Experiment Configs -----------------------------------------------------
+experiment_name: testing_run
+
+train_basin_file: warm springs
+validation_basin_file: warm springs
+test_basin_file: warm springs
+
+# Seq A - Extreme year split (Pearson-III exceedance ranking)
+# Calibration (10 WYs): 1996, 1998, 1999, 2000, 2002, 2003, 2004, 2005, 2008, 2009
+# Test (4 WYs): 1997, 2001, 2006, 2007
+# Operational split: 8 train, 2 val (wet+dry), 4 test
+is_mts_data: true
+
+train_ranges:
+- 01/10/1995-30/09/1996  # WY1996
+- 01/10/1998-30/09/1999  # WY1999
+- 01/10/1999-30/09/2000  # WY2000
+- 01/10/2001-30/09/2002  # WY2002
+- 01/10/2002-30/09/2003  # WY2003
+- 01/10/2003-30/09/2004  # WY2004
+- 01/10/2007-30/09/2008  # WY2008
+- 01/10/2008-30/09/2009  # WY2009
+
+validation_ranges:
+- 01/10/1997-30/09/1998  # WY1998 (wet, exc 0.235)
+- 01/10/2004-30/09/2005  # WY2005 (dry, exc 0.796)
+
+test_ranges:
+- 01/10/1996-30/09/1997  # WY1997
+- 01/10/2000-30/09/2001  # WY2001
+- 01/10/2005-30/09/2006  # WY2006
+- 01/10/2006-30/09/2007  # WY2007
+
+# Contiguous dates (required by Config, overridden by SyntheticRussianRiver)
+train_start_date: "01/10/1994"
+train_end_date: "30/09/2002"
+validation_start_date: "01/10/2002"
+validation_end_date: "30/09/2005"
+test_start_date: "01/10/2005"
+test_end_date: "30/09/2009"
+
+device: cuda:0
+
+physics_informed: false
+physics_data_file: null
+
+# --- Validation Configuration ----------------------------------------------
+validate_every: 3
+validate_n_random_basins: 1
+save_validation_results: true
+save_results_every: 10
+
+metrics:
+  - NSE
+  - MSE
+
+# --- Model Configuration: MTS-LSTM ------------------------------------------
+model: mtslstm
+shared_mtslstm: false
+transfer_mtslstm_states:
+  h: linear
+  c: linear
+
+use_frequencies:
+  - 1H
+  - 1D
+
+head: regression
+output_activation: linear
+
+hidden_size: 64
+initial_forget_bias: 3
+output_dropout: 0.5
+
+# --- Training Configuration -------------------------------------------------
+optimizer: Adam
+loss: NSE
+learning_rate:
+  0: 1e-2
+
+batch_size: 64
+epochs: 300
+clip_gradient_norm: 1
+
+predict_last_n:
+  1D: 1
+  1H: 24
+
+seq_length:
+  1D: 90
+  1H: 336
+
+log_interval: 16
+log_tensorboard: true
+log_n_figures: 1
+save_weights_every: 16
+
+# --- Data Configuration -----------------------------------------------------
+dataset: synthetic_russian_river
+data_dir: "F:/Dino/UCB-USACE-LSTMs/data/updated_russian_river_folder/"
+dev_mode: true
+
+dynamic_inputs:
+  1D:
+  - DRY CREEK 20 PRECIP-INC SCREENED
+  - DRY CREEK 20 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR
+  - DRY CREEK 30 PRECIP-INC SCREENED
+  - DRY CREEK 30 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR
+  - UKIAH CA HUMIDITY USAF-NOAA
+  - UKIAH CA SOLAR RADIATION USAF-NOAA
+  - UKIAH CA TEMPERATURE USAF-NOAA
+  - UKIAH CA WINDSPEED USAF-NOAA
+  - SANTA ROSA CA HUMIDITY USAF-NOAA
+  - SANTA ROSA CA SOLAR RADIATION USAF-NOAA
+  - SANTA ROSA CA TEMPERATURE USAF-NOAA
+  - SANTA ROSA CA WINDSPEED USAF-NOAA
+  1H:
+  - DRY CREEK 20 PRECIP-INC SCREENED
+  - DRY CREEK 20 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR
+  - DRY CREEK 30 PRECIP-INC SCREENED
+  - DRY CREEK 30 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR
+  - UKIAH CA HUMIDITY USAF-NOAA
+  - UKIAH CA SOLAR RADIATION USAF-NOAA
+  - UKIAH CA TEMPERATURE USAF-NOAA
+  - UKIAH CA WINDSPEED USAF-NOAA
+  - SANTA ROSA CA HUMIDITY USAF-NOAA
+  - SANTA ROSA CA SOLAR RADIATION USAF-NOAA
+  - SANTA ROSA CA TEMPERATURE USAF-NOAA
+  - SANTA ROSA CA WINDSPEED USAF-NOAA
+
+target_variables:
+  - LAKE SONOMA FLOW-RES IN CALC-VAL-SHIFT-SMOOTH
+
+clip_targets_to_zero:
+  - [LAKE SONOMA FLOW-RES IN CALC-VAL-SHIFT-SMOOTH]
+
+save_best_checkpoint: true
+
+# --- Early Stopping Configuration --------------------------------------------
+early_stopping: true
+early_stopping_mode: plateau
+
+# --- Plateau Mode Settings ---
+plateau_factor: 0.5
+plateau_patience: 3
+plateau_threshold: 0.01
+plateau_min_lr: 1.0e-05
+plateau_final_patience: 3
+plateau_cooldown: 1
+plateau_min_epoch: 24
