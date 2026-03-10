@@ -142,7 +142,7 @@ early_stopping_mode: plateau
 plateau_factor: 0.5
 plateau_patience: 3
 plateau_threshold: 0.01
-plateau_min_lr: 1.0e-05
+plateau_min_lr: 1.0e-04
 plateau_final_patience: 3
 plateau_cooldown: 1
 plateau_min_epoch: 24
