@@ -1,0 +1,107 @@
+batch_size: 64
+clip_gradient_norm: 1
+clip_targets_to_zero:
+- - NR CALPELLA FLOW COE CPL
+commit_hash: 737af449
+data_dir: /Users/canruso/Desktop/UCB-USACE-RR-PROJECT/russian_river_data
+dataset: russian_river
+dev_mode: true
+device: cpu
+dynamic_inputs:
+  1D:
+  - EF RUSSIAN 20 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR
+  - EF RUSSIAN 20 PRECIP-INC SCREENED
+  - POTTER VALLEY CA FLOW USGS_ADJUSTED
+  - UKIAH CA HUMIDITY USAF-NOAA
+  - UKIAH CA SOLAR RADIATION USAF-NOAA
+  - UKIAH CA TEMPERATURE USAF-NOAA
+  - UKIAH CA WINDSPEED USAF-NOAA
+  1H:
+  - EF RUSSIAN 20 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR
+  - EF RUSSIAN 20 PRECIP-INC SCREENED
+  - POTTER VALLEY CA FLOW USGS_ADJUSTED
+  - UKIAH CA HUMIDITY USAF-NOAA
+  - UKIAH CA SOLAR RADIATION USAF-NOAA
+  - UKIAH CA TEMPERATURE USAF-NOAA
+  - UKIAH CA WINDSPEED USAF-NOAA
+early_stopping: true
+early_stopping_mode: patience
+early_stopping_slope_ema_alpha: 0.4
+early_stopping_slope_eps_slope: 0.001
+early_stopping_slope_log_eps: 1e-12
+early_stopping_slope_min_epoch: 8
+early_stopping_slope_min_window_gain: 0.01
+early_stopping_slope_patience: 2
+early_stopping_slope_use_log: true
+early_stopping_slope_variance_cv_max: 0.01
+early_stopping_slope_variance_guard: true
+early_stopping_slope_window: 7
+epochs: 5
+experiment_name: testing_run
+head: regression
+hidden_size: 64
+hourly: true
+img_log_dir: /Users/canruso/Desktop/UCB-USACE-RR-PROJECT/notebooks/basins/calpella/debug_mp_run_grid_000/cross_validation_1802_141350/fold_04/testing_run_1802_153024/img_log
+initial_forget_bias: 3
+is_mts: true
+is_mts_data: false
+learning_rate:
+  0: 0.01
+  3: 0.005
+  4: 0.001
+log_interval: 16
+log_n_figures: 1
+log_tensorboard: true
+loss: NSE
+metrics:
+- NSE
+- MSE
+min_delta_early_stopping: 0.0
+minimum_epochs_before_early_stopping: 16
+model: mtslstm
+num_layers: 1
+number_of_basins: 1
+optimizer: Adam
+output_activation: linear
+output_dropout: 0.4
+package_version: 1.11.0
+patience_early_stopping: 5
+physics_data_file: None
+physics_informed: false
+predict_last_n:
+  1D: 1
+  1H: 24
+run_dir: /Users/canruso/Desktop/UCB-USACE-RR-PROJECT/notebooks/basins/calpella/debug_mp_run_grid_000/cross_validation_1802_141350/fold_04/testing_run_1802_153024
+run_label: DEBUG_CV
+run_stamp: 20260218T221347Z
+save_validation_results: true
+save_weights_every: 5
+seed: 398793
+seq_length:
+  1D: 90
+  1H: 168
+shared_mtslstm: false
+target_variables:
+- NR CALPELLA FLOW COE CPL
+test_basin_file: calpella
+test_end_date: 30/09/2009
+test_start_date: 01/10/2005
+train_basin_file: calpella
+train_dir: /Users/canruso/Desktop/UCB-USACE-RR-PROJECT/notebooks/basins/calpella/debug_mp_run_grid_000/cross_validation_1802_141350/fold_04/testing_run_1802_153024/train_data
+train_end_date: 01/10/2002
+train_start_date: 01/10/1994
+transfer_mtslstm_states:
+  h: linear
+  c: linear
+use_frequencies:
+- 1H
+- 1D
+validate_every: 1
+validate_n_random_basins: 1
+validation_basin_file: calpella
+validation_end_date: 01/10/2003
+validation_start_date: 01/01/1900
+validation_start_per_frequency:
+  1D: 02/10/2002
+  1H: 02/10/2002
+verbose: true
