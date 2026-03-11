@@ -5,34 +5,34 @@ train_basin_file: guerneville
 validation_basin_file: guerneville
 test_basin_file: guerneville
 
-# train_start_date: "01/10/1994"
-# train_end_date: "30/09/2002"
-# validation_start_date: "01/10/2002"
-# validation_end_date: "30/09/2005"
-# test_start_date: "01/10/2005"
-# test_end_date: "30/09/2009"
+train_start_date: "01/10/1994"
+train_end_date: "30/09/2002"
+validation_start_date: "01/10/2002"
+validation_end_date: "30/09/2005"
+test_start_date: "01/10/2005"
+test_end_date: "30/09/2009"
 
-# #Arman synthetic ranges
-train_ranges:
-  - "01/10/1995-30/09/1996" #1996
-  - "01/10/1996-30/09/1997" #1997
-  - "01/10/1997-30/09/1998" #1998
-  - "01/10/1998-30/09/1999" #1999
-  - "01/10/1999-30/09/2000" #2000
-  - "01/10/2001-30/09/2002" #2002
-  - "01/10/2002-30/09/2003" #2003
-  - "01/10/2003-30/09/2004" #2004
+# #Arman synthetic ranges (Max PR#9 - uncomment for extreme year runs)
+# train_ranges:
+#   - "01/10/1995-30/09/1996" #1996
+#   - "01/10/1996-30/09/1997" #1997
+#   - "01/10/1997-30/09/1998" #1998
+#   - "01/10/1998-30/09/1999" #1999
+#   - "01/10/1999-30/09/2000" #2000
+#   - "01/10/2001-30/09/2002" #2002
+#   - "01/10/2002-30/09/2003" #2003
+#   - "01/10/2003-30/09/2004" #2004
 
-validation_ranges:
-  - "01/10/2004-30/09/2005" #2005
-  - "01/10/2005-30/09/2006" #2006
-  - "01/10/2007-30/09/2008" #2008
+# validation_ranges:
+#   - "01/10/2004-30/09/2005" #2005
+#   - "01/10/2005-30/09/2006" #2006
+#   - "01/10/2007-30/09/2008" #2008
 
-test_ranges:
-  - "01/10/1994-30/09/1995" #1995
-  - "01/10/2000-30/09/2001" #2001
-  - "01/10/2006-30/09/2007" #2007
-  - "01/10/2008-30/09/2009" #2009
+# test_ranges:
+#   - "01/10/1994-30/09/1995" #1995
+#   - "01/10/2000-30/09/2001" #2001
+#   - "01/10/2006-30/09/2007" #2007
+#   - "01/10/2008-30/09/2009" #2009
 
 # You can also override the device in code if desired; defaulting to CPU or GPU here
 device: cuda:0
@@ -42,7 +42,8 @@ physics_informed: false
 physics_data_file: null
 
 # --- Validation Configuration ----------------------------------------------
-validate_every: 12
+# validate_every: 12  # Max PR#9
+validate_every: 3
 validate_n_random_basins: 1
 save_validation_results: True
 save_results_every: 10
@@ -98,7 +99,8 @@ log_n_figures: 1
 save_weights_every: 16
 
 # --- Data Configuration -----------------------------------------------------
-dataset: synthetic_russian_river
+# dataset: synthetic_russian_river  # Max PR#9 - for extreme year runs
+dataset: russian_river
 data_dir: "F:/Dino/UCB-USACE-LSTMs/data/updated_russian_river_folder/"
 dev_mode: True
 

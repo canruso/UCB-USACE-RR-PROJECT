@@ -100,7 +100,7 @@ def run_single_experiment_nophysics(args):
     logging.getLogger().setLevel(logging.ERROR)
     logging.getLogger("neuralhydrology").setLevel(logging.ERROR)
     logging.getLogger("pandas").setLevel(logging.ERROR)
-    sys.stderr = open(os.devnull, "w")
+    # sys.stderr = open(os.devnull, "w")  # commented out for error visibility
 
     (
         idx, combinations, hyperparam_names, path_to_csv, path_to_yaml,
@@ -157,8 +157,8 @@ def run_single_experiment_nophysics(args):
 
     result = _run_and_collect(trainer, is_mts, use_cv, cv_month, cv_interval, cv_val_len)
 
-    run_dir = f"{RUNS_PARENT}_grid_{idx:03d}_fold{fold_id}"
-    shutil.rmtree(run_dir, ignore_errors=True)
+    # run_dir = f"{RUNS_PARENT}_grid_{idx:03d}_fold{fold_id}"
+    # shutil.rmtree(run_dir, ignore_errors=True)  # keep fold artifacts for analysis
 
     print(f"[QUEUE DONE] iter={idx} fold={fold_id} physics=False")
 
@@ -227,8 +227,8 @@ def run_single_experiment_physics(args):
 
     result = _run_and_collect(trainer, is_mts, use_cv, cv_month, cv_interval, cv_val_len)
 
-    run_dir = f"{RUNS_PARENT}_phys_grid_{idx:03d}_fold{fold_id}"
-    shutil.rmtree(run_dir, ignore_errors=True)
+    # run_dir = f"{RUNS_PARENT}_phys_grid_{idx:03d}_fold{fold_id}"
+    # shutil.rmtree(run_dir, ignore_errors=True)  # keep fold artifacts for analysis
 
     print(f"[QUEUE DONE] iter={idx} fold={fold_id} physics=True")
 

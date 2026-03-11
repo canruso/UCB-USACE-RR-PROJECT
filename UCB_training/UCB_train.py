@@ -1279,6 +1279,12 @@ class UCB_trainer:
 
         if self._extended_train_period:
             config.update_config({'train_end_date': config.validation_end_date}, dev_mode=True)
+            # Merge validation_ranges into train_ranges for synthetic pipeline
+            # (mirrors contiguous behavior where train_end_date extends to cover validation)
+            train_r = list(getattr(config, 'train_ranges', None) or [])
+            val_r = list(getattr(config, 'validation_ranges', None) or [])
+            if train_r and val_r:
+                config.update_config({'train_ranges': sorted(train_r + val_r)}, dev_mode=True)
 
         config.update_config(self._hyperparams, dev_mode=True)
         config.update_config({'data_dir': self._data_dir}, dev_mode=True)
