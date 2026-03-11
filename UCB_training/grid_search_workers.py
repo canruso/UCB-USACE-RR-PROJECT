@@ -110,15 +110,14 @@ def run_single_experiment_nophysics(args):
         train_start, train_end, val_start, val_end,
         val_eval_start, val_eval_end,
         validation_start_per_frequency,
-        train_ranges,
-        validation_ranges,
-        dataset_name,
-        fold_id,
-        total_folds,
-        cv_external_queue_mode
+        train_ranges, validation_ranges, dataset_name,
+        fold_id, total_folds, cv_external_queue_mode
     ) = args
 
     hp_run = _build_hp_run(combinations, hyperparam_names, fractional_multi_lr)
+
+    # runs_parent: use fold suffix only in parallel-fold mode
+    rp = f"{RUNS_PARENT}_grid_{idx:03d}" if fold_id == 0 else str(Path(RUNS_PARENT) / f"grid_{idx:03d}_fold{fold_id}")
 
     trainer = UCB_trainer(
         path_to_csv_folder=path_to_csv,
@@ -135,18 +134,19 @@ def run_single_experiment_nophysics(args):
         hyperparam_ensemble=HYPERPARAM_ENSEMBLE,
         bootstrap_model=BOOTSTRAP_MODELS,
         verbose=verbose,
-        runs_parent=str(Path(RUNS_PARENT) / f"grid_{idx:03d}_fold{fold_id}"),
+        runs_parent=rp,
         run_label=RUN_LABEL,
         run_stamp=RUN_STAMP
     )
 
+    # override config when caller provides explicit ranges/dates (None = use YAML as-is)
     if dataset_name == "synthetic_russian_river":
         trainer._config.update_config({
             "train_ranges": train_ranges,
             "validation_ranges": validation_ranges,
             "dataset": dataset_name,
         }, dev_mode=True)
-    else:
+    elif dataset_name is not None:
         trainer._config.update_config({
             "train_start_date": train_start,
             "train_end_date": train_end,
@@ -180,15 +180,14 @@ def run_single_experiment_physics(args):
         train_start, train_end, val_start, val_end,
         val_eval_start, val_eval_end,
         validation_start_per_frequency,
-        train_ranges,
-        validation_ranges,
-        dataset_name,
-        fold_id,
-        total_folds,
-        cv_external_queue_mode
+        train_ranges, validation_ranges, dataset_name,
+        fold_id, total_folds, cv_external_queue_mode
     ) = args
 
     hp_run = _build_hp_run(combinations, hyperparam_names, fractional_multi_lr)
+
+    # runs_parent: use fold suffix only in parallel-fold mode
+    rp = f"{RUNS_PARENT}_phys_grid_{idx:03d}" if fold_id == 0 else str(Path(RUNS_PARENT) / f"phys_grid_{idx:03d}_fold{fold_id}")
 
     trainer = UCB_trainer(
         path_to_csv_folder=path_to_csv,
@@ -205,18 +204,19 @@ def run_single_experiment_physics(args):
         hyperparam_ensemble=HYPERPARAM_ENSEMBLE,
         bootstrap_model=BOOTSTRAP_MODELS,
         verbose=verbose,
-        runs_parent=str(Path(RUNS_PARENT) / f"phys_grid_{idx:03d}_fold{fold_id}"),
+        runs_parent=rp,
         run_label=RUN_LABEL,
         run_stamp=RUN_STAMP
     )
 
+    # override config when caller provides explicit ranges/dates (None = use YAML as-is)
     if dataset_name == "synthetic_russian_river":
         trainer._config.update_config({
             "train_ranges": train_ranges,
             "validation_ranges": validation_ranges,
             "dataset": dataset_name,
         }, dev_mode=True)
-    else:
+    elif dataset_name is not None:
         trainer._config.update_config({
             "train_start_date": train_start,
             "train_end_date": train_end,
