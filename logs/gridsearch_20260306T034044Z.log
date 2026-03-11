@@ -1,0 +1,61 @@
+2026-03-05 19:40:44,035 | 59586 | INFO | [+   0.00s]
+2026-03-05 19:40:44,035 | 59586 | INFO | Basin: guerneville, GPU: -1, Verbose: True
+2026-03-05 19:40:44,035 | 59586 | INFO | [+   0.00s]
+2026-03-05 19:40:44,035 | 59586 | INFO | Pre-warming numba JIT ...
+2026-03-05 19:40:44,586 | 59586 | INFO | [+   0.55s]
+2026-03-05 19:40:44,586 | 59586 | INFO | Numba JIT pre-compiled.
+2026-03-05 19:40:44,586 | 59586 | INFO | YAML PATH:
+2026-03-05 19:40:44,586 | 59586 | INFO | /Users/maxwellfung/UCB-USACE-RR-PROJECT/UCB_training/configs/guerneville_mtslstm2.yaml
+2026-03-05 19:40:44,586 | 59586 | INFO | [+   0.55s]
+2026-03-05 19:40:44,586 | 59586 | INFO | 48 combinations, 9 workers
+2026-03-05 19:40:44,586 | 59586 | INFO | run_gridsearch =
+2026-03-05 19:40:44,586 | 59586 | INFO | False
+2026-03-05 19:40:44,587 | 59586 | INFO | hparams_exists =
+2026-03-05 19:40:44,587 | 59586 | INFO | False
+2026-03-05 19:40:44,590 | 59586 | INFO | [EXTERNAL CV FOLDS]
+2026-03-05 19:40:44,590 | 59586 | INFO | fold 1: train 01/10/1994 -> 01/10/1996 | val 02/10/1996 -> 01/10/1997 | eval 02/10/1996 -> 01/10/1997
+2026-03-05 19:40:44,590 | 59586 | INFO | fold 2: train 01/10/1994 -> 01/10/1998 | val 02/10/1998 -> 01/10/1999 | eval 02/10/1998 -> 01/10/1999
+2026-03-05 19:40:44,590 | 59586 | INFO | fold 3: train 01/10/1994 -> 01/10/2000 | val 02/10/2000 -> 01/10/2001 | eval 02/10/2000 -> 01/10/2001
+2026-03-05 19:40:44,590 | 59586 | INFO | fold 4: train 01/10/1994 -> 01/10/2002 | val 02/10/2002 -> 01/10/2003 | eval 02/10/2002 -> 01/10/2003
+2026-03-05 19:40:44,590 | 59586 | INFO | fold 5: train 01/10/1994 -> 01/10/2004 | val 02/10/2004 -> 01/10/2005 | eval 02/10/2004 -> 01/10/2005
+2026-03-05 19:40:44,590 | 59586 | INFO | [EXTERNAL CV FOLDS] total folds = 5
+2026-03-05 19:40:44,590 | 59586 | INFO | [BAYESIAN OPTIMIZATION] Using 9 parallel workers
+2026-03-05 19:40:44,591 | 59586 | INFO | [BAYES] no_physics: 1 parallel trials x 5 folds = up to 5 workers
+2026-03-05 19:40:44,604 | 59586 | INFO | Bayes No-Physics Trials:   0%|                         | 0/1 [00:00<?, ?trial/s]
+2026-03-05 19:40:45,925 | 59586 | INFO | Bayes No-Physics Trials:   0%|                         | 0/1 [00:01<?, ?trial/s]
+2026-03-05 19:40:45,929 | 59586 | INFO | multiprocessing.pool
+2026-03-05 19:40:45,929 | 59586 | INFO | .
+2026-03-05 19:40:45,929 | 59586 | INFO | RemoteTraceback
+2026-03-05 19:40:45,929 | 59586 | INFO | :
+2026-03-05 19:40:45,929 | 59586 | INFO | """
+Traceback (most recent call last):
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/multiprocessing/pool.py", line 125, in worker
+    result = (True, func(*args, **kwds))
+                    ^^^^^^^^^^^^^^^^^^^
+  File "/Users/maxwellfung/UCB-USACE-RR-PROJECT/run_hyperparam_search.py", line 809, in run_parallel_bayes_worker
+    journal_path = Path(RUNS_PARENT) / f"{RUN_LABEL}_{RUN_STAMP}_nophys_journal.log"
+                   ^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/pathlib.py", line 871, in __new__
+    self = cls._from_parts(args)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/pathlib.py", line 509, in _from_parts
+    drv, root, parts = self._parse_args(args)
+                       ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/pathlib.py", line 493, in _parse_args
+    a = os.fspath(a)
+        ^^^^^^^^^^^^
+TypeError: expected str, bytes or os.PathLike object, not NoneType
+"""
+2026-03-05 19:40:45,929 | 59586 | INFO | The above exception was the direct cause of the following exception:
+2026-03-05 19:40:45,929 | 59586 | INFO | Traceback (most recent call last):
+2026-03-05 19:40:45,929 | 59586 | INFO | File "/Users/maxwellfung/UCB-USACE-RR-PROJECT/run_hyperparam_search.py", line 1346, in <module>
+2026-03-05 19:40:45,929 | 59586 | INFO | main()
+2026-03-05 19:40:45,929 | 59586 | INFO | File "/Users/maxwellfung/UCB-USACE-RR-PROJECT/run_hyperparam_search.py", line 1009, in main
+2026-03-05 19:40:45,930 | 59586 | INFO | list(tqdm(
+2026-03-05 19:40:45,930 | 59586 | INFO | File "/Users/maxwellfung/UCB-USACE-RR-PROJECT/venv/lib/python3.11/site-packages/tqdm/std.py", line 1181, in __iter__
+2026-03-05 19:40:45,930 | 59586 | INFO | for obj in iterable:
+2026-03-05 19:40:45,930 | 59586 | INFO | File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/multiprocessing/pool.py", line 873, in next
+2026-03-05 19:40:45,930 | 59586 | INFO | raise value
+2026-03-05 19:40:45,930 | 59586 | INFO | TypeError
+2026-03-05 19:40:45,930 | 59586 | INFO | :
+2026-03-05 19:40:45,930 | 59586 | INFO | expected str, bytes or os.PathLike object, not NoneType

@@ -1,0 +1,8 @@
+2026-03-06 16:23:58,703 | 8777 | INFO | Traceback (most recent call last):
+2026-03-06 16:23:58,719 | 8777 | INFO | File "/global/scratch/users/maxwellfung/UCB-USACE-RR-PROJECT/run_hyperparam_search.py", line 1397, in <module>
+2026-03-06 16:23:58,726 | 8777 | INFO | main()
+2026-03-06 16:23:58,727 | 8777 | INFO | File "/global/scratch/users/maxwellfung/UCB-USACE-RR-PROJECT/run_hyperparam_search.py", line 983, in main
+2026-03-06 16:23:58,733 | 8777 | INFO | bcfg = BASIN_CONFIGS[BASIN]
+2026-03-06 16:23:58,734 | 8777 | INFO | KeyError
+2026-03-06 16:23:58,734 | 8777 | INFO | :
+2026-03-06 16:23:58,734 | 8777 | INFO | 'hopland'

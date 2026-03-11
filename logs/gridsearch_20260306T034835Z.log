@@ -1,0 +1,78 @@
+2026-03-05 19:48:35,332 | 61991 | INFO | [+   0.00s]
+2026-03-05 19:48:35,332 | 61991 | INFO | Basin: guerneville, GPU: -1, Verbose: True
+2026-03-05 19:48:35,332 | 61991 | INFO | [+   0.00s]
+2026-03-05 19:48:35,332 | 61991 | INFO | Pre-warming numba JIT ...
+2026-03-05 19:48:35,873 | 61991 | INFO | [+   0.54s]
+2026-03-05 19:48:35,873 | 61991 | INFO | Numba JIT pre-compiled.
+2026-03-05 19:48:35,873 | 61991 | INFO | YAML PATH:
+2026-03-05 19:48:35,873 | 61991 | INFO | /Users/maxwellfung/UCB-USACE-RR-PROJECT/UCB_training/configs/guerneville_mtslstm2.yaml
+2026-03-05 19:48:35,873 | 61991 | INFO | [+   0.54s]
+2026-03-05 19:48:35,873 | 61991 | INFO | 48 combinations, 9 workers
+2026-03-05 19:48:35,873 | 61991 | INFO | run_gridsearch =
+2026-03-05 19:48:35,873 | 61991 | INFO | False
+2026-03-05 19:48:35,873 | 61991 | INFO | hparams_exists =
+2026-03-05 19:48:35,873 | 61991 | INFO | False
+2026-03-05 19:48:35,877 | 61991 | INFO | [EXTERNAL CV FOLDS]
+2026-03-05 19:48:35,877 | 61991 | INFO | fold 1: train 01/10/1994 -> 01/10/1996 | val 02/10/1996 -> 01/10/1997 | eval 02/10/1996 -> 01/10/1997
+2026-03-05 19:48:35,877 | 61991 | INFO | fold 2: train 01/10/1994 -> 01/10/1998 | val 02/10/1998 -> 01/10/1999 | eval 02/10/1998 -> 01/10/1999
+2026-03-05 19:48:35,877 | 61991 | INFO | fold 3: train 01/10/1994 -> 01/10/2000 | val 02/10/2000 -> 01/10/2001 | eval 02/10/2000 -> 01/10/2001
+2026-03-05 19:48:35,877 | 61991 | INFO | fold 4: train 01/10/1994 -> 01/10/2002 | val 02/10/2002 -> 01/10/2003 | eval 02/10/2002 -> 01/10/2003
+2026-03-05 19:48:35,877 | 61991 | INFO | fold 5: train 01/10/1994 -> 01/10/2004 | val 02/10/2004 -> 01/10/2005 | eval 02/10/2004 -> 01/10/2005
+2026-03-05 19:48:35,877 | 61991 | INFO | [EXTERNAL CV FOLDS] total folds = 5
+2026-03-05 19:48:35,877 | 61991 | INFO | [BAYESIAN OPTIMIZATION] Using 9 parallel workers
+2026-03-05 19:48:35,878 | 61991 | INFO | [BAYES] no_physics: 1 parallel trials x 5 folds = up to 5 workers
+2026-03-05 19:48:35,891 | 61991 | INFO | Bayes No-Physics Trials:   0%|                         | 0/1 [00:00<?, ?trial/s]
+2026-03-05 19:49:58,931 | 61991 | INFO | Bayes No-Physics Trials:   0%|                         | 0/1 [01:23<?, ?trial/s]
+2026-03-05 19:49:58,953 | 61991 | INFO | Traceback (most recent call last):
+2026-03-05 19:49:58,953 | 61991 | INFO | File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/multiprocessing/pool.py", line 856, in next
+2026-03-05 19:49:58,954 | 61991 | INFO | item = self._items.popleft()
+2026-03-05 19:49:58,954 | 61991 | INFO | ^
+2026-03-05 19:49:58,954 | 61991 | INFO | ^
+2026-03-05 19:49:58,954 | 61991 | INFO | ^
+2026-03-05 19:49:58,954 | 61991 | INFO | ^
+2026-03-05 19:49:58,954 | 61991 | INFO | ^
+2026-03-05 19:49:58,954 | 61991 | INFO | ^
+2026-03-05 19:49:58,954 | 61991 | INFO | ^
+2026-03-05 19:49:58,954 | 61991 | INFO | ^
+2026-03-05 19:49:58,954 | 61991 | INFO | ^
+2026-03-05 19:49:58,954 | 61991 | INFO | ^
+2026-03-05 19:49:58,954 | 61991 | INFO | ^
+2026-03-05 19:49:58,954 | 61991 | INFO | ^
+2026-03-05 19:49:58,954 | 61991 | INFO | ^
+2026-03-05 19:49:58,954 | 61991 | INFO | ^
+2026-03-05 19:49:58,954 | 61991 | INFO | ^
+2026-03-05 19:49:58,954 | 61991 | INFO | ^
+2026-03-05 19:49:58,954 | 61991 | INFO | ^
+2026-03-05 19:49:58,954 | 61991 | INFO | ^
+2026-03-05 19:49:58,954 | 61991 | INFO | ^
+2026-03-05 19:49:58,954 | 61991 | INFO | ^
+2026-03-05 19:49:58,954 | 61991 | INFO | ^
+2026-03-05 19:49:58,954 | 61991 | INFO | IndexError
+2026-03-05 19:49:58,954 | 61991 | INFO | :
+2026-03-05 19:49:58,954 | 61991 | INFO | pop from an empty deque
+2026-03-05 19:49:58,954 | 61991 | INFO | During handling of the above exception, another exception occurred:
+2026-03-05 19:49:58,954 | 61991 | INFO | Traceback (most recent call last):
+2026-03-05 19:49:58,954 | 61991 | INFO | File "/Users/maxwellfung/UCB-USACE-RR-PROJECT/run_hyperparam_search.py", line 1366, in <module>
+2026-03-05 19:49:58,954 | 61991 | INFO | File "/Users/maxwellfung/UCB-USACE-RR-PROJECT/run_hyperparam_search.py", line 1029, in main
+2026-03-05 19:49:58,955 | 61991 | INFO | ascii=True
+2026-03-05 19:49:58,955 | 61991 | INFO | ^
+2026-03-05 19:49:58,955 | 61991 | INFO | ^
+2026-03-05 19:49:58,955 | 61991 | INFO | ^
+2026-03-05 19:49:58,955 | 61991 | INFO | ^
+2026-03-05 19:49:58,955 | 61991 | INFO | ^
+2026-03-05 19:49:58,955 | 61991 | INFO | ^
+2026-03-05 19:49:58,955 | 61991 | INFO | ^
+2026-03-05 19:49:58,955 | 61991 | INFO | ^
+2026-03-05 19:49:58,955 | 61991 | INFO | ^
+2026-03-05 19:49:58,955 | 61991 | INFO | ^
+2026-03-05 19:49:58,955 | 61991 | INFO | ^
+2026-03-05 19:49:58,955 | 61991 | INFO | ^
+2026-03-05 19:49:58,955 | 61991 | INFO | ^
+2026-03-05 19:49:58,955 | 61991 | INFO | ^
+2026-03-05 19:49:58,955 | 61991 | INFO | File "/Users/maxwellfung/UCB-USACE-RR-PROJECT/venv/lib/python3.11/site-packages/tqdm/std.py", line 1181, in __iter__
+2026-03-05 19:49:58,955 | 61991 | INFO | for obj in iterable:
+2026-03-05 19:49:58,955 | 61991 | INFO | File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/multiprocessing/pool.py", line 861, in next
+2026-03-05 19:49:58,955 | 61991 | INFO | self._cond.wait(timeout)
+2026-03-05 19:49:58,955 | 61991 | INFO | File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/threading.py", line 320, in wait
+2026-03-05 19:49:58,955 | 61991 | INFO | waiter.acquire()
+2026-03-05 19:49:58,955 | 61991 | INFO | KeyboardInterrupt

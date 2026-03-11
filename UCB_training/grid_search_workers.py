@@ -23,7 +23,11 @@ def _build_hp_run(combinations, hyperparam_names, fractional_multi_lr):
         hp_run[name] = val
     if schedule_pairs is not None:
         fractions, rates = schedule_pairs
-        hp_run["learning_rate"] = fractional_multi_lr(epochs=int(hp_run["epochs"]), fractions=list(fractions), lrs=list(rates))
+        hp_run["learning_rate"] = fractional_multi_lr(
+            epochs=int(hp_run["epochs"]),
+            fractions=list(fractions),
+            lrs=list(rates)
+        )
     else:
         hp_run.setdefault("learning_rate", {0: 0.01, 30: 0.005, 40: 0.001})
     return hp_run
@@ -34,19 +38,31 @@ def _run_and_collect(trainer, is_mts, use_cv, cv_month, cv_interval, cv_val_len)
     if use_cv:
         cv_run_path = Path(trainer._runs_parent) if trainer._runs_parent else None
         cv_out = trainer.cross_validate(
-            intervalMonth=cv_month, intervalLength=cv_interval,
-            validationLength=cv_val_len, no_leak=True, save_fold_details=True, run_path=cv_run_path)
+            intervalMonth=cv_month,
+            intervalLength=cv_interval,
+            validationLength=cv_val_len,
+            no_leak=True,
+            save_fold_details=True,
+            run_path=cv_run_path
+        )
+
         if is_mts:
             daily_d, hourly_d = cv_out
-            return ({k.replace("daily avg ", ""): v for k, v in daily_d.items()},
-                    {k.replace("hourly avg ", ""): v for k, v in hourly_d.items()})
+            return (
+                {k.replace("daily avg ", ""): v for k, v in daily_d.items()},
+                {k.replace("hourly avg ", ""): v for k, v in hourly_d.items()}
+            )
+
         return {k.replace("avg ", ""): v for k, v in cv_out.items()}
+
     else:
         trainer.train()
+
         if is_mts:
             _, m1d = trainer.results(period="validation", mts_trk="1D")
             _, m1h = trainer.results(period="validation", mts_trk="1H")
             return m1d, m1h
+
         _, m = trainer.results(period="validation")
         return m
 
@@ -56,12 +72,17 @@ def _build_row(combinations, hyperparam_names, hp_run, metrics_result, is_mts, p
     if is_mts:
         metrics_1d, metrics_1h = metrics_result
         tqdm.write(
-            f"[GRID][PID {pid}][{idx:03d}] NSE_1D={metrics_1d.get('NSE'):.4f} NSE_1H={metrics_1h.get('NSE'):.4f} | HP={hp_run}")
+            f"[GRID][PID {pid}][{idx:03d}] NSE_1D={metrics_1d.get('NSE'):.4f} NSE_1H={metrics_1h.get('NSE'):.4f} | HP={hp_run}"
+        )
     else:
         metrics_dict = metrics_result
-        tqdm.write(f"[GRID][PID {pid}][{idx:03d}] NSE={metrics_dict.get('NSE'):.4f} | HP={hp_run}")
+        tqdm.write(
+            f"[GRID][PID {pid}][{idx:03d}] NSE={metrics_dict.get('NSE'):.4f} | HP={hp_run}"
+        )
+
     row_data = {name: combinations[i] for i, name in enumerate(hyperparam_names)}
     row_data["learning_rate"] = str(hp_run["learning_rate"])
+
     if is_mts:
         for k, v in metrics_1d.items():
             row_data[f"{k}_1D"] = v
@@ -69,6 +90,7 @@ def _build_row(combinations, hyperparam_names, hp_run, metrics_result, is_mts, p
             row_data[f"{k}_1H"] = v
     else:
         row_data.update(metrics_dict)
+
     return row_data
 
 
@@ -78,24 +100,68 @@ def run_single_experiment_nophysics(args):
     logging.getLogger().setLevel(logging.ERROR)
     logging.getLogger("neuralhydrology").setLevel(logging.ERROR)
     logging.getLogger("pandas").setLevel(logging.ERROR)
-    # sys.stderr = open(os.devnull, "w")  # commented out for error visibility
-    # print("WORKER STARTED", os.getpid(), flush=True)
+    sys.stderr = open(os.devnull, "w")
 
-    (idx, combinations, hyperparam_names, path_to_csv, path_to_yaml,
-     GPU_SETTING, RUNS_PARENT, RUN_LABEL, RUN_STAMP, verbose, fractional_multi_lr, NUM_ENSEMBLES, BOOTSTRAP_MODELS, HYPERPARAM_ENSEMBLE,
-     is_mts, hourly, use_cv, cv_month, cv_interval, cv_val_len) = args
+    (
+        idx, combinations, hyperparam_names, path_to_csv, path_to_yaml,
+        GPU_SETTING, RUNS_PARENT, RUN_LABEL, RUN_STAMP, verbose,
+        fractional_multi_lr, NUM_ENSEMBLES, BOOTSTRAP_MODELS, HYPERPARAM_ENSEMBLE,
+        is_mts, hourly, use_cv, cv_month, cv_interval, cv_val_len,
+        train_start, train_end, val_start, val_end,
+        val_eval_start, val_eval_end,
+        validation_start_per_frequency,
+        train_ranges,
+        validation_ranges,
+        dataset_name,
+        fold_id,
+        total_folds,
+        cv_external_queue_mode
+    ) = args
 
     hp_run = _build_hp_run(combinations, hyperparam_names, fractional_multi_lr)
 
-    trainer = UCB_trainer(path_to_csv_folder=path_to_csv, yaml_path=path_to_yaml, hyperparams=hp_run,
-                          input_features=None, physics_informed=False, physics_data_file=None,
-                          hourly=hourly, extend_train_period=False, gpu=GPU_SETTING, is_mts=is_mts,
-                          num_ensemble_members=NUM_ENSEMBLES, hyperparam_ensemble=HYPERPARAM_ENSEMBLE,
-                          bootstrap_model=BOOTSTRAP_MODELS, verbose=verbose,
-                          runs_parent=f"{RUNS_PARENT}_grid_{idx:03d}", run_label=RUN_LABEL, run_stamp=RUN_STAMP)
+    trainer = UCB_trainer(
+        path_to_csv_folder=path_to_csv,
+        yaml_path=path_to_yaml,
+        hyperparams=hp_run,
+        input_features=None,
+        physics_informed=False,
+        physics_data_file=None,
+        hourly=hourly,
+        extend_train_period=False,
+        gpu=GPU_SETTING,
+        is_mts=is_mts,
+        num_ensemble_members=NUM_ENSEMBLES,
+        hyperparam_ensemble=HYPERPARAM_ENSEMBLE,
+        bootstrap_model=BOOTSTRAP_MODELS,
+        verbose=verbose,
+        runs_parent=str(Path(RUNS_PARENT) / f"grid_{idx:03d}_fold{fold_id}"),
+        run_label=RUN_LABEL,
+        run_stamp=RUN_STAMP
+    )
+
+    if dataset_name == "synthetic_russian_river":
+        trainer._config.update_config({
+            "train_ranges": train_ranges,
+            "validation_ranges": validation_ranges,
+            "dataset": dataset_name,
+        }, dev_mode=True)
+    else:
+        trainer._config.update_config({
+            "train_start_date": train_start,
+            "train_end_date": train_end,
+            "validation_start_date": val_start,
+            "validation_end_date": val_end,
+            "dataset": dataset_name,
+        }, dev_mode=True)
 
     result = _run_and_collect(trainer, is_mts, use_cv, cv_month, cv_interval, cv_val_len)
-    # shutil.rmtree(f"{RUNS_PARENT}_grid_{idx:03d}", ignore_errors=True)  # commented out to keep run dirs
+
+    run_dir = f"{RUNS_PARENT}_grid_{idx:03d}_fold{fold_id}"
+    shutil.rmtree(run_dir, ignore_errors=True)
+
+    print(f"[QUEUE DONE] iter={idx} fold={fold_id} physics=False")
+
     return _build_row(combinations, hyperparam_names, hp_run, result, is_mts, os.getpid(), idx)
 
 
@@ -105,25 +171,69 @@ def run_single_experiment_physics(args):
     logging.getLogger().setLevel(logging.ERROR)
     # sys.stderr = open(os.devnull, "w")  # commented out for error visibility
 
-    (idx, combinations, hyperparam_names, path_to_csv, path_to_yaml,
-     GPU_SETTING, RUNS_PARENT, RUN_LABEL, RUN_STAMP, verbose, fractional_multi_lr, NUM_ENSEMBLES, BOOTSTRAP_MODELS, HYPERPARAM_ENSEMBLE,
-     features_with_physics, physics_data_file,
-     is_mts, hourly, use_cv, cv_month, cv_interval, cv_val_len) = args
+    (
+        idx, combinations, hyperparam_names, path_to_csv, path_to_yaml,
+        GPU_SETTING, RUNS_PARENT, RUN_LABEL, RUN_STAMP, verbose,
+        fractional_multi_lr, NUM_ENSEMBLES, BOOTSTRAP_MODELS, HYPERPARAM_ENSEMBLE,
+        features_with_physics, physics_data_file,
+        is_mts, hourly, use_cv, cv_month, cv_interval, cv_val_len,
+        train_start, train_end, val_start, val_end,
+        val_eval_start, val_eval_end,
+        validation_start_per_frequency,
+        train_ranges,
+        validation_ranges,
+        dataset_name,
+        fold_id,
+        total_folds,
+        cv_external_queue_mode
+    ) = args
 
     hp_run = _build_hp_run(combinations, hyperparam_names, fractional_multi_lr)
 
-    trainer = UCB_trainer(path_to_csv_folder=path_to_csv, yaml_path=path_to_yaml, hyperparams=hp_run,
-                          input_features=features_with_physics, physics_informed=True,
-                          physics_data_file=physics_data_file,
-                          hourly=hourly, extend_train_period=False, gpu=GPU_SETTING, is_mts=is_mts,
-                          num_ensemble_members=NUM_ENSEMBLES, hyperparam_ensemble=HYPERPARAM_ENSEMBLE,
-                          bootstrap_model=BOOTSTRAP_MODELS, verbose=verbose,
-                          runs_parent=f"{RUNS_PARENT}_phys_grid_{idx:03d}", run_label=RUN_LABEL, run_stamp=RUN_STAMP)
+    trainer = UCB_trainer(
+        path_to_csv_folder=path_to_csv,
+        yaml_path=path_to_yaml,
+        hyperparams=hp_run,
+        input_features=features_with_physics,
+        physics_informed=True,
+        physics_data_file=physics_data_file,
+        hourly=hourly,
+        extend_train_period=False,
+        gpu=GPU_SETTING,
+        is_mts=is_mts,
+        num_ensemble_members=NUM_ENSEMBLES,
+        hyperparam_ensemble=HYPERPARAM_ENSEMBLE,
+        bootstrap_model=BOOTSTRAP_MODELS,
+        verbose=verbose,
+        runs_parent=str(Path(RUNS_PARENT) / f"phys_grid_{idx:03d}_fold{fold_id}"),
+        run_label=RUN_LABEL,
+        run_stamp=RUN_STAMP
+    )
+
+    if dataset_name == "synthetic_russian_river":
+        trainer._config.update_config({
+            "train_ranges": train_ranges,
+            "validation_ranges": validation_ranges,
+            "dataset": dataset_name,
+        }, dev_mode=True)
+    else:
+        trainer._config.update_config({
+            "train_start_date": train_start,
+            "train_end_date": train_end,
+            "validation_start_date": val_start,
+            "validation_end_date": val_end,
+            "dataset": dataset_name,
+        }, dev_mode=True)
 
     result = _run_and_collect(trainer, is_mts, use_cv, cv_month, cv_interval, cv_val_len)
-    # shutil.rmtree(f"{RUNS_PARENT}_phys_grid_{idx:03d}", ignore_errors=True)  # commented out to keep run dirs
+
+    run_dir = f"{RUNS_PARENT}_phys_grid_{idx:03d}_fold{fold_id}"
+    shutil.rmtree(run_dir, ignore_errors=True)
+
+    print(f"[QUEUE DONE] iter={idx} fold={fold_id} physics=True")
+
     return _build_row(combinations, hyperparam_names, hp_run, result, is_mts, os.getpid(), idx)
-    
+
 
 def bayes_worker_no_physics(args):
     trial_num, comb, hyperparam_names, path_to_csv, path_to_yaml, \

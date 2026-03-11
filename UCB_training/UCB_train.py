@@ -1487,10 +1487,9 @@ class UCB_trainer:
 
         i = 1
         while i <= max_fold:
-            if self._verbose:
-                print("\n" + "="*70)
-                print(f"[CROSS VALIDATION] Fold {i}/{max_fold}")
-                print("="*70)
+            print("\n" + "="*70)
+            print(f"[CROSS VALIDATION] Fold {i}/{max_fold}")
+            print("="*70)
 
             fold_train_start_date = pd.to_datetime(f"{str(original_start_year)}-{interval}-01", format="%Y-%b-%d")
             fold_train_end_date = pd.to_datetime(f"{original_start_year + (intervalLength * i)}-{interval}-01", format="%Y-%b-%d")

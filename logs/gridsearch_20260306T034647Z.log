@@ -1,0 +1,78 @@
+2026-03-05 19:46:47,699 | 60825 | INFO | [+   0.00s]
+2026-03-05 19:46:47,699 | 60825 | INFO | Basin: guerneville, GPU: -1, Verbose: True
+2026-03-05 19:46:47,699 | 60825 | INFO | [+   0.00s]
+2026-03-05 19:46:47,699 | 60825 | INFO | Pre-warming numba JIT ...
+2026-03-05 19:46:48,235 | 60825 | INFO | [+   0.54s]
+2026-03-05 19:46:48,235 | 60825 | INFO | Numba JIT pre-compiled.
+2026-03-05 19:46:48,235 | 60825 | INFO | YAML PATH:
+2026-03-05 19:46:48,235 | 60825 | INFO | /Users/maxwellfung/UCB-USACE-RR-PROJECT/UCB_training/configs/guerneville_mtslstm2.yaml
+2026-03-05 19:46:48,235 | 60825 | INFO | [+   0.54s]
+2026-03-05 19:46:48,235 | 60825 | INFO | 48 combinations, 9 workers
+2026-03-05 19:46:48,235 | 60825 | INFO | run_gridsearch =
+2026-03-05 19:46:48,235 | 60825 | INFO | False
+2026-03-05 19:46:48,235 | 60825 | INFO | hparams_exists =
+2026-03-05 19:46:48,235 | 60825 | INFO | False
+2026-03-05 19:46:48,239 | 60825 | INFO | [EXTERNAL CV FOLDS]
+2026-03-05 19:46:48,239 | 60825 | INFO | fold 1: train 01/10/1994 -> 01/10/1996 | val 02/10/1996 -> 01/10/1997 | eval 02/10/1996 -> 01/10/1997
+2026-03-05 19:46:48,239 | 60825 | INFO | fold 2: train 01/10/1994 -> 01/10/1998 | val 02/10/1998 -> 01/10/1999 | eval 02/10/1998 -> 01/10/1999
+2026-03-05 19:46:48,239 | 60825 | INFO | fold 3: train 01/10/1994 -> 01/10/2000 | val 02/10/2000 -> 01/10/2001 | eval 02/10/2000 -> 01/10/2001
+2026-03-05 19:46:48,239 | 60825 | INFO | fold 4: train 01/10/1994 -> 01/10/2002 | val 02/10/2002 -> 01/10/2003 | eval 02/10/2002 -> 01/10/2003
+2026-03-05 19:46:48,239 | 60825 | INFO | fold 5: train 01/10/1994 -> 01/10/2004 | val 02/10/2004 -> 01/10/2005 | eval 02/10/2004 -> 01/10/2005
+2026-03-05 19:46:48,239 | 60825 | INFO | [EXTERNAL CV FOLDS] total folds = 5
+2026-03-05 19:46:48,239 | 60825 | INFO | [BAYESIAN OPTIMIZATION] Using 9 parallel workers
+2026-03-05 19:46:48,240 | 60825 | INFO | [BAYES] no_physics: 1 parallel trials x 5 folds = up to 5 workers
+2026-03-05 19:46:48,258 | 60825 | INFO | Bayes No-Physics Trials:   0%|                         | 0/1 [00:00<?, ?trial/s]
+2026-03-05 19:46:49,523 | 60825 | INFO | Bayes No-Physics Trials:   0%|                         | 0/1 [00:01<?, ?trial/s]
+2026-03-05 19:46:49,528 | 60825 | INFO | multiprocessing.pool
+2026-03-05 19:46:49,528 | 60825 | INFO | .
+2026-03-05 19:46:49,528 | 60825 | INFO | RemoteTraceback
+2026-03-05 19:46:49,528 | 60825 | INFO | :
+2026-03-05 19:46:49,528 | 60825 | INFO | """
+Traceback (most recent call last):
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/multiprocessing/pool.py", line 125, in worker
+    result = (True, func(*args, **kwds))
+                    ^^^^^^^^^^^^^^^^^^^
+  File "/Users/maxwellfung/UCB-USACE-RR-PROJECT/run_hyperparam_search.py", line 909, in run_parallel_bayes_worker
+    study.optimize(
+  File "/Users/maxwellfung/UCB-USACE-RR-PROJECT/venv/lib/python3.11/site-packages/optuna/study/study.py", line 490, in optimize
+    _optimize(
+  File "/Users/maxwellfung/UCB-USACE-RR-PROJECT/venv/lib/python3.11/site-packages/optuna/study/_optimize.py", line 68, in _optimize
+    _optimize_sequential(
+  File "/Users/maxwellfung/UCB-USACE-RR-PROJECT/venv/lib/python3.11/site-packages/optuna/study/_optimize.py", line 165, in _optimize_sequential
+    frozen_trial_id = _run_trial(study, func, catch)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/maxwellfung/UCB-USACE-RR-PROJECT/venv/lib/python3.11/site-packages/optuna/study/_optimize.py", line 263, in _run_trial
+    raise func_err
+  File "/Users/maxwellfung/UCB-USACE-RR-PROJECT/venv/lib/python3.11/site-packages/optuna/study/_optimize.py", line 206, in _run_trial
+    value_or_values = func(trial)
+                      ^^^^^^^^^^^
+  File "/Users/maxwellfung/UCB-USACE-RR-PROJECT/run_hyperparam_search.py", line 870, in objective
+    with mp.Pool(processes=len(queue)) as fold_pool:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/multiprocessing/context.py", line 119, in Pool
+    return Pool(processes, initializer, initargs, maxtasksperchild,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/multiprocessing/pool.py", line 215, in __init__
+    self._repopulate_pool()
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/multiprocessing/pool.py", line 306, in _repopulate_pool
+    return self._repopulate_pool_static(self._ctx, self.Process,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/multiprocessing/pool.py", line 329, in _repopulate_pool_static
+    w.start()
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/multiprocessing/process.py", line 118, in start
+    assert not _current_process._config.get('daemon'), \
+AssertionError: daemonic processes are not allowed to have children
+"""
+2026-03-05 19:46:49,528 | 60825 | INFO | The above exception was the direct cause of the following exception:
+2026-03-05 19:46:49,528 | 60825 | INFO | Traceback (most recent call last):
+2026-03-05 19:46:49,528 | 60825 | INFO | File "/Users/maxwellfung/UCB-USACE-RR-PROJECT/run_hyperparam_search.py", line 1373, in <module>
+2026-03-05 19:46:49,528 | 60825 | INFO | main()
+2026-03-05 19:46:49,528 | 60825 | INFO | File "/Users/maxwellfung/UCB-USACE-RR-PROJECT/run_hyperparam_search.py", line 1036, in main
+2026-03-05 19:46:49,528 | 60825 | INFO | list(tqdm(
+2026-03-05 19:46:49,528 | 60825 | INFO | File "/Users/maxwellfung/UCB-USACE-RR-PROJECT/venv/lib/python3.11/site-packages/tqdm/std.py", line 1181, in __iter__
+2026-03-05 19:46:49,528 | 60825 | INFO | for obj in iterable:
+2026-03-05 19:46:49,528 | 60825 | INFO | File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/multiprocessing/pool.py", line 873, in next
+2026-03-05 19:46:49,529 | 60825 | INFO | raise value
+2026-03-05 19:46:49,529 | 60825 | INFO | AssertionError
+2026-03-05 19:46:49,529 | 60825 | INFO | :
+2026-03-05 19:46:49,529 | 60825 | INFO | daemonic processes are not allowed to have children
