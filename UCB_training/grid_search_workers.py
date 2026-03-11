@@ -110,6 +110,9 @@ def run_single_experiment_nophysics(args):
         train_start, train_end, val_start, val_end,
         val_eval_start, val_eval_end,
         validation_start_per_frequency,
+        train_ranges,
+        validation_ranges,
+        dataset_name,
         fold_id,
         total_folds,
         cv_external_queue_mode
@@ -137,12 +140,19 @@ def run_single_experiment_nophysics(args):
         run_stamp=RUN_STAMP
     )
 
-    if train_start:
+    if dataset_name == "synthetic_russian_river":
+        trainer._config.update_config({
+            "train_ranges": train_ranges,
+            "validation_ranges": validation_ranges,
+            "dataset": dataset_name,
+        }, dev_mode=True)
+    else:
         trainer._config.update_config({
             "train_start_date": train_start,
             "train_end_date": train_end,
             "validation_start_date": val_start,
-            "validation_end_date": val_end
+            "validation_end_date": val_end,
+            "dataset": dataset_name,
         }, dev_mode=True)
 
     result = _run_and_collect(trainer, is_mts, use_cv, cv_month, cv_interval, cv_val_len)
@@ -170,6 +180,9 @@ def run_single_experiment_physics(args):
         train_start, train_end, val_start, val_end,
         val_eval_start, val_eval_end,
         validation_start_per_frequency,
+        train_ranges,
+        validation_ranges,
+        dataset_name,
         fold_id,
         total_folds,
         cv_external_queue_mode
@@ -197,12 +210,19 @@ def run_single_experiment_physics(args):
         run_stamp=RUN_STAMP
     )
 
-    if train_start:
+    if dataset_name == "synthetic_russian_river":
+        trainer._config.update_config({
+            "train_ranges": train_ranges,
+            "validation_ranges": validation_ranges,
+            "dataset": dataset_name,
+        }, dev_mode=True)
+    else:
         trainer._config.update_config({
             "train_start_date": train_start,
             "train_end_date": train_end,
             "validation_start_date": val_start,
-            "validation_end_date": val_end
+            "validation_end_date": val_end,
+            "dataset": dataset_name,
         }, dev_mode=True)
 
     result = _run_and_collect(trainer, is_mts, use_cv, cv_month, cv_interval, cv_val_len)

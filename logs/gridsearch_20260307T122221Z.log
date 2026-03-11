@@ -5770,3 +5770,395 @@
 2026-03-10 19:34:01,471 | 911030 | INFO | File "/global/scratch/users/maxwellfung/UCB-USACE-RR-PROJECT/run_hyperparam_search.py", line 1063, in run_bayes_streaming_queue
 2026-03-10 19:34:01,472 | 911030 | INFO | time.sleep(0.1)
 2026-03-10 19:34:01,472 | 911030 | INFO | KeyboardInterrupt
+2026-03-10 20:38:42,928 | 53780 | INFO | [+   0.00s]
+2026-03-10 20:38:42,928 | 53780 | INFO | Basin: guerneville, GPU: -1, Verbose: True
+2026-03-10 20:38:42,928 | 53780 | INFO | [+   0.00s]
+2026-03-10 20:38:42,928 | 53780 | INFO | Pre-warming numba JIT ...
+2026-03-10 20:38:43,511 | 53780 | INFO | [+   0.58s]
+2026-03-10 20:38:43,511 | 53780 | INFO | Numba JIT pre-compiled.
+2026-03-10 20:38:43,511 | 53780 | INFO | YAML PATH:
+2026-03-10 20:38:43,511 | 53780 | INFO | /Users/maxwellfung/UCB-USACE-RR-PROJECT/UCB_training/configs/guerneville_mtslstm2.yaml
+2026-03-10 20:38:43,511 | 53780 | INFO | [+   0.58s]
+2026-03-10 20:38:43,511 | 53780 | INFO | 288 combinations, 9 workers
+2026-03-10 20:38:43,511 | 53780 | INFO | run_gridsearch =
+2026-03-10 20:38:43,511 | 53780 | INFO | False
+2026-03-10 20:38:43,511 | 53780 | INFO | hparams_exists =
+2026-03-10 20:38:43,511 | 53780 | INFO | False
+2026-03-10 20:38:43,514 | 53780 | INFO | [EXTERNAL CV FOLDS]
+2026-03-10 20:38:43,514 | 53780 | INFO | fold 1: train None -> None | val None -> None | eval None -> None
+2026-03-10 20:38:43,514 | 53780 | INFO | fold 2: train None -> None | val None -> None | eval None -> None
+2026-03-10 20:38:43,514 | 53780 | INFO | fold 3: train None -> None | val None -> None | eval None -> None
+2026-03-10 20:38:43,514 | 53780 | INFO | fold 4: train None -> None | val None -> None | eval None -> None
+2026-03-10 20:38:43,514 | 53780 | INFO | fold 5: train None -> None | val None -> None | eval None -> None
+2026-03-10 20:38:43,514 | 53780 | INFO | [EXTERNAL CV FOLDS] total folds = 5
+2026-03-10 20:38:43,514 | 53780 | INFO | [BAYESIAN OPTIMIZATION] Using 9 parallel workers
+2026-03-10 20:38:43,515 | 53780 | INFO | [OPTUNA SEED] journal empty → seeding from CSV
+2026-03-10 20:38:43,516 | 53780 | INFO | [OPTUNA SEED] loading 48 trials from CSV
+2026-03-10 20:38:43,532 | 53780 | INFO | [OPTUNA SEED] study now has 48 trials
+2026-03-10 20:38:43,532 | 53780 | INFO | [BAYES] no_physics: 2 parallel trials x 5 folds = up to 10 workers
+2026-03-10 20:38:43,532 | 53780 | INFO | /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/hyperparams/archive/guerneville_mts_CROSS_VAL_V4_no_physics_gridsearch_20260307T122221Z.csv
+2026-03-10 20:38:43,533 | 53780 | INFO | [REPLAYING COMPLETED TRIALS FROM CSV]
+2026-03-10 20:38:43,533 | 53780 | INFO | [Trial 1 No-Physics] already completed
+2026-03-10 20:38:43,533 | 53780 | INFO | [Trial 2 No-Physics] already completed
+2026-03-10 20:38:43,533 | 53780 | INFO | [Trial 3 No-Physics] already completed
+2026-03-10 20:38:43,533 | 53780 | INFO | [Trial 4 No-Physics] already completed
+2026-03-10 20:38:43,533 | 53780 | INFO | [Trial 5 No-Physics] already completed
+2026-03-10 20:38:43,533 | 53780 | INFO | [Trial 6 No-Physics] already completed
+2026-03-10 20:38:43,533 | 53780 | INFO | [Trial 7 No-Physics] already completed
+2026-03-10 20:38:43,533 | 53780 | INFO | [Trial 8 No-Physics] already completed
+2026-03-10 20:38:43,533 | 53780 | INFO | [Trial 9 No-Physics] already completed
+2026-03-10 20:38:43,533 | 53780 | INFO | [Trial 10 No-Physics] already completed
+2026-03-10 20:38:43,533 | 53780 | INFO | [Trial 11 No-Physics] already completed
+2026-03-10 20:38:43,533 | 53780 | INFO | [Trial 12 No-Physics] already completed
+2026-03-10 20:38:43,533 | 53780 | INFO | [Trial 13 No-Physics] already completed
+2026-03-10 20:38:43,533 | 53780 | INFO | [Trial 14 No-Physics] already completed
+2026-03-10 20:38:43,533 | 53780 | INFO | [Trial 15 No-Physics] already completed
+2026-03-10 20:38:43,533 | 53780 | INFO | [Trial 16 No-Physics] already completed
+2026-03-10 20:38:43,533 | 53780 | INFO | [Trial 17 No-Physics] already completed
+2026-03-10 20:38:43,533 | 53780 | INFO | [Trial 18 No-Physics] already completed
+2026-03-10 20:38:43,533 | 53780 | INFO | [Trial 19 No-Physics] already completed
+2026-03-10 20:38:43,533 | 53780 | INFO | [Trial 20 No-Physics] already completed
+2026-03-10 20:38:43,533 | 53780 | INFO | [Trial 21 No-Physics] already completed
+2026-03-10 20:38:43,533 | 53780 | INFO | [Trial 22 No-Physics] already completed
+2026-03-10 20:38:43,533 | 53780 | INFO | [Trial 23 No-Physics] already completed
+2026-03-10 20:38:43,533 | 53780 | INFO | [Trial 24 No-Physics] already completed
+2026-03-10 20:38:43,533 | 53780 | INFO | [Trial 25 No-Physics] already completed
+2026-03-10 20:38:43,534 | 53780 | INFO | [Trial 26 No-Physics] already completed
+2026-03-10 20:38:43,534 | 53780 | INFO | [Trial 27 No-Physics] already completed
+2026-03-10 20:38:43,534 | 53780 | INFO | [Trial 28 No-Physics] already completed
+2026-03-10 20:38:43,534 | 53780 | INFO | [Trial 29 No-Physics] already completed
+2026-03-10 20:38:43,534 | 53780 | INFO | [Trial 30 No-Physics] already completed
+2026-03-10 20:38:43,534 | 53780 | INFO | [Trial 31 No-Physics] already completed
+2026-03-10 20:38:43,534 | 53780 | INFO | [Trial 32 No-Physics] already completed
+2026-03-10 20:38:43,534 | 53780 | INFO | [Trial 33 No-Physics] already completed
+2026-03-10 20:38:43,534 | 53780 | INFO | [Trial 34 No-Physics] already completed
+2026-03-10 20:38:43,534 | 53780 | INFO | [Trial 35 No-Physics] already completed
+2026-03-10 20:38:43,534 | 53780 | INFO | [Trial 36 No-Physics] already completed
+2026-03-10 20:38:43,534 | 53780 | INFO | [Trial 37 No-Physics] already completed
+2026-03-10 20:38:43,534 | 53780 | INFO | [Trial 38 No-Physics] already completed
+2026-03-10 20:38:43,534 | 53780 | INFO | [Trial 39 No-Physics] already completed
+2026-03-10 20:38:43,534 | 53780 | INFO | [Trial 40 No-Physics] already completed
+2026-03-10 20:38:43,534 | 53780 | INFO | [Trial 41 No-Physics] already completed
+2026-03-10 20:38:43,534 | 53780 | INFO | [Trial 42 No-Physics] already completed
+2026-03-10 20:38:43,534 | 53780 | INFO | [Trial 43 No-Physics] already completed
+2026-03-10 20:38:43,534 | 53780 | INFO | [Trial 44 No-Physics] already completed
+2026-03-10 20:38:43,534 | 53780 | INFO | [Trial 45 No-Physics] already completed
+2026-03-10 20:38:43,534 | 53780 | INFO | [Trial 46 No-Physics] already completed
+2026-03-10 20:38:43,534 | 53780 | INFO | [Trial 47 No-Physics] already completed
+2026-03-10 20:38:43,534 | 53780 | INFO | [Trial 48 No-Physics] already completed
+2026-03-10 20:38:43,534 | 53780 | INFO | [REPLAY COMPLETE] 48 trials already finished
+2026-03-10 20:38:43,534 | 53780 | INFO | [RESUME] starting from trial 48
+2026-03-10 20:38:43,534 | 53780 | INFO | [BAYES] no_physics already finished (48/48)
+2026-03-10 20:38:43,534 | 53780 | INFO | [OPTUNA SEED] physics journal empty → seeding from CSV
+2026-03-10 20:38:43,535 | 53780 | INFO | [OPTUNA SEED] loading 38 trials from CSV
+2026-03-10 20:38:43,546 | 53780 | INFO | [OPTUNA SEED] study now has 38 trials
+2026-03-10 20:38:43,547 | 53780 | INFO | [BAYES] physics: 2 parallel trials x 5 folds = up to 10 workers
+2026-03-10 20:38:43,547 | 53780 | INFO | /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/hyperparams/archive/guerneville_mts_CROSS_VAL_V4_physics_gridsearch_20260307T122221Z.csv
+2026-03-10 20:38:43,547 | 53780 | INFO | [REPLAYING COMPLETED TRIALS FROM CSV]
+2026-03-10 20:38:43,547 | 53780 | INFO | [Trial 1 Physics] already completed
+2026-03-10 20:38:43,547 | 53780 | INFO | [Trial 2 Physics] already completed
+2026-03-10 20:38:43,547 | 53780 | INFO | [Trial 3 Physics] already completed
+2026-03-10 20:38:43,547 | 53780 | INFO | [Trial 4 Physics] already completed
+2026-03-10 20:38:43,547 | 53780 | INFO | [Trial 5 Physics] already completed
+2026-03-10 20:38:43,547 | 53780 | INFO | [Trial 6 Physics] already completed
+2026-03-10 20:38:43,547 | 53780 | INFO | [Trial 7 Physics] already completed
+2026-03-10 20:38:43,547 | 53780 | INFO | [Trial 8 Physics] already completed
+2026-03-10 20:38:43,547 | 53780 | INFO | [Trial 9 Physics] already completed
+2026-03-10 20:38:43,547 | 53780 | INFO | [Trial 10 Physics] already completed
+2026-03-10 20:38:43,547 | 53780 | INFO | [Trial 11 Physics] already completed
+2026-03-10 20:38:43,547 | 53780 | INFO | [Trial 12 Physics] already completed
+2026-03-10 20:38:43,547 | 53780 | INFO | [Trial 13 Physics] already completed
+2026-03-10 20:38:43,548 | 53780 | INFO | [Trial 14 Physics] already completed
+2026-03-10 20:38:43,548 | 53780 | INFO | [Trial 15 Physics] already completed
+2026-03-10 20:38:43,548 | 53780 | INFO | [Trial 16 Physics] already completed
+2026-03-10 20:38:43,548 | 53780 | INFO | [Trial 17 Physics] already completed
+2026-03-10 20:38:43,548 | 53780 | INFO | [Trial 18 Physics] already completed
+2026-03-10 20:38:43,548 | 53780 | INFO | [Trial 19 Physics] already completed
+2026-03-10 20:38:43,548 | 53780 | INFO | [Trial 20 Physics] already completed
+2026-03-10 20:38:43,548 | 53780 | INFO | [Trial 21 Physics] already completed
+2026-03-10 20:38:43,548 | 53780 | INFO | [Trial 22 Physics] already completed
+2026-03-10 20:38:43,548 | 53780 | INFO | [Trial 23 Physics] already completed
+2026-03-10 20:38:43,548 | 53780 | INFO | [Trial 24 Physics] already completed
+2026-03-10 20:38:43,548 | 53780 | INFO | [Trial 25 Physics] already completed
+2026-03-10 20:38:43,548 | 53780 | INFO | [Trial 26 Physics] already completed
+2026-03-10 20:38:43,548 | 53780 | INFO | [Trial 27 Physics] already completed
+2026-03-10 20:38:43,548 | 53780 | INFO | [Trial 28 Physics] already completed
+2026-03-10 20:38:43,548 | 53780 | INFO | [Trial 29 Physics] already completed
+2026-03-10 20:38:43,548 | 53780 | INFO | [Trial 30 Physics] already completed
+2026-03-10 20:38:43,548 | 53780 | INFO | [Trial 31 Physics] already completed
+2026-03-10 20:38:43,548 | 53780 | INFO | [Trial 32 Physics] already completed
+2026-03-10 20:38:43,548 | 53780 | INFO | [Trial 33 Physics] already completed
+2026-03-10 20:38:43,548 | 53780 | INFO | [Trial 34 Physics] already completed
+2026-03-10 20:38:43,548 | 53780 | INFO | [Trial 35 Physics] already completed
+2026-03-10 20:38:43,548 | 53780 | INFO | [Trial 36 Physics] already completed
+2026-03-10 20:38:43,548 | 53780 | INFO | [Trial 37 Physics] already completed
+2026-03-10 20:38:43,548 | 53780 | INFO | [Trial 38 Physics] already completed
+2026-03-10 20:38:43,548 | 53780 | INFO | [REPLAY COMPLETE] 38 trials already finished
+2026-03-10 20:38:43,548 | 53780 | INFO | [RESUME] starting from trial 38
+2026-03-10 20:38:43,551 | 53780 | INFO | [ENQUEUE TRIAL] trial 39 physics
+2026-03-10 20:38:43,551 | 53780 | INFO | [BAYES QUEUE STATE]
+2026-03-10 20:38:43,551 | 53780 | INFO | pending_jobs = 5
+2026-03-10 20:38:43,551 | 53780 | INFO | inflight_trials = [38]
+2026-03-10 20:38:43,551 | 53780 | INFO | queue[0000] trial 39 fold 1 physics
+2026-03-10 20:38:43,551 | 53780 | INFO | queue[0001] trial 39 fold 2 physics
+2026-03-10 20:38:43,551 | 53780 | INFO | queue[0002] trial 39 fold 3 physics
+2026-03-10 20:38:43,551 | 53780 | INFO | queue[0003] trial 39 fold 4 physics
+2026-03-10 20:38:43,551 | 53780 | INFO | queue[0004] trial 39 fold 5 physics
+2026-03-10 20:38:43,551 | 53780 | INFO | [END BAYES QUEUE]
+2026-03-10 20:38:43,554 | 53780 | INFO | [ENQUEUE TRIAL] trial 40 physics
+2026-03-10 20:38:43,554 | 53780 | INFO | [BAYES QUEUE STATE]
+2026-03-10 20:38:43,554 | 53780 | INFO | pending_jobs = 10
+2026-03-10 20:38:43,554 | 53780 | INFO | inflight_trials = [38, 39]
+2026-03-10 20:38:43,554 | 53780 | INFO | queue[0000] trial 39 fold 1 physics
+2026-03-10 20:38:43,554 | 53780 | INFO | queue[0001] trial 39 fold 2 physics
+2026-03-10 20:38:43,554 | 53780 | INFO | queue[0002] trial 39 fold 3 physics
+2026-03-10 20:38:43,554 | 53780 | INFO | queue[0003] trial 39 fold 4 physics
+2026-03-10 20:38:43,554 | 53780 | INFO | queue[0004] trial 39 fold 5 physics
+2026-03-10 20:38:43,555 | 53780 | INFO | queue[0005] trial 40 fold 1 physics
+2026-03-10 20:38:43,555 | 53780 | INFO | queue[0006] trial 40 fold 2 physics
+2026-03-10 20:38:43,555 | 53780 | INFO | queue[0007] trial 40 fold 3 physics
+2026-03-10 20:38:43,555 | 53780 | INFO | queue[0008] trial 40 fold 4 physics
+2026-03-10 20:38:43,555 | 53780 | INFO | queue[0009] trial 40 fold 5 physics
+2026-03-10 20:38:43,555 | 53780 | INFO | [END BAYES QUEUE]
+2026-03-10 20:38:50,200 | 53780 | INFO | Traceback (most recent call last):
+2026-03-10 20:38:50,200 | 53780 | INFO | File "/Users/maxwellfung/UCB-USACE-RR-PROJECT/run_hyperparam_search.py", line 1563, in <module>
+2026-03-10 20:38:50,201 | 53780 | INFO | main()
+2026-03-10 20:38:50,201 | 53780 | INFO | File "/Users/maxwellfung/UCB-USACE-RR-PROJECT/run_hyperparam_search.py", line 1267, in main
+2026-03-10 20:38:50,201 | 53780 | INFO | run_bayes_streaming_queue(
+2026-03-10 20:38:50,201 | 53780 | INFO | File "/Users/maxwellfung/UCB-USACE-RR-PROJECT/run_hyperparam_search.py", line 1100, in run_bayes_streaming_queue
+2026-03-10 20:38:50,201 | 53780 | INFO | time.sleep(0.1)
+2026-03-10 20:38:50,201 | 53780 | INFO | KeyboardInterrupt
+2026-03-10 20:43:20,148 | 54500 | INFO | [+   0.00s]
+2026-03-10 20:43:20,148 | 54500 | INFO | Basin: guerneville, GPU: -1, Verbose: True
+2026-03-10 20:43:20,148 | 54500 | INFO | [+   0.00s]
+2026-03-10 20:43:20,148 | 54500 | INFO | Pre-warming numba JIT ...
+2026-03-10 20:43:20,685 | 54500 | INFO | [+   0.54s]
+2026-03-10 20:43:20,685 | 54500 | INFO | Numba JIT pre-compiled.
+2026-03-10 20:43:20,685 | 54500 | INFO | YAML PATH:
+2026-03-10 20:43:20,685 | 54500 | INFO | /Users/maxwellfung/UCB-USACE-RR-PROJECT/UCB_training/configs/guerneville_mtslstm2.yaml
+2026-03-10 20:43:20,685 | 54500 | INFO | [+   0.54s]
+2026-03-10 20:43:20,685 | 54500 | INFO | 288 combinations, 9 workers
+2026-03-10 20:43:20,685 | 54500 | INFO | run_gridsearch =
+2026-03-10 20:43:20,685 | 54500 | INFO | False
+2026-03-10 20:43:20,685 | 54500 | INFO | hparams_exists =
+2026-03-10 20:43:20,685 | 54500 | INFO | False
+2026-03-10 20:43:20,687 | 54500 | INFO | [SYNTHETIC CV MODE DETECTED]
+2026-03-10 20:43:20,687 | 54500 | INFO | Dataset:
+2026-03-10 20:43:20,687 | 54500 | INFO | synthetic_russian_river
+2026-03-10 20:43:20,687 | 54500 | INFO | Train ranges:
+2026-03-10 20:43:20,687 | 54500 | INFO | ['01/10/1995-30/09/1996', '01/10/1996-30/09/1997', '01/10/1997-30/09/1998', '01/10/1998-30/09/1999', '01/10/1999-30/09/2000', '01/10/2001-30/09/2002', '01/10/2002-30/09/2003', '01/10/2003-30/09/2004']
+2026-03-10 20:43:20,687 | 54500 | INFO | Validation ranges:
+2026-03-10 20:43:20,687 | 54500 | INFO | ['01/10/2004-30/09/2005', '01/10/2005-30/09/2006', '01/10/2007-30/09/2008']
+2026-03-10 20:43:20,687 | 54500 | INFO | All ranges:
+2026-03-10 20:43:20,687 | 54500 | INFO | ['01/10/1995-30/09/1996', '01/10/1996-30/09/1997', '01/10/1997-30/09/1998', '01/10/1998-30/09/1999', '01/10/1999-30/09/2000', '01/10/2001-30/09/2002', '01/10/2002-30/09/2003', '01/10/2003-30/09/2004', '01/10/2004-30/09/2005', '01/10/2005-30/09/2006', '01/10/2007-30/09/2008']
+2026-03-10 20:43:20,687 | 54500 | INFO | [SYNTHETIC FOLD 1] train=['01/10/1995-30/09/1996', '01/10/1996-30/09/1997'] val=['01/10/1997-30/09/1998']
+2026-03-10 20:43:20,687 | 54500 | INFO | [SYNTHETIC FOLD 2] train=['01/10/1995-30/09/1996', '01/10/1996-30/09/1997', '01/10/1997-30/09/1998', '01/10/1998-30/09/1999'] val=['01/10/1999-30/09/2000']
+2026-03-10 20:43:20,687 | 54500 | INFO | [SYNTHETIC FOLD 3] train=['01/10/1995-30/09/1996', '01/10/1996-30/09/1997', '01/10/1997-30/09/1998', '01/10/1998-30/09/1999', '01/10/1999-30/09/2000', '01/10/2001-30/09/2002'] val=['01/10/2002-30/09/2003']
+2026-03-10 20:43:20,687 | 54500 | INFO | [SYNTHETIC FOLD 4] train=['01/10/1995-30/09/1996', '01/10/1996-30/09/1997', '01/10/1997-30/09/1998', '01/10/1998-30/09/1999', '01/10/1999-30/09/2000', '01/10/2001-30/09/2002', '01/10/2002-30/09/2003', '01/10/2003-30/09/2004'] val=['01/10/2004-30/09/2005']
+2026-03-10 20:43:20,687 | 54500 | INFO | [SYNTHETIC FOLD 5] train=['01/10/1995-30/09/1996', '01/10/1996-30/09/1997', '01/10/1997-30/09/1998', '01/10/1998-30/09/1999', '01/10/1999-30/09/2000', '01/10/2001-30/09/2002', '01/10/2002-30/09/2003', '01/10/2003-30/09/2004', '01/10/2004-30/09/2005', '01/10/2005-30/09/2006'] val=['01/10/2007-30/09/2008']
+2026-03-10 20:43:20,687 | 54500 | INFO | [EXTERNAL CV FOLDS]
+2026-03-10 20:43:20,687 | 54500 | INFO | fold 1: train None -> None | val None -> None | eval None -> None
+2026-03-10 20:43:20,687 | 54500 | INFO | fold 2: train None -> None | val None -> None | eval None -> None
+2026-03-10 20:43:20,687 | 54500 | INFO | fold 3: train None -> None | val None -> None | eval None -> None
+2026-03-10 20:43:20,687 | 54500 | INFO | fold 4: train None -> None | val None -> None | eval None -> None
+2026-03-10 20:43:20,687 | 54500 | INFO | fold 5: train None -> None | val None -> None | eval None -> None
+2026-03-10 20:43:20,687 | 54500 | INFO | [EXTERNAL CV FOLDS] total folds = 5
+2026-03-10 20:43:20,687 | 54500 | INFO | [BAYESIAN OPTIMIZATION] Using 9 parallel workers
+2026-03-10 20:43:20,688 | 54500 | INFO | [OPTUNA SEED] journal empty → seeding from CSV
+2026-03-10 20:43:20,688 | 54500 | INFO | [OPTUNA SEED] no CSV found
+2026-03-10 20:43:20,688 | 54500 | INFO | [BAYES] no_physics: 2 parallel trials x 5 folds = up to 10 workers
+2026-03-10 20:43:20,688 | 54500 | INFO | /Users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/hyperparams/archive/guerneville_mts_EXTREME_YEARS_no_physics_gridsearch_20260307T122221Z.csv
+2026-03-10 20:43:20,688 | 54500 | INFO | [REPLAY] No previous trials found.
+2026-03-10 20:43:20,688 | 54500 | INFO | [RESUME] starting from trial 0
+2026-03-10 20:43:20,690 | 54500 | INFO | [ENQUEUE TRIAL] trial 1 no_physics
+2026-03-10 20:43:20,690 | 54500 | INFO | [BAYES QUEUE STATE]
+2026-03-10 20:43:20,690 | 54500 | INFO | pending_jobs = 5
+2026-03-10 20:43:20,690 | 54500 | INFO | inflight_trials = [0]
+2026-03-10 20:43:20,691 | 54500 | INFO | queue[0000] trial 1 fold 1 no_physics
+2026-03-10 20:43:20,691 | 54500 | INFO | queue[0001] trial 1 fold 2 no_physics
+2026-03-10 20:43:20,691 | 54500 | INFO | queue[0002] trial 1 fold 3 no_physics
+2026-03-10 20:43:20,691 | 54500 | INFO | queue[0003] trial 1 fold 4 no_physics
+2026-03-10 20:43:20,691 | 54500 | INFO | queue[0004] trial 1 fold 5 no_physics
+2026-03-10 20:43:20,691 | 54500 | INFO | [END BAYES QUEUE]
+2026-03-10 20:43:20,692 | 54500 | INFO | [ENQUEUE TRIAL] trial 2 no_physics
+2026-03-10 20:43:20,692 | 54500 | INFO | [BAYES QUEUE STATE]
+2026-03-10 20:43:20,692 | 54500 | INFO | pending_jobs = 10
+2026-03-10 20:43:20,693 | 54500 | INFO | inflight_trials = [0, 1]
+2026-03-10 20:43:20,693 | 54500 | INFO | queue[0000] trial 1 fold 1 no_physics
+2026-03-10 20:43:20,693 | 54500 | INFO | queue[0001] trial 1 fold 2 no_physics
+2026-03-10 20:43:20,693 | 54500 | INFO | queue[0002] trial 1 fold 3 no_physics
+2026-03-10 20:43:20,693 | 54500 | INFO | queue[0003] trial 1 fold 4 no_physics
+2026-03-10 20:43:20,693 | 54500 | INFO | queue[0004] trial 1 fold 5 no_physics
+2026-03-10 20:43:20,693 | 54500 | INFO | queue[0005] trial 2 fold 1 no_physics
+2026-03-10 20:43:20,693 | 54500 | INFO | queue[0006] trial 2 fold 2 no_physics
+2026-03-10 20:43:20,693 | 54500 | INFO | queue[0007] trial 2 fold 3 no_physics
+2026-03-10 20:43:20,693 | 54500 | INFO | queue[0008] trial 2 fold 4 no_physics
+2026-03-10 20:43:20,693 | 54500 | INFO | queue[0009] trial 2 fold 5 no_physics
+2026-03-10 20:43:20,693 | 54500 | INFO | [END BAYES QUEUE]
+2026-03-10 20:45:21,745 | 54500 | INFO | Traceback (most recent call last):
+2026-03-10 20:45:21,746 | 54500 | INFO | File "/Users/maxwellfung/UCB-USACE-RR-PROJECT/run_hyperparam_search.py", line 1113, in run_bayes_streaming_queue
+2026-03-10 20:45:21,749 | 54500 | INFO | time.sleep(0.1)
+2026-03-10 20:45:21,749 | 54500 | INFO | KeyboardInterrupt
+2026-03-10 20:45:21,750 | 54500 | INFO | During handling of the above exception, another exception occurred:
+2026-03-10 20:45:21,750 | 54500 | INFO | Traceback (most recent call last):
+2026-03-10 20:45:21,750 | 54500 | INFO | File "/Users/maxwellfung/UCB-USACE-RR-PROJECT/run_hyperparam_search.py", line 1576, in <module>
+2026-03-10 20:45:21,751 | 54500 | INFO | main()
+2026-03-10 20:45:21,751 | 54500 | INFO | File "/Users/maxwellfung/UCB-USACE-RR-PROJECT/run_hyperparam_search.py", line 1246, in main
+2026-03-10 20:45:21,752 | 54500 | INFO | run_bayes_streaming_queue(
+2026-03-10 20:45:21,752 | 54500 | INFO | File "/Users/maxwellfung/UCB-USACE-RR-PROJECT/run_hyperparam_search.py", line 1034, in run_bayes_streaming_queue
+2026-03-10 20:45:21,753 | 54500 | INFO | with mp.Pool(processes=num_cores) as pool:
+2026-03-10 20:45:21,753 | 54500 | INFO | File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/multiprocessing/pool.py", line 739, in __exit__
+2026-03-10 20:45:21,760 | 54500 | INFO | self.terminate()
+2026-03-10 20:45:21,761 | 54500 | INFO | File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/multiprocessing/pool.py", line 657, in terminate
+2026-03-10 20:45:21,762 | 54500 | INFO | self._terminate()
+2026-03-10 20:45:21,762 | 54500 | INFO | File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/multiprocessing/util.py", line 224, in __call__
+2026-03-10 20:45:21,763 | 54500 | INFO | res = self._callback(*self._args, **self._kwargs)
+2026-03-10 20:45:21,763 | 54500 | INFO | ^
+2026-03-10 20:45:21,763 | 54500 | INFO | ^
+2026-03-10 20:45:21,763 | 54500 | INFO | ^
+2026-03-10 20:45:21,763 | 54500 | INFO | ^
+2026-03-10 20:45:21,763 | 54500 | INFO | ^
+2026-03-10 20:45:21,763 | 54500 | INFO | ^
+2026-03-10 20:45:21,763 | 54500 | INFO | ^
+2026-03-10 20:45:21,763 | 54500 | INFO | ^
+2026-03-10 20:45:21,763 | 54500 | INFO | ^
+2026-03-10 20:45:21,763 | 54500 | INFO | ^
+2026-03-10 20:45:21,763 | 54500 | INFO | ^
+2026-03-10 20:45:21,763 | 54500 | INFO | ^
+2026-03-10 20:45:21,763 | 54500 | INFO | ^
+2026-03-10 20:45:21,763 | 54500 | INFO | ^
+2026-03-10 20:45:21,763 | 54500 | INFO | ^
+2026-03-10 20:45:21,763 | 54500 | INFO | ^
+2026-03-10 20:45:21,763 | 54500 | INFO | ^
+2026-03-10 20:45:21,763 | 54500 | INFO | ^
+2026-03-10 20:45:21,763 | 54500 | INFO | ^
+2026-03-10 20:45:21,763 | 54500 | INFO | ^
+2026-03-10 20:45:21,763 | 54500 | INFO | ^
+2026-03-10 20:45:21,763 | 54500 | INFO | ^
+2026-03-10 20:45:21,764 | 54500 | INFO | ^
+2026-03-10 20:45:21,764 | 54500 | INFO | ^
+2026-03-10 20:45:21,764 | 54500 | INFO | ^
+2026-03-10 20:45:21,764 | 54500 | INFO | ^
+2026-03-10 20:45:21,764 | 54500 | INFO | ^
+2026-03-10 20:45:21,764 | 54500 | INFO | ^
+2026-03-10 20:45:21,764 | 54500 | INFO | ^
+2026-03-10 20:45:21,764 | 54500 | INFO | ^
+2026-03-10 20:45:21,764 | 54500 | INFO | ^
+2026-03-10 20:45:21,764 | 54500 | INFO | ^
+2026-03-10 20:45:21,764 | 54500 | INFO | ^
+2026-03-10 20:45:21,764 | 54500 | INFO | ^
+2026-03-10 20:45:21,764 | 54500 | INFO | ^
+2026-03-10 20:45:21,764 | 54500 | INFO | ^
+2026-03-10 20:45:21,764 | 54500 | INFO | ^
+2026-03-10 20:45:21,764 | 54500 | INFO | ^
+2026-03-10 20:45:21,764 | 54500 | INFO | ^
+2026-03-10 20:45:21,764 | 54500 | INFO | ^
+2026-03-10 20:45:21,764 | 54500 | INFO | ^
+2026-03-10 20:45:21,764 | 54500 | INFO | ^
+2026-03-10 20:45:21,764 | 54500 | INFO | ^
+2026-03-10 20:45:21,764 | 54500 | INFO | File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/multiprocessing/pool.py", line 732, in _terminate_pool
+2026-03-10 20:45:21,765 | 54500 | INFO | p.join()
+2026-03-10 20:45:21,765 | 54500 | INFO | File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/multiprocessing/process.py", line 149, in join
+2026-03-10 20:45:21,765 | 54500 | INFO | res = self._popen.wait(timeout)
+2026-03-10 20:45:21,765 | 54500 | INFO | ^
+2026-03-10 20:45:21,765 | 54500 | INFO | ^
+2026-03-10 20:45:21,765 | 54500 | INFO | ^
+2026-03-10 20:45:21,765 | 54500 | INFO | ^
+2026-03-10 20:45:21,765 | 54500 | INFO | ^
+2026-03-10 20:45:21,765 | 54500 | INFO | ^
+2026-03-10 20:45:21,765 | 54500 | INFO | ^
+2026-03-10 20:45:21,765 | 54500 | INFO | ^
+2026-03-10 20:45:21,765 | 54500 | INFO | ^
+2026-03-10 20:45:21,765 | 54500 | INFO | ^
+2026-03-10 20:45:21,765 | 54500 | INFO | ^
+2026-03-10 20:45:21,765 | 54500 | INFO | ^
+2026-03-10 20:45:21,765 | 54500 | INFO | ^
+2026-03-10 20:45:21,765 | 54500 | INFO | ^
+2026-03-10 20:45:21,765 | 54500 | INFO | ^
+2026-03-10 20:45:21,765 | 54500 | INFO | ^
+2026-03-10 20:45:21,765 | 54500 | INFO | ^
+2026-03-10 20:45:21,765 | 54500 | INFO | ^
+2026-03-10 20:45:21,765 | 54500 | INFO | ^
+2026-03-10 20:45:21,765 | 54500 | INFO | ^
+2026-03-10 20:45:21,765 | 54500 | INFO | ^
+2026-03-10 20:45:21,765 | 54500 | INFO | ^
+2026-03-10 20:45:21,765 | 54500 | INFO | ^
+2026-03-10 20:45:21,765 | 54500 | INFO | ^
+2026-03-10 20:45:21,765 | 54500 | INFO | ^
+2026-03-10 20:45:21,766 | 54500 | INFO | File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/multiprocessing/popen_fork.py", line 43, in wait
+2026-03-10 20:45:21,766 | 54500 | INFO | return self.poll(os.WNOHANG if timeout == 0.0 else 0)
+2026-03-10 20:45:21,766 | 54500 | INFO | ^
+2026-03-10 20:45:21,766 | 54500 | INFO | ^
+2026-03-10 20:45:21,766 | 54500 | INFO | ^
+2026-03-10 20:45:21,766 | 54500 | INFO | ^
+2026-03-10 20:45:21,766 | 54500 | INFO | ^
+2026-03-10 20:45:21,766 | 54500 | INFO | ^
+2026-03-10 20:45:21,766 | 54500 | INFO | ^
+2026-03-10 20:45:21,766 | 54500 | INFO | ^
+2026-03-10 20:45:21,766 | 54500 | INFO | ^
+2026-03-10 20:45:21,766 | 54500 | INFO | ^
+2026-03-10 20:45:21,766 | 54500 | INFO | ^
+2026-03-10 20:45:21,766 | 54500 | INFO | ^
+2026-03-10 20:45:21,766 | 54500 | INFO | ^
+2026-03-10 20:45:21,766 | 54500 | INFO | ^
+2026-03-10 20:45:21,766 | 54500 | INFO | ^
+2026-03-10 20:45:21,766 | 54500 | INFO | ^
+2026-03-10 20:45:21,767 | 54500 | INFO | ^
+2026-03-10 20:45:21,767 | 54500 | INFO | ^
+2026-03-10 20:45:21,767 | 54500 | INFO | ^
+2026-03-10 20:45:21,767 | 54500 | INFO | ^
+2026-03-10 20:45:21,767 | 54500 | INFO | ^
+2026-03-10 20:45:21,767 | 54500 | INFO | ^
+2026-03-10 20:45:21,767 | 54500 | INFO | ^
+2026-03-10 20:45:21,767 | 54500 | INFO | ^
+2026-03-10 20:45:21,767 | 54500 | INFO | ^
+2026-03-10 20:45:21,767 | 54500 | INFO | ^
+2026-03-10 20:45:21,767 | 54500 | INFO | ^
+2026-03-10 20:45:21,767 | 54500 | INFO | ^
+2026-03-10 20:45:21,767 | 54500 | INFO | ^
+2026-03-10 20:45:21,767 | 54500 | INFO | ^
+2026-03-10 20:45:21,767 | 54500 | INFO | ^
+2026-03-10 20:45:21,767 | 54500 | INFO | ^
+2026-03-10 20:45:21,767 | 54500 | INFO | ^
+2026-03-10 20:45:21,767 | 54500 | INFO | ^
+2026-03-10 20:45:21,767 | 54500 | INFO | ^
+2026-03-10 20:45:21,767 | 54500 | INFO | ^
+2026-03-10 20:45:21,767 | 54500 | INFO | ^
+2026-03-10 20:45:21,767 | 54500 | INFO | ^
+2026-03-10 20:45:21,767 | 54500 | INFO | ^
+2026-03-10 20:45:21,767 | 54500 | INFO | ^
+2026-03-10 20:45:21,767 | 54500 | INFO | ^
+2026-03-10 20:45:21,767 | 54500 | INFO | ^
+2026-03-10 20:45:21,767 | 54500 | INFO | ^
+2026-03-10 20:45:21,767 | 54500 | INFO | ^
+2026-03-10 20:45:21,767 | 54500 | INFO | ^
+2026-03-10 20:45:21,767 | 54500 | INFO | ^
+2026-03-10 20:45:21,767 | 54500 | INFO | File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/multiprocessing/popen_fork.py", line 27, in poll
+2026-03-10 20:45:21,767 | 54500 | INFO | pid, sts = os.waitpid(self.pid, flag)
+2026-03-10 20:45:21,767 | 54500 | INFO | ^
+2026-03-10 20:45:21,767 | 54500 | INFO | ^
+2026-03-10 20:45:21,767 | 54500 | INFO | ^
+2026-03-10 20:45:21,767 | 54500 | INFO | ^
+2026-03-10 20:45:21,767 | 54500 | INFO | ^
+2026-03-10 20:45:21,767 | 54500 | INFO | ^
+2026-03-10 20:45:21,767 | 54500 | INFO | ^
+2026-03-10 20:45:21,767 | 54500 | INFO | ^
+2026-03-10 20:45:21,768 | 54500 | INFO | ^
+2026-03-10 20:45:21,768 | 54500 | INFO | ^
+2026-03-10 20:45:21,768 | 54500 | INFO | ^
+2026-03-10 20:45:21,768 | 54500 | INFO | ^
+2026-03-10 20:45:21,768 | 54500 | INFO | ^
+2026-03-10 20:45:21,768 | 54500 | INFO | ^
+2026-03-10 20:45:21,768 | 54500 | INFO | ^
+2026-03-10 20:45:21,768 | 54500 | INFO | ^
+2026-03-10 20:45:21,768 | 54500 | INFO | ^
+2026-03-10 20:45:21,768 | 54500 | INFO | ^
+2026-03-10 20:45:21,768 | 54500 | INFO | ^
+2026-03-10 20:45:21,768 | 54500 | INFO | ^
+2026-03-10 20:45:21,768 | 54500 | INFO | ^
+2026-03-10 20:45:21,768 | 54500 | INFO | ^
+2026-03-10 20:45:21,768 | 54500 | INFO | ^
+2026-03-10 20:45:21,768 | 54500 | INFO | ^
+2026-03-10 20:45:21,768 | 54500 | INFO | ^
+2026-03-10 20:45:21,768 | 54500 | INFO | ^
+2026-03-10 20:45:21,768 | 54500 | INFO | KeyboardInterrupt

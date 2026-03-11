@@ -32,7 +32,7 @@ USE_BAYES = True
 N_BAYES_TRIALS = 48
 BAYES_JOURNAL_DIR = ""
 
-RUN_LABEL = "CROSS_VAL_V4"
+RUN_LABEL = "EXTREME_YEARS"
 READ_STAMP = "20260307T122221Z"
 
 USE_CV = True
@@ -664,10 +664,7 @@ def generate_cv_folds_external(yaml_path: Path,
                                intervalMonth: str = "October",
                                intervalLength: int = 2,
                                validationLength: int = 1):
-    """
-    Externalized copy of the fold-generation logic from UCB_trainer.cross_validate().
-    Returns a list of fold dicts with the exact dates needed for one-fold training/eval jobs.
-    """
+
     cfg = Config(yaml_path, dev_mode=True)
 
     MonthsLib = {
@@ -678,21 +675,69 @@ def generate_cv_folds_external(yaml_path: Path,
     interval = MonthsLib[intervalMonth.lower()]
 
     is_mts = bool(getattr(cfg, "is_mts", False))
+
     _cfg = cfg._cfg
+    dataset_name = _cfg.get("dataset")
 
-    _has_ranges = (
-        "train_ranges" in _cfg and _cfg["train_ranges"] and
-        "validation_ranges" in _cfg and _cfg["validation_ranges"]
-    )
 
-    if _has_ranges:
-        first_train = _cfg["train_ranges"][0]
-        last_val = _cfg["validation_ranges"][-1]
-        original_start = pd.to_datetime(first_train.split("-")[0], dayfirst=True)
-        original_end = pd.to_datetime(last_val.split("-")[1], dayfirst=True)
-    else:
-        original_start = _parse_cfg_date(getattr(cfg, "train_start_date", None))
-        original_end = _parse_cfg_date(getattr(cfg, "validation_end_date", None))
+    # Non-Consecutive Years: synthetic_russian_river
+    if dataset_name == "synthetic_russian_river":
+
+        train_ranges = list(_cfg.get("train_ranges", []))
+        validation_ranges = list(_cfg.get("validation_ranges", []))
+
+        if not train_ranges:
+            raise ValueError("synthetic_russian_river requires train_ranges in YAML")
+
+        all_ranges = train_ranges + validation_ranges
+
+        print("\n[SYNTHETIC CV MODE DETECTED]")
+        print("Dataset:", dataset_name)
+        print("Train ranges:", train_ranges)
+        print("Validation ranges:", validation_ranges)
+        print("All ranges:", all_ranges)
+
+        folds = []
+
+        train_step = intervalLength
+        val_step = validationLength
+
+        i = train_step
+
+        fold_id = 1
+
+        while (i + val_step - 1) < len(all_ranges):
+
+            train_slice = all_ranges[:i]
+            val_slice = all_ranges[i:i + val_step]
+
+            print(
+                f"[SYNTHETIC FOLD {fold_id}] "
+                f"train={train_slice} "
+                f"val={val_slice}"
+            )
+            
+            folds.append({
+                "fold": fold_id,
+                "dataset_name": dataset_name,
+                "train_ranges": train_slice,
+                "validation_ranges": val_slice,
+                "train_start_date": None,
+                "train_end_date": None,
+                "validation_start_date": None,
+                "validation_end_date": None,
+                "val_eval_start": None,
+                "val_eval_end": None,
+                "validation_start_per_frequency": None,
+            })
+
+            fold_id += 1
+            i += train_step
+
+        return folds
+
+    original_start = _parse_cfg_date(getattr(cfg, "train_start_date", None))
+    original_end = _parse_cfg_date(getattr(cfg, "validation_end_date", None))
 
     if original_start is None or original_end is None:
         raise ValueError("Could not determine train/validation date span from YAML for external CV queue generation.")
@@ -733,6 +778,7 @@ def generate_cv_folds_external(yaml_path: Path,
             val_leak_start = val_eval_start - pd.Timedelta(days=lookback - 1)
             folds.append({
                 "fold": i,
+                "dataset_name": dataset_name,
                 "train_start_date": _iso_date(fold_train_start_date),
                 "train_end_date": _iso_date(fold_train_end_date),
                 "validation_start_date": _iso_date(val_leak_start),
@@ -748,6 +794,7 @@ def generate_cv_folds_external(yaml_path: Path,
             )
             folds.append({
                 "fold": i,
+                "dataset_name": dataset_name,
                 "train_start_date": _iso_date(fold_train_start_date),
                 "train_end_date": _iso_date(fold_train_end_date),
                 "validation_start_date": _iso_date(val_eval_start),
@@ -838,6 +885,9 @@ def _run_external_cv_queue_job(job):
         fold["val_eval_start"],
         fold["val_eval_end"],
         fold["validation_start_per_frequency"],
+        fold.get("train_ranges"),
+        fold.get("validation_ranges"),
+        fold.get("dataset_name"),
         fold["fold"],
         len(EXTERNAL_CV_FOLDS),
         True,  # cv_external_queue_mode
@@ -1117,7 +1167,7 @@ def main():
     else:
         num_cores = min(n_combos, max(1, mp.cpu_count() - 1))
 
-    num_cores = 1
+    num_cores = 9
 
     _print(f"{n_combos} combinations, {num_cores} workers")
 
