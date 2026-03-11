@@ -33,8 +33,7 @@ N_BAYES_TRIALS = 48
 BAYES_JOURNAL_DIR = ""
 
 RUN_LABEL = "CROSS_VAL_V4"
-# READ_STAMP = "20260304T002129Z"
-READ_STAMP = ""
+READ_STAMP = "20260307T122221Z"
 
 USE_CV = True
 CV_INTERVAL_MONTH = "October"
@@ -393,13 +392,65 @@ def load_checkpoint(tag):
     print(f"[Checkpoint] No archive checkpoint found at {path}")
     return None, 0
 
+def seed_optuna_from_csv(study, csv_path, model_type):
+    """
+    Load completed trials from CSV and register them in the Optuna study
+    so the sampler can build its model from them.
+    """
+
+    import optuna
+    import pandas as pd
+
+    if not csv_path.exists():
+        print("[OPTUNA SEED] no CSV found")
+        return
+
+    df = pd.read_csv(csv_path)
+
+    if "model_type" in df.columns:
+        df = df[df["model_type"] == model_type]
+
+    print(f"[OPTUNA SEED] loading {len(df)} trials from CSV")
+
+    for _, row in df.iterrows():
+
+        params = {
+            "hidden_size": int(row["hidden_size"]),
+            "output_dropout": float(row["output_dropout"]),
+            "seq_length_1D": int(row["seq_length_1D"]),
+            "seq_length_1H": int(row["seq_length_1H"]),
+            "num_layers": int(row["num_layers"]),
+            "epochs": int(row["epochs"]),
+            "batch_size": int(row["batch_size"]),
+        }
+
+        value = float(row["_rank_score"])
+
+        trial = optuna.trial.create_trial(
+            params=params,
+            distributions={
+                "hidden_size": optuna.distributions.CategoricalDistribution([64,128,256,384]),
+                "output_dropout": optuna.distributions.FloatDistribution(0.05,0.6),
+                "seq_length_1D": optuna.distributions.CategoricalDistribution([60,90,120]),
+                "seq_length_1H": optuna.distributions.CategoricalDistribution([168,240,336]),
+                "num_layers": optuna.distributions.CategoricalDistribution([1,2]),
+                "epochs": optuna.distributions.CategoricalDistribution([300]),
+                "batch_size": optuna.distributions.CategoricalDistribution([64,128]),
+            },
+            value=value,
+        )
+
+        study.add_trial(trial)
+
+    print(f"[OPTUNA SEED] study now has {len(study.trials)} trials")
+
 def suggest_from_space(trial):
     comb = []
 
     for hp, values in HYPERPARAM_SPACE.items():
 
         # Case 1: list or tuple of complex objects → categorical
-        if isinstance(values, (list, tuple)) and len(values) > 2:
+        if isinstance(values, list):
             val = trial.suggest_categorical(hp, values)
 
         # Case 2: numeric range (low, high)
@@ -538,7 +589,7 @@ def run_no_physics_worker(args):
         journal_path = Path(RUNS_PARENT) / f"{RUN_LABEL}_{RUN_STAMP}_nophys_journal.log"
 
         study = optuna.create_study(
-            study_name="journal_storage_multiprocess",
+            study_name="journal_storage_nophys",
             storage=JournalStorage(JournalFileBackend(file_path=str(journal_path))),
             load_if_exists=True,
             direction="maximize",
@@ -577,7 +628,7 @@ def run_physics_worker(args):
         journal_path = Path(RUNS_PARENT) / f"{RUN_LABEL}_{RUN_STAMP}_phys_journal.log"
 
         study = optuna.create_study(
-            study_name="journal_storage_multiprocess",
+            study_name="journal_storage_phys",
             storage=JournalStorage(JournalFileBackend(file_path=str(journal_path))),
             load_if_exists=True,
             direction="maximize",
@@ -852,8 +903,42 @@ def run_bayes_streaming_queue(study, model_type, total_trials, num_cores):
     pending_jobs = []
     inflight = {}
 
-    completed_trials = len([t for t in study.trials if t.value is not None])
-    launched_trials = len(study.trials)
+    import pandas as pd
+    from pathlib import Path
+
+    root = _artifact_root(BASIN, MODE)
+    prefix = f"{BASIN}_{MODE}_{RUN_LABEL}"
+    path_latest = root / "hyperparams" / "archive" / f"{prefix}_{model_type}_gridsearch_{RUN_STAMP}.csv"
+
+    print(path_latest)
+
+    completed_trials = 0
+
+    if path_latest.exists():
+
+        df_done = pd.read_csv(path_latest)
+
+        done_trials = sorted(df_done["_queue_iter_idx"].unique())
+
+        print("\n[REPLAYING COMPLETED TRIALS FROM CSV]\n")
+
+        for t in done_trials:
+            label = "No-Physics" if model_type == "no_physics" else "Physics"
+            print(f"[Trial {t+1} {label}] already completed")
+
+        completed_trials = len(done_trials)
+
+        print(f"\n[REPLAY COMPLETE] {completed_trials} trials already finished\n")
+
+    else:
+        print("\n[REPLAY] No previous trials found.")
+
+    launched_trials = completed_trials
+    print(f"[RESUME] starting from trial {completed_trials}")
+
+    if completed_trials >= total_trials:
+        print(f"[BAYES] {model_type} already finished ({completed_trials}/{total_trials})")
+        return
 
     target_queue = num_cores + 1
 
@@ -867,7 +952,9 @@ def run_bayes_streaming_queue(study, model_type, total_trials, num_cores):
         trial = study.ask()
         comb = suggest_from_space(trial)
 
-        inflight[trial.number] = {
+        trial_idx = launched_trials
+
+        inflight[trial_idx] = {
             "trial": trial,
             "comb": comb,
             "fold_results": []
@@ -876,13 +963,13 @@ def run_bayes_streaming_queue(study, model_type, total_trials, num_cores):
         for fold in EXTERNAL_CV_FOLDS:
             pending_jobs.append({
                 "job_type": model_type,
-                "iter_idx": trial.number,
+                "iter_idx": trial_idx,
                 "fold": fold["fold"],
                 "comb": comb,
                 "fold_cfg": fold,
             })
 
-        print(f"\n[ENQUEUE TRIAL] trial {trial.number+1} {model_type}")
+        print(f"\n[ENQUEUE TRIAL] trial {trial_idx+1} {model_type}")
         log_bayes_queue(pending_jobs, inflight)
 
         launched_trials += 1
@@ -933,7 +1020,7 @@ def run_bayes_streaming_queue(study, model_type, total_trials, num_cores):
 
                         append_trial_row(
                             {
-                                "_queue_iter_idx": trial.number,
+                                "_queue_iter_idx": trial_number,
                                 **hp_dict,
                                 "NSE_1D": mean_1d,
                                 "NSE_1H": mean_1h,
@@ -950,7 +1037,7 @@ def run_bayes_streaming_queue(study, model_type, total_trials, num_cores):
                         study.tell(trial, value)
 
                         print(
-                            f"[TRIAL COMPLETE] trial {trial.number+1} {model_type} "
+                            f"[TRIAL COMPLETE] trial {trial_number+1} {model_type} "
                             f"NSE_1D={mean_1d:.5f} NSE_1H={mean_1h:.5f}"
                         )
 
@@ -960,9 +1047,12 @@ def run_bayes_streaming_queue(study, model_type, total_trials, num_cores):
                             if not enqueue_trial():
                                 break
 
-                    completed_trials = len([t for t in study.trials if t.value is not None])
+                    completed_trials = len(study.get_trials(states=[optuna.trial.TrialState.COMPLETE]))
+
+                    print(f"[RESUME] starting from trial {completed_trials}")
 
                     if completed_trials >= total_trials:
+                        print(f"[BAYES] {model_type} already finished ({completed_trials}/{total_trials})")
                         return
 
                 else:
@@ -1027,7 +1117,7 @@ def main():
     else:
         num_cores = min(n_combos, max(1, mp.cpu_count() - 1))
 
-    num_cores = 50
+    num_cores = 1
 
     _print(f"{n_combos} combinations, {num_cores} workers")
 
@@ -1074,11 +1164,24 @@ def main():
         journal_path = Path(RUNS_PARENT) / f"{RUN_LABEL}_{RUN_STAMP}_nophys_journal.log"
 
         study_no = optuna.create_study(
-            study_name="journal_storage_multiprocess",
+            study_name="journal_storage_no_physics",
             storage=JournalStorage(JournalFileBackend(file_path=str(journal_path))),
             load_if_exists=True,
             direction="maximize",
         )
+
+        csv_path = (
+            _artifact_root(BASIN, MODE)
+            / "hyperparams"
+            / "archive"
+            / f"{BASIN}_{MODE}_{RUN_LABEL}_no_physics_gridsearch_{RUN_STAMP}.csv"
+        )
+
+        if len(study_no.trials) == 0:
+            print("[OPTUNA SEED] journal empty → seeding from CSV")
+            seed_optuna_from_csv(study_no, csv_path, "no_physics")
+        else:
+            print(f"[OPTUNA SEED] journal already has {len(study_no.trials)} trials → skipping CSV seed")
 
         workers_per_trial = len(EXTERNAL_CV_FOLDS)
 
@@ -1100,11 +1203,24 @@ def main():
         journal_path = Path(RUNS_PARENT) / f"{RUN_LABEL}_{RUN_STAMP}_phys_journal.log"
 
         study_phys = optuna.create_study(
-            study_name="journal_storage_multiprocess",
+            study_name="journal_storage_physics",
             storage=JournalStorage(JournalFileBackend(file_path=str(journal_path))),
             load_if_exists=True,
             direction="maximize",
         )
+
+        csv_path = (
+            _artifact_root(BASIN, MODE)
+            / "hyperparams"
+            / "archive"
+            / f"{BASIN}_{MODE}_{RUN_LABEL}_physics_gridsearch_{RUN_STAMP}.csv"
+        )
+
+        if len(study_phys.trials) == 0:
+            print("[OPTUNA SEED] physics journal empty → seeding from CSV")
+            seed_optuna_from_csv(study_phys, csv_path, "physics")
+        else:
+            print(f"[OPTUNA SEED] physics journal already has {len(study_phys.trials)} trials → skipping CSV seed")
 
         print(
             f"[BAYES] physics: {parallel_trials} parallel trials "

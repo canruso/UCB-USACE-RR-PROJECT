@@ -4468,3 +4468,1305 @@
 2026-03-08 04:26:22,428 | 2111642 | INFO | [TRIAL COMPLETE] trial 35 physics NSE_1D=0.88142 NSE_1H=0.86910
 2026-03-08 04:29:50,319 | 2111642 | INFO | [TRIAL COMPLETE] trial 33 physics NSE_1D=0.89850 NSE_1H=0.88374
 2026-03-08 05:04:33,653 | 2111642 | INFO | [TRIAL COMPLETE] trial 37 physics NSE_1D=0.89199 NSE_1H=0.85553
+2026-03-10 18:09:59,698 | 2759425 | INFO | [+   0.01s]
+2026-03-10 18:09:59,700 | 2759425 | INFO | Basin: guerneville, GPU: -1, Verbose: True
+2026-03-10 18:09:59,700 | 2759425 | INFO | [+   0.01s]
+2026-03-10 18:09:59,701 | 2759425 | INFO | Pre-warming numba JIT ...
+2026-03-10 18:10:04,521 | 2759425 | INFO | [+   4.83s]
+2026-03-10 18:10:04,521 | 2759425 | INFO | Numba JIT pre-compiled.
+2026-03-10 18:10:04,522 | 2759425 | INFO | YAML PATH:
+2026-03-10 18:10:04,522 | 2759425 | INFO | /global/scratch/users/maxwellfung/UCB-USACE-RR-PROJECT/UCB_training/configs/guerneville_mtslstm2.yaml
+2026-03-10 18:10:04,524 | 2759425 | INFO | [+   4.84s]
+2026-03-10 18:10:04,524 | 2759425 | INFO | 288 combinations, 1 workers
+2026-03-10 18:10:04,525 | 2759425 | INFO | run_gridsearch =
+2026-03-10 18:10:04,525 | 2759425 | INFO | False
+2026-03-10 18:10:04,526 | 2759425 | INFO | hparams_exists =
+2026-03-10 18:10:04,526 | 2759425 | INFO | False
+2026-03-10 18:10:04,630 | 2759425 | INFO | [EXTERNAL CV FOLDS]
+2026-03-10 18:10:04,631 | 2759425 | INFO | fold 1: train 01/10/1994 -> 01/10/1996 | val 02/10/1996 -> 01/10/1997 | eval 02/10/1996 -> 01/10/1997
+2026-03-10 18:10:04,631 | 2759425 | INFO | fold 2: train 01/10/1994 -> 01/10/1998 | val 02/10/1998 -> 01/10/1999 | eval 02/10/1998 -> 01/10/1999
+2026-03-10 18:10:04,631 | 2759425 | INFO | fold 3: train 01/10/1994 -> 01/10/2000 | val 02/10/2000 -> 01/10/2001 | eval 02/10/2000 -> 01/10/2001
+2026-03-10 18:10:04,631 | 2759425 | INFO | fold 4: train 01/10/1994 -> 01/10/2002 | val 02/10/2002 -> 01/10/2003 | eval 02/10/2002 -> 01/10/2003
+2026-03-10 18:10:04,631 | 2759425 | INFO | fold 5: train 01/10/1994 -> 01/10/2004 | val 02/10/2004 -> 01/10/2005 | eval 02/10/2004 -> 01/10/2005
+2026-03-10 18:10:04,632 | 2759425 | INFO | [EXTERNAL CV FOLDS] total folds = 5
+2026-03-10 18:10:04,632 | 2759425 | INFO | [BAYESIAN OPTIMIZATION] Using 1 parallel workers
+2026-03-10 18:10:04,691 | 2759425 | INFO | [BAYES] no_physics: 1 parallel trials x 5 folds = up to 5 workers
+2026-03-10 18:10:04,692 | 2759425 | INFO | [RESUME] starting from trial 0
+2026-03-10 18:10:04,803 | 2759425 | INFO | [ENQUEUE TRIAL] trial 49 no_physics
+2026-03-10 18:10:04,804 | 2759425 | INFO | [BAYES QUEUE STATE]
+2026-03-10 18:10:04,804 | 2759425 | INFO | pending_jobs = 5
+2026-03-10 18:10:04,804 | 2759425 | INFO | inflight_trials = [48]
+2026-03-10 18:10:04,804 | 2759425 | INFO | queue[0000] trial 49 fold 1 no_physics
+2026-03-10 18:10:04,805 | 2759425 | INFO | queue[0001] trial 49 fold 2 no_physics
+2026-03-10 18:10:04,805 | 2759425 | INFO | queue[0002] trial 49 fold 3 no_physics
+2026-03-10 18:10:04,805 | 2759425 | INFO | queue[0003] trial 49 fold 4 no_physics
+2026-03-10 18:10:04,805 | 2759425 | INFO | queue[0004] trial 49 fold 5 no_physics
+2026-03-10 18:10:04,806 | 2759425 | INFO | [END BAYES QUEUE]
+2026-03-10 18:12:19,295 | 2759425 | INFO | Traceback (most recent call last):
+2026-03-10 18:12:19,295 | 2759425 | INFO | File "/global/scratch/users/maxwellfung/UCB-USACE-RR-PROJECT/run_hyperparam_search.py", line 1426, in <module>
+2026-03-10 18:12:19,298 | 2759425 | INFO | main()
+2026-03-10 18:12:19,298 | 2759425 | INFO | File "/global/scratch/users/maxwellfung/UCB-USACE-RR-PROJECT/run_hyperparam_search.py", line 1109, in main
+2026-03-10 18:12:19,299 | 2759425 | INFO | run_bayes_streaming_queue(
+2026-03-10 18:12:19,300 | 2759425 | INFO | File "/global/scratch/users/maxwellfung/UCB-USACE-RR-PROJECT/run_hyperparam_search.py", line 989, in run_bayes_streaming_queue
+2026-03-10 18:12:19,301 | 2759425 | INFO | time.sleep(0.1)
+2026-03-10 18:12:19,301 | 2759425 | INFO | KeyboardInterrupt
+2026-03-10 18:55:04,038 | 895200 | INFO | [+   0.02s]
+2026-03-10 18:55:04,041 | 895200 | INFO | Basin: guerneville, GPU: -1, Verbose: True
+2026-03-10 18:55:04,041 | 895200 | INFO | [+   0.03s]
+2026-03-10 18:55:04,041 | 895200 | INFO | Pre-warming numba JIT ...
+2026-03-10 18:55:08,628 | 895200 | INFO | [+   4.61s]
+2026-03-10 18:55:08,629 | 895200 | INFO | Numba JIT pre-compiled.
+2026-03-10 18:55:08,630 | 895200 | INFO | YAML PATH:
+2026-03-10 18:55:08,630 | 895200 | INFO | /global/scratch/users/maxwellfung/UCB-USACE-RR-PROJECT/UCB_training/configs/guerneville_mtslstm2.yaml
+2026-03-10 18:55:08,631 | 895200 | INFO | [+   4.62s]
+2026-03-10 18:55:08,631 | 895200 | INFO | 288 combinations, 1 workers
+2026-03-10 18:55:08,631 | 895200 | INFO | run_gridsearch =
+2026-03-10 18:55:08,631 | 895200 | INFO | False
+2026-03-10 18:55:08,632 | 895200 | INFO | hparams_exists =
+2026-03-10 18:55:08,632 | 895200 | INFO | False
+2026-03-10 18:55:08,716 | 895200 | INFO | [EXTERNAL CV FOLDS]
+2026-03-10 18:55:08,716 | 895200 | INFO | fold 1: train 01/10/1994 -> 01/10/1996 | val 02/10/1996 -> 01/10/1997 | eval 02/10/1996 -> 01/10/1997
+2026-03-10 18:55:08,716 | 895200 | INFO | fold 2: train 01/10/1994 -> 01/10/1998 | val 02/10/1998 -> 01/10/1999 | eval 02/10/1998 -> 01/10/1999
+2026-03-10 18:55:08,716 | 895200 | INFO | fold 3: train 01/10/1994 -> 01/10/2000 | val 02/10/2000 -> 01/10/2001 | eval 02/10/2000 -> 01/10/2001
+2026-03-10 18:55:08,717 | 895200 | INFO | fold 4: train 01/10/1994 -> 01/10/2002 | val 02/10/2002 -> 01/10/2003 | eval 02/10/2002 -> 01/10/2003
+2026-03-10 18:55:08,717 | 895200 | INFO | fold 5: train 01/10/1994 -> 01/10/2004 | val 02/10/2004 -> 01/10/2005 | eval 02/10/2004 -> 01/10/2005
+2026-03-10 18:55:08,717 | 895200 | INFO | [EXTERNAL CV FOLDS] total folds = 5
+2026-03-10 18:55:08,718 | 895200 | INFO | [BAYESIAN OPTIMIZATION] Using 1 parallel workers
+2026-03-10 18:55:08,768 | 895200 | INFO | [BAYES] no_physics: 1 parallel trials x 5 folds = up to 5 workers
+2026-03-10 18:55:08,769 | 895200 | INFO | [CHECKPOINT] No checkpoint file found.
+2026-03-10 18:55:08,769 | 895200 | INFO | [RESUME] starting from trial 0
+2026-03-10 18:55:08,858 | 895200 | INFO | [ENQUEUE TRIAL] trial 50 no_physics
+2026-03-10 18:55:08,858 | 895200 | INFO | [BAYES QUEUE STATE]
+2026-03-10 18:55:08,858 | 895200 | INFO | pending_jobs = 5
+2026-03-10 18:55:08,858 | 895200 | INFO | inflight_trials = [49]
+2026-03-10 18:55:08,859 | 895200 | INFO | queue[0000] trial 50 fold 1 no_physics
+2026-03-10 18:55:08,859 | 895200 | INFO | queue[0001] trial 50 fold 2 no_physics
+2026-03-10 18:55:08,859 | 895200 | INFO | queue[0002] trial 50 fold 3 no_physics
+2026-03-10 18:55:08,859 | 895200 | INFO | queue[0003] trial 50 fold 4 no_physics
+2026-03-10 18:55:08,860 | 895200 | INFO | queue[0004] trial 50 fold 5 no_physics
+2026-03-10 18:55:08,860 | 895200 | INFO | [END BAYES QUEUE]
+2026-03-10 18:55:28,510 | 895200 | INFO | Traceback (most recent call last):
+2026-03-10 18:55:28,510 | 895200 | INFO | File "/global/scratch/users/maxwellfung/UCB-USACE-RR-PROJECT/run_hyperparam_search.py", line 1442, in <module>
+2026-03-10 18:55:28,512 | 895200 | INFO | main()
+2026-03-10 18:55:28,512 | 895200 | INFO | File "/global/scratch/users/maxwellfung/UCB-USACE-RR-PROJECT/run_hyperparam_search.py", line 1125, in main
+2026-03-10 18:55:28,513 | 895200 | INFO | run_bayes_streaming_queue(
+2026-03-10 18:55:28,513 | 895200 | INFO | File "/global/scratch/users/maxwellfung/UCB-USACE-RR-PROJECT/run_hyperparam_search.py", line 1005, in run_bayes_streaming_queue
+2026-03-10 18:55:28,514 | 895200 | INFO | time.sleep(0.1)
+2026-03-10 18:55:28,515 | 895200 | INFO | KeyboardInterrupt
+2026-03-10 18:56:09,225 | 895790 | INFO | [+   0.01s]
+2026-03-10 18:56:09,226 | 895790 | INFO | Basin: guerneville, GPU: -1, Verbose: True
+2026-03-10 18:56:09,226 | 895790 | INFO | [+   0.01s]
+2026-03-10 18:56:09,227 | 895790 | INFO | Pre-warming numba JIT ...
+2026-03-10 18:56:11,894 | 895790 | INFO | [+   2.68s]
+2026-03-10 18:56:11,895 | 895790 | INFO | Numba JIT pre-compiled.
+2026-03-10 18:56:11,895 | 895790 | INFO | YAML PATH:
+2026-03-10 18:56:11,896 | 895790 | INFO | /global/scratch/users/maxwellfung/UCB-USACE-RR-PROJECT/UCB_training/configs/guerneville_mtslstm2.yaml
+2026-03-10 18:56:11,897 | 895790 | INFO | [+   2.68s]
+2026-03-10 18:56:11,897 | 895790 | INFO | 288 combinations, 1 workers
+2026-03-10 18:56:11,897 | 895790 | INFO | run_gridsearch =
+2026-03-10 18:56:11,898 | 895790 | INFO | False
+2026-03-10 18:56:11,898 | 895790 | INFO | hparams_exists =
+2026-03-10 18:56:11,898 | 895790 | INFO | False
+2026-03-10 18:56:11,951 | 895790 | INFO | [EXTERNAL CV FOLDS]
+2026-03-10 18:56:11,951 | 895790 | INFO | fold 1: train 01/10/1994 -> 01/10/1996 | val 02/10/1996 -> 01/10/1997 | eval 02/10/1996 -> 01/10/1997
+2026-03-10 18:56:11,952 | 895790 | INFO | fold 2: train 01/10/1994 -> 01/10/1998 | val 02/10/1998 -> 01/10/1999 | eval 02/10/1998 -> 01/10/1999
+2026-03-10 18:56:11,952 | 895790 | INFO | fold 3: train 01/10/1994 -> 01/10/2000 | val 02/10/2000 -> 01/10/2001 | eval 02/10/2000 -> 01/10/2001
+2026-03-10 18:56:11,952 | 895790 | INFO | fold 4: train 01/10/1994 -> 01/10/2002 | val 02/10/2002 -> 01/10/2003 | eval 02/10/2002 -> 01/10/2003
+2026-03-10 18:56:11,952 | 895790 | INFO | fold 5: train 01/10/1994 -> 01/10/2004 | val 02/10/2004 -> 01/10/2005 | eval 02/10/2004 -> 01/10/2005
+2026-03-10 18:56:11,953 | 895790 | INFO | [EXTERNAL CV FOLDS] total folds = 5
+2026-03-10 18:56:11,953 | 895790 | INFO | [BAYESIAN OPTIMIZATION] Using 1 parallel workers
+2026-03-10 18:56:11,996 | 895790 | INFO | [BAYES] no_physics: 1 parallel trials x 5 folds = up to 5 workers
+2026-03-10 18:56:11,997 | 895790 | INFO | /global/scratch/users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/hyperparams/guerneville_mts_CROSS_VAL_V4_no_physics_gridsearch_20260307T122221Z.csv
+2026-03-10 18:56:11,997 | 895790 | INFO | [CHECKPOINT] No checkpoint file found.
+2026-03-10 18:56:11,997 | 895790 | INFO | [RESUME] starting from trial 0
+2026-03-10 18:56:12,086 | 895790 | INFO | [ENQUEUE TRIAL] trial 51 no_physics
+2026-03-10 18:56:12,086 | 895790 | INFO | [BAYES QUEUE STATE]
+2026-03-10 18:56:12,087 | 895790 | INFO | pending_jobs = 5
+2026-03-10 18:56:12,087 | 895790 | INFO | inflight_trials = [50]
+2026-03-10 18:56:12,087 | 895790 | INFO | queue[0000] trial 51 fold 1 no_physics
+2026-03-10 18:56:12,087 | 895790 | INFO | queue[0001] trial 51 fold 2 no_physics
+2026-03-10 18:56:12,087 | 895790 | INFO | queue[0002] trial 51 fold 3 no_physics
+2026-03-10 18:56:12,088 | 895790 | INFO | queue[0003] trial 51 fold 4 no_physics
+2026-03-10 18:56:12,088 | 895790 | INFO | queue[0004] trial 51 fold 5 no_physics
+2026-03-10 18:56:12,088 | 895790 | INFO | [END BAYES QUEUE]
+2026-03-10 18:56:39,428 | 895790 | INFO | Traceback (most recent call last):
+2026-03-10 18:56:39,437 | 895790 | INFO | File "/global/scratch/users/maxwellfung/UCB-USACE-RR-PROJECT/run_hyperparam_search.py", line 1444, in <module>
+2026-03-10 18:56:39,440 | 895790 | INFO | main()
+2026-03-10 18:56:39,440 | 895790 | INFO | File "/global/scratch/users/maxwellfung/UCB-USACE-RR-PROJECT/run_hyperparam_search.py", line 1127, in main
+2026-03-10 18:56:39,441 | 895790 | INFO | run_bayes_streaming_queue(
+2026-03-10 18:56:39,441 | 895790 | INFO | File "/global/scratch/users/maxwellfung/UCB-USACE-RR-PROJECT/run_hyperparam_search.py", line 1007, in run_bayes_streaming_queue
+2026-03-10 18:56:39,443 | 895790 | INFO | time.sleep(0.1)
+2026-03-10 18:56:39,443 | 895790 | INFO | KeyboardInterrupt
+2026-03-10 18:57:49,327 | 896459 | INFO | [+   0.01s]
+2026-03-10 18:57:49,327 | 896459 | INFO | Basin: guerneville, GPU: -1, Verbose: True
+2026-03-10 18:57:49,328 | 896459 | INFO | [+   0.01s]
+2026-03-10 18:57:49,328 | 896459 | INFO | Pre-warming numba JIT ...
+2026-03-10 18:57:52,085 | 896459 | INFO | [+   2.77s]
+2026-03-10 18:57:52,085 | 896459 | INFO | Numba JIT pre-compiled.
+2026-03-10 18:57:52,088 | 896459 | INFO | YAML PATH:
+2026-03-10 18:57:52,088 | 896459 | INFO | /global/scratch/users/maxwellfung/UCB-USACE-RR-PROJECT/UCB_training/configs/guerneville_mtslstm2.yaml
+2026-03-10 18:57:52,089 | 896459 | INFO | [+   2.77s]
+2026-03-10 18:57:52,089 | 896459 | INFO | 288 combinations, 1 workers
+2026-03-10 18:57:52,090 | 896459 | INFO | run_gridsearch =
+2026-03-10 18:57:52,090 | 896459 | INFO | False
+2026-03-10 18:57:52,090 | 896459 | INFO | hparams_exists =
+2026-03-10 18:57:52,091 | 896459 | INFO | False
+2026-03-10 18:57:52,146 | 896459 | INFO | [EXTERNAL CV FOLDS]
+2026-03-10 18:57:52,147 | 896459 | INFO | fold 1: train 01/10/1994 -> 01/10/1996 | val 02/10/1996 -> 01/10/1997 | eval 02/10/1996 -> 01/10/1997
+2026-03-10 18:57:52,147 | 896459 | INFO | fold 2: train 01/10/1994 -> 01/10/1998 | val 02/10/1998 -> 01/10/1999 | eval 02/10/1998 -> 01/10/1999
+2026-03-10 18:57:52,147 | 896459 | INFO | fold 3: train 01/10/1994 -> 01/10/2000 | val 02/10/2000 -> 01/10/2001 | eval 02/10/2000 -> 01/10/2001
+2026-03-10 18:57:52,147 | 896459 | INFO | fold 4: train 01/10/1994 -> 01/10/2002 | val 02/10/2002 -> 01/10/2003 | eval 02/10/2002 -> 01/10/2003
+2026-03-10 18:57:52,148 | 896459 | INFO | fold 5: train 01/10/1994 -> 01/10/2004 | val 02/10/2004 -> 01/10/2005 | eval 02/10/2004 -> 01/10/2005
+2026-03-10 18:57:52,148 | 896459 | INFO | [EXTERNAL CV FOLDS] total folds = 5
+2026-03-10 18:57:52,148 | 896459 | INFO | [BAYESIAN OPTIMIZATION] Using 1 parallel workers
+2026-03-10 18:57:52,188 | 896459 | INFO | [BAYES] no_physics: 1 parallel trials x 5 folds = up to 5 workers
+2026-03-10 18:57:52,189 | 896459 | INFO | /global/scratch/users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/hyperparams/archive/guerneville_mts_CROSS_VAL_V4_no_physics_gridsearch_20260307T122221Z.csv
+2026-03-10 18:57:52,189 | 896459 | INFO | [CHECKPOINT FILE FOUND]
+2026-03-10 18:57:52,190 | 896459 | INFO | path:
+2026-03-10 18:57:52,190 | 896459 | INFO | /global/scratch/users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/hyperparams/archive/guerneville_mts_CROSS_VAL_V4_no_physics_gridsearch_20260307T122221Z.csv
+2026-03-10 18:57:52,196 | 896459 | INFO | [CHECKPOINT CONTENT]
+2026-03-10 18:57:52,300 | 896459 | INFO | _queue_iter_idx  hidden_size  output_dropout  seq_length_1D  ...    NSE_1D    NSE_1H  _rank_score  model_type
+0                 0           64        0.066015             60  ...  0.779841  0.774903     0.776384  no_physics
+1                 4           64        0.214334            120  ...  0.791358  0.747036     0.760333  no_physics
+2                12           64        0.535403             60  ...  0.713754  0.720633     0.718569  no_physics
+3                13           64        0.326967            120  ...  0.689688  0.723267     0.713193  no_physics
+4                17           64        0.528900            120  ...  0.751811  0.743829     0.746224  no_physics
+5                18           64        0.599932             90  ...  0.800935  0.723329     0.746610  no_physics
+6                10          256        0.229787             90  ...  0.727995  0.834923     0.802845  no_physics
+7                15          256        0.285443             60  ...  0.688723  0.834567     0.790814  no_physics
+8                 7          256        0.181750             90  ...  0.775940  0.819228     0.806242  no_physics
+9                22           64        0.515172            120  ...  0.761785  0.734486     0.742675  no_physics
+10               20          128        0.067876             90  ...  0.810226  0.812892     0.812092  no_physics
+11               23           64        0.243282            120  ...  0.743791  0.740939     0.741794  no_physics
+12                8          256        0.233167             90  ...  0.722028  0.835967     0.801785  no_physics
+13                2          256        0.128974            120  ...  0.761941  0.805617     0.792514  no_physics
+14               26           64        0.441659            120  ...  0.736477  0.750443     0.746253  no_physics
+15               28           64        0.140015            120  ...  0.738940  0.721480     0.726718  no_physics
+16               29           64        0.089333             60  ...  0.796367  0.755964     0.768085  no_physics
+17                6          384        0.308275            120  ...  0.794168  0.834759     0.822581  no_physics
+18               21          256        0.148643             90  ...  0.828214  0.863591     0.852978  no_physics
+19               35           64        0.077373             90  ...  0.724812  0.751998     0.743842  no_physics
+
+[20 rows x 12 columns]
+2026-03-10 18:57:52,300 | 896459 | INFO | ...
+2026-03-10 18:57:52,319 | 896459 | INFO | _queue_iter_idx  hidden_size  output_dropout  seq_length_1D  ...    NSE_1D    NSE_1H  _rank_score  model_type
+28               36          128        0.360733             60  ...  0.778578  0.825923     0.811720  no_physics
+29               38          128        0.057400             90  ...  0.725713  0.755489     0.746556  no_physics
+30               39          128        0.055401             90  ...  0.792597  0.776433     0.781282  no_physics
+31                9          384        0.465570             60  ...  0.788176  0.811585     0.804562  no_physics
+32               40          128        0.116075             90  ...  0.841390  0.792300     0.807027  no_physics
+33               41          128        0.113538             90  ...  0.813165  0.811141     0.811748  no_physics
+34               45          128        0.365738             90  ...  0.843782  0.859508     0.854790  no_physics
+35               42          128        0.059748             90  ...  0.821937  0.792164     0.801096  no_physics
+36               14          384        0.351625            120  ...  0.720172  0.827165     0.795067  no_physics
+37               34          256        0.266383             60  ...  0.619168  0.828072     0.765401  no_physics
+38               27          256        0.273234             60  ...  0.770924  0.812395     0.799954  no_physics
+39               46          128        0.387423             90  ...  0.862492  0.863829     0.863428  no_physics
+40               11          384        0.385324             90  ...  0.818456  0.876536     0.859112  no_physics
+41               43          128        0.072222             90  ...  0.836173  0.777731     0.795264  no_physics
+42               44          128        0.162314             90  ...  0.779311  0.793048     0.788927  no_physics
+43               25          384        0.115457             90  ...  0.850927  0.853499     0.852728  no_physics
+44               19          384        0.337192            120  ...  0.789814  0.769277     0.775438  no_physics
+45               31          384        0.069031            120  ...  0.759272  0.806777     0.792526  no_physics
+46               47          384        0.391252             90  ...  0.815146  0.893172     0.869764  no_physics
+47               37          384        0.241314            120  ...  0.751916  0.808490     0.791518  no_physics
+
+[20 rows x 12 columns]
+2026-03-10 18:57:52,319 | 896459 | INFO | [CHECKPOINT STATUS]
+2026-03-10 18:57:52,319 | 896459 | INFO | rows in file: 48
+2026-03-10 18:57:52,320 | 896459 | INFO | completed trials: 48
+2026-03-10 18:57:52,320 | 896459 | INFO | [RESUME] starting from trial 48
+2026-03-10 19:00:30,313 | 896459 | INFO | Traceback (most recent call last):
+2026-03-10 19:00:30,313 | 896459 | INFO | File "/global/scratch/users/maxwellfung/UCB-USACE-RR-PROJECT/run_hyperparam_search.py", line 1444, in <module>
+2026-03-10 19:00:30,317 | 896459 | INFO | main()
+2026-03-10 19:00:30,317 | 896459 | INFO | File "/global/scratch/users/maxwellfung/UCB-USACE-RR-PROJECT/run_hyperparam_search.py", line 1127, in main
+2026-03-10 19:00:30,319 | 896459 | INFO | run_bayes_streaming_queue(
+2026-03-10 19:00:30,319 | 896459 | INFO | File "/global/scratch/users/maxwellfung/UCB-USACE-RR-PROJECT/run_hyperparam_search.py", line 1007, in run_bayes_streaming_queue
+2026-03-10 19:00:30,320 | 896459 | INFO | time.sleep(0.1)
+2026-03-10 19:00:30,320 | 896459 | INFO | KeyboardInterrupt
+2026-03-10 19:01:11,028 | 897397 | INFO | [+   0.01s]
+2026-03-10 19:01:11,028 | 897397 | INFO | Basin: guerneville, GPU: -1, Verbose: True
+2026-03-10 19:01:11,029 | 897397 | INFO | [+   0.01s]
+2026-03-10 19:01:11,029 | 897397 | INFO | Pre-warming numba JIT ...
+2026-03-10 19:01:13,822 | 897397 | INFO | [+   2.80s]
+2026-03-10 19:01:13,822 | 897397 | INFO | Numba JIT pre-compiled.
+2026-03-10 19:01:13,823 | 897397 | INFO | YAML PATH:
+2026-03-10 19:01:13,823 | 897397 | INFO | /global/scratch/users/maxwellfung/UCB-USACE-RR-PROJECT/UCB_training/configs/guerneville_mtslstm2.yaml
+2026-03-10 19:01:13,825 | 897397 | INFO | [+   2.80s]
+2026-03-10 19:01:13,825 | 897397 | INFO | 288 combinations, 1 workers
+2026-03-10 19:01:13,825 | 897397 | INFO | run_gridsearch =
+2026-03-10 19:01:13,825 | 897397 | INFO | False
+2026-03-10 19:01:13,826 | 897397 | INFO | hparams_exists =
+2026-03-10 19:01:13,826 | 897397 | INFO | False
+2026-03-10 19:01:13,885 | 897397 | INFO | [EXTERNAL CV FOLDS]
+2026-03-10 19:01:13,885 | 897397 | INFO | fold 1: train 01/10/1994 -> 01/10/1996 | val 02/10/1996 -> 01/10/1997 | eval 02/10/1996 -> 01/10/1997
+2026-03-10 19:01:13,885 | 897397 | INFO | fold 2: train 01/10/1994 -> 01/10/1998 | val 02/10/1998 -> 01/10/1999 | eval 02/10/1998 -> 01/10/1999
+2026-03-10 19:01:13,886 | 897397 | INFO | fold 3: train 01/10/1994 -> 01/10/2000 | val 02/10/2000 -> 01/10/2001 | eval 02/10/2000 -> 01/10/2001
+2026-03-10 19:01:13,886 | 897397 | INFO | fold 4: train 01/10/1994 -> 01/10/2002 | val 02/10/2002 -> 01/10/2003 | eval 02/10/2002 -> 01/10/2003
+2026-03-10 19:01:13,886 | 897397 | INFO | fold 5: train 01/10/1994 -> 01/10/2004 | val 02/10/2004 -> 01/10/2005 | eval 02/10/2004 -> 01/10/2005
+2026-03-10 19:01:13,886 | 897397 | INFO | [EXTERNAL CV FOLDS] total folds = 5
+2026-03-10 19:01:13,887 | 897397 | INFO | [BAYESIAN OPTIMIZATION] Using 1 parallel workers
+2026-03-10 19:01:13,943 | 897397 | INFO | [BAYES] no_physics: 1 parallel trials x 5 folds = up to 5 workers
+2026-03-10 19:01:13,943 | 897397 | INFO | /global/scratch/users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/hyperparams/archive/guerneville_mts_CROSS_VAL_V4_no_physics_gridsearch_20260307T122221Z.csv
+2026-03-10 19:01:13,944 | 897397 | INFO | [CHECKPOINT FILE FOUND]
+2026-03-10 19:01:13,944 | 897397 | INFO | path:
+2026-03-10 19:01:13,944 | 897397 | INFO | /global/scratch/users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/hyperparams/archive/guerneville_mts_CROSS_VAL_V4_no_physics_gridsearch_20260307T122221Z.csv
+2026-03-10 19:01:13,954 | 897397 | INFO | [CHECKPOINT CONTENT]
+2026-03-10 19:01:13,978 | 897397 | INFO | _queue_iter_idx  hidden_size  output_dropout  seq_length_1D  ...    NSE_1D    NSE_1H  _rank_score  model_type
+0                 0           64        0.066015             60  ...  0.779841  0.774903     0.776384  no_physics
+1                 4           64        0.214334            120  ...  0.791358  0.747036     0.760333  no_physics
+2                12           64        0.535403             60  ...  0.713754  0.720633     0.718569  no_physics
+3                13           64        0.326967            120  ...  0.689688  0.723267     0.713193  no_physics
+4                17           64        0.528900            120  ...  0.751811  0.743829     0.746224  no_physics
+5                18           64        0.599932             90  ...  0.800935  0.723329     0.746610  no_physics
+6                10          256        0.229787             90  ...  0.727995  0.834923     0.802845  no_physics
+7                15          256        0.285443             60  ...  0.688723  0.834567     0.790814  no_physics
+8                 7          256        0.181750             90  ...  0.775940  0.819228     0.806242  no_physics
+9                22           64        0.515172            120  ...  0.761785  0.734486     0.742675  no_physics
+10               20          128        0.067876             90  ...  0.810226  0.812892     0.812092  no_physics
+11               23           64        0.243282            120  ...  0.743791  0.740939     0.741794  no_physics
+12                8          256        0.233167             90  ...  0.722028  0.835967     0.801785  no_physics
+13                2          256        0.128974            120  ...  0.761941  0.805617     0.792514  no_physics
+14               26           64        0.441659            120  ...  0.736477  0.750443     0.746253  no_physics
+15               28           64        0.140015            120  ...  0.738940  0.721480     0.726718  no_physics
+16               29           64        0.089333             60  ...  0.796367  0.755964     0.768085  no_physics
+17                6          384        0.308275            120  ...  0.794168  0.834759     0.822581  no_physics
+18               21          256        0.148643             90  ...  0.828214  0.863591     0.852978  no_physics
+19               35           64        0.077373             90  ...  0.724812  0.751998     0.743842  no_physics
+
+[20 rows x 12 columns]
+2026-03-10 19:01:13,978 | 897397 | INFO | ...
+2026-03-10 19:01:13,997 | 897397 | INFO | _queue_iter_idx  hidden_size  output_dropout  seq_length_1D  ...    NSE_1D    NSE_1H  _rank_score  model_type
+28               36          128        0.360733             60  ...  0.778578  0.825923     0.811720  no_physics
+29               38          128        0.057400             90  ...  0.725713  0.755489     0.746556  no_physics
+30               39          128        0.055401             90  ...  0.792597  0.776433     0.781282  no_physics
+31                9          384        0.465570             60  ...  0.788176  0.811585     0.804562  no_physics
+32               40          128        0.116075             90  ...  0.841390  0.792300     0.807027  no_physics
+33               41          128        0.113538             90  ...  0.813165  0.811141     0.811748  no_physics
+34               45          128        0.365738             90  ...  0.843782  0.859508     0.854790  no_physics
+35               42          128        0.059748             90  ...  0.821937  0.792164     0.801096  no_physics
+36               14          384        0.351625            120  ...  0.720172  0.827165     0.795067  no_physics
+37               34          256        0.266383             60  ...  0.619168  0.828072     0.765401  no_physics
+38               27          256        0.273234             60  ...  0.770924  0.812395     0.799954  no_physics
+39               46          128        0.387423             90  ...  0.862492  0.863829     0.863428  no_physics
+40               11          384        0.385324             90  ...  0.818456  0.876536     0.859112  no_physics
+41               43          128        0.072222             90  ...  0.836173  0.777731     0.795264  no_physics
+42               44          128        0.162314             90  ...  0.779311  0.793048     0.788927  no_physics
+43               25          384        0.115457             90  ...  0.850927  0.853499     0.852728  no_physics
+44               19          384        0.337192            120  ...  0.789814  0.769277     0.775438  no_physics
+45               31          384        0.069031            120  ...  0.759272  0.806777     0.792526  no_physics
+46               47          384        0.391252             90  ...  0.815146  0.893172     0.869764  no_physics
+47               37          384        0.241314            120  ...  0.751916  0.808490     0.791518  no_physics
+
+[20 rows x 12 columns]
+2026-03-10 19:01:13,997 | 897397 | INFO | [CHECKPOINT STATUS]
+2026-03-10 19:01:13,998 | 897397 | INFO | rows in file: 48
+2026-03-10 19:01:13,998 | 897397 | INFO | completed trials: 48
+2026-03-10 19:01:13,998 | 897397 | INFO | [RESUME] starting from trial 48
+2026-03-10 19:03:49,320 | 897397 | INFO | Traceback (most recent call last):
+2026-03-10 19:03:49,320 | 897397 | INFO | File "/global/scratch/users/maxwellfung/UCB-USACE-RR-PROJECT/run_hyperparam_search.py", line 1447, in <module>
+2026-03-10 19:03:49,325 | 897397 | INFO | File "/global/scratch/users/maxwellfung/UCB-USACE-RR-PROJECT/run_hyperparam_search.py", line 1130, in main
+2026-03-10 19:03:49,327 | 897397 | INFO | f"[BAYES] no_physics: {parallel_trials} parallel trials "
+2026-03-10 19:03:49,327 | 897397 | INFO | File "/global/scratch/users/maxwellfung/UCB-USACE-RR-PROJECT/run_hyperparam_search.py", line 1010, in run_bayes_streaming_queue
+2026-03-10 19:03:49,328 | 897397 | INFO | new_active.append((res, job))
+2026-03-10 19:03:49,329 | 897397 | INFO | KeyboardInterrupt
+2026-03-10 19:05:55,386 | 899072 | INFO | [+   0.01s]
+2026-03-10 19:05:55,387 | 899072 | INFO | Basin: guerneville, GPU: -1, Verbose: True
+2026-03-10 19:05:55,387 | 899072 | INFO | [+   0.01s]
+2026-03-10 19:05:55,387 | 899072 | INFO | Pre-warming numba JIT ...
+2026-03-10 19:05:58,209 | 899072 | INFO | [+   2.83s]
+2026-03-10 19:05:58,209 | 899072 | INFO | Numba JIT pre-compiled.
+2026-03-10 19:05:58,210 | 899072 | INFO | YAML PATH:
+2026-03-10 19:05:58,210 | 899072 | INFO | /global/scratch/users/maxwellfung/UCB-USACE-RR-PROJECT/UCB_training/configs/guerneville_mtslstm2.yaml
+2026-03-10 19:05:58,211 | 899072 | INFO | [+   2.83s]
+2026-03-10 19:05:58,212 | 899072 | INFO | 288 combinations, 1 workers
+2026-03-10 19:05:58,212 | 899072 | INFO | run_gridsearch =
+2026-03-10 19:05:58,212 | 899072 | INFO | False
+2026-03-10 19:05:58,213 | 899072 | INFO | hparams_exists =
+2026-03-10 19:05:58,213 | 899072 | INFO | False
+2026-03-10 19:05:58,267 | 899072 | INFO | [EXTERNAL CV FOLDS]
+2026-03-10 19:05:58,268 | 899072 | INFO | fold 1: train 01/10/1994 -> 01/10/1996 | val 02/10/1996 -> 01/10/1997 | eval 02/10/1996 -> 01/10/1997
+2026-03-10 19:05:58,268 | 899072 | INFO | fold 2: train 01/10/1994 -> 01/10/1998 | val 02/10/1998 -> 01/10/1999 | eval 02/10/1998 -> 01/10/1999
+2026-03-10 19:05:58,268 | 899072 | INFO | fold 3: train 01/10/1994 -> 01/10/2000 | val 02/10/2000 -> 01/10/2001 | eval 02/10/2000 -> 01/10/2001
+2026-03-10 19:05:58,268 | 899072 | INFO | fold 4: train 01/10/1994 -> 01/10/2002 | val 02/10/2002 -> 01/10/2003 | eval 02/10/2002 -> 01/10/2003
+2026-03-10 19:05:58,269 | 899072 | INFO | fold 5: train 01/10/1994 -> 01/10/2004 | val 02/10/2004 -> 01/10/2005 | eval 02/10/2004 -> 01/10/2005
+2026-03-10 19:05:58,269 | 899072 | INFO | [EXTERNAL CV FOLDS] total folds = 5
+2026-03-10 19:05:58,269 | 899072 | INFO | [BAYESIAN OPTIMIZATION] Using 1 parallel workers
+2026-03-10 19:05:58,314 | 899072 | INFO | [BAYES] no_physics: 1 parallel trials x 5 folds = up to 5 workers
+2026-03-10 19:05:58,314 | 899072 | INFO | /global/scratch/users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/hyperparams/archive/guerneville_mts_CROSS_VAL_V4_no_physics_gridsearch_20260307T122221Z.csv
+2026-03-10 19:05:58,314 | 899072 | INFO | [CHECKPOINT FILE FOUND]
+2026-03-10 19:05:58,315 | 899072 | INFO | path:
+2026-03-10 19:05:58,315 | 899072 | INFO | /global/scratch/users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/hyperparams/archive/guerneville_mts_CROSS_VAL_V4_no_physics_gridsearch_20260307T122221Z.csv
+2026-03-10 19:05:58,321 | 899072 | INFO | [CHECKPOINT CONTENT]
+2026-03-10 19:05:58,346 | 899072 | INFO | _queue_iter_idx  hidden_size  output_dropout  seq_length_1D  ...    NSE_1D    NSE_1H  _rank_score  model_type
+0                 0           64        0.066015             60  ...  0.779841  0.774903     0.776384  no_physics
+1                 4           64        0.214334            120  ...  0.791358  0.747036     0.760333  no_physics
+2                12           64        0.535403             60  ...  0.713754  0.720633     0.718569  no_physics
+3                13           64        0.326967            120  ...  0.689688  0.723267     0.713193  no_physics
+4                17           64        0.528900            120  ...  0.751811  0.743829     0.746224  no_physics
+5                18           64        0.599932             90  ...  0.800935  0.723329     0.746610  no_physics
+6                10          256        0.229787             90  ...  0.727995  0.834923     0.802845  no_physics
+7                15          256        0.285443             60  ...  0.688723  0.834567     0.790814  no_physics
+8                 7          256        0.181750             90  ...  0.775940  0.819228     0.806242  no_physics
+9                22           64        0.515172            120  ...  0.761785  0.734486     0.742675  no_physics
+10               20          128        0.067876             90  ...  0.810226  0.812892     0.812092  no_physics
+11               23           64        0.243282            120  ...  0.743791  0.740939     0.741794  no_physics
+12                8          256        0.233167             90  ...  0.722028  0.835967     0.801785  no_physics
+13                2          256        0.128974            120  ...  0.761941  0.805617     0.792514  no_physics
+14               26           64        0.441659            120  ...  0.736477  0.750443     0.746253  no_physics
+15               28           64        0.140015            120  ...  0.738940  0.721480     0.726718  no_physics
+16               29           64        0.089333             60  ...  0.796367  0.755964     0.768085  no_physics
+17                6          384        0.308275            120  ...  0.794168  0.834759     0.822581  no_physics
+18               21          256        0.148643             90  ...  0.828214  0.863591     0.852978  no_physics
+19               35           64        0.077373             90  ...  0.724812  0.751998     0.743842  no_physics
+
+[20 rows x 12 columns]
+2026-03-10 19:05:58,346 | 899072 | INFO | ...
+2026-03-10 19:05:58,365 | 899072 | INFO | _queue_iter_idx  hidden_size  output_dropout  seq_length_1D  ...    NSE_1D    NSE_1H  _rank_score  model_type
+28               36          128        0.360733             60  ...  0.778578  0.825923     0.811720  no_physics
+29               38          128        0.057400             90  ...  0.725713  0.755489     0.746556  no_physics
+30               39          128        0.055401             90  ...  0.792597  0.776433     0.781282  no_physics
+31                9          384        0.465570             60  ...  0.788176  0.811585     0.804562  no_physics
+32               40          128        0.116075             90  ...  0.841390  0.792300     0.807027  no_physics
+33               41          128        0.113538             90  ...  0.813165  0.811141     0.811748  no_physics
+34               45          128        0.365738             90  ...  0.843782  0.859508     0.854790  no_physics
+35               42          128        0.059748             90  ...  0.821937  0.792164     0.801096  no_physics
+36               14          384        0.351625            120  ...  0.720172  0.827165     0.795067  no_physics
+37               34          256        0.266383             60  ...  0.619168  0.828072     0.765401  no_physics
+38               27          256        0.273234             60  ...  0.770924  0.812395     0.799954  no_physics
+39               46          128        0.387423             90  ...  0.862492  0.863829     0.863428  no_physics
+40               11          384        0.385324             90  ...  0.818456  0.876536     0.859112  no_physics
+41               43          128        0.072222             90  ...  0.836173  0.777731     0.795264  no_physics
+42               44          128        0.162314             90  ...  0.779311  0.793048     0.788927  no_physics
+43               25          384        0.115457             90  ...  0.850927  0.853499     0.852728  no_physics
+44               19          384        0.337192            120  ...  0.789814  0.769277     0.775438  no_physics
+45               31          384        0.069031            120  ...  0.759272  0.806777     0.792526  no_physics
+46               47          384        0.391252             90  ...  0.815146  0.893172     0.869764  no_physics
+47               37          384        0.241314            120  ...  0.751916  0.808490     0.791518  no_physics
+
+[20 rows x 12 columns]
+2026-03-10 19:05:58,382 | 899072 | INFO | [CHECKPOINT STATUS]
+2026-03-10 19:05:58,382 | 899072 | INFO | rows in file: 48
+2026-03-10 19:05:58,383 | 899072 | INFO | completed trials: 48
+2026-03-10 19:05:58,383 | 899072 | INFO | [RESUME] starting from trial 48
+2026-03-10 19:05:58,383 | 899072 | INFO | [BAYES] no_physics already finished (48/48)
+2026-03-10 19:05:58,479 | 899072 | INFO | [BAYES] physics: 1 parallel trials x 5 folds = up to 5 workers
+2026-03-10 19:05:58,480 | 899072 | INFO | /global/scratch/users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/hyperparams/archive/guerneville_mts_CROSS_VAL_V4_physics_gridsearch_20260307T122221Z.csv
+2026-03-10 19:05:58,480 | 899072 | INFO | [CHECKPOINT FILE FOUND]
+2026-03-10 19:05:58,480 | 899072 | INFO | path:
+2026-03-10 19:05:58,480 | 899072 | INFO | /global/scratch/users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/hyperparams/archive/guerneville_mts_CROSS_VAL_V4_physics_gridsearch_20260307T122221Z.csv
+2026-03-10 19:05:58,599 | 899072 | INFO | [CHECKPOINT CONTENT]
+2026-03-10 19:05:58,618 | 899072 | INFO | _queue_iter_idx  hidden_size  output_dropout  seq_length_1D  ...    NSE_1D    NSE_1H  _rank_score  model_type
+0                 3           64        0.496459             60  ...  0.882901  0.861502     0.867922     physics
+1                 4           64        0.470972             90  ...  0.881698  0.856985     0.864399     physics
+2                 6           64        0.243425             90  ...  0.867846  0.877255     0.874432     physics
+3                10           64        0.352429             90  ...  0.821915  0.848908     0.840810     physics
+4                 5          128        0.152295             90  ...  0.874116  0.875274     0.874926     physics
+5                14           64        0.371913            120  ...  0.832009  0.809663     0.816367     physics
+6                11          128        0.326049             60  ...  0.885537  0.853896     0.863388     physics
+7                17           64        0.053100             60  ...  0.796923  0.805246     0.802749     physics
+8                13          128        0.333442            120  ...  0.853691  0.845958     0.848278     physics
+9                22           64        0.165018             90  ...  0.885312  0.849343     0.860134     physics
+10                1          256        0.416240            120  ...  0.846795  0.850909     0.849675     physics
+11               23           64        0.203453             60  ...  0.856048  0.878150     0.871519     physics
+12               21          128        0.160947             90  ...  0.849840  0.856990     0.854845     physics
+13                0          256        0.227498            120  ...  0.868389  0.843100     0.850687     physics
+14               26           64        0.430713             90  ...  0.864649  0.867259     0.866476     physics
+15               24          128        0.451459             90  ...  0.902003  0.903614     0.903131     physics
+16                8          256        0.380418            120  ...  0.853773  0.835329     0.840862     physics
+17               12          256        0.479394            120  ...  0.865096  0.839678     0.847304     physics
+18               30           64        0.491789             60  ...  0.860270  0.884983     0.877569     physics
+19               25          128        0.389649            120  ...  0.819912  0.857697     0.846361     physics
+
+[20 rows x 12 columns]
+2026-03-10 19:05:58,618 | 899072 | INFO | ...
+2026-03-10 19:05:58,637 | 899072 | INFO | _queue_iter_idx  hidden_size  output_dropout  seq_length_1D  ...    NSE_1D    NSE_1H  _rank_score  model_type
+18               30           64        0.491789             60  ...  0.860270  0.884983     0.877569     physics
+19               25          128        0.389649            120  ...  0.819912  0.857697     0.846361     physics
+20                2          384        0.238924             60  ...  0.888872  0.888577     0.888665     physics
+21               31          128        0.403052             90  ...  0.896221  0.876827     0.882645     physics
+22               16          256        0.447210             60  ...  0.907924  0.913339     0.911714     physics
+23                7          384        0.184956            120  ...  0.870769  0.849976     0.856214     physics
+24               15          384        0.154038             90  ...  0.867691  0.882793     0.878262     physics
+25                9          384        0.166907            120  ...  0.851002  0.855157     0.853910     physics
+26               18          384        0.584288             60  ...  0.814936  0.900760     0.875013     physics
+27               29          384        0.463919            120  ...  0.881344  0.888159     0.886115     physics
+28               35          256        0.070242             90  ...  0.888118  0.861189     0.869268     physics
+29               27          384        0.300710             60  ...  0.812492  0.890014     0.866758     physics
+30               20          384        0.241843             90  ...  0.899015  0.894604     0.895927     physics
+31               19          384        0.451841             90  ...  0.890738  0.881320     0.884146     physics
+32               37          256        0.090277             90  ...  0.877340  0.863829     0.867883     physics
+33               28          384        0.537354             60  ...  0.903459  0.896444     0.898548     physics
+34               33          384        0.074917             90  ...  0.861507  0.881877     0.875766     physics
+35               34          384        0.052088             90  ...  0.881417  0.869098     0.872794     physics
+36               32          384        0.424857             90  ...  0.898504  0.883740     0.888169     physics
+37               36          384        0.054575             90  ...  0.891987  0.855528     0.866466     physics
+
+[20 rows x 12 columns]
+2026-03-10 19:05:58,646 | 899072 | INFO | [CHECKPOINT STATUS]
+2026-03-10 19:05:58,646 | 899072 | INFO | rows in file: 38
+2026-03-10 19:05:58,646 | 899072 | INFO | completed trials: 38
+2026-03-10 19:05:58,647 | 899072 | INFO | [RESUME] starting from trial 38
+2026-03-10 19:05:58,727 | 899072 | INFO | [ENQUEUE TRIAL] trial 49 physics
+2026-03-10 19:05:58,727 | 899072 | INFO | [BAYES QUEUE STATE]
+2026-03-10 19:05:58,727 | 899072 | INFO | pending_jobs = 5
+2026-03-10 19:05:58,727 | 899072 | INFO | inflight_trials = [48]
+2026-03-10 19:05:58,728 | 899072 | INFO | queue[0000] trial 49 fold 1 physics
+2026-03-10 19:05:58,728 | 899072 | INFO | queue[0001] trial 49 fold 2 physics
+2026-03-10 19:05:58,728 | 899072 | INFO | queue[0002] trial 49 fold 3 physics
+2026-03-10 19:05:58,728 | 899072 | INFO | queue[0003] trial 49 fold 4 physics
+2026-03-10 19:05:58,728 | 899072 | INFO | queue[0004] trial 49 fold 5 physics
+2026-03-10 19:05:58,729 | 899072 | INFO | [END BAYES QUEUE]
+2026-03-10 19:08:32,530 | 899072 | INFO | Traceback (most recent call last):
+2026-03-10 19:08:32,530 | 899072 | INFO | File "/global/scratch/users/maxwellfung/UCB-USACE-RR-PROJECT/run_hyperparam_search.py", line 1451, in <module>
+2026-03-10 19:08:32,532 | 899072 | INFO | setup_logging()
+2026-03-10 19:08:32,532 | 899072 | INFO | File "/global/scratch/users/maxwellfung/UCB-USACE-RR-PROJECT/run_hyperparam_search.py", line 1155, in main
+2026-03-10 19:08:32,533 | 899072 | INFO | File "/global/scratch/users/maxwellfung/UCB-USACE-RR-PROJECT/run_hyperparam_search.py", line 1014, in run_bayes_streaming_queue
+2026-03-10 19:08:32,534 | 899072 | INFO | KeyboardInterrupt
+2026-03-10 19:08:48,692 | 900688 | INFO | [+   0.01s]
+2026-03-10 19:08:48,698 | 900688 | INFO | Basin: guerneville, GPU: -1, Verbose: True
+2026-03-10 19:08:48,698 | 900688 | INFO | [+   0.02s]
+2026-03-10 19:08:48,699 | 900688 | INFO | Pre-warming numba JIT ...
+2026-03-10 19:08:50,995 | 900688 | INFO | [+   2.31s]
+2026-03-10 19:08:50,995 | 900688 | INFO | Numba JIT pre-compiled.
+2026-03-10 19:08:51,000 | 900688 | INFO | YAML PATH:
+2026-03-10 19:08:51,000 | 900688 | INFO | /global/scratch/users/maxwellfung/UCB-USACE-RR-PROJECT/UCB_training/configs/guerneville_mtslstm2.yaml
+2026-03-10 19:08:51,001 | 900688 | INFO | [+   2.32s]
+2026-03-10 19:08:51,002 | 900688 | INFO | 288 combinations, 1 workers
+2026-03-10 19:08:51,002 | 900688 | INFO | run_gridsearch =
+2026-03-10 19:08:51,002 | 900688 | INFO | False
+2026-03-10 19:08:51,003 | 900688 | INFO | hparams_exists =
+2026-03-10 19:08:51,003 | 900688 | INFO | False
+2026-03-10 19:08:51,054 | 900688 | INFO | [EXTERNAL CV FOLDS]
+2026-03-10 19:08:51,054 | 900688 | INFO | fold 1: train 01/10/1994 -> 01/10/1996 | val 02/10/1996 -> 01/10/1997 | eval 02/10/1996 -> 01/10/1997
+2026-03-10 19:08:51,055 | 900688 | INFO | fold 2: train 01/10/1994 -> 01/10/1998 | val 02/10/1998 -> 01/10/1999 | eval 02/10/1998 -> 01/10/1999
+2026-03-10 19:08:51,055 | 900688 | INFO | fold 3: train 01/10/1994 -> 01/10/2000 | val 02/10/2000 -> 01/10/2001 | eval 02/10/2000 -> 01/10/2001
+2026-03-10 19:08:51,055 | 900688 | INFO | fold 4: train 01/10/1994 -> 01/10/2002 | val 02/10/2002 -> 01/10/2003 | eval 02/10/2002 -> 01/10/2003
+2026-03-10 19:08:51,055 | 900688 | INFO | fold 5: train 01/10/1994 -> 01/10/2004 | val 02/10/2004 -> 01/10/2005 | eval 02/10/2004 -> 01/10/2005
+2026-03-10 19:08:51,055 | 900688 | INFO | [EXTERNAL CV FOLDS] total folds = 5
+2026-03-10 19:08:51,056 | 900688 | INFO | [BAYESIAN OPTIMIZATION] Using 1 parallel workers
+2026-03-10 19:08:51,103 | 900688 | INFO | [BAYES] no_physics: 1 parallel trials x 5 folds = up to 5 workers
+2026-03-10 19:08:51,103 | 900688 | INFO | /global/scratch/users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/hyperparams/archive/guerneville_mts_CROSS_VAL_V4_no_physics_gridsearch_20260307T122221Z.csv
+2026-03-10 19:08:51,103 | 900688 | INFO | [CHECKPOINT FILE FOUND]
+2026-03-10 19:08:51,104 | 900688 | INFO | path:
+2026-03-10 19:08:51,104 | 900688 | INFO | /global/scratch/users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/hyperparams/archive/guerneville_mts_CROSS_VAL_V4_no_physics_gridsearch_20260307T122221Z.csv
+2026-03-10 19:08:51,108 | 900688 | INFO | [CHECKPOINT CONTENT]
+2026-03-10 19:08:51,130 | 900688 | INFO | _queue_iter_idx  hidden_size  output_dropout  seq_length_1D  ...    NSE_1D    NSE_1H  _rank_score  model_type
+0                 0           64        0.066015             60  ...  0.779841  0.774903     0.776384  no_physics
+1                 4           64        0.214334            120  ...  0.791358  0.747036     0.760333  no_physics
+2                12           64        0.535403             60  ...  0.713754  0.720633     0.718569  no_physics
+3                13           64        0.326967            120  ...  0.689688  0.723267     0.713193  no_physics
+4                17           64        0.528900            120  ...  0.751811  0.743829     0.746224  no_physics
+5                18           64        0.599932             90  ...  0.800935  0.723329     0.746610  no_physics
+6                10          256        0.229787             90  ...  0.727995  0.834923     0.802845  no_physics
+7                15          256        0.285443             60  ...  0.688723  0.834567     0.790814  no_physics
+8                 7          256        0.181750             90  ...  0.775940  0.819228     0.806242  no_physics
+9                22           64        0.515172            120  ...  0.761785  0.734486     0.742675  no_physics
+10               20          128        0.067876             90  ...  0.810226  0.812892     0.812092  no_physics
+11               23           64        0.243282            120  ...  0.743791  0.740939     0.741794  no_physics
+12                8          256        0.233167             90  ...  0.722028  0.835967     0.801785  no_physics
+13                2          256        0.128974            120  ...  0.761941  0.805617     0.792514  no_physics
+14               26           64        0.441659            120  ...  0.736477  0.750443     0.746253  no_physics
+15               28           64        0.140015            120  ...  0.738940  0.721480     0.726718  no_physics
+16               29           64        0.089333             60  ...  0.796367  0.755964     0.768085  no_physics
+17                6          384        0.308275            120  ...  0.794168  0.834759     0.822581  no_physics
+18               21          256        0.148643             90  ...  0.828214  0.863591     0.852978  no_physics
+19               35           64        0.077373             90  ...  0.724812  0.751998     0.743842  no_physics
+
+[20 rows x 12 columns]
+2026-03-10 19:08:51,130 | 900688 | INFO | ...
+2026-03-10 19:08:51,147 | 900688 | INFO | _queue_iter_idx  hidden_size  output_dropout  seq_length_1D  ...    NSE_1D    NSE_1H  _rank_score  model_type
+28               36          128        0.360733             60  ...  0.778578  0.825923     0.811720  no_physics
+29               38          128        0.057400             90  ...  0.725713  0.755489     0.746556  no_physics
+30               39          128        0.055401             90  ...  0.792597  0.776433     0.781282  no_physics
+31                9          384        0.465570             60  ...  0.788176  0.811585     0.804562  no_physics
+32               40          128        0.116075             90  ...  0.841390  0.792300     0.807027  no_physics
+33               41          128        0.113538             90  ...  0.813165  0.811141     0.811748  no_physics
+34               45          128        0.365738             90  ...  0.843782  0.859508     0.854790  no_physics
+35               42          128        0.059748             90  ...  0.821937  0.792164     0.801096  no_physics
+36               14          384        0.351625            120  ...  0.720172  0.827165     0.795067  no_physics
+37               34          256        0.266383             60  ...  0.619168  0.828072     0.765401  no_physics
+38               27          256        0.273234             60  ...  0.770924  0.812395     0.799954  no_physics
+39               46          128        0.387423             90  ...  0.862492  0.863829     0.863428  no_physics
+40               11          384        0.385324             90  ...  0.818456  0.876536     0.859112  no_physics
+41               43          128        0.072222             90  ...  0.836173  0.777731     0.795264  no_physics
+42               44          128        0.162314             90  ...  0.779311  0.793048     0.788927  no_physics
+43               25          384        0.115457             90  ...  0.850927  0.853499     0.852728  no_physics
+44               19          384        0.337192            120  ...  0.789814  0.769277     0.775438  no_physics
+45               31          384        0.069031            120  ...  0.759272  0.806777     0.792526  no_physics
+46               47          384        0.391252             90  ...  0.815146  0.893172     0.869764  no_physics
+47               37          384        0.241314            120  ...  0.751916  0.808490     0.791518  no_physics
+
+[20 rows x 12 columns]
+2026-03-10 19:08:51,158 | 900688 | INFO | [CHECKPOINT STATUS]
+2026-03-10 19:08:51,159 | 900688 | INFO | rows in file: 48
+2026-03-10 19:08:51,159 | 900688 | INFO | completed trials: 48
+2026-03-10 19:08:51,159 | 900688 | INFO | [RESUME] starting from trial 48
+2026-03-10 19:08:51,159 | 900688 | INFO | [BAYES] no_physics already finished (48/48)
+2026-03-10 19:08:51,203 | 900688 | INFO | [BAYES] physics: 1 parallel trials x 5 folds = up to 5 workers
+2026-03-10 19:08:51,203 | 900688 | INFO | /global/scratch/users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/hyperparams/archive/guerneville_mts_CROSS_VAL_V4_physics_gridsearch_20260307T122221Z.csv
+2026-03-10 19:08:51,203 | 900688 | INFO | [CHECKPOINT FILE FOUND]
+2026-03-10 19:08:51,204 | 900688 | INFO | path:
+2026-03-10 19:08:51,204 | 900688 | INFO | /global/scratch/users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/hyperparams/archive/guerneville_mts_CROSS_VAL_V4_physics_gridsearch_20260307T122221Z.csv
+2026-03-10 19:08:51,216 | 900688 | INFO | [CHECKPOINT CONTENT]
+2026-03-10 19:08:51,233 | 900688 | INFO | _queue_iter_idx  hidden_size  output_dropout  seq_length_1D  ...    NSE_1D    NSE_1H  _rank_score  model_type
+0                 3           64        0.496459             60  ...  0.882901  0.861502     0.867922     physics
+1                 4           64        0.470972             90  ...  0.881698  0.856985     0.864399     physics
+2                 6           64        0.243425             90  ...  0.867846  0.877255     0.874432     physics
+3                10           64        0.352429             90  ...  0.821915  0.848908     0.840810     physics
+4                 5          128        0.152295             90  ...  0.874116  0.875274     0.874926     physics
+5                14           64        0.371913            120  ...  0.832009  0.809663     0.816367     physics
+6                11          128        0.326049             60  ...  0.885537  0.853896     0.863388     physics
+7                17           64        0.053100             60  ...  0.796923  0.805246     0.802749     physics
+8                13          128        0.333442            120  ...  0.853691  0.845958     0.848278     physics
+9                22           64        0.165018             90  ...  0.885312  0.849343     0.860134     physics
+10                1          256        0.416240            120  ...  0.846795  0.850909     0.849675     physics
+11               23           64        0.203453             60  ...  0.856048  0.878150     0.871519     physics
+12               21          128        0.160947             90  ...  0.849840  0.856990     0.854845     physics
+13                0          256        0.227498            120  ...  0.868389  0.843100     0.850687     physics
+14               26           64        0.430713             90  ...  0.864649  0.867259     0.866476     physics
+15               24          128        0.451459             90  ...  0.902003  0.903614     0.903131     physics
+16                8          256        0.380418            120  ...  0.853773  0.835329     0.840862     physics
+17               12          256        0.479394            120  ...  0.865096  0.839678     0.847304     physics
+18               30           64        0.491789             60  ...  0.860270  0.884983     0.877569     physics
+19               25          128        0.389649            120  ...  0.819912  0.857697     0.846361     physics
+
+[20 rows x 12 columns]
+2026-03-10 19:08:51,233 | 900688 | INFO | ...
+2026-03-10 19:08:51,251 | 900688 | INFO | _queue_iter_idx  hidden_size  output_dropout  seq_length_1D  ...    NSE_1D    NSE_1H  _rank_score  model_type
+18               30           64        0.491789             60  ...  0.860270  0.884983     0.877569     physics
+19               25          128        0.389649            120  ...  0.819912  0.857697     0.846361     physics
+20                2          384        0.238924             60  ...  0.888872  0.888577     0.888665     physics
+21               31          128        0.403052             90  ...  0.896221  0.876827     0.882645     physics
+22               16          256        0.447210             60  ...  0.907924  0.913339     0.911714     physics
+23                7          384        0.184956            120  ...  0.870769  0.849976     0.856214     physics
+24               15          384        0.154038             90  ...  0.867691  0.882793     0.878262     physics
+25                9          384        0.166907            120  ...  0.851002  0.855157     0.853910     physics
+26               18          384        0.584288             60  ...  0.814936  0.900760     0.875013     physics
+27               29          384        0.463919            120  ...  0.881344  0.888159     0.886115     physics
+28               35          256        0.070242             90  ...  0.888118  0.861189     0.869268     physics
+29               27          384        0.300710             60  ...  0.812492  0.890014     0.866758     physics
+30               20          384        0.241843             90  ...  0.899015  0.894604     0.895927     physics
+31               19          384        0.451841             90  ...  0.890738  0.881320     0.884146     physics
+32               37          256        0.090277             90  ...  0.877340  0.863829     0.867883     physics
+33               28          384        0.537354             60  ...  0.903459  0.896444     0.898548     physics
+34               33          384        0.074917             90  ...  0.861507  0.881877     0.875766     physics
+35               34          384        0.052088             90  ...  0.881417  0.869098     0.872794     physics
+36               32          384        0.424857             90  ...  0.898504  0.883740     0.888169     physics
+37               36          384        0.054575             90  ...  0.891987  0.855528     0.866466     physics
+
+[20 rows x 12 columns]
+2026-03-10 19:08:51,259 | 900688 | INFO | [CHECKPOINT STATUS]
+2026-03-10 19:08:51,259 | 900688 | INFO | rows in file: 38
+2026-03-10 19:08:51,259 | 900688 | INFO | completed trials: 38
+2026-03-10 19:08:51,259 | 900688 | INFO | [RESUME] starting from trial 38
+2026-03-10 19:08:51,357 | 900688 | INFO | [ENQUEUE TRIAL] trial 39 physics
+2026-03-10 19:08:51,357 | 900688 | INFO | [BAYES QUEUE STATE]
+2026-03-10 19:08:51,357 | 900688 | INFO | pending_jobs = 5
+2026-03-10 19:08:51,357 | 900688 | INFO | inflight_trials = [38]
+2026-03-10 19:08:51,358 | 900688 | INFO | queue[0000] trial 39 fold 1 physics
+2026-03-10 19:08:51,358 | 900688 | INFO | queue[0001] trial 39 fold 2 physics
+2026-03-10 19:08:51,358 | 900688 | INFO | queue[0002] trial 39 fold 3 physics
+2026-03-10 19:08:51,358 | 900688 | INFO | queue[0003] trial 39 fold 4 physics
+2026-03-10 19:08:51,359 | 900688 | INFO | queue[0004] trial 39 fold 5 physics
+2026-03-10 19:08:51,359 | 900688 | INFO | [END BAYES QUEUE]
+2026-03-10 19:11:11,771 | 900688 | INFO | Traceback (most recent call last):
+2026-03-10 19:11:11,771 | 900688 | INFO | File "/global/scratch/users/maxwellfung/UCB-USACE-RR-PROJECT/run_hyperparam_search.py", line 1452, in <module>
+2026-03-10 19:11:11,773 | 900688 | INFO | File "/global/scratch/users/maxwellfung/UCB-USACE-RR-PROJECT/run_hyperparam_search.py", line 1156, in main
+2026-03-10 19:11:11,776 | 900688 | INFO | )
+2026-03-10 19:11:11,777 | 900688 | INFO | File "/global/scratch/users/maxwellfung/UCB-USACE-RR-PROJECT/run_hyperparam_search.py", line 1015, in run_bayes_streaming_queue
+2026-03-10 19:11:11,778 | 900688 | INFO | This is now the worker entrypoint used by the streaming scheduler.
+2026-03-10 19:11:11,778 | 900688 | INFO | KeyboardInterrupt
+2026-03-10 19:11:27,486 | 901514 | INFO | [+   0.02s]
+2026-03-10 19:11:27,486 | 901514 | INFO | Basin: guerneville, GPU: -1, Verbose: True
+2026-03-10 19:11:27,487 | 901514 | INFO | [+   0.02s]
+2026-03-10 19:11:27,487 | 901514 | INFO | Pre-warming numba JIT ...
+2026-03-10 19:11:29,813 | 901514 | INFO | [+   2.34s]
+2026-03-10 19:11:29,813 | 901514 | INFO | Numba JIT pre-compiled.
+2026-03-10 19:11:29,814 | 901514 | INFO | YAML PATH:
+2026-03-10 19:11:29,814 | 901514 | INFO | /global/scratch/users/maxwellfung/UCB-USACE-RR-PROJECT/UCB_training/configs/guerneville_mtslstm2.yaml
+2026-03-10 19:11:29,816 | 901514 | INFO | [+   2.35s]
+2026-03-10 19:11:29,816 | 901514 | INFO | 288 combinations, 1 workers
+2026-03-10 19:11:29,816 | 901514 | INFO | run_gridsearch =
+2026-03-10 19:11:29,816 | 901514 | INFO | False
+2026-03-10 19:11:29,817 | 901514 | INFO | hparams_exists =
+2026-03-10 19:11:29,817 | 901514 | INFO | False
+2026-03-10 19:11:29,869 | 901514 | INFO | [EXTERNAL CV FOLDS]
+2026-03-10 19:11:29,869 | 901514 | INFO | fold 1: train 01/10/1994 -> 01/10/1996 | val 02/10/1996 -> 01/10/1997 | eval 02/10/1996 -> 01/10/1997
+2026-03-10 19:11:29,869 | 901514 | INFO | fold 2: train 01/10/1994 -> 01/10/1998 | val 02/10/1998 -> 01/10/1999 | eval 02/10/1998 -> 01/10/1999
+2026-03-10 19:11:29,870 | 901514 | INFO | fold 3: train 01/10/1994 -> 01/10/2000 | val 02/10/2000 -> 01/10/2001 | eval 02/10/2000 -> 01/10/2001
+2026-03-10 19:11:29,870 | 901514 | INFO | fold 4: train 01/10/1994 -> 01/10/2002 | val 02/10/2002 -> 01/10/2003 | eval 02/10/2002 -> 01/10/2003
+2026-03-10 19:11:29,870 | 901514 | INFO | fold 5: train 01/10/1994 -> 01/10/2004 | val 02/10/2004 -> 01/10/2005 | eval 02/10/2004 -> 01/10/2005
+2026-03-10 19:11:29,870 | 901514 | INFO | [EXTERNAL CV FOLDS] total folds = 5
+2026-03-10 19:11:29,871 | 901514 | INFO | [BAYESIAN OPTIMIZATION] Using 1 parallel workers
+2026-03-10 19:11:29,930 | 901514 | INFO | [BAYES] no_physics: 1 parallel trials x 5 folds = up to 5 workers
+2026-03-10 19:11:29,930 | 901514 | INFO | /global/scratch/users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/hyperparams/archive/guerneville_mts_CROSS_VAL_V4_no_physics_gridsearch_20260307T122221Z.csv
+2026-03-10 19:11:29,937 | 901514 | INFO | [REPLAYING COMPLETED TRIALS FROM CSV]
+2026-03-10 19:11:29,937 | 901514 | INFO | [Trial 1] already completed
+2026-03-10 19:11:29,937 | 901514 | INFO | [Trial 2] already completed
+2026-03-10 19:11:29,937 | 901514 | INFO | [Trial 3] already completed
+2026-03-10 19:11:29,938 | 901514 | INFO | [Trial 4] already completed
+2026-03-10 19:11:29,938 | 901514 | INFO | [Trial 5] already completed
+2026-03-10 19:11:29,938 | 901514 | INFO | [Trial 6] already completed
+2026-03-10 19:11:29,938 | 901514 | INFO | [Trial 7] already completed
+2026-03-10 19:11:29,939 | 901514 | INFO | [Trial 8] already completed
+2026-03-10 19:11:29,939 | 901514 | INFO | [Trial 9] already completed
+2026-03-10 19:11:29,939 | 901514 | INFO | [Trial 10] already completed
+2026-03-10 19:11:29,939 | 901514 | INFO | [Trial 11] already completed
+2026-03-10 19:11:29,939 | 901514 | INFO | [Trial 12] already completed
+2026-03-10 19:11:29,940 | 901514 | INFO | [Trial 13] already completed
+2026-03-10 19:11:29,940 | 901514 | INFO | [Trial 14] already completed
+2026-03-10 19:11:29,940 | 901514 | INFO | [Trial 15] already completed
+2026-03-10 19:11:29,940 | 901514 | INFO | [Trial 16] already completed
+2026-03-10 19:11:29,940 | 901514 | INFO | [Trial 17] already completed
+2026-03-10 19:11:29,941 | 901514 | INFO | [Trial 18] already completed
+2026-03-10 19:11:29,941 | 901514 | INFO | [Trial 19] already completed
+2026-03-10 19:11:29,941 | 901514 | INFO | [Trial 20] already completed
+2026-03-10 19:11:29,941 | 901514 | INFO | [Trial 21] already completed
+2026-03-10 19:11:29,942 | 901514 | INFO | [Trial 22] already completed
+2026-03-10 19:11:29,942 | 901514 | INFO | [Trial 23] already completed
+2026-03-10 19:11:29,942 | 901514 | INFO | [Trial 24] already completed
+2026-03-10 19:11:29,942 | 901514 | INFO | [Trial 25] already completed
+2026-03-10 19:11:29,942 | 901514 | INFO | [Trial 26] already completed
+2026-03-10 19:11:29,943 | 901514 | INFO | [Trial 27] already completed
+2026-03-10 19:11:29,943 | 901514 | INFO | [Trial 28] already completed
+2026-03-10 19:11:29,943 | 901514 | INFO | [Trial 29] already completed
+2026-03-10 19:11:29,943 | 901514 | INFO | [Trial 30] already completed
+2026-03-10 19:11:29,943 | 901514 | INFO | [Trial 31] already completed
+2026-03-10 19:11:29,944 | 901514 | INFO | [Trial 32] already completed
+2026-03-10 19:11:29,944 | 901514 | INFO | [Trial 33] already completed
+2026-03-10 19:11:29,944 | 901514 | INFO | [Trial 34] already completed
+2026-03-10 19:11:29,944 | 901514 | INFO | [Trial 35] already completed
+2026-03-10 19:11:29,945 | 901514 | INFO | [Trial 36] already completed
+2026-03-10 19:11:29,945 | 901514 | INFO | [Trial 37] already completed
+2026-03-10 19:11:29,945 | 901514 | INFO | [Trial 38] already completed
+2026-03-10 19:11:29,945 | 901514 | INFO | [Trial 39] already completed
+2026-03-10 19:11:29,946 | 901514 | INFO | [Trial 40] already completed
+2026-03-10 19:11:29,946 | 901514 | INFO | [Trial 41] already completed
+2026-03-10 19:11:29,946 | 901514 | INFO | [Trial 42] already completed
+2026-03-10 19:11:29,946 | 901514 | INFO | [Trial 43] already completed
+2026-03-10 19:11:29,946 | 901514 | INFO | [Trial 44] already completed
+2026-03-10 19:11:29,947 | 901514 | INFO | [Trial 45] already completed
+2026-03-10 19:11:29,947 | 901514 | INFO | [Trial 46] already completed
+2026-03-10 19:11:29,947 | 901514 | INFO | [Trial 47] already completed
+2026-03-10 19:11:29,947 | 901514 | INFO | [Trial 48] already completed
+2026-03-10 19:11:29,948 | 901514 | INFO | [REPLAY COMPLETE] 48 trials already finished
+2026-03-10 19:11:29,948 | 901514 | INFO | [RESUME] starting from trial 48
+2026-03-10 19:11:29,948 | 901514 | INFO | [BAYES] no_physics already finished (48/48)
+2026-03-10 19:11:29,991 | 901514 | INFO | [BAYES] physics: 1 parallel trials x 5 folds = up to 5 workers
+2026-03-10 19:11:29,991 | 901514 | INFO | /global/scratch/users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/hyperparams/archive/guerneville_mts_CROSS_VAL_V4_physics_gridsearch_20260307T122221Z.csv
+2026-03-10 19:11:29,995 | 901514 | INFO | [REPLAYING COMPLETED TRIALS FROM CSV]
+2026-03-10 19:11:29,995 | 901514 | INFO | [Trial 1] already completed
+2026-03-10 19:11:29,995 | 901514 | INFO | [Trial 2] already completed
+2026-03-10 19:11:29,995 | 901514 | INFO | [Trial 3] already completed
+2026-03-10 19:11:29,996 | 901514 | INFO | [Trial 4] already completed
+2026-03-10 19:11:29,996 | 901514 | INFO | [Trial 5] already completed
+2026-03-10 19:11:29,996 | 901514 | INFO | [Trial 6] already completed
+2026-03-10 19:11:29,996 | 901514 | INFO | [Trial 7] already completed
+2026-03-10 19:11:29,997 | 901514 | INFO | [Trial 8] already completed
+2026-03-10 19:11:29,997 | 901514 | INFO | [Trial 9] already completed
+2026-03-10 19:11:29,997 | 901514 | INFO | [Trial 10] already completed
+2026-03-10 19:11:29,997 | 901514 | INFO | [Trial 11] already completed
+2026-03-10 19:11:29,998 | 901514 | INFO | [Trial 12] already completed
+2026-03-10 19:11:29,998 | 901514 | INFO | [Trial 13] already completed
+2026-03-10 19:11:29,998 | 901514 | INFO | [Trial 14] already completed
+2026-03-10 19:11:29,998 | 901514 | INFO | [Trial 15] already completed
+2026-03-10 19:11:29,998 | 901514 | INFO | [Trial 16] already completed
+2026-03-10 19:11:29,999 | 901514 | INFO | [Trial 17] already completed
+2026-03-10 19:11:29,999 | 901514 | INFO | [Trial 18] already completed
+2026-03-10 19:11:29,999 | 901514 | INFO | [Trial 19] already completed
+2026-03-10 19:11:29,999 | 901514 | INFO | [Trial 20] already completed
+2026-03-10 19:11:30,000 | 901514 | INFO | [Trial 21] already completed
+2026-03-10 19:11:30,000 | 901514 | INFO | [Trial 22] already completed
+2026-03-10 19:11:30,000 | 901514 | INFO | [Trial 23] already completed
+2026-03-10 19:11:30,000 | 901514 | INFO | [Trial 24] already completed
+2026-03-10 19:11:30,001 | 901514 | INFO | [Trial 25] already completed
+2026-03-10 19:11:30,001 | 901514 | INFO | [Trial 26] already completed
+2026-03-10 19:11:30,001 | 901514 | INFO | [Trial 27] already completed
+2026-03-10 19:11:30,001 | 901514 | INFO | [Trial 28] already completed
+2026-03-10 19:11:30,001 | 901514 | INFO | [Trial 29] already completed
+2026-03-10 19:11:30,002 | 901514 | INFO | [Trial 30] already completed
+2026-03-10 19:11:30,002 | 901514 | INFO | [Trial 31] already completed
+2026-03-10 19:11:30,002 | 901514 | INFO | [Trial 32] already completed
+2026-03-10 19:11:30,002 | 901514 | INFO | [Trial 33] already completed
+2026-03-10 19:11:30,003 | 901514 | INFO | [Trial 34] already completed
+2026-03-10 19:11:30,003 | 901514 | INFO | [Trial 35] already completed
+2026-03-10 19:11:30,003 | 901514 | INFO | [Trial 36] already completed
+2026-03-10 19:11:30,003 | 901514 | INFO | [Trial 37] already completed
+2026-03-10 19:11:30,004 | 901514 | INFO | [Trial 38] already completed
+2026-03-10 19:11:30,004 | 901514 | INFO | [REPLAY COMPLETE] 38 trials already finished
+2026-03-10 19:11:30,004 | 901514 | INFO | [RESUME] starting from trial 38
+2026-03-10 19:11:30,118 | 901514 | INFO | [ENQUEUE TRIAL] trial 39 physics
+2026-03-10 19:11:30,118 | 901514 | INFO | [BAYES QUEUE STATE]
+2026-03-10 19:11:30,118 | 901514 | INFO | pending_jobs = 5
+2026-03-10 19:11:30,118 | 901514 | INFO | inflight_trials = [38]
+2026-03-10 19:11:30,119 | 901514 | INFO | queue[0000] trial 39 fold 1 physics
+2026-03-10 19:11:30,119 | 901514 | INFO | queue[0001] trial 39 fold 2 physics
+2026-03-10 19:11:30,119 | 901514 | INFO | queue[0002] trial 39 fold 3 physics
+2026-03-10 19:11:30,119 | 901514 | INFO | queue[0003] trial 39 fold 4 physics
+2026-03-10 19:11:30,119 | 901514 | INFO | queue[0004] trial 39 fold 5 physics
+2026-03-10 19:11:30,120 | 901514 | INFO | [END BAYES QUEUE]
+2026-03-10 19:12:08,298 | 901514 | INFO | Traceback (most recent call last):
+2026-03-10 19:12:08,298 | 901514 | INFO | File "/global/scratch/users/maxwellfung/UCB-USACE-RR-PROJECT/run_hyperparam_search.py", line 1447, in <module>
+2026-03-10 19:12:08,300 | 901514 | INFO | setup_logging()
+2026-03-10 19:12:08,300 | 901514 | INFO | File "/global/scratch/users/maxwellfung/UCB-USACE-RR-PROJECT/run_hyperparam_search.py", line 1151, in main
+2026-03-10 19:12:08,301 | 901514 | INFO | File "/global/scratch/users/maxwellfung/UCB-USACE-RR-PROJECT/run_hyperparam_search.py", line 1010, in run_bayes_streaming_queue
+2026-03-10 19:12:08,302 | 901514 | INFO | KeyboardInterrupt
+2026-03-10 19:12:20,981 | 901866 | INFO | [+   0.01s]
+2026-03-10 19:12:20,982 | 901866 | INFO | Basin: guerneville, GPU: -1, Verbose: True
+2026-03-10 19:12:20,982 | 901866 | INFO | [+   0.01s]
+2026-03-10 19:12:20,982 | 901866 | INFO | Pre-warming numba JIT ...
+2026-03-10 19:12:23,589 | 901866 | INFO | [+   2.62s]
+2026-03-10 19:12:23,589 | 901866 | INFO | Numba JIT pre-compiled.
+2026-03-10 19:12:23,590 | 901866 | INFO | YAML PATH:
+2026-03-10 19:12:23,591 | 901866 | INFO | /global/scratch/users/maxwellfung/UCB-USACE-RR-PROJECT/UCB_training/configs/guerneville_mtslstm2.yaml
+2026-03-10 19:12:23,591 | 901866 | INFO | [+   2.62s]
+2026-03-10 19:12:23,592 | 901866 | INFO | 288 combinations, 1 workers
+2026-03-10 19:12:23,592 | 901866 | INFO | run_gridsearch =
+2026-03-10 19:12:23,592 | 901866 | INFO | False
+2026-03-10 19:12:23,593 | 901866 | INFO | hparams_exists =
+2026-03-10 19:12:23,593 | 901866 | INFO | False
+2026-03-10 19:12:23,644 | 901866 | INFO | [EXTERNAL CV FOLDS]
+2026-03-10 19:12:23,644 | 901866 | INFO | fold 1: train 01/10/1994 -> 01/10/1996 | val 02/10/1996 -> 01/10/1997 | eval 02/10/1996 -> 01/10/1997
+2026-03-10 19:12:23,645 | 901866 | INFO | fold 2: train 01/10/1994 -> 01/10/1998 | val 02/10/1998 -> 01/10/1999 | eval 02/10/1998 -> 01/10/1999
+2026-03-10 19:12:23,645 | 901866 | INFO | fold 3: train 01/10/1994 -> 01/10/2000 | val 02/10/2000 -> 01/10/2001 | eval 02/10/2000 -> 01/10/2001
+2026-03-10 19:12:23,645 | 901866 | INFO | fold 4: train 01/10/1994 -> 01/10/2002 | val 02/10/2002 -> 01/10/2003 | eval 02/10/2002 -> 01/10/2003
+2026-03-10 19:12:23,645 | 901866 | INFO | fold 5: train 01/10/1994 -> 01/10/2004 | val 02/10/2004 -> 01/10/2005 | eval 02/10/2004 -> 01/10/2005
+2026-03-10 19:12:23,646 | 901866 | INFO | [EXTERNAL CV FOLDS] total folds = 5
+2026-03-10 19:12:23,646 | 901866 | INFO | [BAYESIAN OPTIMIZATION] Using 1 parallel workers
+2026-03-10 19:12:23,685 | 901866 | INFO | [BAYES] no_physics: 1 parallel trials x 5 folds = up to 5 workers
+2026-03-10 19:12:23,685 | 901866 | INFO | /global/scratch/users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/hyperparams/archive/guerneville_mts_CROSS_VAL_V4_no_physics_gridsearch_20260307T122221Z.csv
+2026-03-10 19:12:23,690 | 901866 | INFO | [REPLAYING COMPLETED TRIALS FROM CSV]
+2026-03-10 19:12:23,690 | 901866 | INFO | [Trial 1 No-Physics] already completed
+2026-03-10 19:12:23,690 | 901866 | INFO | [Trial 2 No-Physics] already completed
+2026-03-10 19:12:23,690 | 901866 | INFO | [Trial 3 No-Physics] already completed
+2026-03-10 19:12:23,691 | 901866 | INFO | [Trial 4 No-Physics] already completed
+2026-03-10 19:12:23,691 | 901866 | INFO | [Trial 5 No-Physics] already completed
+2026-03-10 19:12:23,691 | 901866 | INFO | [Trial 6 No-Physics] already completed
+2026-03-10 19:12:23,691 | 901866 | INFO | [Trial 7 No-Physics] already completed
+2026-03-10 19:12:23,692 | 901866 | INFO | [Trial 8 No-Physics] already completed
+2026-03-10 19:12:23,692 | 901866 | INFO | [Trial 9 No-Physics] already completed
+2026-03-10 19:12:23,692 | 901866 | INFO | [Trial 10 No-Physics] already completed
+2026-03-10 19:12:23,692 | 901866 | INFO | [Trial 11 No-Physics] already completed
+2026-03-10 19:12:23,692 | 901866 | INFO | [Trial 12 No-Physics] already completed
+2026-03-10 19:12:23,693 | 901866 | INFO | [Trial 13 No-Physics] already completed
+2026-03-10 19:12:23,693 | 901866 | INFO | [Trial 14 No-Physics] already completed
+2026-03-10 19:12:23,693 | 901866 | INFO | [Trial 15 No-Physics] already completed
+2026-03-10 19:12:23,693 | 901866 | INFO | [Trial 16 No-Physics] already completed
+2026-03-10 19:12:23,694 | 901866 | INFO | [Trial 17 No-Physics] already completed
+2026-03-10 19:12:23,694 | 901866 | INFO | [Trial 18 No-Physics] already completed
+2026-03-10 19:12:23,694 | 901866 | INFO | [Trial 19 No-Physics] already completed
+2026-03-10 19:12:23,694 | 901866 | INFO | [Trial 20 No-Physics] already completed
+2026-03-10 19:12:23,694 | 901866 | INFO | [Trial 21 No-Physics] already completed
+2026-03-10 19:12:23,695 | 901866 | INFO | [Trial 22 No-Physics] already completed
+2026-03-10 19:12:23,695 | 901866 | INFO | [Trial 23 No-Physics] already completed
+2026-03-10 19:12:23,695 | 901866 | INFO | [Trial 24 No-Physics] already completed
+2026-03-10 19:12:23,695 | 901866 | INFO | [Trial 25 No-Physics] already completed
+2026-03-10 19:12:23,696 | 901866 | INFO | [Trial 26 No-Physics] already completed
+2026-03-10 19:12:23,696 | 901866 | INFO | [Trial 27 No-Physics] already completed
+2026-03-10 19:12:23,696 | 901866 | INFO | [Trial 28 No-Physics] already completed
+2026-03-10 19:12:23,696 | 901866 | INFO | [Trial 29 No-Physics] already completed
+2026-03-10 19:12:23,696 | 901866 | INFO | [Trial 30 No-Physics] already completed
+2026-03-10 19:12:23,697 | 901866 | INFO | [Trial 31 No-Physics] already completed
+2026-03-10 19:12:23,697 | 901866 | INFO | [Trial 32 No-Physics] already completed
+2026-03-10 19:12:23,697 | 901866 | INFO | [Trial 33 No-Physics] already completed
+2026-03-10 19:12:23,697 | 901866 | INFO | [Trial 34 No-Physics] already completed
+2026-03-10 19:12:23,697 | 901866 | INFO | [Trial 35 No-Physics] already completed
+2026-03-10 19:12:23,698 | 901866 | INFO | [Trial 36 No-Physics] already completed
+2026-03-10 19:12:23,698 | 901866 | INFO | [Trial 37 No-Physics] already completed
+2026-03-10 19:12:23,698 | 901866 | INFO | [Trial 38 No-Physics] already completed
+2026-03-10 19:12:23,698 | 901866 | INFO | [Trial 39 No-Physics] already completed
+2026-03-10 19:12:23,698 | 901866 | INFO | [Trial 40 No-Physics] already completed
+2026-03-10 19:12:23,699 | 901866 | INFO | [Trial 41 No-Physics] already completed
+2026-03-10 19:12:23,699 | 901866 | INFO | [Trial 42 No-Physics] already completed
+2026-03-10 19:12:23,699 | 901866 | INFO | [Trial 43 No-Physics] already completed
+2026-03-10 19:12:23,699 | 901866 | INFO | [Trial 44 No-Physics] already completed
+2026-03-10 19:12:23,700 | 901866 | INFO | [Trial 45 No-Physics] already completed
+2026-03-10 19:12:23,700 | 901866 | INFO | [Trial 46 No-Physics] already completed
+2026-03-10 19:12:23,700 | 901866 | INFO | [Trial 47 No-Physics] already completed
+2026-03-10 19:12:23,700 | 901866 | INFO | [Trial 48 No-Physics] already completed
+2026-03-10 19:12:23,700 | 901866 | INFO | [REPLAY COMPLETE] 48 trials already finished
+2026-03-10 19:12:23,701 | 901866 | INFO | [RESUME] starting from trial 48
+2026-03-10 19:12:23,701 | 901866 | INFO | [BAYES] no_physics already finished (48/48)
+2026-03-10 19:12:23,745 | 901866 | INFO | [BAYES] physics: 1 parallel trials x 5 folds = up to 5 workers
+2026-03-10 19:12:23,746 | 901866 | INFO | /global/scratch/users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/hyperparams/archive/guerneville_mts_CROSS_VAL_V4_physics_gridsearch_20260307T122221Z.csv
+2026-03-10 19:12:23,749 | 901866 | INFO | [REPLAYING COMPLETED TRIALS FROM CSV]
+2026-03-10 19:12:23,749 | 901866 | INFO | [Trial 1 Physics] already completed
+2026-03-10 19:12:23,749 | 901866 | INFO | [Trial 2 Physics] already completed
+2026-03-10 19:12:23,749 | 901866 | INFO | [Trial 3 Physics] already completed
+2026-03-10 19:12:23,750 | 901866 | INFO | [Trial 4 Physics] already completed
+2026-03-10 19:12:23,750 | 901866 | INFO | [Trial 5 Physics] already completed
+2026-03-10 19:12:23,750 | 901866 | INFO | [Trial 6 Physics] already completed
+2026-03-10 19:12:23,750 | 901866 | INFO | [Trial 7 Physics] already completed
+2026-03-10 19:12:23,751 | 901866 | INFO | [Trial 8 Physics] already completed
+2026-03-10 19:12:23,751 | 901866 | INFO | [Trial 9 Physics] already completed
+2026-03-10 19:12:23,751 | 901866 | INFO | [Trial 10 Physics] already completed
+2026-03-10 19:12:23,751 | 901866 | INFO | [Trial 11 Physics] already completed
+2026-03-10 19:12:23,751 | 901866 | INFO | [Trial 12 Physics] already completed
+2026-03-10 19:12:23,752 | 901866 | INFO | [Trial 13 Physics] already completed
+2026-03-10 19:12:23,752 | 901866 | INFO | [Trial 14 Physics] already completed
+2026-03-10 19:12:23,752 | 901866 | INFO | [Trial 15 Physics] already completed
+2026-03-10 19:12:23,752 | 901866 | INFO | [Trial 16 Physics] already completed
+2026-03-10 19:12:23,753 | 901866 | INFO | [Trial 17 Physics] already completed
+2026-03-10 19:12:23,753 | 901866 | INFO | [Trial 18 Physics] already completed
+2026-03-10 19:12:23,753 | 901866 | INFO | [Trial 19 Physics] already completed
+2026-03-10 19:12:23,753 | 901866 | INFO | [Trial 20 Physics] already completed
+2026-03-10 19:12:23,753 | 901866 | INFO | [Trial 21 Physics] already completed
+2026-03-10 19:12:23,754 | 901866 | INFO | [Trial 22 Physics] already completed
+2026-03-10 19:12:23,754 | 901866 | INFO | [Trial 23 Physics] already completed
+2026-03-10 19:12:23,754 | 901866 | INFO | [Trial 24 Physics] already completed
+2026-03-10 19:12:23,754 | 901866 | INFO | [Trial 25 Physics] already completed
+2026-03-10 19:12:23,755 | 901866 | INFO | [Trial 26 Physics] already completed
+2026-03-10 19:12:23,755 | 901866 | INFO | [Trial 27 Physics] already completed
+2026-03-10 19:12:23,755 | 901866 | INFO | [Trial 28 Physics] already completed
+2026-03-10 19:12:23,755 | 901866 | INFO | [Trial 29 Physics] already completed
+2026-03-10 19:12:23,755 | 901866 | INFO | [Trial 30 Physics] already completed
+2026-03-10 19:12:23,756 | 901866 | INFO | [Trial 31 Physics] already completed
+2026-03-10 19:12:23,756 | 901866 | INFO | [Trial 32 Physics] already completed
+2026-03-10 19:12:23,756 | 901866 | INFO | [Trial 33 Physics] already completed
+2026-03-10 19:12:23,756 | 901866 | INFO | [Trial 34 Physics] already completed
+2026-03-10 19:12:23,757 | 901866 | INFO | [Trial 35 Physics] already completed
+2026-03-10 19:12:23,757 | 901866 | INFO | [Trial 36 Physics] already completed
+2026-03-10 19:12:23,757 | 901866 | INFO | [Trial 37 Physics] already completed
+2026-03-10 19:12:23,757 | 901866 | INFO | [Trial 38 Physics] already completed
+2026-03-10 19:12:23,757 | 901866 | INFO | [REPLAY COMPLETE] 38 trials already finished
+2026-03-10 19:12:23,758 | 901866 | INFO | [RESUME] starting from trial 38
+2026-03-10 19:12:23,837 | 901866 | INFO | [ENQUEUE TRIAL] trial 39 physics
+2026-03-10 19:12:23,838 | 901866 | INFO | [BAYES QUEUE STATE]
+2026-03-10 19:12:23,838 | 901866 | INFO | pending_jobs = 5
+2026-03-10 19:12:23,838 | 901866 | INFO | inflight_trials = [38]
+2026-03-10 19:12:23,838 | 901866 | INFO | queue[0000] trial 39 fold 1 physics
+2026-03-10 19:12:23,839 | 901866 | INFO | queue[0001] trial 39 fold 2 physics
+2026-03-10 19:12:23,839 | 901866 | INFO | queue[0002] trial 39 fold 3 physics
+2026-03-10 19:12:23,839 | 901866 | INFO | queue[0003] trial 39 fold 4 physics
+2026-03-10 19:12:23,839 | 901866 | INFO | queue[0004] trial 39 fold 5 physics
+2026-03-10 19:12:23,839 | 901866 | INFO | [END BAYES QUEUE]
+2026-03-10 19:13:05,365 | 901866 | INFO | Traceback (most recent call last):
+2026-03-10 19:13:05,366 | 901866 | INFO | File "/global/scratch/users/maxwellfung/UCB-USACE-RR-PROJECT/run_hyperparam_search.py", line 1448, in <module>
+2026-03-10 19:13:05,368 | 901866 | INFO | main()
+2026-03-10 19:13:05,368 | 901866 | INFO | File "/global/scratch/users/maxwellfung/UCB-USACE-RR-PROJECT/run_hyperparam_search.py", line 1152, in main
+2026-03-10 19:13:05,370 | 901866 | INFO | run_bayes_streaming_queue(
+2026-03-10 19:13:05,370 | 901866 | INFO | File "/global/scratch/users/maxwellfung/UCB-USACE-RR-PROJECT/run_hyperparam_search.py", line 1011, in run_bayes_streaming_queue
+2026-03-10 19:13:05,371 | 901866 | INFO | time.sleep(0.1)
+2026-03-10 19:13:05,371 | 901866 | INFO | KeyboardInterrupt
+2026-03-10 19:19:10,906 | 905608 | INFO | [+   0.02s]
+2026-03-10 19:19:10,907 | 905608 | INFO | Basin: guerneville, GPU: -1, Verbose: True
+2026-03-10 19:19:10,907 | 905608 | INFO | [+   0.02s]
+2026-03-10 19:19:10,908 | 905608 | INFO | Pre-warming numba JIT ...
+2026-03-10 19:19:13,633 | 905608 | INFO | [+   2.75s]
+2026-03-10 19:19:13,633 | 905608 | INFO | Numba JIT pre-compiled.
+2026-03-10 19:19:13,634 | 905608 | INFO | YAML PATH:
+2026-03-10 19:19:13,634 | 905608 | INFO | /global/scratch/users/maxwellfung/UCB-USACE-RR-PROJECT/UCB_training/configs/guerneville_mtslstm2.yaml
+2026-03-10 19:19:13,635 | 905608 | INFO | [+   2.75s]
+2026-03-10 19:19:13,635 | 905608 | INFO | 288 combinations, 1 workers
+2026-03-10 19:19:13,636 | 905608 | INFO | run_gridsearch =
+2026-03-10 19:19:13,636 | 905608 | INFO | False
+2026-03-10 19:19:13,636 | 905608 | INFO | hparams_exists =
+2026-03-10 19:19:13,637 | 905608 | INFO | False
+2026-03-10 19:19:13,691 | 905608 | INFO | [EXTERNAL CV FOLDS]
+2026-03-10 19:19:13,691 | 905608 | INFO | fold 1: train 01/10/1994 -> 01/10/1996 | val 02/10/1996 -> 01/10/1997 | eval 02/10/1996 -> 01/10/1997
+2026-03-10 19:19:13,691 | 905608 | INFO | fold 2: train 01/10/1994 -> 01/10/1998 | val 02/10/1998 -> 01/10/1999 | eval 02/10/1998 -> 01/10/1999
+2026-03-10 19:19:13,692 | 905608 | INFO | fold 3: train 01/10/1994 -> 01/10/2000 | val 02/10/2000 -> 01/10/2001 | eval 02/10/2000 -> 01/10/2001
+2026-03-10 19:19:13,692 | 905608 | INFO | fold 4: train 01/10/1994 -> 01/10/2002 | val 02/10/2002 -> 01/10/2003 | eval 02/10/2002 -> 01/10/2003
+2026-03-10 19:19:13,692 | 905608 | INFO | fold 5: train 01/10/1994 -> 01/10/2004 | val 02/10/2004 -> 01/10/2005 | eval 02/10/2004 -> 01/10/2005
+2026-03-10 19:19:13,692 | 905608 | INFO | [EXTERNAL CV FOLDS] total folds = 5
+2026-03-10 19:19:13,693 | 905608 | INFO | [BAYESIAN OPTIMIZATION] Using 1 parallel workers
+2026-03-10 19:19:13,753 | 905608 | INFO | [OPTUNA SEED] loading 48 trials from CSV
+2026-03-10 19:19:14,498 | 905608 | INFO | [OPTUNA SEED] study now has 99 trials
+2026-03-10 19:19:14,498 | 905608 | INFO | [BAYES] no_physics: 1 parallel trials x 5 folds = up to 5 workers
+2026-03-10 19:19:14,498 | 905608 | INFO | /global/scratch/users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/hyperparams/archive/guerneville_mts_CROSS_VAL_V4_no_physics_gridsearch_20260307T122221Z.csv
+2026-03-10 19:19:14,514 | 905608 | INFO | [REPLAYING COMPLETED TRIALS FROM CSV]
+2026-03-10 19:19:14,515 | 905608 | INFO | [Trial 1 No-Physics] already completed
+2026-03-10 19:19:14,515 | 905608 | INFO | [Trial 2 No-Physics] already completed
+2026-03-10 19:19:14,515 | 905608 | INFO | [Trial 3 No-Physics] already completed
+2026-03-10 19:19:14,515 | 905608 | INFO | [Trial 4 No-Physics] already completed
+2026-03-10 19:19:14,515 | 905608 | INFO | [Trial 5 No-Physics] already completed
+2026-03-10 19:19:14,516 | 905608 | INFO | [Trial 6 No-Physics] already completed
+2026-03-10 19:19:14,516 | 905608 | INFO | [Trial 7 No-Physics] already completed
+2026-03-10 19:19:14,516 | 905608 | INFO | [Trial 8 No-Physics] already completed
+2026-03-10 19:19:14,516 | 905608 | INFO | [Trial 9 No-Physics] already completed
+2026-03-10 19:19:14,517 | 905608 | INFO | [Trial 10 No-Physics] already completed
+2026-03-10 19:19:14,517 | 905608 | INFO | [Trial 11 No-Physics] already completed
+2026-03-10 19:19:14,517 | 905608 | INFO | [Trial 12 No-Physics] already completed
+2026-03-10 19:19:14,517 | 905608 | INFO | [Trial 13 No-Physics] already completed
+2026-03-10 19:19:14,517 | 905608 | INFO | [Trial 14 No-Physics] already completed
+2026-03-10 19:19:14,518 | 905608 | INFO | [Trial 15 No-Physics] already completed
+2026-03-10 19:19:14,518 | 905608 | INFO | [Trial 16 No-Physics] already completed
+2026-03-10 19:19:14,518 | 905608 | INFO | [Trial 17 No-Physics] already completed
+2026-03-10 19:19:14,518 | 905608 | INFO | [Trial 18 No-Physics] already completed
+2026-03-10 19:19:14,519 | 905608 | INFO | [Trial 19 No-Physics] already completed
+2026-03-10 19:19:14,519 | 905608 | INFO | [Trial 20 No-Physics] already completed
+2026-03-10 19:19:14,519 | 905608 | INFO | [Trial 21 No-Physics] already completed
+2026-03-10 19:19:14,519 | 905608 | INFO | [Trial 22 No-Physics] already completed
+2026-03-10 19:19:14,519 | 905608 | INFO | [Trial 23 No-Physics] already completed
+2026-03-10 19:19:14,520 | 905608 | INFO | [Trial 24 No-Physics] already completed
+2026-03-10 19:19:14,520 | 905608 | INFO | [Trial 25 No-Physics] already completed
+2026-03-10 19:19:14,520 | 905608 | INFO | [Trial 26 No-Physics] already completed
+2026-03-10 19:19:14,520 | 905608 | INFO | [Trial 27 No-Physics] already completed
+2026-03-10 19:19:14,520 | 905608 | INFO | [Trial 28 No-Physics] already completed
+2026-03-10 19:19:14,521 | 905608 | INFO | [Trial 29 No-Physics] already completed
+2026-03-10 19:19:14,521 | 905608 | INFO | [Trial 30 No-Physics] already completed
+2026-03-10 19:19:14,521 | 905608 | INFO | [Trial 31 No-Physics] already completed
+2026-03-10 19:19:14,521 | 905608 | INFO | [Trial 32 No-Physics] already completed
+2026-03-10 19:19:14,522 | 905608 | INFO | [Trial 33 No-Physics] already completed
+2026-03-10 19:19:14,522 | 905608 | INFO | [Trial 34 No-Physics] already completed
+2026-03-10 19:19:14,522 | 905608 | INFO | [Trial 35 No-Physics] already completed
+2026-03-10 19:19:14,522 | 905608 | INFO | [Trial 36 No-Physics] already completed
+2026-03-10 19:19:14,522 | 905608 | INFO | [Trial 37 No-Physics] already completed
+2026-03-10 19:19:14,523 | 905608 | INFO | [Trial 38 No-Physics] already completed
+2026-03-10 19:19:14,523 | 905608 | INFO | [Trial 39 No-Physics] already completed
+2026-03-10 19:19:14,523 | 905608 | INFO | [Trial 40 No-Physics] already completed
+2026-03-10 19:19:14,523 | 905608 | INFO | [Trial 41 No-Physics] already completed
+2026-03-10 19:19:14,523 | 905608 | INFO | [Trial 42 No-Physics] already completed
+2026-03-10 19:19:14,524 | 905608 | INFO | [Trial 43 No-Physics] already completed
+2026-03-10 19:19:14,524 | 905608 | INFO | [Trial 44 No-Physics] already completed
+2026-03-10 19:19:14,524 | 905608 | INFO | [Trial 45 No-Physics] already completed
+2026-03-10 19:19:14,524 | 905608 | INFO | [Trial 46 No-Physics] already completed
+2026-03-10 19:19:14,525 | 905608 | INFO | [Trial 47 No-Physics] already completed
+2026-03-10 19:19:14,525 | 905608 | INFO | [Trial 48 No-Physics] already completed
+2026-03-10 19:19:14,525 | 905608 | INFO | [REPLAY COMPLETE] 48 trials already finished
+2026-03-10 19:19:14,525 | 905608 | INFO | [RESUME] starting from trial 48
+2026-03-10 19:19:14,525 | 905608 | INFO | [BAYES] no_physics already finished (48/48)
+2026-03-10 19:19:14,625 | 905608 | INFO | [OPTUNA SEED] loading 38 trials from CSV
+2026-03-10 19:19:15,295 | 905608 | INFO | [OPTUNA SEED] study now has 90 trials
+2026-03-10 19:19:15,296 | 905608 | INFO | [BAYES] physics: 1 parallel trials x 5 folds = up to 5 workers
+2026-03-10 19:19:15,296 | 905608 | INFO | /global/scratch/users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/hyperparams/archive/guerneville_mts_CROSS_VAL_V4_physics_gridsearch_20260307T122221Z.csv
+2026-03-10 19:19:15,307 | 905608 | INFO | [REPLAYING COMPLETED TRIALS FROM CSV]
+2026-03-10 19:19:15,308 | 905608 | INFO | [Trial 1 Physics] already completed
+2026-03-10 19:19:15,308 | 905608 | INFO | [Trial 2 Physics] already completed
+2026-03-10 19:19:15,308 | 905608 | INFO | [Trial 3 Physics] already completed
+2026-03-10 19:19:15,308 | 905608 | INFO | [Trial 4 Physics] already completed
+2026-03-10 19:19:15,309 | 905608 | INFO | [Trial 5 Physics] already completed
+2026-03-10 19:19:15,309 | 905608 | INFO | [Trial 6 Physics] already completed
+2026-03-10 19:19:15,309 | 905608 | INFO | [Trial 7 Physics] already completed
+2026-03-10 19:19:15,309 | 905608 | INFO | [Trial 8 Physics] already completed
+2026-03-10 19:19:15,309 | 905608 | INFO | [Trial 9 Physics] already completed
+2026-03-10 19:19:15,310 | 905608 | INFO | [Trial 10 Physics] already completed
+2026-03-10 19:19:15,310 | 905608 | INFO | [Trial 11 Physics] already completed
+2026-03-10 19:19:15,310 | 905608 | INFO | [Trial 12 Physics] already completed
+2026-03-10 19:19:15,310 | 905608 | INFO | [Trial 13 Physics] already completed
+2026-03-10 19:19:15,311 | 905608 | INFO | [Trial 14 Physics] already completed
+2026-03-10 19:19:15,311 | 905608 | INFO | [Trial 15 Physics] already completed
+2026-03-10 19:19:15,311 | 905608 | INFO | [Trial 16 Physics] already completed
+2026-03-10 19:19:15,311 | 905608 | INFO | [Trial 17 Physics] already completed
+2026-03-10 19:19:15,311 | 905608 | INFO | [Trial 18 Physics] already completed
+2026-03-10 19:19:15,312 | 905608 | INFO | [Trial 19 Physics] already completed
+2026-03-10 19:19:15,312 | 905608 | INFO | [Trial 20 Physics] already completed
+2026-03-10 19:19:15,312 | 905608 | INFO | [Trial 21 Physics] already completed
+2026-03-10 19:19:15,312 | 905608 | INFO | [Trial 22 Physics] already completed
+2026-03-10 19:19:15,312 | 905608 | INFO | [Trial 23 Physics] already completed
+2026-03-10 19:19:15,313 | 905608 | INFO | [Trial 24 Physics] already completed
+2026-03-10 19:19:15,313 | 905608 | INFO | [Trial 25 Physics] already completed
+2026-03-10 19:19:15,313 | 905608 | INFO | [Trial 26 Physics] already completed
+2026-03-10 19:19:15,313 | 905608 | INFO | [Trial 27 Physics] already completed
+2026-03-10 19:19:15,314 | 905608 | INFO | [Trial 28 Physics] already completed
+2026-03-10 19:19:15,314 | 905608 | INFO | [Trial 29 Physics] already completed
+2026-03-10 19:19:15,314 | 905608 | INFO | [Trial 30 Physics] already completed
+2026-03-10 19:19:15,314 | 905608 | INFO | [Trial 31 Physics] already completed
+2026-03-10 19:19:15,314 | 905608 | INFO | [Trial 32 Physics] already completed
+2026-03-10 19:19:15,315 | 905608 | INFO | [Trial 33 Physics] already completed
+2026-03-10 19:19:15,315 | 905608 | INFO | [Trial 34 Physics] already completed
+2026-03-10 19:19:15,315 | 905608 | INFO | [Trial 35 Physics] already completed
+2026-03-10 19:19:15,315 | 905608 | INFO | [Trial 36 Physics] already completed
+2026-03-10 19:19:15,315 | 905608 | INFO | [Trial 37 Physics] already completed
+2026-03-10 19:19:15,316 | 905608 | INFO | [Trial 38 Physics] already completed
+2026-03-10 19:19:15,316 | 905608 | INFO | [REPLAY COMPLETE] 38 trials already finished
+2026-03-10 19:19:15,316 | 905608 | INFO | [RESUME] starting from trial 38
+2026-03-10 19:19:15,414 | 905608 | INFO | [ENQUEUE TRIAL] trial 39 physics
+2026-03-10 19:19:15,414 | 905608 | INFO | [BAYES QUEUE STATE]
+2026-03-10 19:19:15,414 | 905608 | INFO | pending_jobs = 5
+2026-03-10 19:19:15,415 | 905608 | INFO | inflight_trials = [38]
+2026-03-10 19:19:15,415 | 905608 | INFO | queue[0000] trial 39 fold 1 physics
+2026-03-10 19:19:15,415 | 905608 | INFO | queue[0001] trial 39 fold 2 physics
+2026-03-10 19:19:15,415 | 905608 | INFO | queue[0002] trial 39 fold 3 physics
+2026-03-10 19:19:15,416 | 905608 | INFO | queue[0003] trial 39 fold 4 physics
+2026-03-10 19:19:15,416 | 905608 | INFO | queue[0004] trial 39 fold 5 physics
+2026-03-10 19:19:15,416 | 905608 | INFO | [END BAYES QUEUE]
+2026-03-10 19:21:33,876 | 905608 | INFO | Traceback (most recent call last):
+2026-03-10 19:21:33,877 | 905608 | INFO | File "/global/scratch/users/maxwellfung/UCB-USACE-RR-PROJECT/run_hyperparam_search.py", line 1518, in <module>
+2026-03-10 19:21:33,878 | 905608 | INFO | main()
+2026-03-10 19:21:33,878 | 905608 | INFO | File "/global/scratch/users/maxwellfung/UCB-USACE-RR-PROJECT/run_hyperparam_search.py", line 1222, in main
+2026-03-10 19:21:33,879 | 905608 | INFO | run_bayes_streaming_queue(
+2026-03-10 19:21:33,880 | 905608 | INFO | File "/global/scratch/users/maxwellfung/UCB-USACE-RR-PROJECT/run_hyperparam_search.py", line 1063, in run_bayes_streaming_queue
+2026-03-10 19:21:33,887 | 905608 | INFO | time.sleep(0.1)
+2026-03-10 19:21:33,888 | 905608 | INFO | KeyboardInterrupt
+2026-03-10 19:21:49,063 | 908610 | INFO | [+   0.01s]
+2026-03-10 19:21:49,064 | 908610 | INFO | Basin: guerneville, GPU: -1, Verbose: True
+2026-03-10 19:21:49,064 | 908610 | INFO | [+   0.01s]
+2026-03-10 19:21:49,064 | 908610 | INFO | Pre-warming numba JIT ...
+2026-03-10 19:21:51,360 | 908610 | INFO | [+   2.30s]
+2026-03-10 19:21:51,360 | 908610 | INFO | Numba JIT pre-compiled.
+2026-03-10 19:21:51,361 | 908610 | INFO | YAML PATH:
+2026-03-10 19:21:51,361 | 908610 | INFO | /global/scratch/users/maxwellfung/UCB-USACE-RR-PROJECT/UCB_training/configs/guerneville_mtslstm2.yaml
+2026-03-10 19:21:51,362 | 908610 | INFO | [+   2.31s]
+2026-03-10 19:21:51,362 | 908610 | INFO | 288 combinations, 1 workers
+2026-03-10 19:21:51,363 | 908610 | INFO | run_gridsearch =
+2026-03-10 19:21:51,363 | 908610 | INFO | False
+2026-03-10 19:21:51,363 | 908610 | INFO | hparams_exists =
+2026-03-10 19:21:51,364 | 908610 | INFO | False
+2026-03-10 19:21:51,418 | 908610 | INFO | [EXTERNAL CV FOLDS]
+2026-03-10 19:21:51,418 | 908610 | INFO | fold 1: train 01/10/1994 -> 01/10/1996 | val 02/10/1996 -> 01/10/1997 | eval 02/10/1996 -> 01/10/1997
+2026-03-10 19:21:51,419 | 908610 | INFO | fold 2: train 01/10/1994 -> 01/10/1998 | val 02/10/1998 -> 01/10/1999 | eval 02/10/1998 -> 01/10/1999
+2026-03-10 19:21:51,419 | 908610 | INFO | fold 3: train 01/10/1994 -> 01/10/2000 | val 02/10/2000 -> 01/10/2001 | eval 02/10/2000 -> 01/10/2001
+2026-03-10 19:21:51,419 | 908610 | INFO | fold 4: train 01/10/1994 -> 01/10/2002 | val 02/10/2002 -> 01/10/2003 | eval 02/10/2002 -> 01/10/2003
+2026-03-10 19:21:51,419 | 908610 | INFO | fold 5: train 01/10/1994 -> 01/10/2004 | val 02/10/2004 -> 01/10/2005 | eval 02/10/2004 -> 01/10/2005
+2026-03-10 19:21:51,420 | 908610 | INFO | [EXTERNAL CV FOLDS] total folds = 5
+2026-03-10 19:21:51,420 | 908610 | INFO | [BAYESIAN OPTIMIZATION] Using 1 parallel workers
+2026-03-10 19:21:51,494 | 908610 | INFO | [OPTUNA SEED] loading 48 trials from CSV
+2026-03-10 19:21:52,325 | 908610 | INFO | [OPTUNA SEED] study now has 48 trials
+2026-03-10 19:21:52,325 | 908610 | INFO | [BAYES] no_physics: 1 parallel trials x 5 folds = up to 5 workers
+2026-03-10 19:21:52,326 | 908610 | INFO | /global/scratch/users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/hyperparams/archive/guerneville_mts_CROSS_VAL_V4_no_physics_gridsearch_20260307T122221Z.csv
+2026-03-10 19:21:52,334 | 908610 | INFO | [REPLAYING COMPLETED TRIALS FROM CSV]
+2026-03-10 19:21:52,334 | 908610 | INFO | [Trial 1 No-Physics] already completed
+2026-03-10 19:21:52,335 | 908610 | INFO | [Trial 2 No-Physics] already completed
+2026-03-10 19:21:52,335 | 908610 | INFO | [Trial 3 No-Physics] already completed
+2026-03-10 19:21:52,335 | 908610 | INFO | [Trial 4 No-Physics] already completed
+2026-03-10 19:21:52,335 | 908610 | INFO | [Trial 5 No-Physics] already completed
+2026-03-10 19:21:52,335 | 908610 | INFO | [Trial 6 No-Physics] already completed
+2026-03-10 19:21:52,336 | 908610 | INFO | [Trial 7 No-Physics] already completed
+2026-03-10 19:21:52,336 | 908610 | INFO | [Trial 8 No-Physics] already completed
+2026-03-10 19:21:52,336 | 908610 | INFO | [Trial 9 No-Physics] already completed
+2026-03-10 19:21:52,336 | 908610 | INFO | [Trial 10 No-Physics] already completed
+2026-03-10 19:21:52,337 | 908610 | INFO | [Trial 11 No-Physics] already completed
+2026-03-10 19:21:52,337 | 908610 | INFO | [Trial 12 No-Physics] already completed
+2026-03-10 19:21:52,337 | 908610 | INFO | [Trial 13 No-Physics] already completed
+2026-03-10 19:21:52,337 | 908610 | INFO | [Trial 14 No-Physics] already completed
+2026-03-10 19:21:52,337 | 908610 | INFO | [Trial 15 No-Physics] already completed
+2026-03-10 19:21:52,338 | 908610 | INFO | [Trial 16 No-Physics] already completed
+2026-03-10 19:21:52,338 | 908610 | INFO | [Trial 17 No-Physics] already completed
+2026-03-10 19:21:52,338 | 908610 | INFO | [Trial 18 No-Physics] already completed
+2026-03-10 19:21:52,338 | 908610 | INFO | [Trial 19 No-Physics] already completed
+2026-03-10 19:21:52,339 | 908610 | INFO | [Trial 20 No-Physics] already completed
+2026-03-10 19:21:52,339 | 908610 | INFO | [Trial 21 No-Physics] already completed
+2026-03-10 19:21:52,339 | 908610 | INFO | [Trial 22 No-Physics] already completed
+2026-03-10 19:21:52,339 | 908610 | INFO | [Trial 23 No-Physics] already completed
+2026-03-10 19:21:52,339 | 908610 | INFO | [Trial 24 No-Physics] already completed
+2026-03-10 19:21:52,340 | 908610 | INFO | [Trial 25 No-Physics] already completed
+2026-03-10 19:21:52,340 | 908610 | INFO | [Trial 26 No-Physics] already completed
+2026-03-10 19:21:52,340 | 908610 | INFO | [Trial 27 No-Physics] already completed
+2026-03-10 19:21:52,340 | 908610 | INFO | [Trial 28 No-Physics] already completed
+2026-03-10 19:21:52,340 | 908610 | INFO | [Trial 29 No-Physics] already completed
+2026-03-10 19:21:52,341 | 908610 | INFO | [Trial 30 No-Physics] already completed
+2026-03-10 19:21:52,341 | 908610 | INFO | [Trial 31 No-Physics] already completed
+2026-03-10 19:21:52,341 | 908610 | INFO | [Trial 32 No-Physics] already completed
+2026-03-10 19:21:52,341 | 908610 | INFO | [Trial 33 No-Physics] already completed
+2026-03-10 19:21:52,341 | 908610 | INFO | [Trial 34 No-Physics] already completed
+2026-03-10 19:21:52,342 | 908610 | INFO | [Trial 35 No-Physics] already completed
+2026-03-10 19:21:52,342 | 908610 | INFO | [Trial 36 No-Physics] already completed
+2026-03-10 19:21:52,342 | 908610 | INFO | [Trial 37 No-Physics] already completed
+2026-03-10 19:21:52,342 | 908610 | INFO | [Trial 38 No-Physics] already completed
+2026-03-10 19:21:52,343 | 908610 | INFO | [Trial 39 No-Physics] already completed
+2026-03-10 19:21:52,343 | 908610 | INFO | [Trial 40 No-Physics] already completed
+2026-03-10 19:21:52,343 | 908610 | INFO | [Trial 41 No-Physics] already completed
+2026-03-10 19:21:52,343 | 908610 | INFO | [Trial 42 No-Physics] already completed
+2026-03-10 19:21:52,343 | 908610 | INFO | [Trial 43 No-Physics] already completed
+2026-03-10 19:21:52,344 | 908610 | INFO | [Trial 44 No-Physics] already completed
+2026-03-10 19:21:52,344 | 908610 | INFO | [Trial 45 No-Physics] already completed
+2026-03-10 19:21:52,344 | 908610 | INFO | [Trial 46 No-Physics] already completed
+2026-03-10 19:21:52,344 | 908610 | INFO | [Trial 47 No-Physics] already completed
+2026-03-10 19:21:52,344 | 908610 | INFO | [Trial 48 No-Physics] already completed
+2026-03-10 19:21:52,345 | 908610 | INFO | [REPLAY COMPLETE] 48 trials already finished
+2026-03-10 19:21:52,345 | 908610 | INFO | [RESUME] starting from trial 48
+2026-03-10 19:21:52,345 | 908610 | INFO | [BAYES] no_physics already finished (48/48)
+2026-03-10 19:21:52,398 | 908610 | INFO | [OPTUNA SEED] loading 38 trials from CSV
+2026-03-10 19:21:52,997 | 908610 | INFO | [OPTUNA SEED] study now has 38 trials
+2026-03-10 19:21:52,998 | 908610 | INFO | [BAYES] physics: 1 parallel trials x 5 folds = up to 5 workers
+2026-03-10 19:21:52,998 | 908610 | INFO | /global/scratch/users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/hyperparams/archive/guerneville_mts_CROSS_VAL_V4_physics_gridsearch_20260307T122221Z.csv
+2026-03-10 19:21:53,013 | 908610 | INFO | [REPLAYING COMPLETED TRIALS FROM CSV]
+2026-03-10 19:21:53,013 | 908610 | INFO | [Trial 1 Physics] already completed
+2026-03-10 19:21:53,013 | 908610 | INFO | [Trial 2 Physics] already completed
+2026-03-10 19:21:53,014 | 908610 | INFO | [Trial 3 Physics] already completed
+2026-03-10 19:21:53,014 | 908610 | INFO | [Trial 4 Physics] already completed
+2026-03-10 19:21:53,014 | 908610 | INFO | [Trial 5 Physics] already completed
+2026-03-10 19:21:53,014 | 908610 | INFO | [Trial 6 Physics] already completed
+2026-03-10 19:21:53,014 | 908610 | INFO | [Trial 7 Physics] already completed
+2026-03-10 19:21:53,015 | 908610 | INFO | [Trial 8 Physics] already completed
+2026-03-10 19:21:53,015 | 908610 | INFO | [Trial 9 Physics] already completed
+2026-03-10 19:21:53,015 | 908610 | INFO | [Trial 10 Physics] already completed
+2026-03-10 19:21:53,015 | 908610 | INFO | [Trial 11 Physics] already completed
+2026-03-10 19:21:53,015 | 908610 | INFO | [Trial 12 Physics] already completed
+2026-03-10 19:21:53,016 | 908610 | INFO | [Trial 13 Physics] already completed
+2026-03-10 19:21:53,016 | 908610 | INFO | [Trial 14 Physics] already completed
+2026-03-10 19:21:53,016 | 908610 | INFO | [Trial 15 Physics] already completed
+2026-03-10 19:21:53,016 | 908610 | INFO | [Trial 16 Physics] already completed
+2026-03-10 19:21:53,016 | 908610 | INFO | [Trial 17 Physics] already completed
+2026-03-10 19:21:53,017 | 908610 | INFO | [Trial 18 Physics] already completed
+2026-03-10 19:21:53,017 | 908610 | INFO | [Trial 19 Physics] already completed
+2026-03-10 19:21:53,017 | 908610 | INFO | [Trial 20 Physics] already completed
+2026-03-10 19:21:53,017 | 908610 | INFO | [Trial 21 Physics] already completed
+2026-03-10 19:21:53,018 | 908610 | INFO | [Trial 22 Physics] already completed
+2026-03-10 19:21:53,018 | 908610 | INFO | [Trial 23 Physics] already completed
+2026-03-10 19:21:53,018 | 908610 | INFO | [Trial 24 Physics] already completed
+2026-03-10 19:21:53,018 | 908610 | INFO | [Trial 25 Physics] already completed
+2026-03-10 19:21:53,018 | 908610 | INFO | [Trial 26 Physics] already completed
+2026-03-10 19:21:53,019 | 908610 | INFO | [Trial 27 Physics] already completed
+2026-03-10 19:21:53,019 | 908610 | INFO | [Trial 28 Physics] already completed
+2026-03-10 19:21:53,019 | 908610 | INFO | [Trial 29 Physics] already completed
+2026-03-10 19:21:53,019 | 908610 | INFO | [Trial 30 Physics] already completed
+2026-03-10 19:21:53,019 | 908610 | INFO | [Trial 31 Physics] already completed
+2026-03-10 19:21:53,020 | 908610 | INFO | [Trial 32 Physics] already completed
+2026-03-10 19:21:53,020 | 908610 | INFO | [Trial 33 Physics] already completed
+2026-03-10 19:21:53,020 | 908610 | INFO | [Trial 34 Physics] already completed
+2026-03-10 19:21:53,020 | 908610 | INFO | [Trial 35 Physics] already completed
+2026-03-10 19:21:53,021 | 908610 | INFO | [Trial 36 Physics] already completed
+2026-03-10 19:21:53,021 | 908610 | INFO | [Trial 37 Physics] already completed
+2026-03-10 19:21:53,021 | 908610 | INFO | [Trial 38 Physics] already completed
+2026-03-10 19:21:53,021 | 908610 | INFO | [REPLAY COMPLETE] 38 trials already finished
+2026-03-10 19:21:53,021 | 908610 | INFO | [RESUME] starting from trial 38
+2026-03-10 19:21:53,135 | 908610 | INFO | [ENQUEUE TRIAL] trial 39 physics
+2026-03-10 19:21:53,136 | 908610 | INFO | [BAYES QUEUE STATE]
+2026-03-10 19:21:53,136 | 908610 | INFO | pending_jobs = 5
+2026-03-10 19:21:53,136 | 908610 | INFO | inflight_trials = [38]
+2026-03-10 19:21:53,136 | 908610 | INFO | queue[0000] trial 39 fold 1 physics
+2026-03-10 19:21:53,136 | 908610 | INFO | queue[0001] trial 39 fold 2 physics
+2026-03-10 19:21:53,137 | 908610 | INFO | queue[0002] trial 39 fold 3 physics
+2026-03-10 19:21:53,137 | 908610 | INFO | queue[0003] trial 39 fold 4 physics
+2026-03-10 19:21:53,137 | 908610 | INFO | queue[0004] trial 39 fold 5 physics
+2026-03-10 19:21:53,137 | 908610 | INFO | [END BAYES QUEUE]
+2026-03-10 19:26:04,210 | 908610 | INFO | Traceback (most recent call last):
+2026-03-10 19:26:04,210 | 908610 | INFO | File "/global/scratch/users/maxwellfung/UCB-USACE-RR-PROJECT/run_hyperparam_search.py", line 1518, in <module>
+2026-03-10 19:26:04,212 | 908610 | INFO | print("Skipping search!")
+2026-03-10 19:26:04,212 | 908610 | INFO | File "/global/scratch/users/maxwellfung/UCB-USACE-RR-PROJECT/run_hyperparam_search.py", line 1222, in main
+2026-03-10 19:26:04,213 | 908610 | INFO | else:
+2026-03-10 19:26:04,214 | 908610 | INFO | File "/global/scratch/users/maxwellfung/UCB-USACE-RR-PROJECT/run_hyperparam_search.py", line 1063, in run_bayes_streaming_queue
+2026-03-10 19:26:04,217 | 908610 | INFO | time.sleep(0.1)
+2026-03-10 19:26:04,217 | 908610 | INFO | KeyboardInterrupt
+2026-03-10 19:26:23,111 | 911030 | INFO | [+   0.01s]
+2026-03-10 19:26:23,111 | 911030 | INFO | Basin: guerneville, GPU: -1, Verbose: True
+2026-03-10 19:26:23,112 | 911030 | INFO | [+   0.01s]
+2026-03-10 19:26:23,112 | 911030 | INFO | Pre-warming numba JIT ...
+2026-03-10 19:26:25,745 | 911030 | INFO | [+   2.64s]
+2026-03-10 19:26:25,745 | 911030 | INFO | Numba JIT pre-compiled.
+2026-03-10 19:26:25,746 | 911030 | INFO | YAML PATH:
+2026-03-10 19:26:25,746 | 911030 | INFO | /global/scratch/users/maxwellfung/UCB-USACE-RR-PROJECT/UCB_training/configs/guerneville_mtslstm2.yaml
+2026-03-10 19:26:25,747 | 911030 | INFO | [+   2.65s]
+2026-03-10 19:26:25,747 | 911030 | INFO | 288 combinations, 1 workers
+2026-03-10 19:26:25,747 | 911030 | INFO | run_gridsearch =
+2026-03-10 19:26:25,747 | 911030 | INFO | False
+2026-03-10 19:26:25,748 | 911030 | INFO | hparams_exists =
+2026-03-10 19:26:25,748 | 911030 | INFO | False
+2026-03-10 19:26:25,798 | 911030 | INFO | [EXTERNAL CV FOLDS]
+2026-03-10 19:26:25,799 | 911030 | INFO | fold 1: train 01/10/1994 -> 01/10/1996 | val 02/10/1996 -> 01/10/1997 | eval 02/10/1996 -> 01/10/1997
+2026-03-10 19:26:25,799 | 911030 | INFO | fold 2: train 01/10/1994 -> 01/10/1998 | val 02/10/1998 -> 01/10/1999 | eval 02/10/1998 -> 01/10/1999
+2026-03-10 19:26:25,799 | 911030 | INFO | fold 3: train 01/10/1994 -> 01/10/2000 | val 02/10/2000 -> 01/10/2001 | eval 02/10/2000 -> 01/10/2001
+2026-03-10 19:26:25,799 | 911030 | INFO | fold 4: train 01/10/1994 -> 01/10/2002 | val 02/10/2002 -> 01/10/2003 | eval 02/10/2002 -> 01/10/2003
+2026-03-10 19:26:25,800 | 911030 | INFO | fold 5: train 01/10/1994 -> 01/10/2004 | val 02/10/2004 -> 01/10/2005 | eval 02/10/2004 -> 01/10/2005
+2026-03-10 19:26:25,800 | 911030 | INFO | [EXTERNAL CV FOLDS] total folds = 5
+2026-03-10 19:26:25,800 | 911030 | INFO | [BAYESIAN OPTIMIZATION] Using 1 parallel workers
+2026-03-10 19:26:25,888 | 911030 | INFO | [OPTUNA SEED] journal already has 48 trials → skipping CSV seed
+2026-03-10 19:26:25,888 | 911030 | INFO | [BAYES] no_physics: 1 parallel trials x 5 folds = up to 5 workers
+2026-03-10 19:26:25,889 | 911030 | INFO | /global/scratch/users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/hyperparams/archive/guerneville_mts_CROSS_VAL_V4_no_physics_gridsearch_20260307T122221Z.csv
+2026-03-10 19:26:25,893 | 911030 | INFO | [REPLAYING COMPLETED TRIALS FROM CSV]
+2026-03-10 19:26:25,893 | 911030 | INFO | [Trial 1 No-Physics] already completed
+2026-03-10 19:26:25,894 | 911030 | INFO | [Trial 2 No-Physics] already completed
+2026-03-10 19:26:25,894 | 911030 | INFO | [Trial 3 No-Physics] already completed
+2026-03-10 19:26:25,894 | 911030 | INFO | [Trial 4 No-Physics] already completed
+2026-03-10 19:26:25,894 | 911030 | INFO | [Trial 5 No-Physics] already completed
+2026-03-10 19:26:25,895 | 911030 | INFO | [Trial 6 No-Physics] already completed
+2026-03-10 19:26:25,895 | 911030 | INFO | [Trial 7 No-Physics] already completed
+2026-03-10 19:26:25,895 | 911030 | INFO | [Trial 8 No-Physics] already completed
+2026-03-10 19:26:25,895 | 911030 | INFO | [Trial 9 No-Physics] already completed
+2026-03-10 19:26:25,895 | 911030 | INFO | [Trial 10 No-Physics] already completed
+2026-03-10 19:26:25,896 | 911030 | INFO | [Trial 11 No-Physics] already completed
+2026-03-10 19:26:25,896 | 911030 | INFO | [Trial 12 No-Physics] already completed
+2026-03-10 19:26:25,896 | 911030 | INFO | [Trial 13 No-Physics] already completed
+2026-03-10 19:26:25,896 | 911030 | INFO | [Trial 14 No-Physics] already completed
+2026-03-10 19:26:25,896 | 911030 | INFO | [Trial 15 No-Physics] already completed
+2026-03-10 19:26:25,897 | 911030 | INFO | [Trial 16 No-Physics] already completed
+2026-03-10 19:26:25,897 | 911030 | INFO | [Trial 17 No-Physics] already completed
+2026-03-10 19:26:25,897 | 911030 | INFO | [Trial 18 No-Physics] already completed
+2026-03-10 19:26:25,897 | 911030 | INFO | [Trial 19 No-Physics] already completed
+2026-03-10 19:26:25,898 | 911030 | INFO | [Trial 20 No-Physics] already completed
+2026-03-10 19:26:25,898 | 911030 | INFO | [Trial 21 No-Physics] already completed
+2026-03-10 19:26:25,898 | 911030 | INFO | [Trial 22 No-Physics] already completed
+2026-03-10 19:26:25,898 | 911030 | INFO | [Trial 23 No-Physics] already completed
+2026-03-10 19:26:25,898 | 911030 | INFO | [Trial 24 No-Physics] already completed
+2026-03-10 19:26:25,899 | 911030 | INFO | [Trial 25 No-Physics] already completed
+2026-03-10 19:26:25,899 | 911030 | INFO | [Trial 26 No-Physics] already completed
+2026-03-10 19:26:25,899 | 911030 | INFO | [Trial 27 No-Physics] already completed
+2026-03-10 19:26:25,899 | 911030 | INFO | [Trial 28 No-Physics] already completed
+2026-03-10 19:26:25,900 | 911030 | INFO | [Trial 29 No-Physics] already completed
+2026-03-10 19:26:25,900 | 911030 | INFO | [Trial 30 No-Physics] already completed
+2026-03-10 19:26:25,900 | 911030 | INFO | [Trial 31 No-Physics] already completed
+2026-03-10 19:26:25,900 | 911030 | INFO | [Trial 32 No-Physics] already completed
+2026-03-10 19:26:25,900 | 911030 | INFO | [Trial 33 No-Physics] already completed
+2026-03-10 19:26:25,901 | 911030 | INFO | [Trial 34 No-Physics] already completed
+2026-03-10 19:26:25,901 | 911030 | INFO | [Trial 35 No-Physics] already completed
+2026-03-10 19:26:25,901 | 911030 | INFO | [Trial 36 No-Physics] already completed
+2026-03-10 19:26:25,901 | 911030 | INFO | [Trial 37 No-Physics] already completed
+2026-03-10 19:26:25,902 | 911030 | INFO | [Trial 38 No-Physics] already completed
+2026-03-10 19:26:25,902 | 911030 | INFO | [Trial 39 No-Physics] already completed
+2026-03-10 19:26:25,902 | 911030 | INFO | [Trial 40 No-Physics] already completed
+2026-03-10 19:26:25,902 | 911030 | INFO | [Trial 41 No-Physics] already completed
+2026-03-10 19:26:25,902 | 911030 | INFO | [Trial 42 No-Physics] already completed
+2026-03-10 19:26:25,903 | 911030 | INFO | [Trial 43 No-Physics] already completed
+2026-03-10 19:26:25,903 | 911030 | INFO | [Trial 44 No-Physics] already completed
+2026-03-10 19:26:25,903 | 911030 | INFO | [Trial 45 No-Physics] already completed
+2026-03-10 19:26:25,903 | 911030 | INFO | [Trial 46 No-Physics] already completed
+2026-03-10 19:26:25,904 | 911030 | INFO | [Trial 47 No-Physics] already completed
+2026-03-10 19:26:25,904 | 911030 | INFO | [Trial 48 No-Physics] already completed
+2026-03-10 19:26:25,904 | 911030 | INFO | [REPLAY COMPLETE] 48 trials already finished
+2026-03-10 19:26:25,904 | 911030 | INFO | [RESUME] starting from trial 48
+2026-03-10 19:26:25,904 | 911030 | INFO | [BAYES] no_physics already finished (48/48)
+2026-03-10 19:26:25,986 | 911030 | INFO | [OPTUNA SEED] physics journal already has 39 trials → skipping CSV seed
+2026-03-10 19:26:25,986 | 911030 | INFO | [BAYES] physics: 1 parallel trials x 5 folds = up to 5 workers
+2026-03-10 19:26:25,986 | 911030 | INFO | /global/scratch/users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/hyperparams/archive/guerneville_mts_CROSS_VAL_V4_physics_gridsearch_20260307T122221Z.csv
+2026-03-10 19:26:25,990 | 911030 | INFO | [REPLAYING COMPLETED TRIALS FROM CSV]
+2026-03-10 19:26:25,990 | 911030 | INFO | [Trial 1 Physics] already completed
+2026-03-10 19:26:25,990 | 911030 | INFO | [Trial 2 Physics] already completed
+2026-03-10 19:26:25,991 | 911030 | INFO | [Trial 3 Physics] already completed
+2026-03-10 19:26:25,991 | 911030 | INFO | [Trial 4 Physics] already completed
+2026-03-10 19:26:25,991 | 911030 | INFO | [Trial 5 Physics] already completed
+2026-03-10 19:26:25,991 | 911030 | INFO | [Trial 6 Physics] already completed
+2026-03-10 19:26:25,991 | 911030 | INFO | [Trial 7 Physics] already completed
+2026-03-10 19:26:25,992 | 911030 | INFO | [Trial 8 Physics] already completed
+2026-03-10 19:26:25,992 | 911030 | INFO | [Trial 9 Physics] already completed
+2026-03-10 19:26:25,992 | 911030 | INFO | [Trial 10 Physics] already completed
+2026-03-10 19:26:25,992 | 911030 | INFO | [Trial 11 Physics] already completed
+2026-03-10 19:26:25,993 | 911030 | INFO | [Trial 12 Physics] already completed
+2026-03-10 19:26:25,993 | 911030 | INFO | [Trial 13 Physics] already completed
+2026-03-10 19:26:25,993 | 911030 | INFO | [Trial 14 Physics] already completed
+2026-03-10 19:26:25,993 | 911030 | INFO | [Trial 15 Physics] already completed
+2026-03-10 19:26:25,993 | 911030 | INFO | [Trial 16 Physics] already completed
+2026-03-10 19:26:25,994 | 911030 | INFO | [Trial 17 Physics] already completed
+2026-03-10 19:26:25,994 | 911030 | INFO | [Trial 18 Physics] already completed
+2026-03-10 19:26:25,994 | 911030 | INFO | [Trial 19 Physics] already completed
+2026-03-10 19:26:25,994 | 911030 | INFO | [Trial 20 Physics] already completed
+2026-03-10 19:26:25,995 | 911030 | INFO | [Trial 21 Physics] already completed
+2026-03-10 19:26:25,995 | 911030 | INFO | [Trial 22 Physics] already completed
+2026-03-10 19:26:25,995 | 911030 | INFO | [Trial 23 Physics] already completed
+2026-03-10 19:26:25,995 | 911030 | INFO | [Trial 24 Physics] already completed
+2026-03-10 19:26:25,995 | 911030 | INFO | [Trial 25 Physics] already completed
+2026-03-10 19:26:25,996 | 911030 | INFO | [Trial 26 Physics] already completed
+2026-03-10 19:26:25,996 | 911030 | INFO | [Trial 27 Physics] already completed
+2026-03-10 19:26:25,996 | 911030 | INFO | [Trial 28 Physics] already completed
+2026-03-10 19:26:25,996 | 911030 | INFO | [Trial 29 Physics] already completed
+2026-03-10 19:26:25,997 | 911030 | INFO | [Trial 30 Physics] already completed
+2026-03-10 19:26:25,997 | 911030 | INFO | [Trial 31 Physics] already completed
+2026-03-10 19:26:25,997 | 911030 | INFO | [Trial 32 Physics] already completed
+2026-03-10 19:26:25,997 | 911030 | INFO | [Trial 33 Physics] already completed
+2026-03-10 19:26:25,997 | 911030 | INFO | [Trial 34 Physics] already completed
+2026-03-10 19:26:25,998 | 911030 | INFO | [Trial 35 Physics] already completed
+2026-03-10 19:26:25,998 | 911030 | INFO | [Trial 36 Physics] already completed
+2026-03-10 19:26:25,998 | 911030 | INFO | [Trial 37 Physics] already completed
+2026-03-10 19:26:25,998 | 911030 | INFO | [Trial 38 Physics] already completed
+2026-03-10 19:26:25,999 | 911030 | INFO | [REPLAY COMPLETE] 38 trials already finished
+2026-03-10 19:26:25,999 | 911030 | INFO | [RESUME] starting from trial 38
+2026-03-10 19:26:26,115 | 911030 | INFO | [ENQUEUE TRIAL] trial 39 physics
+2026-03-10 19:26:26,116 | 911030 | INFO | [BAYES QUEUE STATE]
+2026-03-10 19:26:26,116 | 911030 | INFO | pending_jobs = 5
+2026-03-10 19:26:26,116 | 911030 | INFO | inflight_trials = [38]
+2026-03-10 19:26:26,116 | 911030 | INFO | queue[0000] trial 39 fold 1 physics
+2026-03-10 19:26:26,116 | 911030 | INFO | queue[0001] trial 39 fold 2 physics
+2026-03-10 19:26:26,117 | 911030 | INFO | queue[0002] trial 39 fold 3 physics
+2026-03-10 19:26:26,117 | 911030 | INFO | queue[0003] trial 39 fold 4 physics
+2026-03-10 19:26:26,117 | 911030 | INFO | queue[0004] trial 39 fold 5 physics
+2026-03-10 19:26:26,117 | 911030 | INFO | [END BAYES QUEUE]
+2026-03-10 19:34:01,466 | 911030 | INFO | Traceback (most recent call last):
+2026-03-10 19:34:01,467 | 911030 | INFO | File "/global/scratch/users/maxwellfung/UCB-USACE-RR-PROJECT/run_hyperparam_search.py", line 1526, in <module>
+2026-03-10 19:34:01,469 | 911030 | INFO | main()
+2026-03-10 19:34:01,469 | 911030 | INFO | File "/global/scratch/users/maxwellfung/UCB-USACE-RR-PROJECT/run_hyperparam_search.py", line 1230, in main
+2026-03-10 19:34:01,470 | 911030 | INFO | run_bayes_streaming_queue(
+2026-03-10 19:34:01,471 | 911030 | INFO | File "/global/scratch/users/maxwellfung/UCB-USACE-RR-PROJECT/run_hyperparam_search.py", line 1063, in run_bayes_streaming_queue
+2026-03-10 19:34:01,472 | 911030 | INFO | time.sleep(0.1)
+2026-03-10 19:34:01,472 | 911030 | INFO | KeyboardInterrupt
