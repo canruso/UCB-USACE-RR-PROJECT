@@ -5,20 +5,22 @@
 
 # ---- Top-level configs (edit these) ----
 HYPERPARAM_SPACE = {
-    "hidden_size": [64, 128, 256],
-    "output_dropout": (0.1, 0.4),
-    "seq_length_1D": (90, 180),       # MTS mode; for daily/hourly replace with "seq_length": [90, 120, ...]
-    "seq_length_1H": (168, 336),
-    "num_layers": [1],
+    "hidden_size": [128, 256],
+    "output_dropout": [0.1, 0.4],
+    "seq_length_1D": [90],
+    "seq_length_1H": [168, 336],
+    "num_layers": [1, 2],
     "epochs": [300],
-    "batch_size": [64, 128],
+    "batch_size": [64],
 }
 hyperparam_names = list(HYPERPARAM_SPACE.keys())
 
-BASIN = "guerneville"  # "calpella", "warm_springs", "hopland", or "guerneville"
+CONFIG_SUFFIX = "_extreme"   # "" for baseline, "_extreme" for Seq A
+
+BASIN = "hopland"  # "calpella", "warm_springs", "hopland", or "guerneville"
 MODE = "mts"           # "mts", "daily", or "hourly"
 GPU_SETTING = -1
-NUM_WORKERS = 0
+NUM_WORKERS = 16
 
 VERBOSE = True
 RUN_NO_PHYSICS_ONLY = False
@@ -28,7 +30,7 @@ USE_BAYES = False
 N_BAYES_TRIALS = 36
 BAYES_JOURNAL_DIR = ""
 
-RUN_LABEL = "CROSS_VAL_V5"
+RUN_LABEL = "EXTREME_SEQ_A"
 READ_STAMP = ""
 
 USE_CV = True
@@ -641,7 +643,7 @@ def _run_external_cv_queue_job(job):
     if RUNS_PARENT is None:
         bcfg = BASIN_CONFIGS[BASIN]
         path_to_csv = data_dir()
-        path_to_yaml = get_yaml_path(bcfg["yaml_key"][MODE])
+        path_to_yaml = get_yaml_path(bcfg["yaml_key"][MODE] + CONFIG_SUFFIX)
         path_to_physics_data = path_to_csv / bcfg["physics_file"][MODE]
         features_with_physics = bcfg["features_with_physics"]
         _SHARED = ensure_shared_tree(BASIN, MODE)
@@ -854,7 +856,7 @@ def run_no_physics_worker(args):
 
         bcfg = BASIN_CONFIGS[BASIN]
         path_to_csv = data_dir()
-        path_to_yaml = get_yaml_path(bcfg["yaml_key"][MODE])
+        path_to_yaml = get_yaml_path(bcfg["yaml_key"][MODE] + CONFIG_SUFFIX)
         path_to_physics_data = path_to_csv / bcfg["physics_file"][MODE]
         features_with_physics = bcfg["features_with_physics"]
 
@@ -888,7 +890,7 @@ def run_physics_worker(args):
 
         bcfg = BASIN_CONFIGS[BASIN]
         path_to_csv = data_dir()
-        path_to_yaml = get_yaml_path(bcfg["yaml_key"][MODE])
+        path_to_yaml = get_yaml_path(bcfg["yaml_key"][MODE] + CONFIG_SUFFIX)
         path_to_physics_data = path_to_csv / bcfg["physics_file"][MODE]
         features_with_physics = bcfg["features_with_physics"]
 
@@ -1060,7 +1062,7 @@ def main():
     _print("Numba JIT pre-compiled.")
 
     # Resolve paths using MODE
-    yaml_key = bcfg["yaml_key"][MODE]
+    yaml_key = bcfg["yaml_key"][MODE] + CONFIG_SUFFIX
     physics_file = bcfg["physics_file"][MODE]
 
     path_to_csv = data_dir()
