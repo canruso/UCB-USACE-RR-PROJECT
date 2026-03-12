@@ -1,5 +1,9 @@
 from datetime import timedelta
 from pathlib import Path
+import sys
+if sys.platform == "win32" and 'ipykernel' not in sys.modules:
+    import matplotlib
+    matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import pickle
 import numpy as np
@@ -15,6 +19,35 @@ import xarray as xr
 import yaml
 from UCB_training.UCB_utils import data_dir as _ucb_data_dir, resolve_basin_file as _ucb_resolve_basin_file
 from UCB_training.UCB_plotting import plot_loss_curves
+
+
+def _safe_plot_loss_curves(run_dir, save_path=None, timeout=60):
+    """On Windows, run plot_loss_curves in an isolated subprocess to survive OpenBLAS segfaults.
+    On Mac/Linux, just call it directly."""
+    if sys.platform != "win32":
+        plot_loss_curves(run_dir, save_path=save_path) if save_path else plot_loss_curves(run_dir)
+        return True
+    import subprocess, textwrap
+    script = textwrap.dedent(f"""\
+        import sys, os
+        os.environ['OPENBLAS_NUM_THREADS'] = '1'
+        os.environ['OMP_NUM_THREADS'] = '1'
+        os.environ['KMP_DUPLICATE_LIB_OK'] = 'TRUE'
+        import matplotlib
+        matplotlib.use('Agg')
+        from UCB_training.UCB_plotting import plot_loss_curves
+        plot_loss_curves(r'{run_dir}'{f", save_path=r'{save_path}'" if save_path else ''})
+    """)
+    try:
+        result = subprocess.run(
+            [sys.executable, "-c", script],
+            timeout=timeout, capture_output=True, text=True,
+            cwd=str(Path(run_dir).parent) if Path(run_dir).exists() else None,
+        )
+        return result.returncode == 0
+    except Exception:
+        return False
+
 
 def _train_single_member(args):
     trainer, idx = args
@@ -403,7 +436,7 @@ class UCB_trainer:
 
             # Generate loss curve visualization
             try:
-                plot_loss_curves(path)
+                _safe_plot_loss_curves(path)
                 if self._verbose:
                     print(f"[UCB Trainer] Loss curves saved to {path}/loss_curves.png")
             except Exception as e:
@@ -416,7 +449,7 @@ class UCB_trainer:
 
                 # Generate loss curve visualization for each ensemble member
                 try:
-                    plot_loss_curves(model_path)
+                    _safe_plot_loss_curves(model_path)
                     if self._verbose:
                         print(f"[UCB Trainer] Loss curves saved to {model_path}/loss_curves.png")
                 except Exception as e:
@@ -1582,7 +1615,7 @@ class UCB_trainer:
                     try:
                         nh_run_dirs = sorted(fold_dir.glob("testing_run_*"))
                         lc_dir = nh_run_dirs[-1] if nh_run_dirs else fold_dir
-                        plot_loss_curves(lc_dir, save_path=fold_dir / 'loss_curves.png')
+                        _safe_plot_loss_curves(lc_dir, save_path=fold_dir / 'loss_curves.png')
                     except Exception as e:
                         if self._verbose:
                             print(f"Warning: Could not generate loss curve for fold {i}: {e}")
@@ -1641,7 +1674,7 @@ class UCB_trainer:
                     try:
                         nh_run_dirs = sorted(fold_dir.glob("testing_run_*"))
                         lc_dir = nh_run_dirs[-1] if nh_run_dirs else fold_dir
-                        plot_loss_curves(lc_dir, save_path=fold_dir / 'loss_curves.png')
+                        _safe_plot_loss_curves(lc_dir, save_path=fold_dir / 'loss_curves.png')
                     except Exception as e:
                         if self._verbose:
                             print(f"Warning: Could not generate loss curve for fold {i}: {e}")

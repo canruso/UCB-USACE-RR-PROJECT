@@ -5,8 +5,8 @@ Run on Windows PC after pulling to verify the 33/35 arg format works.
 Usage:
     python smoke_test_search.py
 
-Runs 1 combo x 1 epoch, no CV, no physics, grid mode.
-Should complete in ~2-3 min on GPU, ~5 min on CPU.
+Runs 1 combo x 10 epochs, no CV, no physics, grid mode.
+Should complete in ~5 min on CPU.
 """
 import run_hyperparam_search as rhs
 
@@ -17,7 +17,7 @@ rhs.HYPERPARAM_SPACE = {
     "seq_length_1D": [90],
     "seq_length_1H": [168],
     "num_layers": [1],
-    "epochs": [1],
+    "epochs": [10],
     "batch_size": [64],
 }
 rhs.hyperparam_names = list(rhs.HYPERPARAM_SPACE.keys())
@@ -54,7 +54,7 @@ if __name__ == "__main__":
     import multiprocessing as mp
     mp.set_start_method("spawn", force=True)
     print("=" * 60)
-    print("SMOKE TEST: 1 combo, 1 epoch, no CV, no physics, calpella")
+    print("SMOKE TEST: 1 combo, 10 epochs, no CV, no physics, calpella")
     print("=" * 60)
     rhs.main()
     print("=" * 60)

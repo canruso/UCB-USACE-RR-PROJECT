@@ -1,10 +1,27 @@
 import itertools
+import sys
 from pathlib import Path
 import pandas as pd
 from tqdm import tqdm
 from UCB_training.UCB_train import UCB_trainer
 import os
 import shutil
+
+
+def _limit_threads():
+    """Prevent thread contention when multiple spawn workers compete for CPU (Windows only)."""
+    if sys.platform != "win32":
+        return
+    import multiprocessing as _mp
+    n_threads = max(1, _mp.cpu_count() // max(1, _mp.cpu_count() - 1))
+    os.environ['KMP_DUPLICATE_LIB_OK'] = 'TRUE'
+    os.environ['OMP_NUM_THREADS'] = str(n_threads)
+    os.environ['MKL_NUM_THREADS'] = str(n_threads)
+    os.environ['OPENBLAS_NUM_THREADS'] = '1'
+    os.environ['NUMBA_NUM_THREADS'] = str(n_threads)
+    os.environ['NUMBA_THREADING_LAYER'] = 'workqueue'
+    import torch
+    torch.set_num_threads(n_threads)
 
 
 def _build_hp_run(combinations, hyperparam_names, fractional_multi_lr):
@@ -96,6 +113,7 @@ def _build_row(combinations, hyperparam_names, hp_run, metrics_result, is_mts, p
 
 def run_single_experiment_nophysics(args):
     import os, warnings, logging, sys
+    _limit_threads()
     warnings.filterwarnings("ignore")
     logging.getLogger().setLevel(logging.ERROR)
     logging.getLogger("neuralhydrology").setLevel(logging.ERROR)
@@ -139,6 +157,11 @@ def run_single_experiment_nophysics(args):
         run_stamp=RUN_STAMP
     )
 
+    # Windows: disable figure logging and verbose plotting to prevent matplotlib/OpenBLAS segfault
+    if sys.platform == "win32":
+        trainer._config._cfg["log_n_figures"] = 0
+        trainer._verbose = False  # prevent _generate_obs_sim_plt crash in results()
+
     # override config when caller provides explicit ranges/dates (None = use YAML as-is)
     if dataset_name == "synthetic_russian_river":
         trainer._config.update_config({
@@ -167,6 +190,7 @@ def run_single_experiment_nophysics(args):
 
 def run_single_experiment_physics(args):
     import os, warnings, logging, sys
+    _limit_threads()
     warnings.filterwarnings("ignore")
     logging.getLogger().setLevel(logging.ERROR)
     # sys.stderr = open(os.devnull, "w")  # commented out for error visibility
@@ -208,6 +232,11 @@ def run_single_experiment_physics(args):
         run_label=RUN_LABEL,
         run_stamp=RUN_STAMP
     )
+
+    # Windows: disable figure logging and verbose plotting to prevent matplotlib/OpenBLAS segfault
+    if sys.platform == "win32":
+        trainer._config._cfg["log_n_figures"] = 0
+        trainer._verbose = False  # prevent _generate_obs_sim_plt crash in results()
 
     # override config when caller provides explicit ranges/dates (None = use YAML as-is)
     if dataset_name == "synthetic_russian_river":
