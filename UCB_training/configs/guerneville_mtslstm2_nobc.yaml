@@ -75,8 +75,6 @@ optimizer: Adam
 loss: NSE
 learning_rate:
   0: 1e-2
-  30: 5e-3
-  40: 1e-3
 
 batch_size: 64
 epochs: 300
@@ -206,10 +204,10 @@ early_stopping_mode: "plateau"
 # --- Plateau Mode Settings ---
 plateau_factor: 0.5
 plateau_patience: 3
-plateau_threshold: 1.0e-4
-plateau_min_lr: 1.0e-5
+plateau_threshold: 0.01
+plateau_min_lr: 1.0e-4
 plateau_final_patience: 3
-plateau_cooldown: 0
+plateau_cooldown: 1
 plateau_min_epoch: 24
 
 # --- Previous patience/slope settings (commented out) ---

@@ -73,10 +73,12 @@ optimizer: Adam
 loss: NSE
 
 # specify learning rates to use starting at specific epochs (0 is the initial learning rate)
+# learning_rate:  # manual schedule disabled - plateau ES handles LR decay
+#   0: 1e-2
+#   20: 5e-3
+#   30: 1e-3
 learning_rate:
   0: 1e-2
-  20: 5e-3
-  30: 1e-3
 
 # Mini-batch size
 batch_size: 256
@@ -110,6 +112,8 @@ log_n_figures: 1
 # Save model weights every n epochs
 save_weights_every: 16
 
+# Save best validation checkpoint (model_best.pt). Set False for default NH last-epoch behavior.
+save_best_checkpoint: True
 # --- Early Stopping Configuration ------------------------------------------------------------
 # Enable early stopping based on validation performance
 early_stopping: True
@@ -124,10 +128,10 @@ early_stopping_mode: "plateau"
 # --- Plateau Mode Settings ---
 plateau_factor: 0.5
 plateau_patience: 3
-plateau_threshold: 1.0e-4
-plateau_min_lr: 1.0e-5
+plateau_threshold: 1.0e-2
+plateau_min_lr: 1.0e-4
 plateau_final_patience: 3
-plateau_cooldown: 0
+plateau_cooldown: 1
 plateau_min_epoch: 24
 
 # --- Previous patience/slope settings (commented out) ---
