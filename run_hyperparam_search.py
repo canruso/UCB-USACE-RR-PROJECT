@@ -1117,7 +1117,7 @@ def main():
     else:
         num_cores = min(n_combos, max(1, mp.cpu_count() - 1))
 
-    num_cores = 1
+    num_cores = 20
 
     _print(f"{n_combos} combinations, {num_cores} workers")
 
@@ -1234,9 +1234,11 @@ def main():
             num_cores
         )
 
-        df_no_physics = load_hparams(BASIN, MODE, RUN_LABEL, stamp=RUN_STAMP, tag="no_physics")
-        df_physics = load_hparams(BASIN, MODE, RUN_LABEL, stamp=RUN_STAMP, tag="physics")
+        df_all = load_hparams(BASIN, MODE, RUN_LABEL, stamp=RUN_STAMP)
 
+        df_no_physics = df_all[df_all["model_type"] == "no_physics"].copy()
+        df_physics = df_all[df_all["model_type"] == "physics"].copy()
+        
         df_no_physics.reset_index(drop=True, inplace=True)
         df_physics.reset_index(drop=True, inplace=True)
 

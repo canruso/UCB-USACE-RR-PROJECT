@@ -5770,3 +5770,790 @@
 2026-03-10 19:34:01,471 | 911030 | INFO | File "/global/scratch/users/maxwellfung/UCB-USACE-RR-PROJECT/run_hyperparam_search.py", line 1063, in run_bayes_streaming_queue
 2026-03-10 19:34:01,472 | 911030 | INFO | time.sleep(0.1)
 2026-03-10 19:34:01,472 | 911030 | INFO | KeyboardInterrupt
+2026-03-10 19:43:58,064 | 2187018 | INFO | [+   0.03s]
+2026-03-10 19:43:58,080 | 2187018 | INFO | Basin: guerneville, GPU: -1, Verbose: True
+2026-03-10 19:43:58,081 | 2187018 | INFO | [+   0.05s]
+2026-03-10 19:43:58,081 | 2187018 | INFO | Pre-warming numba JIT ...
+2026-03-10 19:44:01,097 | 2187018 | INFO | [+   3.07s]
+2026-03-10 19:44:01,097 | 2187018 | INFO | Numba JIT pre-compiled.
+2026-03-10 19:44:01,109 | 2187018 | INFO | YAML PATH:
+2026-03-10 19:44:01,109 | 2187018 | INFO | /global/scratch/users/maxwellfung/UCB-USACE-RR-PROJECT/UCB_training/configs/guerneville_mtslstm2.yaml
+2026-03-10 19:44:01,164 | 2187018 | INFO | [+   3.14s]
+2026-03-10 19:44:01,165 | 2187018 | INFO | 288 combinations, 1 workers
+2026-03-10 19:44:01,165 | 2187018 | INFO | run_gridsearch =
+2026-03-10 19:44:01,165 | 2187018 | INFO | False
+2026-03-10 19:44:01,169 | 2187018 | INFO | hparams_exists =
+2026-03-10 19:44:01,170 | 2187018 | INFO | False
+2026-03-10 19:44:01,232 | 2187018 | INFO | [EXTERNAL CV FOLDS]
+2026-03-10 19:44:01,232 | 2187018 | INFO | fold 1: train 01/10/1994 -> 01/10/1996 | val 02/10/1996 -> 01/10/1997 | eval 02/10/1996 -> 01/10/1997
+2026-03-10 19:44:01,232 | 2187018 | INFO | fold 2: train 01/10/1994 -> 01/10/1998 | val 02/10/1998 -> 01/10/1999 | eval 02/10/1998 -> 01/10/1999
+2026-03-10 19:44:01,233 | 2187018 | INFO | fold 3: train 01/10/1994 -> 01/10/2000 | val 02/10/2000 -> 01/10/2001 | eval 02/10/2000 -> 01/10/2001
+2026-03-10 19:44:01,233 | 2187018 | INFO | fold 4: train 01/10/1994 -> 01/10/2002 | val 02/10/2002 -> 01/10/2003 | eval 02/10/2002 -> 01/10/2003
+2026-03-10 19:44:01,233 | 2187018 | INFO | fold 5: train 01/10/1994 -> 01/10/2004 | val 02/10/2004 -> 01/10/2005 | eval 02/10/2004 -> 01/10/2005
+2026-03-10 19:44:01,233 | 2187018 | INFO | [EXTERNAL CV FOLDS] total folds = 5
+2026-03-10 19:44:01,233 | 2187018 | INFO | [BAYESIAN OPTIMIZATION] Using 1 parallel workers
+2026-03-10 19:44:01,391 | 2187018 | INFO | [OPTUNA SEED] journal already has 48 trials → skipping CSV seed
+2026-03-10 19:44:01,391 | 2187018 | INFO | [BAYES] no_physics: 1 parallel trials x 5 folds = up to 5 workers
+2026-03-10 19:44:01,392 | 2187018 | INFO | /global/scratch/users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/hyperparams/archive/guerneville_mts_CROSS_VAL_V4_no_physics_gridsearch_20260307T122221Z.csv
+2026-03-10 19:44:01,410 | 2187018 | INFO | [REPLAYING COMPLETED TRIALS FROM CSV]
+2026-03-10 19:44:01,411 | 2187018 | INFO | [Trial 1 No-Physics] already completed
+2026-03-10 19:44:01,411 | 2187018 | INFO | [Trial 2 No-Physics] already completed
+2026-03-10 19:44:01,411 | 2187018 | INFO | [Trial 3 No-Physics] already completed
+2026-03-10 19:44:01,411 | 2187018 | INFO | [Trial 4 No-Physics] already completed
+2026-03-10 19:44:01,411 | 2187018 | INFO | [Trial 5 No-Physics] already completed
+2026-03-10 19:44:01,411 | 2187018 | INFO | [Trial 6 No-Physics] already completed
+2026-03-10 19:44:01,411 | 2187018 | INFO | [Trial 7 No-Physics] already completed
+2026-03-10 19:44:01,411 | 2187018 | INFO | [Trial 8 No-Physics] already completed
+2026-03-10 19:44:01,412 | 2187018 | INFO | [Trial 9 No-Physics] already completed
+2026-03-10 19:44:01,412 | 2187018 | INFO | [Trial 10 No-Physics] already completed
+2026-03-10 19:44:01,412 | 2187018 | INFO | [Trial 11 No-Physics] already completed
+2026-03-10 19:44:01,412 | 2187018 | INFO | [Trial 12 No-Physics] already completed
+2026-03-10 19:44:01,412 | 2187018 | INFO | [Trial 13 No-Physics] already completed
+2026-03-10 19:44:01,412 | 2187018 | INFO | [Trial 14 No-Physics] already completed
+2026-03-10 19:44:01,412 | 2187018 | INFO | [Trial 15 No-Physics] already completed
+2026-03-10 19:44:01,412 | 2187018 | INFO | [Trial 16 No-Physics] already completed
+2026-03-10 19:44:01,413 | 2187018 | INFO | [Trial 17 No-Physics] already completed
+2026-03-10 19:44:01,413 | 2187018 | INFO | [Trial 18 No-Physics] already completed
+2026-03-10 19:44:01,413 | 2187018 | INFO | [Trial 19 No-Physics] already completed
+2026-03-10 19:44:01,413 | 2187018 | INFO | [Trial 20 No-Physics] already completed
+2026-03-10 19:44:01,413 | 2187018 | INFO | [Trial 21 No-Physics] already completed
+2026-03-10 19:44:01,413 | 2187018 | INFO | [Trial 22 No-Physics] already completed
+2026-03-10 19:44:01,413 | 2187018 | INFO | [Trial 23 No-Physics] already completed
+2026-03-10 19:44:01,413 | 2187018 | INFO | [Trial 24 No-Physics] already completed
+2026-03-10 19:44:01,414 | 2187018 | INFO | [Trial 25 No-Physics] already completed
+2026-03-10 19:44:01,414 | 2187018 | INFO | [Trial 26 No-Physics] already completed
+2026-03-10 19:44:01,414 | 2187018 | INFO | [Trial 27 No-Physics] already completed
+2026-03-10 19:44:01,414 | 2187018 | INFO | [Trial 28 No-Physics] already completed
+2026-03-10 19:44:01,414 | 2187018 | INFO | [Trial 29 No-Physics] already completed
+2026-03-10 19:44:01,414 | 2187018 | INFO | [Trial 30 No-Physics] already completed
+2026-03-10 19:44:01,414 | 2187018 | INFO | [Trial 31 No-Physics] already completed
+2026-03-10 19:44:01,414 | 2187018 | INFO | [Trial 32 No-Physics] already completed
+2026-03-10 19:44:01,415 | 2187018 | INFO | [Trial 33 No-Physics] already completed
+2026-03-10 19:44:01,415 | 2187018 | INFO | [Trial 34 No-Physics] already completed
+2026-03-10 19:44:01,415 | 2187018 | INFO | [Trial 35 No-Physics] already completed
+2026-03-10 19:44:01,415 | 2187018 | INFO | [Trial 36 No-Physics] already completed
+2026-03-10 19:44:01,415 | 2187018 | INFO | [Trial 37 No-Physics] already completed
+2026-03-10 19:44:01,415 | 2187018 | INFO | [Trial 38 No-Physics] already completed
+2026-03-10 19:44:01,415 | 2187018 | INFO | [Trial 39 No-Physics] already completed
+2026-03-10 19:44:01,415 | 2187018 | INFO | [Trial 40 No-Physics] already completed
+2026-03-10 19:44:01,416 | 2187018 | INFO | [Trial 41 No-Physics] already completed
+2026-03-10 19:44:01,416 | 2187018 | INFO | [Trial 42 No-Physics] already completed
+2026-03-10 19:44:01,416 | 2187018 | INFO | [Trial 43 No-Physics] already completed
+2026-03-10 19:44:01,416 | 2187018 | INFO | [Trial 44 No-Physics] already completed
+2026-03-10 19:44:01,416 | 2187018 | INFO | [Trial 45 No-Physics] already completed
+2026-03-10 19:44:01,416 | 2187018 | INFO | [Trial 46 No-Physics] already completed
+2026-03-10 19:44:01,416 | 2187018 | INFO | [Trial 47 No-Physics] already completed
+2026-03-10 19:44:01,416 | 2187018 | INFO | [Trial 48 No-Physics] already completed
+2026-03-10 19:44:01,417 | 2187018 | INFO | [REPLAY COMPLETE] 48 trials already finished
+2026-03-10 19:44:01,417 | 2187018 | INFO | [RESUME] starting from trial 48
+2026-03-10 19:44:01,417 | 2187018 | INFO | [BAYES] no_physics already finished (48/48)
+2026-03-10 19:44:01,605 | 2187018 | INFO | [OPTUNA SEED] physics journal already has 40 trials → skipping CSV seed
+2026-03-10 19:44:01,606 | 2187018 | INFO | [BAYES] physics: 1 parallel trials x 5 folds = up to 5 workers
+2026-03-10 19:44:01,606 | 2187018 | INFO | /global/scratch/users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/hyperparams/archive/guerneville_mts_CROSS_VAL_V4_physics_gridsearch_20260307T122221Z.csv
+2026-03-10 19:44:01,622 | 2187018 | INFO | [REPLAYING COMPLETED TRIALS FROM CSV]
+2026-03-10 19:44:01,623 | 2187018 | INFO | [Trial 1 Physics] already completed
+2026-03-10 19:44:01,623 | 2187018 | INFO | [Trial 2 Physics] already completed
+2026-03-10 19:44:01,623 | 2187018 | INFO | [Trial 3 Physics] already completed
+2026-03-10 19:44:01,623 | 2187018 | INFO | [Trial 4 Physics] already completed
+2026-03-10 19:44:01,623 | 2187018 | INFO | [Trial 5 Physics] already completed
+2026-03-10 19:44:01,623 | 2187018 | INFO | [Trial 6 Physics] already completed
+2026-03-10 19:44:01,624 | 2187018 | INFO | [Trial 7 Physics] already completed
+2026-03-10 19:44:01,624 | 2187018 | INFO | [Trial 8 Physics] already completed
+2026-03-10 19:44:01,624 | 2187018 | INFO | [Trial 9 Physics] already completed
+2026-03-10 19:44:01,624 | 2187018 | INFO | [Trial 10 Physics] already completed
+2026-03-10 19:44:01,624 | 2187018 | INFO | [Trial 11 Physics] already completed
+2026-03-10 19:44:01,624 | 2187018 | INFO | [Trial 12 Physics] already completed
+2026-03-10 19:44:01,624 | 2187018 | INFO | [Trial 13 Physics] already completed
+2026-03-10 19:44:01,625 | 2187018 | INFO | [Trial 14 Physics] already completed
+2026-03-10 19:44:01,625 | 2187018 | INFO | [Trial 15 Physics] already completed
+2026-03-10 19:44:01,625 | 2187018 | INFO | [Trial 16 Physics] already completed
+2026-03-10 19:44:01,625 | 2187018 | INFO | [Trial 17 Physics] already completed
+2026-03-10 19:44:01,625 | 2187018 | INFO | [Trial 18 Physics] already completed
+2026-03-10 19:44:01,625 | 2187018 | INFO | [Trial 19 Physics] already completed
+2026-03-10 19:44:01,625 | 2187018 | INFO | [Trial 20 Physics] already completed
+2026-03-10 19:44:01,626 | 2187018 | INFO | [Trial 21 Physics] already completed
+2026-03-10 19:44:01,626 | 2187018 | INFO | [Trial 22 Physics] already completed
+2026-03-10 19:44:01,626 | 2187018 | INFO | [Trial 23 Physics] already completed
+2026-03-10 19:44:01,626 | 2187018 | INFO | [Trial 24 Physics] already completed
+2026-03-10 19:44:01,626 | 2187018 | INFO | [Trial 25 Physics] already completed
+2026-03-10 19:44:01,626 | 2187018 | INFO | [Trial 26 Physics] already completed
+2026-03-10 19:44:01,627 | 2187018 | INFO | [Trial 27 Physics] already completed
+2026-03-10 19:44:01,627 | 2187018 | INFO | [Trial 28 Physics] already completed
+2026-03-10 19:44:01,627 | 2187018 | INFO | [Trial 29 Physics] already completed
+2026-03-10 19:44:01,627 | 2187018 | INFO | [Trial 30 Physics] already completed
+2026-03-10 19:44:01,627 | 2187018 | INFO | [Trial 31 Physics] already completed
+2026-03-10 19:44:01,627 | 2187018 | INFO | [Trial 32 Physics] already completed
+2026-03-10 19:44:01,627 | 2187018 | INFO | [Trial 33 Physics] already completed
+2026-03-10 19:44:01,628 | 2187018 | INFO | [Trial 34 Physics] already completed
+2026-03-10 19:44:01,628 | 2187018 | INFO | [Trial 35 Physics] already completed
+2026-03-10 19:44:01,628 | 2187018 | INFO | [Trial 36 Physics] already completed
+2026-03-10 19:44:01,628 | 2187018 | INFO | [Trial 37 Physics] already completed
+2026-03-10 19:44:01,628 | 2187018 | INFO | [Trial 38 Physics] already completed
+2026-03-10 19:44:01,628 | 2187018 | INFO | [REPLAY COMPLETE] 38 trials already finished
+2026-03-10 19:44:01,628 | 2187018 | INFO | [RESUME] starting from trial 38
+2026-03-10 19:44:01,961 | 2187018 | INFO | [ENQUEUE TRIAL] trial 39 physics
+2026-03-10 19:44:01,962 | 2187018 | INFO | [BAYES QUEUE STATE]
+2026-03-10 19:44:01,962 | 2187018 | INFO | pending_jobs = 5
+2026-03-10 19:44:01,963 | 2187018 | INFO | inflight_trials = [38]
+2026-03-10 19:44:01,963 | 2187018 | INFO | queue[0000] trial 39 fold 1 physics
+2026-03-10 19:44:01,963 | 2187018 | INFO | queue[0001] trial 39 fold 2 physics
+2026-03-10 19:44:01,964 | 2187018 | INFO | queue[0002] trial 39 fold 3 physics
+2026-03-10 19:44:01,964 | 2187018 | INFO | queue[0003] trial 39 fold 4 physics
+2026-03-10 19:44:01,964 | 2187018 | INFO | queue[0004] trial 39 fold 5 physics
+2026-03-10 19:44:01,965 | 2187018 | INFO | [END BAYES QUEUE]
+2026-03-10 19:44:15,911 | 3664239 | INFO | [+   0.05s]
+2026-03-10 19:44:15,936 | 3664239 | INFO | Basin: guerneville, GPU: -1, Verbose: True
+2026-03-10 19:44:15,936 | 3664239 | INFO | [+   0.08s]
+2026-03-10 19:44:15,937 | 3664239 | INFO | Pre-warming numba JIT ...
+2026-03-10 19:44:19,681 | 3664239 | INFO | [+   3.82s]
+2026-03-10 19:44:19,681 | 3664239 | INFO | Numba JIT pre-compiled.
+2026-03-10 19:44:19,692 | 3664239 | INFO | YAML PATH:
+2026-03-10 19:44:19,692 | 3664239 | INFO | /global/scratch/users/maxwellfung/UCB-USACE-RR-PROJECT/UCB_training/configs/guerneville_mtslstm2.yaml
+2026-03-10 19:44:19,746 | 3664239 | INFO | [+   3.89s]
+2026-03-10 19:44:19,746 | 3664239 | INFO | 288 combinations, 1 workers
+2026-03-10 19:44:19,747 | 3664239 | INFO | run_gridsearch =
+2026-03-10 19:44:19,747 | 3664239 | INFO | False
+2026-03-10 19:44:19,751 | 3664239 | INFO | hparams_exists =
+2026-03-10 19:44:19,751 | 3664239 | INFO | False
+2026-03-10 19:44:19,827 | 3664239 | INFO | [EXTERNAL CV FOLDS]
+2026-03-10 19:44:19,827 | 3664239 | INFO | fold 1: train 01/10/1994 -> 01/10/1996 | val 02/10/1996 -> 01/10/1997 | eval 02/10/1996 -> 01/10/1997
+2026-03-10 19:44:19,827 | 3664239 | INFO | fold 2: train 01/10/1994 -> 01/10/1998 | val 02/10/1998 -> 01/10/1999 | eval 02/10/1998 -> 01/10/1999
+2026-03-10 19:44:19,827 | 3664239 | INFO | fold 3: train 01/10/1994 -> 01/10/2000 | val 02/10/2000 -> 01/10/2001 | eval 02/10/2000 -> 01/10/2001
+2026-03-10 19:44:19,828 | 3664239 | INFO | fold 4: train 01/10/1994 -> 01/10/2002 | val 02/10/2002 -> 01/10/2003 | eval 02/10/2002 -> 01/10/2003
+2026-03-10 19:44:19,828 | 3664239 | INFO | fold 5: train 01/10/1994 -> 01/10/2004 | val 02/10/2004 -> 01/10/2005 | eval 02/10/2004 -> 01/10/2005
+2026-03-10 19:44:19,828 | 3664239 | INFO | [EXTERNAL CV FOLDS] total folds = 5
+2026-03-10 19:44:19,828 | 3664239 | INFO | [BAYESIAN OPTIMIZATION] Using 1 parallel workers
+2026-03-10 19:44:19,995 | 3664239 | INFO | [OPTUNA SEED] journal already has 48 trials → skipping CSV seed
+2026-03-10 19:44:19,995 | 3664239 | INFO | [BAYES] no_physics: 1 parallel trials x 5 folds = up to 5 workers
+2026-03-10 19:44:19,996 | 3664239 | INFO | /global/scratch/users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/hyperparams/archive/guerneville_mts_CROSS_VAL_V4_no_physics_gridsearch_20260307T122221Z.csv
+2026-03-10 19:44:20,065 | 3664239 | INFO | [REPLAYING COMPLETED TRIALS FROM CSV]
+2026-03-10 19:44:20,065 | 3664239 | INFO | [Trial 1 No-Physics] already completed
+2026-03-10 19:44:20,066 | 3664239 | INFO | [Trial 2 No-Physics] already completed
+2026-03-10 19:44:20,066 | 3664239 | INFO | [Trial 3 No-Physics] already completed
+2026-03-10 19:44:20,066 | 3664239 | INFO | [Trial 4 No-Physics] already completed
+2026-03-10 19:44:20,067 | 3664239 | INFO | [Trial 5 No-Physics] already completed
+2026-03-10 19:44:20,067 | 3664239 | INFO | [Trial 6 No-Physics] already completed
+2026-03-10 19:44:20,067 | 3664239 | INFO | [Trial 7 No-Physics] already completed
+2026-03-10 19:44:20,068 | 3664239 | INFO | [Trial 8 No-Physics] already completed
+2026-03-10 19:44:20,068 | 3664239 | INFO | [Trial 9 No-Physics] already completed
+2026-03-10 19:44:20,068 | 3664239 | INFO | [Trial 10 No-Physics] already completed
+2026-03-10 19:44:20,068 | 3664239 | INFO | [Trial 11 No-Physics] already completed
+2026-03-10 19:44:20,069 | 3664239 | INFO | [Trial 12 No-Physics] already completed
+2026-03-10 19:44:20,069 | 3664239 | INFO | [Trial 13 No-Physics] already completed
+2026-03-10 19:44:20,069 | 3664239 | INFO | [Trial 14 No-Physics] already completed
+2026-03-10 19:44:20,070 | 3664239 | INFO | [Trial 15 No-Physics] already completed
+2026-03-10 19:44:20,070 | 3664239 | INFO | [Trial 16 No-Physics] already completed
+2026-03-10 19:44:20,070 | 3664239 | INFO | [Trial 17 No-Physics] already completed
+2026-03-10 19:44:20,071 | 3664239 | INFO | [Trial 18 No-Physics] already completed
+2026-03-10 19:44:20,071 | 3664239 | INFO | [Trial 19 No-Physics] already completed
+2026-03-10 19:44:20,071 | 3664239 | INFO | [Trial 20 No-Physics] already completed
+2026-03-10 19:44:20,071 | 3664239 | INFO | [Trial 21 No-Physics] already completed
+2026-03-10 19:44:20,072 | 3664239 | INFO | [Trial 22 No-Physics] already completed
+2026-03-10 19:44:20,072 | 3664239 | INFO | [Trial 23 No-Physics] already completed
+2026-03-10 19:44:20,072 | 3664239 | INFO | [Trial 24 No-Physics] already completed
+2026-03-10 19:44:20,073 | 3664239 | INFO | [Trial 25 No-Physics] already completed
+2026-03-10 19:44:20,073 | 3664239 | INFO | [Trial 26 No-Physics] already completed
+2026-03-10 19:44:20,073 | 3664239 | INFO | [Trial 27 No-Physics] already completed
+2026-03-10 19:44:20,073 | 3664239 | INFO | [Trial 28 No-Physics] already completed
+2026-03-10 19:44:20,074 | 3664239 | INFO | [Trial 29 No-Physics] already completed
+2026-03-10 19:44:20,074 | 3664239 | INFO | [Trial 30 No-Physics] already completed
+2026-03-10 19:44:20,074 | 3664239 | INFO | [Trial 31 No-Physics] already completed
+2026-03-10 19:44:20,074 | 3664239 | INFO | [Trial 32 No-Physics] already completed
+2026-03-10 19:44:20,075 | 3664239 | INFO | [Trial 33 No-Physics] already completed
+2026-03-10 19:44:20,075 | 3664239 | INFO | [Trial 34 No-Physics] already completed
+2026-03-10 19:44:20,075 | 3664239 | INFO | [Trial 35 No-Physics] already completed
+2026-03-10 19:44:20,075 | 3664239 | INFO | [Trial 36 No-Physics] already completed
+2026-03-10 19:44:20,075 | 3664239 | INFO | [Trial 37 No-Physics] already completed
+2026-03-10 19:44:20,075 | 3664239 | INFO | [Trial 38 No-Physics] already completed
+2026-03-10 19:44:20,075 | 3664239 | INFO | [Trial 39 No-Physics] already completed
+2026-03-10 19:44:20,076 | 3664239 | INFO | [Trial 40 No-Physics] already completed
+2026-03-10 19:44:20,076 | 3664239 | INFO | [Trial 41 No-Physics] already completed
+2026-03-10 19:44:20,076 | 3664239 | INFO | [Trial 42 No-Physics] already completed
+2026-03-10 19:44:20,076 | 3664239 | INFO | [Trial 43 No-Physics] already completed
+2026-03-10 19:44:20,076 | 3664239 | INFO | [Trial 44 No-Physics] already completed
+2026-03-10 19:44:20,076 | 3664239 | INFO | [Trial 45 No-Physics] already completed
+2026-03-10 19:44:20,076 | 3664239 | INFO | [Trial 46 No-Physics] already completed
+2026-03-10 19:44:20,076 | 3664239 | INFO | [Trial 47 No-Physics] already completed
+2026-03-10 19:44:20,077 | 3664239 | INFO | [Trial 48 No-Physics] already completed
+2026-03-10 19:44:20,077 | 3664239 | INFO | [REPLAY COMPLETE] 48 trials already finished
+2026-03-10 19:44:20,077 | 3664239 | INFO | [RESUME] starting from trial 48
+2026-03-10 19:44:20,077 | 3664239 | INFO | [BAYES] no_physics already finished (48/48)
+2026-03-10 19:44:20,220 | 3664239 | INFO | [OPTUNA SEED] physics journal already has 41 trials → skipping CSV seed
+2026-03-10 19:44:20,220 | 3664239 | INFO | [BAYES] physics: 1 parallel trials x 5 folds = up to 5 workers
+2026-03-10 19:44:20,220 | 3664239 | INFO | /global/scratch/users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/hyperparams/archive/guerneville_mts_CROSS_VAL_V4_physics_gridsearch_20260307T122221Z.csv
+2026-03-10 19:44:20,242 | 3664239 | INFO | [REPLAYING COMPLETED TRIALS FROM CSV]
+2026-03-10 19:44:20,243 | 3664239 | INFO | [Trial 1 Physics] already completed
+2026-03-10 19:44:20,243 | 3664239 | INFO | [Trial 2 Physics] already completed
+2026-03-10 19:44:20,243 | 3664239 | INFO | [Trial 3 Physics] already completed
+2026-03-10 19:44:20,243 | 3664239 | INFO | [Trial 4 Physics] already completed
+2026-03-10 19:44:20,244 | 3664239 | INFO | [Trial 5 Physics] already completed
+2026-03-10 19:44:20,244 | 3664239 | INFO | [Trial 6 Physics] already completed
+2026-03-10 19:44:20,244 | 3664239 | INFO | [Trial 7 Physics] already completed
+2026-03-10 19:44:20,244 | 3664239 | INFO | [Trial 8 Physics] already completed
+2026-03-10 19:44:20,244 | 3664239 | INFO | [Trial 9 Physics] already completed
+2026-03-10 19:44:20,245 | 3664239 | INFO | [Trial 10 Physics] already completed
+2026-03-10 19:44:20,245 | 3664239 | INFO | [Trial 11 Physics] already completed
+2026-03-10 19:44:20,245 | 3664239 | INFO | [Trial 12 Physics] already completed
+2026-03-10 19:44:20,245 | 3664239 | INFO | [Trial 13 Physics] already completed
+2026-03-10 19:44:20,245 | 3664239 | INFO | [Trial 14 Physics] already completed
+2026-03-10 19:44:20,246 | 3664239 | INFO | [Trial 15 Physics] already completed
+2026-03-10 19:44:20,246 | 3664239 | INFO | [Trial 16 Physics] already completed
+2026-03-10 19:44:20,246 | 3664239 | INFO | [Trial 17 Physics] already completed
+2026-03-10 19:44:20,246 | 3664239 | INFO | [Trial 18 Physics] already completed
+2026-03-10 19:44:20,246 | 3664239 | INFO | [Trial 19 Physics] already completed
+2026-03-10 19:44:20,247 | 3664239 | INFO | [Trial 20 Physics] already completed
+2026-03-10 19:44:20,247 | 3664239 | INFO | [Trial 21 Physics] already completed
+2026-03-10 19:44:20,247 | 3664239 | INFO | [Trial 22 Physics] already completed
+2026-03-10 19:44:20,247 | 3664239 | INFO | [Trial 23 Physics] already completed
+2026-03-10 19:44:20,247 | 3664239 | INFO | [Trial 24 Physics] already completed
+2026-03-10 19:44:20,247 | 3664239 | INFO | [Trial 25 Physics] already completed
+2026-03-10 19:44:20,248 | 3664239 | INFO | [Trial 26 Physics] already completed
+2026-03-10 19:44:20,248 | 3664239 | INFO | [Trial 27 Physics] already completed
+2026-03-10 19:44:20,248 | 3664239 | INFO | [Trial 28 Physics] already completed
+2026-03-10 19:44:20,248 | 3664239 | INFO | [Trial 29 Physics] already completed
+2026-03-10 19:44:20,248 | 3664239 | INFO | [Trial 30 Physics] already completed
+2026-03-10 19:44:20,249 | 3664239 | INFO | [Trial 31 Physics] already completed
+2026-03-10 19:44:20,249 | 3664239 | INFO | [Trial 32 Physics] already completed
+2026-03-10 19:44:20,249 | 3664239 | INFO | [Trial 33 Physics] already completed
+2026-03-10 19:44:20,249 | 3664239 | INFO | [Trial 34 Physics] already completed
+2026-03-10 19:44:20,249 | 3664239 | INFO | [Trial 35 Physics] already completed
+2026-03-10 19:44:20,249 | 3664239 | INFO | [Trial 36 Physics] already completed
+2026-03-10 19:44:20,250 | 3664239 | INFO | [Trial 37 Physics] already completed
+2026-03-10 19:44:20,250 | 3664239 | INFO | [Trial 38 Physics] already completed
+2026-03-10 19:44:20,250 | 3664239 | INFO | [REPLAY COMPLETE] 38 trials already finished
+2026-03-10 19:44:20,250 | 3664239 | INFO | [RESUME] starting from trial 38
+2026-03-10 19:44:20,594 | 3664239 | INFO | [ENQUEUE TRIAL] trial 39 physics
+2026-03-10 19:44:20,594 | 3664239 | INFO | [BAYES QUEUE STATE]
+2026-03-10 19:44:20,595 | 3664239 | INFO | pending_jobs = 5
+2026-03-10 19:44:20,595 | 3664239 | INFO | inflight_trials = [38]
+2026-03-10 19:44:20,595 | 3664239 | INFO | queue[0000] trial 39 fold 1 physics
+2026-03-10 19:44:20,596 | 3664239 | INFO | queue[0001] trial 39 fold 2 physics
+2026-03-10 19:44:20,596 | 3664239 | INFO | queue[0002] trial 39 fold 3 physics
+2026-03-10 19:44:20,596 | 3664239 | INFO | queue[0003] trial 39 fold 4 physics
+2026-03-10 19:44:20,597 | 3664239 | INFO | queue[0004] trial 39 fold 5 physics
+2026-03-10 19:44:20,597 | 3664239 | INFO | [END BAYES QUEUE]
+2026-03-10 20:05:27,059 | 3664239 | INFO | [RESUME] starting from trial 38
+2026-03-10 20:32:08,871 | 3664239 | INFO | [RESUME] starting from trial 38
+2026-03-10 21:12:27,535 | 3664239 | INFO | [RESUME] starting from trial 38
+2026-03-10 22:06:49,712 | 3664239 | INFO | [RESUME] starting from trial 38
+2026-03-10 23:15:09,857 | 3664239 | INFO | [TRIAL COMPLETE] trial 39 physics NSE_1D=0.89411 NSE_1H=0.90447
+2026-03-10 23:15:10,304 | 3664239 | INFO | [ENQUEUE TRIAL] trial 40 physics
+2026-03-10 23:15:10,304 | 3664239 | INFO | [BAYES QUEUE STATE]
+2026-03-10 23:15:10,305 | 3664239 | INFO | pending_jobs = 5
+2026-03-10 23:15:10,305 | 3664239 | INFO | inflight_trials = [39]
+2026-03-10 23:15:10,305 | 3664239 | INFO | queue[0000] trial 40 fold 1 physics
+2026-03-10 23:15:10,306 | 3664239 | INFO | queue[0001] trial 40 fold 2 physics
+2026-03-10 23:15:10,306 | 3664239 | INFO | queue[0002] trial 40 fold 3 physics
+2026-03-10 23:15:10,306 | 3664239 | INFO | queue[0003] trial 40 fold 4 physics
+2026-03-10 23:15:10,306 | 3664239 | INFO | queue[0004] trial 40 fold 5 physics
+2026-03-10 23:15:10,307 | 3664239 | INFO | [END BAYES QUEUE]
+2026-03-10 23:15:10,321 | 3664239 | INFO | [RESUME] starting from trial 39
+2026-03-10 23:27:41,217 | 3664239 | INFO | [RESUME] starting from trial 39
+2026-03-10 23:54:16,816 | 3664239 | INFO | [RESUME] starting from trial 39
+2026-03-11 00:35:12,059 | 3664239 | INFO | [RESUME] starting from trial 39
+2026-03-11 01:30:25,633 | 3664239 | INFO | [RESUME] starting from trial 39
+2026-03-11 02:39:54,868 | 3664239 | INFO | [TRIAL COMPLETE] trial 40 physics NSE_1D=0.88891 NSE_1H=0.90742
+2026-03-11 02:39:55,220 | 3664239 | INFO | [ENQUEUE TRIAL] trial 41 physics
+2026-03-11 02:39:55,221 | 3664239 | INFO | [BAYES QUEUE STATE]
+2026-03-11 02:39:55,221 | 3664239 | INFO | pending_jobs = 5
+2026-03-11 02:39:55,221 | 3664239 | INFO | inflight_trials = [40]
+2026-03-11 02:39:55,222 | 3664239 | INFO | queue[0000] trial 41 fold 1 physics
+2026-03-11 02:39:55,222 | 3664239 | INFO | queue[0001] trial 41 fold 2 physics
+2026-03-11 02:39:55,222 | 3664239 | INFO | queue[0002] trial 41 fold 3 physics
+2026-03-11 02:39:55,222 | 3664239 | INFO | queue[0003] trial 41 fold 4 physics
+2026-03-11 02:39:55,223 | 3664239 | INFO | queue[0004] trial 41 fold 5 physics
+2026-03-11 02:39:55,223 | 3664239 | INFO | [END BAYES QUEUE]
+2026-03-11 02:39:55,237 | 3664239 | INFO | [RESUME] starting from trial 40
+2026-03-11 02:52:27,336 | 3664239 | INFO | [RESUME] starting from trial 40
+2026-03-11 03:18:56,223 | 3664239 | INFO | [RESUME] starting from trial 40
+2026-03-11 03:59:21,895 | 3664239 | INFO | [RESUME] starting from trial 40
+2026-03-11 04:53:58,776 | 3664239 | INFO | [RESUME] starting from trial 40
+2026-03-11 06:02:45,821 | 3664239 | INFO | [TRIAL COMPLETE] trial 41 physics NSE_1D=0.90616 NSE_1H=0.90713
+2026-03-11 06:02:46,173 | 3664239 | INFO | [ENQUEUE TRIAL] trial 42 physics
+2026-03-11 06:02:46,173 | 3664239 | INFO | [BAYES QUEUE STATE]
+2026-03-11 06:02:46,174 | 3664239 | INFO | pending_jobs = 5
+2026-03-11 06:02:46,174 | 3664239 | INFO | inflight_trials = [41]
+2026-03-11 06:02:46,174 | 3664239 | INFO | queue[0000] trial 42 fold 1 physics
+2026-03-11 06:02:46,174 | 3664239 | INFO | queue[0001] trial 42 fold 2 physics
+2026-03-11 06:02:46,175 | 3664239 | INFO | queue[0002] trial 42 fold 3 physics
+2026-03-11 06:02:46,175 | 3664239 | INFO | queue[0003] trial 42 fold 4 physics
+2026-03-11 06:02:46,175 | 3664239 | INFO | queue[0004] trial 42 fold 5 physics
+2026-03-11 06:02:46,176 | 3664239 | INFO | [END BAYES QUEUE]
+2026-03-11 06:02:46,190 | 3664239 | INFO | [RESUME] starting from trial 41
+2026-03-11 06:15:09,873 | 3664239 | INFO | [RESUME] starting from trial 41
+2026-03-11 06:41:32,342 | 3664239 | INFO | [RESUME] starting from trial 41
+2026-03-11 07:22:34,695 | 3664239 | INFO | [RESUME] starting from trial 41
+2026-03-11 08:17:48,771 | 3664239 | INFO | [RESUME] starting from trial 41
+2026-03-11 09:27:22,143 | 3664239 | INFO | [TRIAL COMPLETE] trial 42 physics NSE_1D=0.90656 NSE_1H=0.90694
+2026-03-11 09:27:22,509 | 3664239 | INFO | [ENQUEUE TRIAL] trial 43 physics
+2026-03-11 09:27:22,509 | 3664239 | INFO | [BAYES QUEUE STATE]
+2026-03-11 09:27:22,510 | 3664239 | INFO | pending_jobs = 5
+2026-03-11 09:27:22,510 | 3664239 | INFO | inflight_trials = [42]
+2026-03-11 09:27:22,510 | 3664239 | INFO | queue[0000] trial 43 fold 1 physics
+2026-03-11 09:27:22,511 | 3664239 | INFO | queue[0001] trial 43 fold 2 physics
+2026-03-11 09:27:22,511 | 3664239 | INFO | queue[0002] trial 43 fold 3 physics
+2026-03-11 09:27:22,511 | 3664239 | INFO | queue[0003] trial 43 fold 4 physics
+2026-03-11 09:27:22,511 | 3664239 | INFO | queue[0004] trial 43 fold 5 physics
+2026-03-11 09:27:22,512 | 3664239 | INFO | [END BAYES QUEUE]
+2026-03-11 09:27:22,527 | 3664239 | INFO | [RESUME] starting from trial 42
+2026-03-11 09:39:55,420 | 3664239 | INFO | [RESUME] starting from trial 42
+2026-03-11 10:06:29,615 | 3664239 | INFO | [RESUME] starting from trial 42
+2026-03-11 10:47:32,145 | 3664239 | INFO | [RESUME] starting from trial 42
+2026-03-11 11:42:51,494 | 3664239 | INFO | [RESUME] starting from trial 42
+2026-03-11 12:52:41,656 | 3664239 | INFO | [TRIAL COMPLETE] trial 43 physics NSE_1D=0.89988 NSE_1H=0.89618
+2026-03-11 12:52:42,019 | 3664239 | INFO | [ENQUEUE TRIAL] trial 44 physics
+2026-03-11 12:52:42,020 | 3664239 | INFO | [BAYES QUEUE STATE]
+2026-03-11 12:52:42,020 | 3664239 | INFO | pending_jobs = 5
+2026-03-11 12:52:42,020 | 3664239 | INFO | inflight_trials = [43]
+2026-03-11 12:52:42,021 | 3664239 | INFO | queue[0000] trial 44 fold 1 physics
+2026-03-11 12:52:42,021 | 3664239 | INFO | queue[0001] trial 44 fold 2 physics
+2026-03-11 12:52:42,021 | 3664239 | INFO | queue[0002] trial 44 fold 3 physics
+2026-03-11 12:52:42,022 | 3664239 | INFO | queue[0003] trial 44 fold 4 physics
+2026-03-11 12:52:42,022 | 3664239 | INFO | queue[0004] trial 44 fold 5 physics
+2026-03-11 12:52:42,022 | 3664239 | INFO | [END BAYES QUEUE]
+2026-03-11 12:52:42,038 | 3664239 | INFO | [RESUME] starting from trial 43
+2026-03-11 13:05:14,831 | 3664239 | INFO | [RESUME] starting from trial 43
+2026-03-11 13:31:56,038 | 3664239 | INFO | [RESUME] starting from trial 43
+2026-03-11 14:12:51,282 | 3664239 | INFO | [RESUME] starting from trial 43
+2026-03-11 15:08:10,279 | 3664239 | INFO | [RESUME] starting from trial 43
+2026-03-11 16:17:53,326 | 3664239 | INFO | [TRIAL COMPLETE] trial 44 physics NSE_1D=0.91985 NSE_1H=0.88664
+2026-03-11 16:17:53,680 | 3664239 | INFO | [ENQUEUE TRIAL] trial 45 physics
+2026-03-11 16:17:53,680 | 3664239 | INFO | [BAYES QUEUE STATE]
+2026-03-11 16:17:53,680 | 3664239 | INFO | pending_jobs = 5
+2026-03-11 16:17:53,681 | 3664239 | INFO | inflight_trials = [44]
+2026-03-11 16:17:53,681 | 3664239 | INFO | queue[0000] trial 45 fold 1 physics
+2026-03-11 16:17:53,681 | 3664239 | INFO | queue[0001] trial 45 fold 2 physics
+2026-03-11 16:17:53,682 | 3664239 | INFO | queue[0002] trial 45 fold 3 physics
+2026-03-11 16:17:53,682 | 3664239 | INFO | queue[0003] trial 45 fold 4 physics
+2026-03-11 16:17:53,682 | 3664239 | INFO | queue[0004] trial 45 fold 5 physics
+2026-03-11 16:17:53,683 | 3664239 | INFO | [END BAYES QUEUE]
+2026-03-11 16:17:53,698 | 3664239 | INFO | [RESUME] starting from trial 44
+2026-03-11 16:30:19,381 | 3664239 | INFO | [RESUME] starting from trial 44
+2026-03-11 17:07:13,454 | 3664239 | INFO | [RESUME] starting from trial 44
+2026-03-11 17:31:20,515 | 3696610 | INFO | [+   0.07s]
+2026-03-11 17:31:20,554 | 3696610 | INFO | Basin: guerneville, GPU: -1, Verbose: True
+2026-03-11 17:31:20,554 | 3696610 | INFO | [+   0.11s]
+2026-03-11 17:31:20,555 | 3696610 | INFO | Pre-warming numba JIT ...
+2026-03-11 17:31:24,721 | 3696610 | INFO | [+   4.27s]
+2026-03-11 17:31:25,181 | 3696610 | INFO | Numba JIT pre-compiled.
+2026-03-11 17:31:25,223 | 3696610 | INFO | YAML PATH:
+2026-03-11 17:31:25,224 | 3696610 | INFO | /global/scratch/users/maxwellfung/UCB-USACE-RR-PROJECT/UCB_training/configs/guerneville_mtslstm2.yaml
+2026-03-11 17:31:25,556 | 3696610 | INFO | [+   5.11s]
+2026-03-11 17:31:25,557 | 3696610 | INFO | 288 combinations, 50 workers
+2026-03-11 17:31:25,557 | 3696610 | INFO | run_gridsearch =
+2026-03-11 17:31:25,557 | 3696610 | INFO | False
+2026-03-11 17:31:25,571 | 3696610 | INFO | hparams_exists =
+2026-03-11 17:31:25,571 | 3696610 | INFO | False
+2026-03-11 17:31:25,640 | 3696610 | INFO | [EXTERNAL CV FOLDS]
+2026-03-11 17:31:25,640 | 3696610 | INFO | fold 1: train 01/10/1994 -> 01/10/1996 | val 02/10/1996 -> 01/10/1997 | eval 02/10/1996 -> 01/10/1997
+2026-03-11 17:31:25,640 | 3696610 | INFO | fold 2: train 01/10/1994 -> 01/10/1998 | val 02/10/1998 -> 01/10/1999 | eval 02/10/1998 -> 01/10/1999
+2026-03-11 17:31:25,640 | 3696610 | INFO | fold 3: train 01/10/1994 -> 01/10/2000 | val 02/10/2000 -> 01/10/2001 | eval 02/10/2000 -> 01/10/2001
+2026-03-11 17:31:25,640 | 3696610 | INFO | fold 4: train 01/10/1994 -> 01/10/2002 | val 02/10/2002 -> 01/10/2003 | eval 02/10/2002 -> 01/10/2003
+2026-03-11 17:31:25,640 | 3696610 | INFO | fold 5: train 01/10/1994 -> 01/10/2004 | val 02/10/2004 -> 01/10/2005 | eval 02/10/2004 -> 01/10/2005
+2026-03-11 17:31:25,640 | 3696610 | INFO | [EXTERNAL CV FOLDS] total folds = 5
+2026-03-11 17:31:25,641 | 3696610 | INFO | [BAYESIAN OPTIMIZATION] Using 50 parallel workers
+2026-03-11 17:31:25,952 | 3696610 | INFO | [OPTUNA SEED] journal already has 48 trials → skipping CSV seed
+2026-03-11 17:31:25,952 | 3696610 | INFO | [BAYES] no_physics: 10 parallel trials x 5 folds = up to 50 workers
+2026-03-11 17:31:25,952 | 3696610 | INFO | /global/scratch/users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/hyperparams/archive/guerneville_mts_CROSS_VAL_V4_no_physics_gridsearch_20260307T122221Z.csv
+2026-03-11 17:31:26,009 | 3696610 | INFO | [REPLAYING COMPLETED TRIALS FROM CSV]
+2026-03-11 17:31:26,009 | 3696610 | INFO | [Trial 1 No-Physics] already completed
+2026-03-11 17:31:26,009 | 3696610 | INFO | [Trial 2 No-Physics] already completed
+2026-03-11 17:31:26,010 | 3696610 | INFO | [Trial 3 No-Physics] already completed
+2026-03-11 17:31:26,010 | 3696610 | INFO | [Trial 4 No-Physics] already completed
+2026-03-11 17:31:26,010 | 3696610 | INFO | [Trial 5 No-Physics] already completed
+2026-03-11 17:31:26,010 | 3696610 | INFO | [Trial 6 No-Physics] already completed
+2026-03-11 17:31:26,010 | 3696610 | INFO | [Trial 7 No-Physics] already completed
+2026-03-11 17:31:26,011 | 3696610 | INFO | [Trial 8 No-Physics] already completed
+2026-03-11 17:31:26,011 | 3696610 | INFO | [Trial 9 No-Physics] already completed
+2026-03-11 17:31:26,011 | 3696610 | INFO | [Trial 10 No-Physics] already completed
+2026-03-11 17:31:26,011 | 3696610 | INFO | [Trial 11 No-Physics] already completed
+2026-03-11 17:31:26,011 | 3696610 | INFO | [Trial 12 No-Physics] already completed
+2026-03-11 17:31:26,012 | 3696610 | INFO | [Trial 13 No-Physics] already completed
+2026-03-11 17:31:26,012 | 3696610 | INFO | [Trial 14 No-Physics] already completed
+2026-03-11 17:31:26,012 | 3696610 | INFO | [Trial 15 No-Physics] already completed
+2026-03-11 17:31:26,012 | 3696610 | INFO | [Trial 16 No-Physics] already completed
+2026-03-11 17:31:26,012 | 3696610 | INFO | [Trial 17 No-Physics] already completed
+2026-03-11 17:31:26,013 | 3696610 | INFO | [Trial 18 No-Physics] already completed
+2026-03-11 17:31:26,013 | 3696610 | INFO | [Trial 19 No-Physics] already completed
+2026-03-11 17:31:26,013 | 3696610 | INFO | [Trial 20 No-Physics] already completed
+2026-03-11 17:31:26,013 | 3696610 | INFO | [Trial 21 No-Physics] already completed
+2026-03-11 17:31:26,014 | 3696610 | INFO | [Trial 22 No-Physics] already completed
+2026-03-11 17:31:26,014 | 3696610 | INFO | [Trial 23 No-Physics] already completed
+2026-03-11 17:31:26,014 | 3696610 | INFO | [Trial 24 No-Physics] already completed
+2026-03-11 17:31:26,014 | 3696610 | INFO | [Trial 25 No-Physics] already completed
+2026-03-11 17:31:26,014 | 3696610 | INFO | [Trial 26 No-Physics] already completed
+2026-03-11 17:31:26,014 | 3696610 | INFO | [Trial 27 No-Physics] already completed
+2026-03-11 17:31:26,015 | 3696610 | INFO | [Trial 28 No-Physics] already completed
+2026-03-11 17:31:26,015 | 3696610 | INFO | [Trial 29 No-Physics] already completed
+2026-03-11 17:31:26,015 | 3696610 | INFO | [Trial 30 No-Physics] already completed
+2026-03-11 17:31:26,015 | 3696610 | INFO | [Trial 31 No-Physics] already completed
+2026-03-11 17:31:26,015 | 3696610 | INFO | [Trial 32 No-Physics] already completed
+2026-03-11 17:31:26,015 | 3696610 | INFO | [Trial 33 No-Physics] already completed
+2026-03-11 17:31:26,015 | 3696610 | INFO | [Trial 34 No-Physics] already completed
+2026-03-11 17:31:26,015 | 3696610 | INFO | [Trial 35 No-Physics] already completed
+2026-03-11 17:31:26,016 | 3696610 | INFO | [Trial 36 No-Physics] already completed
+2026-03-11 17:31:26,016 | 3696610 | INFO | [Trial 37 No-Physics] already completed
+2026-03-11 17:31:26,016 | 3696610 | INFO | [Trial 38 No-Physics] already completed
+2026-03-11 17:31:26,016 | 3696610 | INFO | [Trial 39 No-Physics] already completed
+2026-03-11 17:31:26,016 | 3696610 | INFO | [Trial 40 No-Physics] already completed
+2026-03-11 17:31:26,016 | 3696610 | INFO | [Trial 41 No-Physics] already completed
+2026-03-11 17:31:26,016 | 3696610 | INFO | [Trial 42 No-Physics] already completed
+2026-03-11 17:31:26,017 | 3696610 | INFO | [Trial 43 No-Physics] already completed
+2026-03-11 17:31:26,017 | 3696610 | INFO | [Trial 44 No-Physics] already completed
+2026-03-11 17:31:26,017 | 3696610 | INFO | [Trial 45 No-Physics] already completed
+2026-03-11 17:31:26,017 | 3696610 | INFO | [Trial 46 No-Physics] already completed
+2026-03-11 17:31:26,017 | 3696610 | INFO | [Trial 47 No-Physics] already completed
+2026-03-11 17:31:26,017 | 3696610 | INFO | [Trial 48 No-Physics] already completed
+2026-03-11 17:31:26,017 | 3696610 | INFO | [REPLAY COMPLETE] 48 trials already finished
+2026-03-11 17:31:26,017 | 3696610 | INFO | [RESUME] starting from trial 48
+2026-03-11 17:31:26,018 | 3696610 | INFO | [BAYES] no_physics already finished (48/48)
+2026-03-11 17:31:27,847 | 3696610 | INFO | [OPTUNA SEED] physics journal already has 48 trials → skipping CSV seed
+2026-03-11 17:31:27,868 | 3696610 | INFO | [BAYES] physics: 10 parallel trials x 5 folds = up to 50 workers
+2026-03-11 17:31:27,869 | 3696610 | INFO | /global/scratch/users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/hyperparams/archive/guerneville_mts_CROSS_VAL_V4_physics_gridsearch_20260307T122221Z.csv
+2026-03-11 17:31:27,902 | 3696610 | INFO | [REPLAYING COMPLETED TRIALS FROM CSV]
+2026-03-11 17:31:27,902 | 3696610 | INFO | [Trial 1 Physics] already completed
+2026-03-11 17:31:27,902 | 3696610 | INFO | [Trial 2 Physics] already completed
+2026-03-11 17:31:27,903 | 3696610 | INFO | [Trial 3 Physics] already completed
+2026-03-11 17:31:27,903 | 3696610 | INFO | [Trial 4 Physics] already completed
+2026-03-11 17:31:27,903 | 3696610 | INFO | [Trial 5 Physics] already completed
+2026-03-11 17:31:27,903 | 3696610 | INFO | [Trial 6 Physics] already completed
+2026-03-11 17:31:27,904 | 3696610 | INFO | [Trial 7 Physics] already completed
+2026-03-11 17:31:27,904 | 3696610 | INFO | [Trial 8 Physics] already completed
+2026-03-11 17:31:27,904 | 3696610 | INFO | [Trial 9 Physics] already completed
+2026-03-11 17:31:27,904 | 3696610 | INFO | [Trial 10 Physics] already completed
+2026-03-11 17:31:27,905 | 3696610 | INFO | [Trial 11 Physics] already completed
+2026-03-11 17:31:27,905 | 3696610 | INFO | [Trial 12 Physics] already completed
+2026-03-11 17:31:27,905 | 3696610 | INFO | [Trial 13 Physics] already completed
+2026-03-11 17:31:27,905 | 3696610 | INFO | [Trial 14 Physics] already completed
+2026-03-11 17:31:27,906 | 3696610 | INFO | [Trial 15 Physics] already completed
+2026-03-11 17:31:27,906 | 3696610 | INFO | [Trial 16 Physics] already completed
+2026-03-11 17:31:27,906 | 3696610 | INFO | [Trial 17 Physics] already completed
+2026-03-11 17:31:27,907 | 3696610 | INFO | [Trial 18 Physics] already completed
+2026-03-11 17:31:27,907 | 3696610 | INFO | [Trial 19 Physics] already completed
+2026-03-11 17:31:27,907 | 3696610 | INFO | [Trial 20 Physics] already completed
+2026-03-11 17:31:27,907 | 3696610 | INFO | [Trial 21 Physics] already completed
+2026-03-11 17:31:27,908 | 3696610 | INFO | [Trial 22 Physics] already completed
+2026-03-11 17:31:27,908 | 3696610 | INFO | [Trial 23 Physics] already completed
+2026-03-11 17:31:27,908 | 3696610 | INFO | [Trial 24 Physics] already completed
+2026-03-11 17:31:27,908 | 3696610 | INFO | [Trial 25 Physics] already completed
+2026-03-11 17:31:27,909 | 3696610 | INFO | [Trial 26 Physics] already completed
+2026-03-11 17:31:27,909 | 3696610 | INFO | [Trial 27 Physics] already completed
+2026-03-11 17:31:27,909 | 3696610 | INFO | [Trial 28 Physics] already completed
+2026-03-11 17:31:27,910 | 3696610 | INFO | [Trial 29 Physics] already completed
+2026-03-11 17:31:27,910 | 3696610 | INFO | [Trial 30 Physics] already completed
+2026-03-11 17:31:27,910 | 3696610 | INFO | [Trial 31 Physics] already completed
+2026-03-11 17:31:27,910 | 3696610 | INFO | [Trial 32 Physics] already completed
+2026-03-11 17:31:27,911 | 3696610 | INFO | [Trial 33 Physics] already completed
+2026-03-11 17:31:27,911 | 3696610 | INFO | [Trial 34 Physics] already completed
+2026-03-11 17:31:27,911 | 3696610 | INFO | [Trial 35 Physics] already completed
+2026-03-11 17:31:27,911 | 3696610 | INFO | [Trial 36 Physics] already completed
+2026-03-11 17:31:27,911 | 3696610 | INFO | [Trial 37 Physics] already completed
+2026-03-11 17:31:27,911 | 3696610 | INFO | [Trial 38 Physics] already completed
+2026-03-11 17:31:27,912 | 3696610 | INFO | [Trial 39 Physics] already completed
+2026-03-11 17:31:27,912 | 3696610 | INFO | [Trial 40 Physics] already completed
+2026-03-11 17:31:27,912 | 3696610 | INFO | [Trial 41 Physics] already completed
+2026-03-11 17:31:27,912 | 3696610 | INFO | [Trial 42 Physics] already completed
+2026-03-11 17:31:27,912 | 3696610 | INFO | [Trial 43 Physics] already completed
+2026-03-11 17:31:27,912 | 3696610 | INFO | [Trial 44 Physics] already completed
+2026-03-11 17:31:27,912 | 3696610 | INFO | [REPLAY COMPLETE] 44 trials already finished
+2026-03-11 17:31:27,912 | 3696610 | INFO | [RESUME] starting from trial 44
+2026-03-11 17:31:30,039 | 3696610 | INFO | [ENQUEUE TRIAL] trial 45 physics
+2026-03-11 17:31:30,055 | 3696610 | INFO | [BAYES QUEUE STATE]
+2026-03-11 17:31:30,056 | 3696610 | INFO | pending_jobs = 5
+2026-03-11 17:31:30,056 | 3696610 | INFO | inflight_trials = [44]
+2026-03-11 17:31:30,056 | 3696610 | INFO | queue[0000] trial 45 fold 1 physics
+2026-03-11 17:31:30,057 | 3696610 | INFO | queue[0001] trial 45 fold 2 physics
+2026-03-11 17:31:30,057 | 3696610 | INFO | queue[0002] trial 45 fold 3 physics
+2026-03-11 17:31:30,057 | 3696610 | INFO | queue[0003] trial 45 fold 4 physics
+2026-03-11 17:31:30,058 | 3696610 | INFO | queue[0004] trial 45 fold 5 physics
+2026-03-11 17:31:30,058 | 3696610 | INFO | [END BAYES QUEUE]
+2026-03-11 17:31:32,818 | 3696610 | INFO | [ENQUEUE TRIAL] trial 46 physics
+2026-03-11 17:31:32,844 | 3696610 | INFO | [BAYES QUEUE STATE]
+2026-03-11 17:31:32,844 | 3696610 | INFO | pending_jobs = 10
+2026-03-11 17:31:32,844 | 3696610 | INFO | inflight_trials = [44, 45]
+2026-03-11 17:31:32,845 | 3696610 | INFO | queue[0000] trial 45 fold 1 physics
+2026-03-11 17:31:32,845 | 3696610 | INFO | queue[0001] trial 45 fold 2 physics
+2026-03-11 17:31:32,845 | 3696610 | INFO | queue[0002] trial 45 fold 3 physics
+2026-03-11 17:31:32,846 | 3696610 | INFO | queue[0003] trial 45 fold 4 physics
+2026-03-11 17:31:32,846 | 3696610 | INFO | queue[0004] trial 45 fold 5 physics
+2026-03-11 17:31:32,846 | 3696610 | INFO | queue[0005] trial 46 fold 1 physics
+2026-03-11 17:31:32,847 | 3696610 | INFO | queue[0006] trial 46 fold 2 physics
+2026-03-11 17:31:32,847 | 3696610 | INFO | queue[0007] trial 46 fold 3 physics
+2026-03-11 17:31:32,847 | 3696610 | INFO | queue[0008] trial 46 fold 4 physics
+2026-03-11 17:31:32,848 | 3696610 | INFO | queue[0009] trial 46 fold 5 physics
+2026-03-11 17:31:32,848 | 3696610 | INFO | [END BAYES QUEUE]
+2026-03-11 17:31:35,568 | 3696610 | INFO | [ENQUEUE TRIAL] trial 47 physics
+2026-03-11 17:31:36,950 | 3696610 | INFO | [BAYES QUEUE STATE]
+2026-03-11 17:31:36,951 | 3696610 | INFO | pending_jobs = 15
+2026-03-11 17:31:36,951 | 3696610 | INFO | inflight_trials = [44, 45, 46]
+2026-03-11 17:31:36,951 | 3696610 | INFO | queue[0000] trial 45 fold 1 physics
+2026-03-11 17:31:36,952 | 3696610 | INFO | queue[0001] trial 45 fold 2 physics
+2026-03-11 17:31:36,952 | 3696610 | INFO | queue[0002] trial 45 fold 3 physics
+2026-03-11 17:31:36,952 | 3696610 | INFO | queue[0003] trial 45 fold 4 physics
+2026-03-11 17:31:36,953 | 3696610 | INFO | queue[0004] trial 45 fold 5 physics
+2026-03-11 17:31:36,953 | 3696610 | INFO | queue[0005] trial 46 fold 1 physics
+2026-03-11 17:31:36,953 | 3696610 | INFO | queue[0006] trial 46 fold 2 physics
+2026-03-11 17:31:36,954 | 3696610 | INFO | queue[0007] trial 46 fold 3 physics
+2026-03-11 17:31:36,954 | 3696610 | INFO | queue[0008] trial 46 fold 4 physics
+2026-03-11 17:31:36,954 | 3696610 | INFO | queue[0009] trial 46 fold 5 physics
+2026-03-11 17:31:36,955 | 3696610 | INFO | queue[0010] trial 47 fold 1 physics
+2026-03-11 17:31:36,955 | 3696610 | INFO | queue[0011] trial 47 fold 2 physics
+2026-03-11 17:31:36,955 | 3696610 | INFO | queue[0012] trial 47 fold 3 physics
+2026-03-11 17:31:36,956 | 3696610 | INFO | queue[0013] trial 47 fold 4 physics
+2026-03-11 17:31:36,956 | 3696610 | INFO | queue[0014] trial 47 fold 5 physics
+2026-03-11 17:31:36,956 | 3696610 | INFO | [END BAYES QUEUE]
+2026-03-11 17:31:43,273 | 3696610 | INFO | [ENQUEUE TRIAL] trial 48 physics
+2026-03-11 17:31:43,286 | 3696610 | INFO | [BAYES QUEUE STATE]
+2026-03-11 17:31:43,287 | 3696610 | INFO | pending_jobs = 20
+2026-03-11 17:31:43,287 | 3696610 | INFO | inflight_trials = [44, 45, 46, 47]
+2026-03-11 17:31:43,287 | 3696610 | INFO | queue[0000] trial 45 fold 1 physics
+2026-03-11 17:31:43,288 | 3696610 | INFO | queue[0001] trial 45 fold 2 physics
+2026-03-11 17:31:43,288 | 3696610 | INFO | queue[0002] trial 45 fold 3 physics
+2026-03-11 17:31:43,288 | 3696610 | INFO | queue[0003] trial 45 fold 4 physics
+2026-03-11 17:31:43,289 | 3696610 | INFO | queue[0004] trial 45 fold 5 physics
+2026-03-11 17:31:43,289 | 3696610 | INFO | queue[0005] trial 46 fold 1 physics
+2026-03-11 17:31:43,289 | 3696610 | INFO | queue[0006] trial 46 fold 2 physics
+2026-03-11 17:31:43,289 | 3696610 | INFO | queue[0007] trial 46 fold 3 physics
+2026-03-11 17:31:43,290 | 3696610 | INFO | queue[0008] trial 46 fold 4 physics
+2026-03-11 17:31:43,290 | 3696610 | INFO | queue[0009] trial 46 fold 5 physics
+2026-03-11 17:31:43,290 | 3696610 | INFO | queue[0010] trial 47 fold 1 physics
+2026-03-11 17:31:43,291 | 3696610 | INFO | queue[0011] trial 47 fold 2 physics
+2026-03-11 17:31:43,291 | 3696610 | INFO | queue[0012] trial 47 fold 3 physics
+2026-03-11 17:31:43,291 | 3696610 | INFO | queue[0013] trial 47 fold 4 physics
+2026-03-11 17:31:43,292 | 3696610 | INFO | queue[0014] trial 47 fold 5 physics
+2026-03-11 17:31:43,292 | 3696610 | INFO | queue[0015] trial 48 fold 1 physics
+2026-03-11 17:31:43,292 | 3696610 | INFO | queue[0016] trial 48 fold 2 physics
+2026-03-11 17:31:43,292 | 3696610 | INFO | queue[0017] trial 48 fold 3 physics
+2026-03-11 17:31:43,292 | 3696610 | INFO | queue[0018] trial 48 fold 4 physics
+2026-03-11 17:31:43,293 | 3696610 | INFO | queue[0019] trial 48 fold 5 physics
+2026-03-11 17:31:43,293 | 3696610 | INFO | [END BAYES QUEUE]
+2026-03-11 17:40:35,645 | 1573653 | INFO | [+   0.67s]
+2026-03-11 17:40:39,204 | 1573653 | INFO | Basin: guerneville, GPU: -1, Verbose: True
+2026-03-11 17:40:42,938 | 1573653 | INFO | [+   7.96s]
+2026-03-11 17:40:42,947 | 1573653 | INFO | Pre-warming numba JIT ...
+2026-03-11 17:40:45,225 | 1573653 | INFO | [+  10.25s]
+2026-03-11 17:40:46,607 | 1573653 | INFO | Numba JIT pre-compiled.
+2026-03-11 17:40:46,657 | 1573653 | INFO | YAML PATH:
+2026-03-11 17:40:46,657 | 1573653 | INFO | /global/scratch/users/maxwellfung/UCB-USACE-RR-PROJECT/UCB_training/configs/guerneville_mtslstm2.yaml
+2026-03-11 17:40:46,899 | 1573653 | INFO | [+  11.92s]
+2026-03-11 17:40:46,899 | 1573653 | INFO | 288 combinations, 20 workers
+2026-03-11 17:40:46,899 | 1573653 | INFO | run_gridsearch =
+2026-03-11 17:40:46,899 | 1573653 | INFO | False
+2026-03-11 17:40:46,936 | 1573653 | INFO | hparams_exists =
+2026-03-11 17:40:46,936 | 1573653 | INFO | False
+2026-03-11 17:40:47,114 | 1573653 | INFO | [EXTERNAL CV FOLDS]
+2026-03-11 17:40:47,114 | 1573653 | INFO | fold 1: train 01/10/1994 -> 01/10/1996 | val 02/10/1996 -> 01/10/1997 | eval 02/10/1996 -> 01/10/1997
+2026-03-11 17:40:47,114 | 1573653 | INFO | fold 2: train 01/10/1994 -> 01/10/1998 | val 02/10/1998 -> 01/10/1999 | eval 02/10/1998 -> 01/10/1999
+2026-03-11 17:40:47,114 | 1573653 | INFO | fold 3: train 01/10/1994 -> 01/10/2000 | val 02/10/2000 -> 01/10/2001 | eval 02/10/2000 -> 01/10/2001
+2026-03-11 17:40:47,114 | 1573653 | INFO | fold 4: train 01/10/1994 -> 01/10/2002 | val 02/10/2002 -> 01/10/2003 | eval 02/10/2002 -> 01/10/2003
+2026-03-11 17:40:47,115 | 1573653 | INFO | fold 5: train 01/10/1994 -> 01/10/2004 | val 02/10/2004 -> 01/10/2005 | eval 02/10/2004 -> 01/10/2005
+2026-03-11 17:40:47,115 | 1573653 | INFO | [EXTERNAL CV FOLDS] total folds = 5
+2026-03-11 17:40:47,115 | 1573653 | INFO | [BAYESIAN OPTIMIZATION] Using 20 parallel workers
+2026-03-11 17:40:52,283 | 1573653 | INFO | [OPTUNA SEED] journal already has 48 trials → skipping CSV seed
+2026-03-11 17:40:52,309 | 1573653 | INFO | [BAYES] no_physics: 4 parallel trials x 5 folds = up to 20 workers
+2026-03-11 17:40:52,310 | 1573653 | INFO | /global/scratch/users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/hyperparams/archive/guerneville_mts_CROSS_VAL_V4_no_physics_gridsearch_20260307T122221Z.csv
+2026-03-11 17:40:52,330 | 1573653 | INFO | [REPLAYING COMPLETED TRIALS FROM CSV]
+2026-03-11 17:40:52,330 | 1573653 | INFO | [Trial 1 No-Physics] already completed
+2026-03-11 17:40:52,330 | 1573653 | INFO | [Trial 2 No-Physics] already completed
+2026-03-11 17:40:52,330 | 1573653 | INFO | [Trial 3 No-Physics] already completed
+2026-03-11 17:40:52,331 | 1573653 | INFO | [Trial 4 No-Physics] already completed
+2026-03-11 17:40:52,331 | 1573653 | INFO | [Trial 5 No-Physics] already completed
+2026-03-11 17:40:52,331 | 1573653 | INFO | [Trial 6 No-Physics] already completed
+2026-03-11 17:40:52,331 | 1573653 | INFO | [Trial 7 No-Physics] already completed
+2026-03-11 17:40:52,331 | 1573653 | INFO | [Trial 8 No-Physics] already completed
+2026-03-11 17:40:52,331 | 1573653 | INFO | [Trial 9 No-Physics] already completed
+2026-03-11 17:40:52,331 | 1573653 | INFO | [Trial 10 No-Physics] already completed
+2026-03-11 17:40:52,331 | 1573653 | INFO | [Trial 11 No-Physics] already completed
+2026-03-11 17:40:52,331 | 1573653 | INFO | [Trial 12 No-Physics] already completed
+2026-03-11 17:40:52,331 | 1573653 | INFO | [Trial 13 No-Physics] already completed
+2026-03-11 17:40:52,331 | 1573653 | INFO | [Trial 14 No-Physics] already completed
+2026-03-11 17:40:52,331 | 1573653 | INFO | [Trial 15 No-Physics] already completed
+2026-03-11 17:40:52,331 | 1573653 | INFO | [Trial 16 No-Physics] already completed
+2026-03-11 17:40:52,332 | 1573653 | INFO | [Trial 17 No-Physics] already completed
+2026-03-11 17:40:52,332 | 1573653 | INFO | [Trial 18 No-Physics] already completed
+2026-03-11 17:40:52,332 | 1573653 | INFO | [Trial 19 No-Physics] already completed
+2026-03-11 17:40:52,332 | 1573653 | INFO | [Trial 20 No-Physics] already completed
+2026-03-11 17:40:52,332 | 1573653 | INFO | [Trial 21 No-Physics] already completed
+2026-03-11 17:40:52,332 | 1573653 | INFO | [Trial 22 No-Physics] already completed
+2026-03-11 17:40:52,332 | 1573653 | INFO | [Trial 23 No-Physics] already completed
+2026-03-11 17:40:52,332 | 1573653 | INFO | [Trial 24 No-Physics] already completed
+2026-03-11 17:40:52,332 | 1573653 | INFO | [Trial 25 No-Physics] already completed
+2026-03-11 17:40:52,332 | 1573653 | INFO | [Trial 26 No-Physics] already completed
+2026-03-11 17:40:52,332 | 1573653 | INFO | [Trial 27 No-Physics] already completed
+2026-03-11 17:40:52,332 | 1573653 | INFO | [Trial 28 No-Physics] already completed
+2026-03-11 17:40:52,333 | 1573653 | INFO | [Trial 29 No-Physics] already completed
+2026-03-11 17:40:52,333 | 1573653 | INFO | [Trial 30 No-Physics] already completed
+2026-03-11 17:40:52,333 | 1573653 | INFO | [Trial 31 No-Physics] already completed
+2026-03-11 17:40:52,333 | 1573653 | INFO | [Trial 32 No-Physics] already completed
+2026-03-11 17:40:52,333 | 1573653 | INFO | [Trial 33 No-Physics] already completed
+2026-03-11 17:40:52,333 | 1573653 | INFO | [Trial 34 No-Physics] already completed
+2026-03-11 17:40:52,333 | 1573653 | INFO | [Trial 35 No-Physics] already completed
+2026-03-11 17:40:52,333 | 1573653 | INFO | [Trial 36 No-Physics] already completed
+2026-03-11 17:40:52,333 | 1573653 | INFO | [Trial 37 No-Physics] already completed
+2026-03-11 17:40:52,333 | 1573653 | INFO | [Trial 38 No-Physics] already completed
+2026-03-11 17:40:52,333 | 1573653 | INFO | [Trial 39 No-Physics] already completed
+2026-03-11 17:40:52,333 | 1573653 | INFO | [Trial 40 No-Physics] already completed
+2026-03-11 17:40:52,334 | 1573653 | INFO | [Trial 41 No-Physics] already completed
+2026-03-11 17:40:52,334 | 1573653 | INFO | [Trial 42 No-Physics] already completed
+2026-03-11 17:40:52,334 | 1573653 | INFO | [Trial 43 No-Physics] already completed
+2026-03-11 17:40:52,334 | 1573653 | INFO | [Trial 44 No-Physics] already completed
+2026-03-11 17:40:52,334 | 1573653 | INFO | [Trial 45 No-Physics] already completed
+2026-03-11 17:40:52,334 | 1573653 | INFO | [Trial 46 No-Physics] already completed
+2026-03-11 17:40:52,334 | 1573653 | INFO | [Trial 47 No-Physics] already completed
+2026-03-11 17:40:52,334 | 1573653 | INFO | [Trial 48 No-Physics] already completed
+2026-03-11 17:40:52,334 | 1573653 | INFO | [REPLAY COMPLETE] 48 trials already finished
+2026-03-11 17:40:52,334 | 1573653 | INFO | [RESUME] starting from trial 48
+2026-03-11 17:40:52,334 | 1573653 | INFO | [BAYES] no_physics already finished (48/48)
+2026-03-11 17:40:53,021 | 1573653 | INFO | [OPTUNA SEED] physics journal already has 52 trials → skipping CSV seed
+2026-03-11 17:40:53,021 | 1573653 | INFO | [BAYES] physics: 4 parallel trials x 5 folds = up to 20 workers
+2026-03-11 17:40:53,022 | 1573653 | INFO | /global/scratch/users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/guerneville/mts_shared/hyperparams/archive/guerneville_mts_CROSS_VAL_V4_physics_gridsearch_20260307T122221Z.csv
+2026-03-11 17:40:53,061 | 1573653 | INFO | [REPLAYING COMPLETED TRIALS FROM CSV]
+2026-03-11 17:40:53,061 | 1573653 | INFO | [Trial 1 Physics] already completed
+2026-03-11 17:40:53,061 | 1573653 | INFO | [Trial 2 Physics] already completed
+2026-03-11 17:40:53,061 | 1573653 | INFO | [Trial 3 Physics] already completed
+2026-03-11 17:40:53,061 | 1573653 | INFO | [Trial 4 Physics] already completed
+2026-03-11 17:40:53,062 | 1573653 | INFO | [Trial 5 Physics] already completed
+2026-03-11 17:40:53,062 | 1573653 | INFO | [Trial 6 Physics] already completed
+2026-03-11 17:40:53,062 | 1573653 | INFO | [Trial 7 Physics] already completed
+2026-03-11 17:40:53,062 | 1573653 | INFO | [Trial 8 Physics] already completed
+2026-03-11 17:40:53,062 | 1573653 | INFO | [Trial 9 Physics] already completed
+2026-03-11 17:40:53,062 | 1573653 | INFO | [Trial 10 Physics] already completed
+2026-03-11 17:40:53,062 | 1573653 | INFO | [Trial 11 Physics] already completed
+2026-03-11 17:40:53,062 | 1573653 | INFO | [Trial 12 Physics] already completed
+2026-03-11 17:40:53,062 | 1573653 | INFO | [Trial 13 Physics] already completed
+2026-03-11 17:40:53,062 | 1573653 | INFO | [Trial 14 Physics] already completed
+2026-03-11 17:40:53,062 | 1573653 | INFO | [Trial 15 Physics] already completed
+2026-03-11 17:40:53,062 | 1573653 | INFO | [Trial 16 Physics] already completed
+2026-03-11 17:40:53,062 | 1573653 | INFO | [Trial 17 Physics] already completed
+2026-03-11 17:40:53,063 | 1573653 | INFO | [Trial 18 Physics] already completed
+2026-03-11 17:40:53,063 | 1573653 | INFO | [Trial 19 Physics] already completed
+2026-03-11 17:40:53,063 | 1573653 | INFO | [Trial 20 Physics] already completed
+2026-03-11 17:40:53,063 | 1573653 | INFO | [Trial 21 Physics] already completed
+2026-03-11 17:40:53,063 | 1573653 | INFO | [Trial 22 Physics] already completed
+2026-03-11 17:40:53,063 | 1573653 | INFO | [Trial 23 Physics] already completed
+2026-03-11 17:40:53,063 | 1573653 | INFO | [Trial 24 Physics] already completed
+2026-03-11 17:40:53,063 | 1573653 | INFO | [Trial 25 Physics] already completed
+2026-03-11 17:40:53,063 | 1573653 | INFO | [Trial 26 Physics] already completed
+2026-03-11 17:40:53,063 | 1573653 | INFO | [Trial 27 Physics] already completed
+2026-03-11 17:40:53,063 | 1573653 | INFO | [Trial 28 Physics] already completed
+2026-03-11 17:40:53,063 | 1573653 | INFO | [Trial 29 Physics] already completed
+2026-03-11 17:40:53,064 | 1573653 | INFO | [Trial 30 Physics] already completed
+2026-03-11 17:40:53,064 | 1573653 | INFO | [Trial 31 Physics] already completed
+2026-03-11 17:40:53,064 | 1573653 | INFO | [Trial 32 Physics] already completed
+2026-03-11 17:40:53,064 | 1573653 | INFO | [Trial 33 Physics] already completed
+2026-03-11 17:40:53,064 | 1573653 | INFO | [Trial 34 Physics] already completed
+2026-03-11 17:40:53,064 | 1573653 | INFO | [Trial 35 Physics] already completed
+2026-03-11 17:40:53,064 | 1573653 | INFO | [Trial 36 Physics] already completed
+2026-03-11 17:40:53,064 | 1573653 | INFO | [Trial 37 Physics] already completed
+2026-03-11 17:40:53,064 | 1573653 | INFO | [Trial 38 Physics] already completed
+2026-03-11 17:40:53,064 | 1573653 | INFO | [Trial 39 Physics] already completed
+2026-03-11 17:40:53,064 | 1573653 | INFO | [Trial 40 Physics] already completed
+2026-03-11 17:40:53,064 | 1573653 | INFO | [Trial 41 Physics] already completed
+2026-03-11 17:40:53,064 | 1573653 | INFO | [Trial 42 Physics] already completed
+2026-03-11 17:40:53,065 | 1573653 | INFO | [Trial 43 Physics] already completed
+2026-03-11 17:40:53,065 | 1573653 | INFO | [Trial 44 Physics] already completed
+2026-03-11 17:40:53,065 | 1573653 | INFO | [REPLAY COMPLETE] 44 trials already finished
+2026-03-11 17:40:53,065 | 1573653 | INFO | [RESUME] starting from trial 44
+2026-03-11 17:40:55,463 | 1573653 | INFO | [ENQUEUE TRIAL] trial 45 physics
+2026-03-11 17:40:55,668 | 1573653 | INFO | [BAYES QUEUE STATE]
+2026-03-11 17:40:57,463 | 1573653 | INFO | pending_jobs = 5
+2026-03-11 17:40:57,478 | 1573653 | INFO | inflight_trials = [44]
+2026-03-11 17:40:57,478 | 1573653 | INFO | queue[0000] trial 45 fold 1 physics
+2026-03-11 17:40:57,478 | 1573653 | INFO | queue[0001] trial 45 fold 2 physics
+2026-03-11 17:40:57,478 | 1573653 | INFO | queue[0002] trial 45 fold 3 physics
+2026-03-11 17:40:57,479 | 1573653 | INFO | queue[0003] trial 45 fold 4 physics
+2026-03-11 17:40:57,479 | 1573653 | INFO | queue[0004] trial 45 fold 5 physics
+2026-03-11 17:40:57,479 | 1573653 | INFO | [END BAYES QUEUE]
+2026-03-11 17:41:03,987 | 1573653 | INFO | [ENQUEUE TRIAL] trial 46 physics
+2026-03-11 17:41:04,036 | 1573653 | INFO | [BAYES QUEUE STATE]
+2026-03-11 17:41:04,036 | 1573653 | INFO | pending_jobs = 10
+2026-03-11 17:41:04,036 | 1573653 | INFO | inflight_trials = [44, 45]
+2026-03-11 17:41:04,036 | 1573653 | INFO | queue[0000] trial 45 fold 1 physics
+2026-03-11 17:41:04,036 | 1573653 | INFO | queue[0001] trial 45 fold 2 physics
+2026-03-11 17:41:04,036 | 1573653 | INFO | queue[0002] trial 45 fold 3 physics
+2026-03-11 17:41:04,036 | 1573653 | INFO | queue[0003] trial 45 fold 4 physics
+2026-03-11 17:41:04,037 | 1573653 | INFO | queue[0004] trial 45 fold 5 physics
+2026-03-11 17:41:04,037 | 1573653 | INFO | queue[0005] trial 46 fold 1 physics
+2026-03-11 17:41:04,037 | 1573653 | INFO | queue[0006] trial 46 fold 2 physics
+2026-03-11 17:41:04,037 | 1573653 | INFO | queue[0007] trial 46 fold 3 physics
+2026-03-11 17:41:04,037 | 1573653 | INFO | queue[0008] trial 46 fold 4 physics
+2026-03-11 17:41:04,037 | 1573653 | INFO | queue[0009] trial 46 fold 5 physics
+2026-03-11 17:41:04,037 | 1573653 | INFO | [END BAYES QUEUE]
+2026-03-11 17:41:23,295 | 1573653 | INFO | [ENQUEUE TRIAL] trial 47 physics
+2026-03-11 17:41:23,308 | 1573653 | INFO | [BAYES QUEUE STATE]
+2026-03-11 17:41:23,308 | 1573653 | INFO | pending_jobs = 15
+2026-03-11 17:41:23,308 | 1573653 | INFO | inflight_trials = [44, 45, 46]
+2026-03-11 17:41:23,308 | 1573653 | INFO | queue[0000] trial 45 fold 1 physics
+2026-03-11 17:41:23,309 | 1573653 | INFO | queue[0001] trial 45 fold 2 physics
+2026-03-11 17:41:23,309 | 1573653 | INFO | queue[0002] trial 45 fold 3 physics
+2026-03-11 17:41:23,309 | 1573653 | INFO | queue[0003] trial 45 fold 4 physics
+2026-03-11 17:41:23,309 | 1573653 | INFO | queue[0004] trial 45 fold 5 physics
+2026-03-11 17:41:23,309 | 1573653 | INFO | queue[0005] trial 46 fold 1 physics
+2026-03-11 17:41:23,309 | 1573653 | INFO | queue[0006] trial 46 fold 2 physics
+2026-03-11 17:41:23,309 | 1573653 | INFO | queue[0007] trial 46 fold 3 physics
+2026-03-11 17:41:23,309 | 1573653 | INFO | queue[0008] trial 46 fold 4 physics
+2026-03-11 17:41:23,309 | 1573653 | INFO | queue[0009] trial 46 fold 5 physics
+2026-03-11 17:41:23,309 | 1573653 | INFO | queue[0010] trial 47 fold 1 physics
+2026-03-11 17:41:23,309 | 1573653 | INFO | queue[0011] trial 47 fold 2 physics
+2026-03-11 17:41:23,309 | 1573653 | INFO | queue[0012] trial 47 fold 3 physics
+2026-03-11 17:41:23,309 | 1573653 | INFO | queue[0013] trial 47 fold 4 physics
+2026-03-11 17:41:23,310 | 1573653 | INFO | queue[0014] trial 47 fold 5 physics
+2026-03-11 17:41:23,310 | 1573653 | INFO | [END BAYES QUEUE]
+2026-03-11 17:41:46,223 | 1573653 | INFO | [ENQUEUE TRIAL] trial 48 physics
+2026-03-11 17:41:46,233 | 1573653 | INFO | [BAYES QUEUE STATE]
+2026-03-11 17:41:46,233 | 1573653 | INFO | pending_jobs = 20
+2026-03-11 17:41:46,233 | 1573653 | INFO | inflight_trials = [44, 45, 46, 47]
+2026-03-11 17:41:46,233 | 1573653 | INFO | queue[0000] trial 45 fold 1 physics
+2026-03-11 17:41:46,233 | 1573653 | INFO | queue[0001] trial 45 fold 2 physics
+2026-03-11 17:41:46,234 | 1573653 | INFO | queue[0002] trial 45 fold 3 physics
+2026-03-11 17:41:46,234 | 1573653 | INFO | queue[0003] trial 45 fold 4 physics
+2026-03-11 17:41:46,234 | 1573653 | INFO | queue[0004] trial 45 fold 5 physics
+2026-03-11 17:41:46,234 | 1573653 | INFO | queue[0005] trial 46 fold 1 physics
+2026-03-11 17:41:46,234 | 1573653 | INFO | queue[0006] trial 46 fold 2 physics
+2026-03-11 17:41:46,234 | 1573653 | INFO | queue[0007] trial 46 fold 3 physics
+2026-03-11 17:41:46,234 | 1573653 | INFO | queue[0008] trial 46 fold 4 physics
+2026-03-11 17:41:46,234 | 1573653 | INFO | queue[0009] trial 46 fold 5 physics
+2026-03-11 17:41:46,234 | 1573653 | INFO | queue[0010] trial 47 fold 1 physics
+2026-03-11 17:41:46,234 | 1573653 | INFO | queue[0011] trial 47 fold 2 physics
+2026-03-11 17:41:46,234 | 1573653 | INFO | queue[0012] trial 47 fold 3 physics
+2026-03-11 17:41:46,234 | 1573653 | INFO | queue[0013] trial 47 fold 4 physics
+2026-03-11 17:41:46,235 | 1573653 | INFO | queue[0014] trial 47 fold 5 physics
+2026-03-11 17:41:46,235 | 1573653 | INFO | queue[0015] trial 48 fold 1 physics
+2026-03-11 17:41:46,235 | 1573653 | INFO | queue[0016] trial 48 fold 2 physics
+2026-03-11 17:41:46,235 | 1573653 | INFO | queue[0017] trial 48 fold 3 physics
+2026-03-11 17:41:46,235 | 1573653 | INFO | queue[0018] trial 48 fold 4 physics
+2026-03-11 17:41:46,235 | 1573653 | INFO | queue[0019] trial 48 fold 5 physics
+2026-03-11 17:41:46,235 | 1573653 | INFO | [END BAYES QUEUE]
+2026-03-11 18:07:56,900 | 1573653 | INFO | [RESUME] starting from trial 44
+2026-03-11 18:09:03,475 | 1573653 | INFO | [RESUME] starting from trial 44
+2026-03-11 18:09:03,827 | 1573653 | INFO | [RESUME] starting from trial 44
+2026-03-11 18:09:05,901 | 1573653 | INFO | [RESUME] starting from trial 44
+2026-03-11 18:27:56,550 | 1573653 | INFO | [RESUME] starting from trial 44
+2026-03-11 18:28:02,255 | 1573653 | INFO | [RESUME] starting from trial 44
+2026-03-11 18:28:06,528 | 1573653 | INFO | [RESUME] starting from trial 44
+2026-03-11 18:28:08,824 | 1573653 | INFO | [RESUME] starting from trial 44
+2026-03-11 18:45:15,498 | 1573653 | INFO | [RESUME] starting from trial 44
+2026-03-11 18:45:28,377 | 1573653 | INFO | [RESUME] starting from trial 44
+2026-03-11 18:45:31,585 | 1573653 | INFO | [RESUME] starting from trial 44
+2026-03-11 18:45:40,092 | 1573653 | INFO | [RESUME] starting from trial 44
+2026-03-11 19:02:03,707 | 1573653 | INFO | [RESUME] starting from trial 44
+2026-03-11 19:02:04,142 | 1573653 | INFO | [RESUME] starting from trial 44
+2026-03-11 19:02:05,888 | 1573653 | INFO | [RESUME] starting from trial 44
+2026-03-11 19:02:21,450 | 1573653 | INFO | [RESUME] starting from trial 44
+2026-03-11 19:17:38,845 | 1573653 | INFO | [TRIAL COMPLETE] trial 45 physics NSE_1D=0.91046 NSE_1H=0.90933
+2026-03-11 19:17:38,870 | 1573653 | INFO | [RESUME] starting from trial 45
+2026-03-11 19:17:39,000 | 1573653 | INFO | [TRIAL COMPLETE] trial 47 physics NSE_1D=0.88989 NSE_1H=0.88914
+2026-03-11 19:17:39,010 | 1573653 | INFO | [RESUME] starting from trial 46
+2026-03-11 19:18:00,332 | 1573653 | INFO | [TRIAL COMPLETE] trial 48 physics NSE_1D=0.89046 NSE_1H=0.87619
+2026-03-11 19:18:00,363 | 1573653 | INFO | [RESUME] starting from trial 47
+2026-03-11 19:18:13,468 | 1573653 | INFO | [TRIAL COMPLETE] trial 46 physics NSE_1D=0.90170 NSE_1H=0.90159
+2026-03-11 19:18:13,504 | 1573653 | INFO | [RESUME] starting from trial 48
+2026-03-11 19:18:13,504 | 1573653 | INFO | [BAYES] physics already finished (48/48)
+2026-03-11 19:18:13,788 | 1573653 | INFO | Traceback (most recent call last):
+2026-03-11 19:18:16,294 | 1573653 | INFO | File "/global/scratch/users/maxwellfung/UCB-USACE-RR-PROJECT/run_hyperparam_search.py", line 1526, in <module>
+2026-03-11 19:18:18,510 | 1573653 | INFO | main()
+2026-03-11 19:18:20,142 | 1573653 | INFO | File "/global/scratch/users/maxwellfung/UCB-USACE-RR-PROJECT/run_hyperparam_search.py", line 1237, in main
+2026-03-11 19:18:20,230 | 1573653 | INFO | df_no_physics = load_hparams(BASIN, MODE, RUN_LABEL, stamp=RUN_STAMP, tag="no_physics")
+2026-03-11 19:18:20,230 | 1573653 | INFO | TypeError
+2026-03-11 19:18:20,230 | 1573653 | INFO | :
+2026-03-11 19:18:20,231 | 1573653 | INFO | load_hparams() got an unexpected keyword argument 'tag'
