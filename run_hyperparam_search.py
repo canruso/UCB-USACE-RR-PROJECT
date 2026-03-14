@@ -17,7 +17,7 @@ hyperparam_names = list(HYPERPARAM_SPACE.keys())
 
 CONFIG_SUFFIX = "_extreme"   # "" for baseline, "_extreme" for Seq A
 
-BASIN = "hopland"  # "calpella", "warm_springs", "hopland", or "guerneville"
+BASIN = "warm_springs"  # "calpella", "warm_springs", "hopland", or "guerneville"
 MODE = "mts"           # "mts", "daily", or "hourly"
 GPU_SETTING = -1
 NUM_WORKERS = 16
@@ -33,7 +33,7 @@ BAYES_JOURNAL_DIR = ""
 RUN_LABEL = "EXTREME_SEQ_A"
 READ_STAMP = ""
 
-USE_CV = True
+USE_CV = False
 CV_INTERVAL_MONTH = "October"
 CV_INTERVAL_LENGTH = 2
 CV_VALIDATION_LENGTH = 1
