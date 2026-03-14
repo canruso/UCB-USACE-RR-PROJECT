@@ -1,13 +1,20 @@
 """Integrated Gradients attribution analysis for trained LSTM models.
 
 Uses Captum to compute feature importance via Integrated Gradients.
-Single-frequency (daily/hourly CudaLSTM) only — MTS not yet supported.
+Supports single-frequency (CudaLSTM) and multi-timescale (MTS-LSTM) models.
 
-Typical usage
--------------
+Typical usage (single-frequency)
+---------------------------------
 >>> from UCB_training.ucb_captum import run_ig_analysis, plot_feature_importance
 >>> df = run_ig_analysis("outputs/hopland/daily_shared/runs/hopland_daily/testing_run_XXX")
->>> plot_feature_importance(df, title="Hopland Daily — No Physics")
+>>> plot_feature_importance(df, title="Hopland Daily - No Physics")
+
+MTS-LSTM usage
+--------------
+>>> from UCB_training.ucb_captum import run_ig_analysis_mts
+>>> df_1d = run_ig_analysis_mts(run_dir, target_freq="1D", vary_freq="1D")  # type A
+>>> df_1h = run_ig_analysis_mts(run_dir, target_freq="1H", vary_freq="1H")  # type B
+>>> df_cross = run_ig_analysis_mts(run_dir, target_freq="1H", vary_freq="1D")  # type C
 
 Cached workflow (compute once, analyze many times)
 --------------------------------------------------
@@ -62,7 +69,7 @@ def load_model_for_ig(
     -------
     model         : nn.Module in eval mode, weights loaded
     cfg           : Config object for this run
-    feature_names : ordered list of dynamic input feature names
+    feature_names : list[str] for single-freq, dict[str, list[str]] for MTS
     """
     run_dir = Path(run_dir)
     cfg = Config(run_dir / "config.yml")
@@ -90,7 +97,12 @@ def load_model_for_ig(
     model.load_state_dict(state, strict=False)
     model.eval()
 
-    feature_names = list(cfg.dynamic_inputs)
+    # feature_names = list(cfg.dynamic_inputs)  # broken for MTS (dict keys, not names)
+    dyn = cfg.dynamic_inputs
+    if isinstance(dyn, dict):
+        feature_names = {freq: list(dyn[freq]) for freq in dyn}
+    else:
+        feature_names = list(dyn)
 
     return model, cfg, feature_names
 
@@ -173,7 +185,7 @@ def _make_captum_forward(model: torch.nn.Module):
 def compute_ig(
     model: torch.nn.Module,
     x_data: torch.Tensor,
-    baseline: str = "zero",
+    baseline: Union[str, torch.Tensor] = "zero",
     n_steps: int = 50,
     internal_batch_size: int = 8,
 ) -> torch.Tensor:
@@ -183,7 +195,10 @@ def compute_ig(
     ----------
     model               : trained model in eval mode
     x_data              : input tensor [n_samples, seq_len, features]
-    baseline            : "zero" (default) or "mean" (dataset mean as reference)
+    baseline            : "zero", "mean" (sample mean of x_data), or a pre-computed
+                          tensor broadcastable to x_data shape. For a more robust
+                          mean baseline, pre-compute from the full training set and
+                          pass the tensor directly (see run_ig_analysis).
     n_steps             : integration steps (higher = more accurate, slower)
     internal_batch_size : batch size for IG integration steps
 
@@ -195,7 +210,9 @@ def compute_ig(
 
     forward_fn = _make_captum_forward(model)
 
-    if baseline == "zero":
+    if isinstance(baseline, torch.Tensor):
+        baselines = baseline.expand_as(x_data)
+    elif baseline == "zero":
         baselines = torch.zeros_like(x_data)
     elif baseline == "mean":
         baselines = x_data.mean(dim=0, keepdim=True).expand_as(x_data)
@@ -386,7 +403,7 @@ def run_ig_analysis(
     period: str = "validation",
     n_steps: int = 50,
     n_samples: Optional[int] = 50,
-    baseline: str = "zero",
+    baseline: str = "mean",
     device: str = "cpu",
     epoch: Optional[int] = None,
     data_dir: Optional[Union[str, Path]] = None,
@@ -394,13 +411,18 @@ def run_ig_analysis(
 ) -> Union[pd.DataFrame, Tuple[pd.DataFrame, torch.Tensor, list[str]]]:
     """End-to-end IG analysis: load model + data, compute attributions, rank.
 
+    When baseline="mean", the mean is computed from ALL samples in the period
+    before subsampling, so the reference represents the full dataset distribution
+    rather than just the n_samples subset. This is more statistically robust and
+    is the recommended approach for paper-quality results.
+
     Parameters
     ----------
     run_dir              : path to trained run directory
     period               : "validation" or "test"
     n_steps              : IG integration steps
     n_samples            : number of input sequences to average over (None = all, 50 is reasonable)
-    baseline             : "zero" or "mean"
+    baseline             : "mean" (default, full-dataset mean) or "zero"
     device               : torch device
     epoch                : model epoch to load (None = last)
     data_dir             : override data_dir in saved config (for runs trained on a different machine)
@@ -412,11 +434,19 @@ def run_ig_analysis(
     If return_attributions=True:  (DataFrame, attributions tensor, feature_names list)
     """
     model, cfg, feature_names = load_model_for_ig(run_dir, epoch=epoch, device=device, data_dir=data_dir)
+
+    # For "mean" baseline: compute mean from ALL samples, then subsample for IG.
+    # This ensures the baseline represents the full dataset distribution.
+    baseline_tensor = None
+    if baseline == "mean":
+        x_all, _ = load_input_data(cfg, run_dir, period=period, n_samples=None)
+        baseline_tensor = x_all.mean(dim=0, keepdim=True).to(device)
+
     x_data, dates = load_input_data(cfg, run_dir, period=period, n_samples=n_samples)
     x_data = x_data.to(device)
 
     attributions = compute_ig(
-        model, x_data, baseline=baseline, n_steps=n_steps,
+        model, x_data, baseline=baseline_tensor if baseline_tensor is not None else baseline, n_steps=n_steps,
     )
 
     df = rank_features(attributions, feature_names)
@@ -609,3 +639,272 @@ def plot_ig_heatmap(
 
     plt.tight_layout()
     return fig, ax
+
+
+# ===========================================================================
+# MTS-LSTM SUPPORT
+# ===========================================================================
+
+# Valid (target_freq, vary_freq) combos for MTS IG:
+#   Type A: ("1D", "1D") - daily features -> daily output
+#   Type B: ("1H", "1H") - hourly features -> hourly output
+#   Type C: ("1H", "1D") - daily features -> hourly output (cross-frequency)
+_VALID_MTS_COMBOS = {("1D", "1D"), ("1H", "1H"), ("1H", "1D")}
+
+
+# ---------------------------------------------------------------------------
+# 2b. MTS Data loading
+# ---------------------------------------------------------------------------
+
+def load_input_data_mts(
+    cfg: Config,
+    run_dir: Union[str, Path],
+    period: str = "test",
+    basin: Optional[str] = None,
+    n_samples: Optional[int] = None,
+) -> dict[str, Tuple[torch.Tensor, np.ndarray]]:
+    """Load scaled input sequences from a multi-timescale dataset.
+
+    Parameters
+    ----------
+    cfg       : Config from the MTS run
+    run_dir   : path to run directory (for scaler)
+    period    : "validation" or "test"
+    basin     : basin name (inferred from cfg if None)
+    n_samples : number of sequences to return (None = all). Both frequencies
+                are subsampled with the same indices to maintain alignment.
+
+    Returns
+    -------
+    dict mapping frequency tag to (tensor, dates):
+        {"1D": (x_d_1D [N, seq_1D, feat_1D], dates_1D [N, seq_1D]),
+         "1H": (x_d_1H [N, seq_1H, feat_1H], dates_1H [N, seq_1H])}
+    """
+    run_dir = Path(run_dir)
+    if basin is None:
+        basin_attr = getattr(cfg, f"{period}_basin_file", None)
+        basin = str(basin_attr).replace(".txt", "").strip() if basin_attr else None
+
+    scaler = load_scaler(run_dir)
+    ds = get_dataset(cfg=cfg, is_train=False, period=period, basin=basin, scaler=scaler)
+
+    loader = DataLoader(ds, batch_size=len(ds), shuffle=False, collate_fn=ds.collate_fn)
+    batch = next(iter(loader))
+
+    result = {}
+    for freq in ["1D", "1H"]:
+        x_key = f"x_d_{freq}"
+        date_key = f"date_{freq}"
+        if x_key not in batch:
+            raise KeyError(f"Batch missing key '{x_key}'. Is this an MTS run?")
+        result[freq] = (batch[x_key], batch[date_key])
+
+    # Drop samples where EITHER frequency has NaN (synthetic range padding)
+    valid_mask = torch.ones(result["1D"][0].shape[0], dtype=torch.bool)
+    for freq in ["1D", "1H"]:
+        valid_mask &= ~result[freq][0].isnan().any(dim=(1, 2))
+    n_dropped = (~valid_mask).sum().item()
+    if n_dropped > 0:
+        valid_idx = valid_mask.nonzero(as_tuple=True)[0]
+        result = {freq: (x[valid_idx], d[valid_idx.numpy()]) for freq, (x, d) in result.items()}
+
+    # Subsample with aligned indices across both frequencies
+    if n_samples is not None:
+        total = result["1D"][0].shape[0]
+        if n_samples < total:
+            indices = np.linspace(0, total - 1, n_samples, dtype=int)
+            result = {freq: (x[indices], d[indices]) for freq, (x, d) in result.items()}
+
+    return result
+
+
+# ---------------------------------------------------------------------------
+# 3b. MTS Integrated Gradients computation
+# ---------------------------------------------------------------------------
+
+def _make_captum_forward_mts(
+    model: torch.nn.Module,
+    target_freq: str,
+    vary_freq: str,
+    hold_tensor: torch.Tensor,
+) -> callable:
+    """Build Captum-compatible forward for MTS-LSTM single-input attribution.
+
+    The returned function accepts one tensor (the varied input) and returns
+    a scalar per sample. The other input is captured via closure and held
+    constant (no gradients).
+
+    Parameters
+    ----------
+    model       : MTS-LSTM model in eval mode
+    target_freq : output to read ("1D" or "1H")
+    vary_freq   : input Captum varies ("1D" or "1H")
+    hold_tensor : tensor for the non-varied input, detached (no grad)
+
+    Returns
+    -------
+    callable: f(x_vary) -> tensor [batch]
+    """
+    other_freq = "1H" if vary_freq == "1D" else "1D"
+    hold = hold_tensor.detach()
+
+    def forward_fn(x_vary: torch.Tensor) -> torch.Tensor:
+        # Captum's internal batching may change the batch dimension of x_vary
+        # (interpolation steps are stacked along dim 0). Expand hold_tensor
+        # to match by repeating along the batch dimension.
+        batch = x_vary.shape[0]
+        n_orig = hold.shape[0]
+        if batch != n_orig:
+            repeats = batch // n_orig
+            h = hold.repeat(repeats, 1, 1)
+        else:
+            h = hold
+        data = {f"x_d_{vary_freq}": x_vary, f"x_d_{other_freq}": h}
+        out = model(data)
+        y_hat = out[f"y_hat_{target_freq}"]  # [batch, seq_len, n_targets]
+        return y_hat.mean(dim=(1, 2))  # [batch]
+
+    return forward_fn
+
+
+def compute_ig_mts(
+    model: torch.nn.Module,
+    x_1d: torch.Tensor,
+    x_1h: torch.Tensor,
+    target_freq: str = "1D",
+    vary_freq: str = "1D",
+    baseline: Union[str, torch.Tensor] = "zero",
+    n_steps: int = 50,
+    internal_batch_size: int = 8,
+) -> torch.Tensor:
+    """Compute Integrated Gradients for one branch of an MTS-LSTM.
+
+    Attribution types:
+      A: target_freq="1D", vary_freq="1D" - daily features on daily output
+      B: target_freq="1H", vary_freq="1H" - hourly features on hourly output
+      C: target_freq="1H", vary_freq="1D" - daily features on hourly output
+                                             (cross-frequency via state transfer)
+
+    Parameters
+    ----------
+    model               : trained MTS-LSTM model in eval mode
+    x_1d                : daily input tensor [n_samples, seq_1D, feat_1D]
+    x_1h                : hourly input tensor [n_samples, seq_1H, feat_1H]
+    target_freq         : which output head to attribute ("1D" or "1H")
+    vary_freq           : which input Captum varies ("1D" or "1H")
+    baseline            : "zero", "mean" (sample mean of varied input), or a
+                          pre-computed tensor broadcastable to the varied input shape.
+                          For full-dataset mean, pre-compute and pass tensor directly.
+    n_steps             : integration steps
+    internal_batch_size : batch size for IG integration steps
+
+    Returns
+    -------
+    attributions : tensor [n_samples, seq_vary, feat_vary] for the varied input
+    """
+    from captum.attr import IntegratedGradients
+
+    combo = (target_freq, vary_freq)
+    if combo not in _VALID_MTS_COMBOS:
+        raise ValueError(f"Invalid (target_freq, vary_freq) = {combo}. Valid: {_VALID_MTS_COMBOS}")
+
+    # Select the varied and held-constant tensors
+    x_vary = x_1d if vary_freq == "1D" else x_1h
+    x_hold = x_1h if vary_freq == "1D" else x_1d
+
+    # Build baseline for varied input only
+    if isinstance(baseline, torch.Tensor):
+        baselines = baseline.expand_as(x_vary)
+    elif baseline == "zero":
+        baselines = torch.zeros_like(x_vary)
+    elif baseline == "mean":
+        baselines = x_vary.mean(dim=0, keepdim=True).expand_as(x_vary)
+    else:
+        raise ValueError(f"Unknown baseline: {baseline!r}. Use 'zero' or 'mean'.")
+
+    forward_fn = _make_captum_forward_mts(model, target_freq, vary_freq, x_hold)
+    x_vary = x_vary.requires_grad_(True)
+
+    ig = IntegratedGradients(forward_fn)
+    attributions = ig.attribute(x_vary, baselines=baselines, n_steps=n_steps, internal_batch_size=internal_batch_size)
+
+    return attributions.detach()
+
+
+# ---------------------------------------------------------------------------
+# 6b. MTS Convenience wrapper
+# ---------------------------------------------------------------------------
+
+def run_ig_analysis_mts(
+    run_dir: Union[str, Path],
+    target_freq: str = "1D",
+    vary_freq: str = "1D",
+    period: str = "test",
+    n_steps: int = 50,
+    n_samples: Optional[int] = 50,
+    baseline: str = "mean",
+    device: str = "cpu",
+    epoch: Optional[int] = None,
+    data_dir: Optional[Union[str, Path]] = None,
+    return_attributions: bool = False,
+) -> Union[pd.DataFrame, Tuple[pd.DataFrame, torch.Tensor, list[str]]]:
+    """End-to-end MTS-LSTM IG analysis: load model + data, compute, rank.
+
+    When baseline="mean", the mean is computed from ALL samples in the period
+    before subsampling, so the reference represents the full dataset distribution
+    rather than just the n_samples subset. This is more statistically robust and
+    is the recommended approach for paper-quality results.
+
+    Attribution types:
+      A: target_freq="1D", vary_freq="1D" - daily features on daily output
+      B: target_freq="1H", vary_freq="1H" - hourly features on hourly output
+      C: target_freq="1H", vary_freq="1D" - daily features on hourly output
+
+    Parameters
+    ----------
+    run_dir              : path to trained MTS run directory
+    target_freq          : which output to attribute ("1D" or "1H")
+    vary_freq            : which input to vary ("1D" or "1H")
+    period               : "validation" or "test"
+    n_steps              : IG integration steps
+    n_samples            : number of input sequences (None = all)
+    baseline             : "mean" (default, full-dataset mean) or "zero"
+    device               : torch device
+    epoch                : model epoch to load (None = best/last)
+    data_dir             : override data_dir in saved config
+    return_attributions  : if True, also return raw tensor and feature names
+
+    Returns
+    -------
+    If return_attributions=False: DataFrame from rank_features()
+    If return_attributions=True:  (DataFrame, attributions tensor, feature_names list)
+    """
+    combo = (target_freq, vary_freq)
+    if combo not in _VALID_MTS_COMBOS:
+        raise ValueError(f"Invalid (target_freq, vary_freq) = {combo}. Valid: {_VALID_MTS_COMBOS}")
+
+    model, cfg, feature_names_dict = load_model_for_ig(run_dir, epoch=epoch, device=device, data_dir=data_dir)
+    if not isinstance(feature_names_dict, dict):
+        raise TypeError(f"Expected MTS config with dict dynamic_inputs, got {type(feature_names_dict)}")
+
+    # For "mean" baseline: compute mean from ALL samples before subsampling.
+    # This ensures the baseline represents the full dataset distribution.
+    baseline_tensor = None
+    if baseline == "mean":
+        all_data = load_input_data_mts(cfg, run_dir, period=period, n_samples=None)
+        x_vary_all = all_data[vary_freq][0].to(device)
+        baseline_tensor = x_vary_all.mean(dim=0, keepdim=True)
+
+    mts_data = load_input_data_mts(cfg, run_dir, period=period, n_samples=n_samples)
+    x_1d = mts_data["1D"][0].to(device)
+    x_1h = mts_data["1H"][0].to(device)
+
+    ig_baseline = baseline_tensor if baseline_tensor is not None else baseline
+    attributions = compute_ig_mts(model, x_1d, x_1h, target_freq=target_freq, vary_freq=vary_freq, baseline=ig_baseline, n_steps=n_steps)
+
+    vary_features = feature_names_dict[vary_freq]
+    df = rank_features(attributions, vary_features)
+
+    if return_attributions:
+        return df, attributions, vary_features
+    return df
