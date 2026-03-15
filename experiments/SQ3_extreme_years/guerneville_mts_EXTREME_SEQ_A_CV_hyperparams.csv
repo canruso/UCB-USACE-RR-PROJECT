@@ -1,0 +1,3 @@
+_queue_iter_idx,hidden_size,output_dropout,seq_length_1D,seq_length_1H,num_layers,epochs,batch_size,NSE_1D,NSE_1H,_rank_score,model_type
+6.0,128.0,0.4,90.0,336.0,1.0,300.0,64.0,0.8646969348192215,0.8421746880209243,0.8489313620604135,no_physics
+4.0,128.0,0.4,90.0,168.0,1.0,300.0,64.0,0.8976324051618576,0.8862495193544373,0.8896643850966635,physics
