@@ -9,15 +9,15 @@ HYPERPARAM_SPACE = {
     "output_dropout": [0.1, 0.4],
     "seq_length_1D": [90],
     "seq_length_1H": [168, 336],
-    "num_layers": [1, 2],
+    "num_layers": [1],
     "epochs": [300],
-    "batch_size": [64],
+    "batch_size": [64, 256],
 }
 hyperparam_names = list(HYPERPARAM_SPACE.keys())
 
 CONFIG_SUFFIX = "_extreme"   # "" for baseline, "_extreme" for Seq A
 
-BASIN = "warm_springs"  # "calpella", "warm_springs", "hopland", or "guerneville"
+BASIN = "calpella"  # "calpella", "warm_springs", "hopland", or "guerneville"
 MODE = "mts"           # "mts", "daily", or "hourly"
 GPU_SETTING = -1
 NUM_WORKERS = 16
@@ -30,10 +30,10 @@ USE_BAYES = False
 N_BAYES_TRIALS = 36
 BAYES_JOURNAL_DIR = ""
 
-RUN_LABEL = "EXTREME_SEQ_A"
+RUN_LABEL = "EXTREME_SEQ_A_CV"
 READ_STAMP = ""
 
-USE_CV = False
+USE_CV = True
 CV_INTERVAL_MONTH = "October"
 CV_INTERVAL_LENGTH = 2
 CV_VALIDATION_LENGTH = 1
@@ -1350,6 +1350,11 @@ def main():
             best_params_df = pd.DataFrame([best_no_phys, best_phys])
         else:
             best_params_df = pd.DataFrame([best_no_phys])
+
+        INT_COLS = {"hidden_size", "seq_length_1D", "seq_length_1H", "num_layers", "epochs", "batch_size", "_queue_iter_idx"}
+        for _df in [best_params_df, df_no_physics, df_physics]:
+            for col in INT_COLS & set(_df.columns):
+                _df[col] = _df[col].astype(int)
 
         save_hparams(best_df=best_params_df, basin=BASIN, mode=MODE, label=RUN_LABEL,
                      run_stamp=RUN_STAMP, df_no=df_no_physics,
