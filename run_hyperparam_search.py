@@ -21,7 +21,7 @@ HYPERPARAM_SPACE = {
 
 hyperparam_names = list(HYPERPARAM_SPACE.keys())
 
-BASIN = "guerneville"  # "calpella", "warm_springs", "hopland", or "guerneville"
+BASIN = "hopland"  # "calpella", "warm_springs", "hopland", or "guerneville"
 GPU_SETTING = -1
 NUM_WORKERS = 0
 
@@ -155,6 +155,45 @@ use_cv_for_selection = None
 MODE = "mts"
  
 BASIN_CONFIGS = {
+    "hopland": {
+        "yaml_key": "hopland_mtslstm2",
+        "physics_file_1H": "Hopland_hourly.csv",
+        "features_with_physics": [
+            #from daily.csv
+            "RUSSIAN 60 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR",
+            "RUSSIAN 60 PRECIP-INC SCREENED",
+            "RUSSIAN 70 PRECIP-INC SCREENED",
+            "RUSSIAN 70 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR",
+            "WF RUSSIAN PRECIP-INC SCREENED",
+            "WF RUSSIAN ET-POTENTIAL RUN:BASIN AVERAGE 60 YR",
+            #from hopland.csv
+            'Hopland Gage FLOW',
+            'Russian 60 ET-POTENTIAL',
+            'Russian 60 FLOW',  # HMS FLOW (BC-dependent) — comment out for NOBC_V2
+            'Russian 60 FLOW-BASE',  # HMS FLOW (BC-dependent) — comment out for NOBC_V2
+            'Russian 60 INFILTRATION',
+            'Russian 60 PERC-SOIL',
+            'Russian 60 SATURATION FRACTION',
+            'Russian 70 ET-POTENTIAL',
+            'Russian 70 FLOW',  # HMS FLOW (BC-dependent) — comment out for NOBC_V2
+            'Russian 70 FLOW-BASE',  # HMS FLOW (BC-dependent) — comment out for NOBC_V2
+            'Russian 70 INFILTRATION',
+            'Russian 70 PERC-SOIL',
+            'Russian 70 SATURATION FRACTION',
+            'WF Russian ET-POTENTIAL',
+            'WF Russian FLOW',  # HMS FLOW (BC-dependent) — comment out for NOBC_V2
+            'WF Russian FLOW-BASE',  # HMS FLOW (BC-dependent) — comment out for NOBC_V2
+            'WF Russian INFILTRATION',
+            'WF Russian PERC-SOIL',
+            'WF Russian SATURATION FRACTION',
+            "UKIAH CA HUMIDITY USAF-NOAA",
+            "UKIAH CA SOLAR RADIATION USAF-NOAA",
+            "UKIAH CA TEMPERATURE USAF-NOAA",
+            "UKIAH CA WINDSPEED USAF-NOAA",
+            "UKIAH CA FLOW USGS-MERGED",
+            #"Lake Mendocino Storage",    
+        ],
+    },
     "calpella": {
         "yaml_key": "calpella_mtslstm2",
         "physics_file_1H": "Calpella_hourly.csv",
@@ -1167,7 +1206,7 @@ def main():
     else:
         num_cores = min(n_combos, max(1, mp.cpu_count() - 1))
 
-    num_cores = 20
+    num_cores = 50
 
     _print(f"{n_combos} combinations, {num_cores} workers")
 
@@ -1284,10 +1323,18 @@ def main():
             num_cores
         )
 
-        df_all = load_hparams(BASIN, MODE, RUN_LABEL, stamp=RUN_STAMP)
+        root = _artifact_root(BASIN, MODE)
+        arch = root / "hyperparams" / "archive"
 
-        df_no_physics = df_all[df_all["model_type"] == "no_physics"].copy()
-        df_physics = df_all[df_all["model_type"] == "physics"].copy()
+        prefix = f"{BASIN}_{MODE}_{RUN_LABEL}"
+
+        df_no_physics = pd.read_csv(
+            arch / f"{prefix}_no_physics_gridsearch_{RUN_STAMP}.csv"
+        )
+
+        df_physics = pd.read_csv(
+            arch / f"{prefix}_physics_gridsearch_{RUN_STAMP}.csv"
+        )
 
         df_no_physics.reset_index(drop=True, inplace=True)
         df_physics.reset_index(drop=True, inplace=True)
