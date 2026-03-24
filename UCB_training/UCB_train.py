@@ -50,6 +50,13 @@ def _safe_plot_loss_curves(run_dir, save_path=None, timeout=60):
 
 
 def _train_single_member(args):
+    # Ensure spawned worker uses local neuralhydrology (not pip-installed)
+    import sys
+    from pathlib import Path
+    _project_root = str(Path(__file__).resolve().parents[1])
+    if _project_root not in sys.path:
+        sys.path.insert(0, _project_root)
+
     trainer, idx = args
 
     trainer = pickle.loads(pickle.dumps(trainer))
@@ -75,8 +82,14 @@ def _train_single_member(args):
     return path
 
 def _train_single_bootstrap_member(args):
-    # needed to print from worker.
+    # Ensure spawned worker uses local neuralhydrology (not pip-installed)
     import sys
+    from pathlib import Path
+    _project_root = str(Path(__file__).resolve().parents[1])
+    if _project_root not in sys.path:
+        sys.path.insert(0, _project_root)
+
+    # needed to print from worker.
     sys.stdout = sys.__stdout__
     sys.stderr = sys.__stderr__
 
