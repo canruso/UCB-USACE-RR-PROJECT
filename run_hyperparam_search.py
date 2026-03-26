@@ -21,7 +21,7 @@ HYPERPARAM_SPACE = {
 
 hyperparam_names = list(HYPERPARAM_SPACE.keys())
 
-BASIN = "calpella"  # "calpella", "warm_springs", "hopland", or "guerneville"
+BASIN = "guerneville"  # "calpella", "warm_springs", "hopland", or "guerneville"
 GPU_SETTING = -1
 NUM_WORKERS = 0
 

@@ -5,6 +5,33 @@ train_basin_file: calpella
 validation_basin_file: calpella
 test_basin_file: calpella
 
+# Seq A - Extreme year split (Pearson-III exceedance ranking)
+# Calibration (10 WYs): 1996, 1998, 1999, 2000, 2002, 2003, 2004, 2005, 2008, 2009
+# Test (4 WYs): 1997, 2001, 2006, 2007
+# Operational split: 8 train, 2 val (wet+dry), 4 test
+is_mts_data: true
+
+train_ranges:
+  - 01/10/1995-30/09/1996 # WY1996
+  - 01/10/1998-30/09/1999 # WY1999
+  - 01/10/1999-30/09/2000 # WY2000
+  - 01/10/2001-30/09/2002 # WY2002
+  - 01/10/2002-30/09/2003 # WY2003
+  - 01/10/2003-30/09/2004 # WY2004
+  - 01/10/2007-30/09/2008 # WY2008
+  - 01/10/2008-30/09/2009 # WY2009
+
+validation_ranges:
+  - 01/10/1997-30/09/1998 # WY1998 (wet, exc 0.235)
+  - 01/10/2004-30/09/2005 # WY2005 (dry, exc 0.796)
+
+test_ranges:
+  - 01/10/1996-30/09/1997 # WY1997
+  - 01/10/2000-30/09/2001 # WY2001
+  - 01/10/2005-30/09/2006 # WY2006
+  - 01/10/2006-30/09/2007 # WY2007
+
+# Contiguous dates (required by Config, overridden by SyntheticRussianRiver)
 train_start_date: "01/10/1994"
 train_end_date: "30/09/2002"
 validation_start_date: "01/10/2002"
@@ -12,39 +39,15 @@ validation_end_date: "30/09/2005"
 test_start_date: "01/10/2005"
 test_end_date: "30/09/2009"
 
-# #Arman synthetic ranges
-# train_ranges:
-#   - "01/10/1994-30/09/1995" #1995
-#   - "01/10/1995-30/09/1996" #1996
-#   - "01/10/1996-30/09/1997" #1997
-#   - "01/10/1997-30/09/1998" #1998
-#   - "01/10/1998-30/09/1999" #1999
-#   - "01/10/1999-30/09/2000" #2000
-#   - "01/10/2001-30/09/2002" #2002
-#   - "01/10/2002-30/09/2003" #2003
-
-# validation_ranges:
-#   - "01/10/2003-30/09/2004" #2004
-#   - "01/10/2004-30/09/2005" #2005
-#   - "01/10/2005-30/09/2006" #2006
-
-# test_ranges:
-#   - "01/10/2000-30/09/2001" #2001
-#   - "01/10/2006-30/09/2007" #2007
-#   - "01/10/2007-30/09/2008" #2008
-#   - "01/10/2008-30/09/2009" #2009
-
-# You can also override the device in code if desired; defaulting to CPU or GPU here
 device: cuda:0
 
-# If not using physics, these are placeholders
 physics_informed: false
 physics_data_file: null
 
 # --- Validation Configuration ----------------------------------------------
-validate_every: 12
+validate_every: 3
 validate_n_random_basins: 1
-save_validation_results: True
+save_validation_results: true
 save_results_every: 10
 
 metrics:
@@ -65,16 +68,13 @@ use_frequencies:
 head: regression
 output_activation: linear
 
-# LSTM cell size, dropout, etc.
 hidden_size: 64
 initial_forget_bias: 3
 output_dropout: 0.5
 
 # --- Training Configuration -------------------------------------------------
 optimizer: Adam
-
 loss: NSE
-
 learning_rate:
   0: 1e-2
 
@@ -91,14 +91,14 @@ seq_length:
   1H: 336
 
 log_interval: 16
-log_tensorboard: True
-log_n_figures: 1
+log_tensorboard: true
+log_n_figures: 0
 save_weights_every: 16
 
 # --- Data Configuration -----------------------------------------------------
-dataset: russian_river
+dataset: synthetic_russian_river
 data_dir: "F:/Dino/UCB-USACE-LSTMs/data/updated_russian_river_folder/"
-dev_mode: True
+dev_mode: true
 
 dynamic_inputs:
   1D:
@@ -124,40 +124,17 @@ target_variables:
 clip_targets_to_zero:
   - [NR CALPELLA FLOW COE CPL]
 
-# Save best validation checkpoint (model_best.pt). Set False for default NH last-epoch behavior.
-save_best_checkpoint: True
-# --- Early Stopping Configuration ------------------------------------------------------------
-# Enable early stopping based on validation performance
-early_stopping: True
+save_best_checkpoint: true
 
-# Early stopping mode: "patience", "slope", "plateau", or "none"
-# - "patience": Traditional approach (stops after N validations without improvement)
-# - "slope": Trend-based approach (stops when loss trend shows no improvement)
-# - "plateau": Coupled LR scheduler + ES (ReduceLROnPlateau, stops when min_lr reached + no improvement)
-# - "none": Disables early stopping
-early_stopping_mode: "plateau"
+# --- Early Stopping Configuration --------------------------------------------
+early_stopping: true
+early_stopping_mode: plateau
 
 # --- Plateau Mode Settings ---
 plateau_factor: 0.5
 plateau_patience: 3
 plateau_threshold: 0.01
-plateau_min_lr: 1.0e-4
+plateau_min_lr: 1.0e-04
 plateau_final_patience: 3
 plateau_cooldown: 1
 plateau_min_epoch: 24
-
-# --- Previous patience/slope settings (commented out) ---
-# early_stopping_mode: "slope"
-# patience_early_stopping: 5
-# min_delta_early_stopping: 0.0
-# minimum_epochs_before_early_stopping: 16
-# early_stopping_slope_window: 7
-# early_stopping_slope_patience: 2
-# early_stopping_slope_min_epoch: 20
-# early_stopping_slope_ema_alpha: 0.4
-# early_stopping_slope_use_log: True
-# early_stopping_slope_log_eps: 1.0e-12
-# early_stopping_slope_eps_slope: 1.0e-3
-# early_stopping_slope_min_window_gain: 0.01
-# early_stopping_slope_variance_guard: True
-# early_stopping_slope_variance_cv_max: 0.01
