@@ -50,6 +50,13 @@ def _safe_plot_loss_curves(run_dir, save_path=None, timeout=60):
 
 
 def _train_single_member(args):
+    # Ensure spawned worker uses local neuralhydrology (not pip-installed)
+    import sys
+    from pathlib import Path
+    _project_root = str(Path(__file__).resolve().parents[1])
+    if _project_root not in sys.path:
+        sys.path.insert(0, _project_root)
+
     trainer, idx = args
 
     trainer = pickle.loads(pickle.dumps(trainer))
@@ -75,8 +82,14 @@ def _train_single_member(args):
     return path
 
 def _train_single_bootstrap_member(args):
-    # needed to print from worker.
+    # Ensure spawned worker uses local neuralhydrology (not pip-installed)
     import sys
+    from pathlib import Path
+    _project_root = str(Path(__file__).resolve().parents[1])
+    if _project_root not in sys.path:
+        sys.path.insert(0, _project_root)
+
+    # needed to print from worker.
     sys.stdout = sys.__stdout__
     sys.stderr = sys.__stderr__
 
@@ -1308,7 +1321,14 @@ class UCB_trainer:
             self._hyperparams["save_weights_every"] = self._hyperparams['epochs']
 
         if self._dynamic_inputs is not None:
-            config.update_config({'dynamic_inputs': self._dynamic_inputs}, dev_mode=True)
+            # For MTS configs, dynamic_inputs must be a per-frequency dict.
+            # If input_features was passed as a flat list, wrap it for each frequency.
+            dyn = self._dynamic_inputs
+            if self._is_mts and isinstance(dyn, list):
+                freqs = config._cfg.get("use_frequencies", config._cfg.get("frequencies", []))
+                if freqs:
+                    dyn = {freq: list(dyn) for freq in freqs}
+            config.update_config({'dynamic_inputs': dyn}, dev_mode=True)
 
         if self._extended_train_period:
             config.update_config({'train_end_date': config.validation_end_date}, dev_mode=True)

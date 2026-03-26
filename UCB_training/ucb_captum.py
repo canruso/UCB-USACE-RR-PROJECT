@@ -102,7 +102,13 @@ def load_model_for_ig(
     if isinstance(dyn, dict):
         feature_names = {freq: list(dyn[freq]) for freq in dyn}
     else:
-        feature_names = list(dyn)
+        # Physics-informed MTS configs serialize dynamic_inputs as a flat list
+        # instead of a per-frequency dict. Reconstruct the dict if MTS frequencies exist.
+        freqs = cfg._cfg.get("use_frequencies", cfg._cfg.get("frequencies"))
+        if freqs and len(freqs) > 1:
+            feature_names = {freq: list(dyn) for freq in freqs}
+        else:
+            feature_names = list(dyn)
 
     return model, cfg, feature_names
 
