@@ -1,0 +1,57 @@
+2026-03-28 00:40:59,121 | 884891 | INFO | [+   0.03s]
+2026-03-28 00:40:59,122 | 884891 | INFO | Basin: calpella, GPU: -1, Verbose: True
+2026-03-28 00:40:59,122 | 884891 | INFO | [+   0.03s]
+2026-03-28 00:40:59,122 | 884891 | INFO | Pre-warming numba JIT ...
+2026-03-28 00:41:02,174 | 884891 | INFO | [+   3.08s]
+2026-03-28 00:41:02,177 | 884891 | INFO | Numba JIT pre-compiled.
+2026-03-28 00:41:02,178 | 884891 | INFO | YAML PATH:
+2026-03-28 00:41:02,178 | 884891 | INFO | /global/scratch/users/maxwellfung/UCB-USACE-RR-PROJECT/UCB_training/configs/calpella_mtslstm2.yaml
+2026-03-28 00:41:02,196 | 884891 | INFO | [+   3.10s]
+2026-03-28 00:41:02,197 | 884891 | INFO | 288 combinations, 1 workers
+2026-03-28 00:41:02,197 | 884891 | INFO | run_gridsearch =
+2026-03-28 00:41:02,197 | 884891 | INFO | False
+2026-03-28 00:41:02,199 | 884891 | INFO | hparams_exists =
+2026-03-28 00:41:02,199 | 884891 | INFO | False
+2026-03-28 00:41:02,271 | 884891 | INFO | [SYNTHETIC CV MODE DETECTED]
+2026-03-28 00:41:02,271 | 884891 | INFO | Dataset:
+2026-03-28 00:41:02,272 | 884891 | INFO | synthetic_russian_river
+2026-03-28 00:41:02,272 | 884891 | INFO | Train ranges:
+2026-03-28 00:41:02,272 | 884891 | INFO | ['01/10/1995-30/09/1996', '01/10/1998-30/09/1999', '01/10/1999-30/09/2000', '01/10/2001-30/09/2002', '01/10/2002-30/09/2003', '01/10/2003-30/09/2004', '01/10/2007-30/09/2008', '01/10/2008-30/09/2009']
+2026-03-28 00:41:02,272 | 884891 | INFO | Validation ranges:
+2026-03-28 00:41:02,273 | 884891 | INFO | ['01/10/1997-30/09/1998', '01/10/2004-30/09/2005']
+2026-03-28 00:41:02,273 | 884891 | INFO | All ranges:
+2026-03-28 00:41:02,273 | 884891 | INFO | ['01/10/1995-30/09/1996', '01/10/1998-30/09/1999', '01/10/1999-30/09/2000', '01/10/2001-30/09/2002', '01/10/2002-30/09/2003', '01/10/2003-30/09/2004', '01/10/2007-30/09/2008', '01/10/2008-30/09/2009', '01/10/1997-30/09/1998', '01/10/2004-30/09/2005']
+2026-03-28 00:41:02,273 | 884891 | INFO | [SYNTHETIC FOLD 1] train=['01/10/1995-30/09/1996', '01/10/1998-30/09/1999'] val=['01/10/1999-30/09/2000']
+2026-03-28 00:41:02,273 | 884891 | INFO | [SYNTHETIC FOLD 2] train=['01/10/1995-30/09/1996', '01/10/1998-30/09/1999', '01/10/1999-30/09/2000', '01/10/2001-30/09/2002'] val=['01/10/2002-30/09/2003']
+2026-03-28 00:41:02,274 | 884891 | INFO | [SYNTHETIC FOLD 3] train=['01/10/1995-30/09/1996', '01/10/1998-30/09/1999', '01/10/1999-30/09/2000', '01/10/2001-30/09/2002', '01/10/2002-30/09/2003', '01/10/2003-30/09/2004'] val=['01/10/2007-30/09/2008']
+2026-03-28 00:41:02,274 | 884891 | INFO | [SYNTHETIC FOLD 4] train=['01/10/1995-30/09/1996', '01/10/1998-30/09/1999', '01/10/1999-30/09/2000', '01/10/2001-30/09/2002', '01/10/2002-30/09/2003', '01/10/2003-30/09/2004', '01/10/2007-30/09/2008', '01/10/2008-30/09/2009'] val=['01/10/1997-30/09/1998']
+2026-03-28 00:41:02,274 | 884891 | INFO | [EXTERNAL CV FOLDS]
+2026-03-28 00:41:02,274 | 884891 | INFO | fold 1: train None -> None | val None -> None | eval None -> None
+2026-03-28 00:41:02,275 | 884891 | INFO | fold 2: train None -> None | val None -> None | eval None -> None
+2026-03-28 00:41:02,275 | 884891 | INFO | fold 3: train None -> None | val None -> None | eval None -> None
+2026-03-28 00:41:02,275 | 884891 | INFO | fold 4: train None -> None | val None -> None | eval None -> None
+2026-03-28 00:41:02,275 | 884891 | INFO | [EXTERNAL CV FOLDS] total folds = 4
+2026-03-28 00:41:02,276 | 884891 | INFO | [BAYESIAN OPTIMIZATION] Using 1 parallel workers
+2026-03-28 00:41:02,317 | 884891 | INFO | [OPTUNA SEED] journal empty → seeding from CSV
+2026-03-28 00:41:02,317 | 884891 | INFO | [OPTUNA SEED] no CSV found
+2026-03-28 00:41:02,318 | 884891 | INFO | [BAYES] no_physics: 1 parallel trials x 4 folds = up to 4 workers
+2026-03-28 00:41:02,318 | 884891 | INFO | /global/scratch/users/maxwellfung/UCB-USACE-RR-PROJECT/outputs/calpella/mts_shared/hyperparams/archive/calpella_mts_EXTREME_YEARS_no_physics_gridsearch_20260328T074059Z.csv
+2026-03-28 00:41:02,318 | 884891 | INFO | [REPLAY] No previous trials found.
+2026-03-28 00:41:02,319 | 884891 | INFO | [RESUME] starting from trial 0
+2026-03-28 00:41:02,411 | 884891 | INFO | [ENQUEUE TRIAL] trial 1 no_physics
+2026-03-28 00:41:02,411 | 884891 | INFO | [BAYES QUEUE STATE]
+2026-03-28 00:41:02,412 | 884891 | INFO | pending_jobs = 4
+2026-03-28 00:41:02,412 | 884891 | INFO | inflight_trials = [0]
+2026-03-28 00:41:02,412 | 884891 | INFO | queue[0000] trial 1 fold 1 no_physics
+2026-03-28 00:41:02,412 | 884891 | INFO | queue[0001] trial 1 fold 2 no_physics
+2026-03-28 00:41:02,413 | 884891 | INFO | queue[0002] trial 1 fold 3 no_physics
+2026-03-28 00:41:02,413 | 884891 | INFO | queue[0003] trial 1 fold 4 no_physics
+2026-03-28 00:41:02,413 | 884891 | INFO | [END BAYES QUEUE]
+2026-03-28 00:41:35,160 | 884891 | INFO | Traceback (most recent call last):
+2026-03-28 00:41:35,174 | 884891 | INFO | File "/global/scratch/users/maxwellfung/UCB-USACE-RR-PROJECT/run_hyperparam_search.py", line 1625, in <module>
+2026-03-28 00:41:35,187 | 884891 | INFO | main()
+2026-03-28 00:41:35,188 | 884891 | INFO | File "/global/scratch/users/maxwellfung/UCB-USACE-RR-PROJECT/run_hyperparam_search.py", line 1285, in main
+2026-03-28 00:41:35,190 | 884891 | INFO | run_bayes_streaming_queue(
+2026-03-28 00:41:35,190 | 884891 | INFO | File "/global/scratch/users/maxwellfung/UCB-USACE-RR-PROJECT/run_hyperparam_search.py", line 1152, in run_bayes_streaming_queue
+2026-03-28 00:41:35,192 | 884891 | INFO | time.sleep(0.1)
+2026-03-28 00:41:35,192 | 884891 | INFO | KeyboardInterrupt
