@@ -1,10 +1,27 @@
 import itertools
+import sys
 from pathlib import Path
 import pandas as pd
 from tqdm import tqdm
 from UCB_training.UCB_train import UCB_trainer
 import os
 import shutil
+
+
+def _limit_threads():
+    """Prevent thread contention when multiple spawn workers compete for CPU (Windows only)."""
+    if sys.platform != "win32":
+        return
+    import multiprocessing as _mp
+    n_threads = max(1, _mp.cpu_count() // max(1, _mp.cpu_count() - 1))
+    os.environ['KMP_DUPLICATE_LIB_OK'] = 'TRUE'
+    os.environ['OMP_NUM_THREADS'] = str(n_threads)
+    os.environ['MKL_NUM_THREADS'] = str(n_threads)
+    os.environ['OPENBLAS_NUM_THREADS'] = '1'
+    os.environ['NUMBA_NUM_THREADS'] = str(n_threads)
+    os.environ['NUMBA_THREADING_LAYER'] = 'workqueue'
+    import torch
+    torch.set_num_threads(n_threads)
 
 
 def _build_hp_run(combinations, hyperparam_names, fractional_multi_lr):
@@ -96,11 +113,12 @@ def _build_row(combinations, hyperparam_names, hp_run, metrics_result, is_mts, p
 
 def run_single_experiment_nophysics(args):
     import os, warnings, logging, sys
+    _limit_threads()
     warnings.filterwarnings("ignore")
     logging.getLogger().setLevel(logging.ERROR)
     logging.getLogger("neuralhydrology").setLevel(logging.ERROR)
     logging.getLogger("pandas").setLevel(logging.ERROR)
-    sys.stderr = open(os.devnull, "w")
+    # sys.stderr = open(os.devnull, "w")  # commented out for error visibility
 
     (
         idx, combinations, hyperparam_names, path_to_csv, path_to_yaml,
@@ -110,15 +128,14 @@ def run_single_experiment_nophysics(args):
         train_start, train_end, val_start, val_end,
         val_eval_start, val_eval_end,
         validation_start_per_frequency,
-        train_ranges,
-        validation_ranges,
-        dataset_name,
-        fold_id,
-        total_folds,
-        cv_external_queue_mode
+        train_ranges, validation_ranges, dataset_name,
+        fold_id, total_folds, cv_external_queue_mode
     ) = args
 
     hp_run = _build_hp_run(combinations, hyperparam_names, fractional_multi_lr)
+
+    # runs_parent: use fold suffix only in parallel-fold mode
+    rp = f"{RUNS_PARENT}_grid_{idx:03d}" if fold_id == 0 else str(Path(RUNS_PARENT) / f"grid_{idx:03d}_fold{fold_id}")
 
     trainer = UCB_trainer(
         path_to_csv_folder=path_to_csv,
@@ -135,18 +152,24 @@ def run_single_experiment_nophysics(args):
         hyperparam_ensemble=HYPERPARAM_ENSEMBLE,
         bootstrap_model=BOOTSTRAP_MODELS,
         verbose=verbose,
-        runs_parent=str(Path(RUNS_PARENT) / f"grid_{idx:03d}_fold{fold_id}"),
+        runs_parent=rp,
         run_label=RUN_LABEL,
         run_stamp=RUN_STAMP
     )
 
+    # Windows: disable figure logging and verbose plotting to prevent matplotlib/OpenBLAS segfault
+    if sys.platform == "win32":
+        trainer._config._cfg["log_n_figures"] = 0
+        trainer._verbose = False  # prevent _generate_obs_sim_plt crash in results()
+
+    # override config when caller provides explicit ranges/dates (None = use YAML as-is)
     if dataset_name == "synthetic_russian_river":
         trainer._config.update_config({
             "train_ranges": train_ranges,
             "validation_ranges": validation_ranges,
             "dataset": dataset_name,
         }, dev_mode=True)
-    else:
+    elif dataset_name is not None:
         trainer._config.update_config({
             "train_start_date": train_start,
             "train_end_date": train_end,
@@ -157,8 +180,8 @@ def run_single_experiment_nophysics(args):
 
     result = _run_and_collect(trainer, is_mts, use_cv, cv_month, cv_interval, cv_val_len)
 
-    run_dir = f"{RUNS_PARENT}_grid_{idx:03d}_fold{fold_id}"
-    shutil.rmtree(run_dir, ignore_errors=True)
+    # run_dir = f"{RUNS_PARENT}_grid_{idx:03d}_fold{fold_id}"
+    # shutil.rmtree(run_dir, ignore_errors=True)  # keep fold artifacts for analysis
 
     print(f"[QUEUE DONE] iter={idx} fold={fold_id} physics=False")
 
@@ -167,6 +190,7 @@ def run_single_experiment_nophysics(args):
 
 def run_single_experiment_physics(args):
     import os, warnings, logging, sys
+    _limit_threads()
     warnings.filterwarnings("ignore")
     logging.getLogger().setLevel(logging.ERROR)
     # sys.stderr = open(os.devnull, "w")  # commented out for error visibility
@@ -180,15 +204,14 @@ def run_single_experiment_physics(args):
         train_start, train_end, val_start, val_end,
         val_eval_start, val_eval_end,
         validation_start_per_frequency,
-        train_ranges,
-        validation_ranges,
-        dataset_name,
-        fold_id,
-        total_folds,
-        cv_external_queue_mode
+        train_ranges, validation_ranges, dataset_name,
+        fold_id, total_folds, cv_external_queue_mode
     ) = args
 
     hp_run = _build_hp_run(combinations, hyperparam_names, fractional_multi_lr)
+
+    # runs_parent: use fold suffix only in parallel-fold mode
+    rp = f"{RUNS_PARENT}_phys_grid_{idx:03d}" if fold_id == 0 else str(Path(RUNS_PARENT) / f"phys_grid_{idx:03d}_fold{fold_id}")
 
     trainer = UCB_trainer(
         path_to_csv_folder=path_to_csv,
@@ -205,18 +228,24 @@ def run_single_experiment_physics(args):
         hyperparam_ensemble=HYPERPARAM_ENSEMBLE,
         bootstrap_model=BOOTSTRAP_MODELS,
         verbose=verbose,
-        runs_parent=str(Path(RUNS_PARENT) / f"phys_grid_{idx:03d}_fold{fold_id}"),
+        runs_parent=rp,
         run_label=RUN_LABEL,
         run_stamp=RUN_STAMP
     )
 
+    # Windows: disable figure logging and verbose plotting to prevent matplotlib/OpenBLAS segfault
+    if sys.platform == "win32":
+        trainer._config._cfg["log_n_figures"] = 0
+        trainer._verbose = False  # prevent _generate_obs_sim_plt crash in results()
+
+    # override config when caller provides explicit ranges/dates (None = use YAML as-is)
     if dataset_name == "synthetic_russian_river":
         trainer._config.update_config({
             "train_ranges": train_ranges,
             "validation_ranges": validation_ranges,
             "dataset": dataset_name,
         }, dev_mode=True)
-    else:
+    elif dataset_name is not None:
         trainer._config.update_config({
             "train_start_date": train_start,
             "train_end_date": train_end,
@@ -227,8 +256,8 @@ def run_single_experiment_physics(args):
 
     result = _run_and_collect(trainer, is_mts, use_cv, cv_month, cv_interval, cv_val_len)
 
-    run_dir = f"{RUNS_PARENT}_phys_grid_{idx:03d}_fold{fold_id}"
-    shutil.rmtree(run_dir, ignore_errors=True)
+    # run_dir = f"{RUNS_PARENT}_phys_grid_{idx:03d}_fold{fold_id}"
+    # shutil.rmtree(run_dir, ignore_errors=True)  # keep fold artifacts for analysis
 
     print(f"[QUEUE DONE] iter={idx} fold={fold_id} physics=True")
 

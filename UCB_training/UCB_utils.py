@@ -448,6 +448,13 @@ def load_hparams(basin: str, mode: str, label: str = "BASELINE", stamp: str | No
         - strict_archive=False -> fall back to LATEST, then to newest archive.
     - If 'stamp' is None: load LATEST. If missing, fall back to newest archive.
     """
+    _INT_COLS = {"hidden_size", "seq_length_1D", "seq_length_1H", "num_layers", "epochs", "batch_size", "_queue_iter_idx"}
+
+    def _fix_dtypes(df: pd.DataFrame) -> pd.DataFrame:
+        for col in _INT_COLS & set(df.columns):
+            df[col] = df[col].astype(int)
+        return df
+
     root = _artifact_root(basin, mode)
     hp_dir = root / "hyperparams"
     arch = hp_dir / "archive"
@@ -457,7 +464,7 @@ def load_hparams(basin: str, mode: str, label: str = "BASELINE", stamp: str | No
         stamped = arch / f"{prefix}_hyperparams_{stamp}.csv"
         if stamped.exists():
             print(stamped)
-            return pd.read_csv(stamped)
+            return _fix_dtypes(pd.read_csv(stamped))
         if strict_archive:
             raise FileNotFoundError(
                 f"Expected stamped hyperparams not found: {stamped}\n"
@@ -466,13 +473,13 @@ def load_hparams(basin: str, mode: str, label: str = "BASELINE", stamp: str | No
     latest = hp_dir / f"{prefix}_hyperparams.csv"
     if latest.exists():
         print(latest)
-        return pd.read_csv(latest)
+        return _fix_dtypes(pd.read_csv(latest))
 
     matches = sorted(arch.glob(f"{prefix}_hyperparams_*.csv"),
                      key=lambda p: p.stat().st_mtime, reverse=True)
     if matches:
         print(matches[0])
-        return pd.read_csv(matches[0])
+        return _fix_dtypes(pd.read_csv(matches[0]))
 
     raise FileNotFoundError(f"No best‑params CSV for {prefix} in {hp_dir} or {arch}")
 

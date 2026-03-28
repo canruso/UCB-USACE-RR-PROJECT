@@ -10,6 +10,10 @@ import pandas as pd
 import xarray as xr
 
 import plotly.graph_objects as go
+import sys
+if sys.platform == "win32":
+    import matplotlib
+    matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from matplotlib.lines import Line2D
 from matplotlib.dates import DateFormatter

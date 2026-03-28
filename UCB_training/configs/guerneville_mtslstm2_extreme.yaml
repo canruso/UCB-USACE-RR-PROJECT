@@ -92,7 +92,7 @@ seq_length:
 
 log_interval: 16
 log_tensorboard: true
-log_n_figures: 1
+log_n_figures: 0
 save_weights_every: 16
 
 # --- Data Configuration -----------------------------------------------------
