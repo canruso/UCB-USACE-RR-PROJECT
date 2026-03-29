@@ -45,6 +45,7 @@ physics_informed: false
 physics_data_file: null
 
 # --- Validation Configuration ----------------------------------------------
+# validate_every: 12  # Max PR#9
 validate_every: 3
 validate_n_random_basins: 1
 save_validation_results: true

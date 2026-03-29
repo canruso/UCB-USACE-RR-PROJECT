@@ -1,5 +1,9 @@
 from datetime import timedelta
 from pathlib import Path
+import sys
+if sys.platform == "win32" and 'ipykernel' not in sys.modules:
+    import matplotlib
+    matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import pickle
 import numpy as np
@@ -16,7 +20,43 @@ import yaml
 from UCB_training.UCB_utils import data_dir as _ucb_data_dir, resolve_basin_file as _ucb_resolve_basin_file
 from UCB_training.UCB_plotting import plot_loss_curves
 
+
+def _safe_plot_loss_curves(run_dir, save_path=None, timeout=60):
+    """On Windows, run plot_loss_curves in an isolated subprocess to survive OpenBLAS segfaults.
+    On Mac/Linux, just call it directly."""
+    if sys.platform != "win32":
+        plot_loss_curves(run_dir, save_path=save_path) if save_path else plot_loss_curves(run_dir)
+        return True
+    import subprocess, textwrap
+    script = textwrap.dedent(f"""\
+        import sys, os
+        os.environ['OPENBLAS_NUM_THREADS'] = '1'
+        os.environ['OMP_NUM_THREADS'] = '1'
+        os.environ['KMP_DUPLICATE_LIB_OK'] = 'TRUE'
+        import matplotlib
+        matplotlib.use('Agg')
+        from UCB_training.UCB_plotting import plot_loss_curves
+        plot_loss_curves(r'{run_dir}'{f", save_path=r'{save_path}'" if save_path else ''})
+    """)
+    try:
+        result = subprocess.run(
+            [sys.executable, "-c", script],
+            timeout=timeout, capture_output=True, text=True,
+            cwd=str(Path(run_dir).parent) if Path(run_dir).exists() else None,
+        )
+        return result.returncode == 0
+    except Exception:
+        return False
+
+
 def _train_single_member(args):
+    # Ensure spawned worker uses local neuralhydrology (not pip-installed)
+    import sys
+    from pathlib import Path
+    _project_root = str(Path(__file__).resolve().parents[1])
+    if _project_root not in sys.path:
+        sys.path.insert(0, _project_root)
+
     trainer, idx = args
 
     trainer = pickle.loads(pickle.dumps(trainer))
@@ -42,8 +82,14 @@ def _train_single_member(args):
     return path
 
 def _train_single_bootstrap_member(args):
-    # needed to print from worker.
+    # Ensure spawned worker uses local neuralhydrology (not pip-installed)
     import sys
+    from pathlib import Path
+    _project_root = str(Path(__file__).resolve().parents[1])
+    if _project_root not in sys.path:
+        sys.path.insert(0, _project_root)
+
+    # needed to print from worker.
     sys.stdout = sys.__stdout__
     sys.stderr = sys.__stderr__
 
@@ -403,7 +449,7 @@ class UCB_trainer:
 
             # Generate loss curve visualization
             try:
-                plot_loss_curves(path)
+                _safe_plot_loss_curves(path)
                 if self._verbose:
                     print(f"[UCB Trainer] Loss curves saved to {path}/loss_curves.png")
             except Exception as e:
@@ -416,7 +462,7 @@ class UCB_trainer:
 
                 # Generate loss curve visualization for each ensemble member
                 try:
-                    plot_loss_curves(model_path)
+                    _safe_plot_loss_curves(model_path)
                     if self._verbose:
                         print(f"[UCB Trainer] Loss curves saved to {model_path}/loss_curves.png")
                 except Exception as e:
@@ -1275,10 +1321,23 @@ class UCB_trainer:
             self._hyperparams["save_weights_every"] = self._hyperparams['epochs']
 
         if self._dynamic_inputs is not None:
-            config.update_config({'dynamic_inputs': self._dynamic_inputs}, dev_mode=True)
+            # For MTS configs, dynamic_inputs must be a per-frequency dict.
+            # If input_features was passed as a flat list, wrap it for each frequency.
+            dyn = self._dynamic_inputs
+            if self._is_mts and isinstance(dyn, list):
+                freqs = config._cfg.get("use_frequencies", config._cfg.get("frequencies", []))
+                if freqs:
+                    dyn = {freq: list(dyn) for freq in freqs}
+            config.update_config({'dynamic_inputs': dyn}, dev_mode=True)
 
         if self._extended_train_period:
             config.update_config({'train_end_date': config.validation_end_date}, dev_mode=True)
+            # Merge validation_ranges into train_ranges for synthetic pipeline
+            # (mirrors contiguous behavior where train_end_date extends to cover validation)
+            train_r = list(getattr(config, 'train_ranges', None) or [])
+            val_r = list(getattr(config, 'validation_ranges', None) or [])
+            if train_r and val_r:
+                config.update_config({'train_ranges': sorted(train_r + val_r)}, dev_mode=True)
 
         config.update_config(self._hyperparams, dev_mode=True)
         config.update_config({'data_dir': self._data_dir}, dev_mode=True)
@@ -1576,7 +1635,7 @@ class UCB_trainer:
                     try:
                         nh_run_dirs = sorted(fold_dir.glob("testing_run_*"))
                         lc_dir = nh_run_dirs[-1] if nh_run_dirs else fold_dir
-                        plot_loss_curves(lc_dir, save_path=fold_dir / 'loss_curves.png')
+                        _safe_plot_loss_curves(lc_dir, save_path=fold_dir / 'loss_curves.png')
                     except Exception as e:
                         if self._verbose:
                             print(f"Warning: Could not generate loss curve for fold {i}: {e}")
@@ -1635,7 +1694,7 @@ class UCB_trainer:
                     try:
                         nh_run_dirs = sorted(fold_dir.glob("testing_run_*"))
                         lc_dir = nh_run_dirs[-1] if nh_run_dirs else fold_dir
-                        plot_loss_curves(lc_dir, save_path=fold_dir / 'loss_curves.png')
+                        _safe_plot_loss_curves(lc_dir, save_path=fold_dir / 'loss_curves.png')
                     except Exception as e:
                         if self._verbose:
                             print(f"Warning: Could not generate loss curve for fold {i}: {e}")

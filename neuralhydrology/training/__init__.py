@@ -10,6 +10,8 @@ from neuralhydrology.utils.config import Config
 
 LOGGER = logging.getLogger(__name__)
 
+from neuralhydrology.training.custom_weighted_nse import CustomWeightedNSELoss
+
 
 def get_optimizer(model: torch.nn.Module, cfg: Config) -> torch.optim.Optimizer:
     """Get specific optimizer object, depending on the run configuration.
@@ -69,6 +71,10 @@ def get_loss_obj(cfg: Config) -> loss.BaseLoss:
         loss_obj = loss.MaskedCMALLoss(cfg)
     elif cfg.loss.lower() == "umalloss":
         loss_obj = loss.MaskedUMALLoss(cfg)
+    # Added by Maxwell Fung on 2024-06-17 to link the custom weighted NSE loss function
+    elif cfg.loss.lower() == "custom_weighted_nse":
+        loss_obj = CustomWeightedNSELoss(cfg)
+    # Added End
     else:
         raise NotImplementedError(f"{cfg.loss} not implemented or not linked in `get_loss()`")
 

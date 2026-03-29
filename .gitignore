@@ -23,8 +23,15 @@ docs/build/*
 
 #UCB
 **/runs/
+**/debug_mp_run_*/
+**/debug_*/
 #*.csv
-russian_river_data/ 
+russian_river_data/
+outputs/
+*.pt
+*.pth
+*.log
+tule_river_data/
 
 venv
 
