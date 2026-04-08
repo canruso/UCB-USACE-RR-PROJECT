@@ -391,7 +391,71 @@ class BaseTrainer(object):
                     # make sure we add near-zero noise to originally near-zero targets
                     data[key] += (data[key] + self._target_mean / self._target_std) * noise.to(self.device)
 
-            loss, all_losses = self.loss_obj(predictions, data)
+            if self.cfg.loss.lower() == "custom_weighted_nse":
+                import numpy as np
+                import torch
+
+                if not getattr(self, "peaks_cached", False):
+                    import matplotlib.dates as mdates
+                    from scipy.signal import find_peaks, peak_widths
+                    import matplotlib.pyplot as plt
+
+                    ds = self.loader.dataset
+                    ys, dates = [], []
+                    for i in range(len(ds)):
+                        s = ds[i]
+                        y = next((s[k] for k in s if k.startswith("y") and s[k] is not None), None)
+                        d = next((s[k] for k in s if k.startswith("date")), None)
+                        if y is None or d is None: continue
+                        if isinstance(y, torch.Tensor): y = y.detach().cpu().numpy()
+                        ys.append(y.squeeze())
+                        dates.append(d)
+
+                    y_full = np.concatenate(ys)
+                    dates_full = np.concatenate(dates)
+                    idx = np.argsort(dates_full)
+                    y_full, dates_full = y_full[idx], dates_full[idx]
+
+                    y_smooth = np.convolve(y_full, np.ones(15)/15, mode="same")
+                    peaks, _ = find_peaks(y_smooth, prominence=0.5, distance=7)
+                    _, _, left_ips, right_ips = peak_widths(y_smooth, peaks, rel_height=0.9)
+
+                    peak_mask = np.zeros(len(y_full), dtype=np.float32)
+                    for l, r in zip(left_ips, right_ips):
+                        s, e = max(0, int(l)-10), min(len(y_full)-1, int(r)+10)
+                        peak_mask[s:e+1] = 1.0
+
+                    self.date_to_peak = dict(zip(dates_full, peak_mask))
+                    self.peaks_cached = True
+
+                    if True:
+                        m = ~np.isnan(y_full)
+                        plt.figure(figsize=(14,5))
+                        plt.plot(dates_full[m], y_full[m], lw=0.5)
+                        ax = plt.gca()
+                        ax.xaxis.set_major_locator(mdates.MonthLocator(interval=1))
+                        ax.xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m'))
+                        for l, r in zip(left_ips, right_ips):
+                            s, e = max(0, int(l)-10), min(len(dates_full)-1, int(r)+10)
+                            plt.axvspan(dates_full[s], dates_full[e], color='red', alpha=0.2)
+                        plt.xticks(rotation=45)
+                        plt.tight_layout()
+                        plt.show()
+
+                batch_dates = next(data[k] for k in data if k.startswith("date"))
+                bd = batch_dates.detach().cpu().numpy() if isinstance(batch_dates, torch.Tensor) else batch_dates
+                B, T = bd.shape
+                is_peak = np.zeros((B, T, 1), dtype=np.float32)
+
+                for i in range(B):
+                    for t in range(T):
+                        is_peak[i, t, 0] = self.date_to_peak.get(bd[i, t], 0.0)
+
+                data["is_peak"] = torch.tensor(is_peak, device=self.device, dtype=torch.float32)
+
+                loss, all_losses = self.loss_obj(predictions, data)
+            else:
+                loss, all_losses = self.loss_obj(predictions, data)
 
             # early stop training if loss is NaN
             if torch.isnan(loss):
