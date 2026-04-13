@@ -2,10 +2,10 @@ import pandas as pd
 from pathlib import Path
 from UCB_training.UCB_utils import save_hparams, _artifact_root
 
-BASIN = "warm_springs"
+BASIN = "guerneville"
 MODE = "mts"
-RUN_LABEL = "EXTREME_YEARS"
-RUN_STAMP = "20260307T122221Z"
+RUN_LABEL = "PEAK_NSE_PENALTY"
+RUN_STAMP = "20260413T093925Z"
 
 root = _artifact_root(BASIN, MODE)
 arch = root / "hyperparams" / "archive"
