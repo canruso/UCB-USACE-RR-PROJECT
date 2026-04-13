@@ -3,7 +3,7 @@ import torch
 from neuralhydrology.training.loss import BaseLoss
 
 class CustomWeightedNSELoss(BaseLoss):
-    def __init__(self, cfg, eps: float = 0.1, alpha: float = 2.0, peak_penalty: float = 10000000.0):
+    def __init__(self, cfg, eps: float = 0.1, alpha: float = 2.0, peak_penalty: float = 1000.0):
         super(CustomWeightedNSELoss, self).__init__(
             cfg,
             prediction_keys=['y_hat'],
@@ -16,6 +16,7 @@ class CustomWeightedNSELoss(BaseLoss):
         self.debug_plot = False
 
     def _get_loss(self, prediction: Dict[str, torch.Tensor], ground_truth: Dict[str, torch.Tensor], **kwargs):
+
         mask = ~torch.isnan(ground_truth['y'])
 
         y_hat = prediction['y_hat'][mask]

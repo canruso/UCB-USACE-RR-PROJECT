@@ -92,7 +92,7 @@ class BaseLoss(torch.nn.Module):
             The individual components of the loss (e.g., regularization terms). 'total_loss' contains the overall loss.
         """
         # unpack loss-specific additional arguments
-        kwargs = {key: data[key] for key in self._additional_data if key != 'is_peak'}
+        kwargs = {key: data[key] for key in self._additional_data if key in data}
 
         losses = []
         prediction_sub, ground_truth_sub = {}, {}

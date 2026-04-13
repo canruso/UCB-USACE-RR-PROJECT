@@ -418,7 +418,7 @@ class BaseTrainer(object):
 
                     y_smooth = np.convolve(y_full, np.ones(15)/15, mode="same")
                     peaks, _ = find_peaks(y_smooth, prominence=0.5, distance=7)
-                    _, _, left_ips, right_ips = peak_widths(y_smooth, peaks, rel_height=0.9)
+                    _, _, left_ips, right_ips = peak_widths(y_smooth, peaks, rel_height=0.5)
 
                     peak_mask = np.zeros(len(y_full), dtype=np.float32)
                     for l, r in zip(left_ips, right_ips):
@@ -426,6 +426,7 @@ class BaseTrainer(object):
                         peak_mask[s:e+1] = 1.0
 
                     self.date_to_peak = dict(zip(dates_full, peak_mask))
+
                     self.peaks_cached = True
 
                     if True:
@@ -444,6 +445,7 @@ class BaseTrainer(object):
 
                 batch_dates = next(data[k] for k in data if k.startswith("date"))
                 bd = batch_dates.detach().cpu().numpy() if isinstance(batch_dates, torch.Tensor) else batch_dates
+                
                 B, T = bd.shape
                 is_peak = np.zeros((B, T, 1), dtype=np.float32)
 
