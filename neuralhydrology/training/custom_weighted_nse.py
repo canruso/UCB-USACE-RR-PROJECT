@@ -3,16 +3,18 @@ import torch
 from neuralhydrology.training.loss import BaseLoss
 
 class CustomWeightedNSELoss(BaseLoss):
-    def __init__(self, cfg, eps: float = 0.1, alpha: float = 2.0, peak_penalty: float = 1000.0):
+    def __init__(self, cfg, eps: float = 0.1, alpha: float = 2.0):
         super(CustomWeightedNSELoss, self).__init__(
             cfg,
             prediction_keys=['y_hat'],
             ground_truth_keys=['y'],
             additional_data=['per_basin_target_stds', 'is_peak']
         )
+
         self.eps = eps
         self.alpha = alpha
-        self.peak_penalty = peak_penalty
+        self.peak_penalty = cfg._cfg['custom_peak_penalty']
+        print(f"Initialized CustomWeightedNSELoss with custom_peak_penalty={self.peak_penalty}")
         self.debug_plot = False
 
     def _get_loss(self, prediction: Dict[str, torch.Tensor], ground_truth: Dict[str, torch.Tensor], **kwargs):

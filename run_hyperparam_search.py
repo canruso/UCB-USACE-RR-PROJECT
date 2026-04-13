@@ -6,31 +6,32 @@
 # ---- Top-level configs (edit these) ----
 HYPERPARAM_SPACE = {
     "hidden_size": [128, 256],
-    "output_dropout": [0.1, 0.4],
+    "output_dropout": (0.1, 0.4),
     "seq_length_1D": [90],
     "seq_length_1H": [168, 336],
     "num_layers": [1],
     "epochs": [300],
-    "batch_size": [64, 256],
+    "batch_size": [64],
+    "custom_peak_penalty": (1.0, 10000.0),
 }
 hyperparam_names = list(HYPERPARAM_SPACE.keys())
 
 CONFIG_SUFFIX = "_extreme"   # "" for baseline, "_extreme" for Seq A
 
-BASIN = "calpella"  # "calpella", "warm_springs", "hopland", or "guerneville"
+BASIN = "guerneville"  # "calpella", "warm_springs", "hopland", or "guerneville"
 MODE = "mts"           # "mts", "daily", or "hourly"
 GPU_SETTING = -1
-NUM_WORKERS = 16
+NUM_WORKERS = 6
 
-VERBOSE = True
+VERBOSE = False
 RUN_NO_PHYSICS_ONLY = False
 LOG_TO_FILE = False
 
-USE_BAYES = False
-N_BAYES_TRIALS = 36
+USE_BAYES = True
+N_BAYES_TRIALS = 48
 BAYES_JOURNAL_DIR = ""
 
-RUN_LABEL = "EXTREME_SEQ_A_CV"
+RUN_LABEL = "PEAK_NSE_PENALTY"
 READ_STAMP = ""
 
 USE_CV = True
@@ -338,42 +339,6 @@ BASIN_CONFIGS = {
             "WF Russian INFILTRATION",
             "WF Russian PERC-SOIL",
             "WF Russian SATURATION FRACTION",
-        ],
-    },
-    "hopland": {
-        "yaml_key": {"mts": "hopland_mtslstm2", "daily": "hopland_gage_nlayers", "hourly": "hopland_gage_nlayers"},
-        "physics_file": {"mts": "Hopland_hourly.csv", "daily": "Hopland_daily_averaged.csv", "hourly": "Hopland_hourly.csv"},
-        "features_with_physics": [
-            "RUSSIAN 60 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR",
-            "RUSSIAN 60 PRECIP-INC SCREENED",
-            "RUSSIAN 70 PRECIP-INC SCREENED",
-            "RUSSIAN 70 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR",
-            "WF RUSSIAN PRECIP-INC SCREENED",
-            "WF RUSSIAN ET-POTENTIAL RUN:BASIN AVERAGE 60 YR",
-            "Hopland Gage FLOW",
-            "Russian 60 ET-POTENTIAL",
-            "Russian 60 FLOW",
-            "Russian 60 FLOW-BASE",
-            "Russian 60 INFILTRATION",
-            "Russian 60 PERC-SOIL",
-            "Russian 60 SATURATION FRACTION",
-            "Russian 70 ET-POTENTIAL",
-            "Russian 70 FLOW",
-            "Russian 70 FLOW-BASE",
-            "Russian 70 INFILTRATION",
-            "Russian 70 PERC-SOIL",
-            "Russian 70 SATURATION FRACTION",
-            "WF Russian ET-POTENTIAL",
-            "WF Russian FLOW",
-            "WF Russian FLOW-BASE",
-            "WF Russian INFILTRATION",
-            "WF Russian PERC-SOIL",
-            "WF Russian SATURATION FRACTION",
-            "UKIAH CA HUMIDITY USAF-NOAA",
-            "UKIAH CA SOLAR RADIATION USAF-NOAA",
-            "UKIAH CA TEMPERATURE USAF-NOAA",
-            "UKIAH CA WINDSPEED USAF-NOAA",
-            "UKIAH CA FLOW USGS-MERGED",
         ],
     },
 }
