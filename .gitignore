@@ -27,7 +27,6 @@ docs/build/*
 **/debug_*/
 #*.csv
 russian_river_data/
-outputs/
 *.pt
 *.pth
 *.log
