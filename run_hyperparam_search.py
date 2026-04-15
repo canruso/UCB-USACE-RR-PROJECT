@@ -647,7 +647,7 @@ def _run_external_cv_queue_job(job):
     if RUNS_PARENT is None:
         bcfg = BASIN_CONFIGS[BASIN]
         path_to_csv = data_dir()
-        path_to_yaml = get_yaml_path(bcfg["yaml_key"][MODE] + CONFIG_SUFFIX)
+        path_to_yaml = get_yaml_path(bcfg["yaml_key"][int(MODE)] + CONFIG_SUFFIX)
         path_to_physics_data = path_to_csv / bcfg["physics_file"][MODE]
         features_with_physics = bcfg["features_with_physics"]
         _SHARED = ensure_shared_tree(BASIN, MODE)
@@ -860,7 +860,7 @@ def run_no_physics_worker(args):
 
         bcfg = BASIN_CONFIGS[BASIN]
         path_to_csv = data_dir()
-        path_to_yaml = get_yaml_path(bcfg["yaml_key"][MODE] + CONFIG_SUFFIX)
+        path_to_yaml = get_yaml_path(bcfg["yaml_key"][int(MODE)] + CONFIG_SUFFIX)
         path_to_physics_data = path_to_csv / bcfg["physics_file"][MODE]
         features_with_physics = bcfg["features_with_physics"]
 
@@ -894,7 +894,7 @@ def run_physics_worker(args):
 
         bcfg = BASIN_CONFIGS[BASIN]
         path_to_csv = data_dir()
-        path_to_yaml = get_yaml_path(bcfg["yaml_key"][MODE] + CONFIG_SUFFIX)
+        path_to_yaml = get_yaml_path(bcfg["yaml_key"][int(MODE)] + CONFIG_SUFFIX)
         path_to_physics_data = path_to_csv / bcfg["physics_file"][MODE]
         features_with_physics = bcfg["features_with_physics"]
 
@@ -1066,8 +1066,8 @@ def main():
     _print("Numba JIT pre-compiled.")
 
     # Resolve paths using MODE
-    yaml_key = bcfg["yaml_key"][MODE] + CONFIG_SUFFIX
-    physics_file = bcfg["physics_file"][MODE]
+    yaml_key = bcfg["yaml_key"][int(MODE)] + CONFIG_SUFFIX
+    physics_file = bcfg["physics_file"][int(MODE)]
 
     path_to_csv = data_dir()
     path_to_yaml = get_yaml_path(yaml_key)
