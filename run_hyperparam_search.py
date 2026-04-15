@@ -18,7 +18,7 @@ hyperparam_names = list(HYPERPARAM_SPACE.keys())
 
 CONFIG_SUFFIX = "_extreme"   # "" for baseline, "_extreme" for Seq A
 
-BASIN = "guerneville"  # "calpella", "warm_springs", "hopland", or "guerneville"
+BASIN = "hopland"  # "calpella", "warm_springs", "hopland", or "guerneville"
 MODE = "mts"           # "mts", "daily", or "hourly"
 GPU_SETTING = -1
 NUM_WORKERS = 50
@@ -128,45 +128,6 @@ else:
 # BASIN_CONFIGS - 4 basins x 3 modes
 # ==============================================================================
 BASIN_CONFIGS = {
-    "hopland": {
-        "yaml_key": "hopland_mtslstm2",
-        "physics_file_1H": "Hopland_hourly.csv",
-        "features_with_physics": [
-            #from daily.csv
-            "RUSSIAN 60 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR",
-            "RUSSIAN 60 PRECIP-INC SCREENED",
-            "RUSSIAN 70 PRECIP-INC SCREENED",
-            "RUSSIAN 70 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR",
-            "WF RUSSIAN PRECIP-INC SCREENED",
-            "WF RUSSIAN ET-POTENTIAL RUN:BASIN AVERAGE 60 YR",
-            #from hopland.csv
-            'Hopland Gage FLOW',
-            'Russian 60 ET-POTENTIAL',
-            'Russian 60 FLOW',  # HMS FLOW (BC-dependent) — comment out for NOBC_V2
-            'Russian 60 FLOW-BASE',  # HMS FLOW (BC-dependent) — comment out for NOBC_V2
-            'Russian 60 INFILTRATION',
-            'Russian 60 PERC-SOIL',
-            'Russian 60 SATURATION FRACTION',
-            'Russian 70 ET-POTENTIAL',
-            'Russian 70 FLOW',  # HMS FLOW (BC-dependent) — comment out for NOBC_V2
-            'Russian 70 FLOW-BASE',  # HMS FLOW (BC-dependent) — comment out for NOBC_V2
-            'Russian 70 INFILTRATION',
-            'Russian 70 PERC-SOIL',
-            'Russian 70 SATURATION FRACTION',
-            'WF Russian ET-POTENTIAL',
-            'WF Russian FLOW',  # HMS FLOW (BC-dependent) — comment out for NOBC_V2
-            'WF Russian FLOW-BASE',  # HMS FLOW (BC-dependent) — comment out for NOBC_V2
-            'WF Russian INFILTRATION',
-            'WF Russian PERC-SOIL',
-            'WF Russian SATURATION FRACTION',
-            "UKIAH CA HUMIDITY USAF-NOAA",
-            "UKIAH CA SOLAR RADIATION USAF-NOAA",
-            "UKIAH CA TEMPERATURE USAF-NOAA",
-            "UKIAH CA WINDSPEED USAF-NOAA",
-            "UKIAH CA FLOW USGS-MERGED",
-            #"Lake Mendocino Storage",    
-        ],
-    },
     "calpella": {
         "yaml_key": {"mts": "calpella_mtslstm2", "daily": "calpella_gage_nlayer", "hourly": "calpella_gage_nlayer"},
         "physics_file": {"mts": "Calpella_hourly.csv", "daily": "Calpella_daily_averaged.csv", "hourly": "Calpella_hourly.csv"},
@@ -339,6 +300,42 @@ BASIN_CONFIGS = {
             "WF Russian INFILTRATION",
             "WF Russian PERC-SOIL",
             "WF Russian SATURATION FRACTION",
+        ],
+    },
+    "hopland": {
+        "yaml_key": {"mts": "hopland_mtslstm2", "daily": "hopland_gage_nlayers", "hourly": "hopland_gage_nlayers"},
+        "physics_file": {"mts": "Hopland_hourly.csv", "daily": "Hopland_daily_averaged.csv", "hourly": "Hopland_hourly.csv"},
+        "features_with_physics": [
+            "RUSSIAN 60 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR",
+            "RUSSIAN 60 PRECIP-INC SCREENED",
+            "RUSSIAN 70 PRECIP-INC SCREENED",
+            "RUSSIAN 70 ET-POTENTIAL RUN:BASIN AVERAGE 60 YR",
+            "WF RUSSIAN PRECIP-INC SCREENED",
+            "WF RUSSIAN ET-POTENTIAL RUN:BASIN AVERAGE 60 YR",
+            "Hopland Gage FLOW",
+            "Russian 60 ET-POTENTIAL",
+            "Russian 60 FLOW",
+            "Russian 60 FLOW-BASE",
+            "Russian 60 INFILTRATION",
+            "Russian 60 PERC-SOIL",
+            "Russian 60 SATURATION FRACTION",
+            "Russian 70 ET-POTENTIAL",
+            "Russian 70 FLOW",
+            "Russian 70 FLOW-BASE",
+            "Russian 70 INFILTRATION",
+            "Russian 70 PERC-SOIL",
+            "Russian 70 SATURATION FRACTION",
+            "WF Russian ET-POTENTIAL",
+            "WF Russian FLOW",
+            "WF Russian FLOW-BASE",
+            "WF Russian INFILTRATION",
+            "WF Russian PERC-SOIL",
+            "WF Russian SATURATION FRACTION",
+            "UKIAH CA HUMIDITY USAF-NOAA",
+            "UKIAH CA SOLAR RADIATION USAF-NOAA",
+            "UKIAH CA TEMPERATURE USAF-NOAA",
+            "UKIAH CA WINDSPEED USAF-NOAA",
+            "UKIAH CA FLOW USGS-MERGED",
         ],
     },
 }
@@ -647,7 +644,7 @@ def _run_external_cv_queue_job(job):
     if RUNS_PARENT is None:
         bcfg = BASIN_CONFIGS[BASIN]
         path_to_csv = data_dir()
-        path_to_yaml = get_yaml_path(bcfg["yaml_key"][int(MODE)] + CONFIG_SUFFIX)
+        path_to_yaml = get_yaml_path(bcfg["yaml_key"][MODE] + CONFIG_SUFFIX)
         path_to_physics_data = path_to_csv / bcfg["physics_file"][MODE]
         features_with_physics = bcfg["features_with_physics"]
         _SHARED = ensure_shared_tree(BASIN, MODE)
@@ -860,7 +857,7 @@ def run_no_physics_worker(args):
 
         bcfg = BASIN_CONFIGS[BASIN]
         path_to_csv = data_dir()
-        path_to_yaml = get_yaml_path(bcfg["yaml_key"][int(MODE)] + CONFIG_SUFFIX)
+        path_to_yaml = get_yaml_path(bcfg["yaml_key"][MODE] + CONFIG_SUFFIX)
         path_to_physics_data = path_to_csv / bcfg["physics_file"][MODE]
         features_with_physics = bcfg["features_with_physics"]
 
@@ -894,7 +891,7 @@ def run_physics_worker(args):
 
         bcfg = BASIN_CONFIGS[BASIN]
         path_to_csv = data_dir()
-        path_to_yaml = get_yaml_path(bcfg["yaml_key"][int(MODE)] + CONFIG_SUFFIX)
+        path_to_yaml = get_yaml_path(bcfg["yaml_key"][MODE] + CONFIG_SUFFIX)
         path_to_physics_data = path_to_csv / bcfg["physics_file"][MODE]
         features_with_physics = bcfg["features_with_physics"]
 
@@ -1066,8 +1063,8 @@ def main():
     _print("Numba JIT pre-compiled.")
 
     # Resolve paths using MODE
-    yaml_key = bcfg["yaml_key"][int(MODE)] + CONFIG_SUFFIX
-    physics_file = bcfg["physics_file"][int(MODE)]
+    yaml_key = bcfg["yaml_key"][MODE] + CONFIG_SUFFIX
+    physics_file = bcfg["physics_file"][MODE]
 
     path_to_csv = data_dir()
     path_to_yaml = get_yaml_path(yaml_key)
