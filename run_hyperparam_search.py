@@ -12,7 +12,7 @@ HYPERPARAM_SPACE = {
     "num_layers": [1],
     "epochs": [300],
     "batch_size": [64],
-    "custom_peak_penalty": (1.0, 10000.0),
+    "custom_peak_penalty": (10.0, 250.0),
 }
 hyperparam_names = list(HYPERPARAM_SPACE.keys())
 
@@ -31,7 +31,7 @@ USE_BAYES = True
 N_BAYES_TRIALS = 48
 BAYES_JOURNAL_DIR = ""
 
-RUN_LABEL = "PEAK_NSE_PENALTY"
+RUN_LABEL = "PEAK_NSE_PENALTY_V2"
 READ_STAMP = ""
 
 USE_CV = True
