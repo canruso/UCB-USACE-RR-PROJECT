@@ -393,7 +393,6 @@ class BaseTrainer(object):
 
             if self.cfg.loss.lower() == "custom_weighted_nse":
                 import numpy as np
-                import torch
 
                 if not getattr(self, "peaks_cached", False):
                     import matplotlib.dates as mdates

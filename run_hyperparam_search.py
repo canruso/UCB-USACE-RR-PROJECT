@@ -12,7 +12,7 @@ HYPERPARAM_SPACE = {
     "num_layers": [1],
     "epochs": [300],
     "batch_size": [64],
-    "custom_peak_penalty": (10.0, 250.0),
+    "custom_peak_penalty": (5.0, 30.0),
 }
 hyperparam_names = list(HYPERPARAM_SPACE.keys())
 
