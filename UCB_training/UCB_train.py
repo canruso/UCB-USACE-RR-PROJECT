@@ -1,6 +1,12 @@
 from datetime import timedelta
 from pathlib import Path
 import sys
+
+# Ensure local neuralhydrology is found before pip-installed version
+_project_root = str(Path(__file__).resolve().parents[1])
+if _project_root not in sys.path:
+    sys.path.insert(0, _project_root)
+
 if sys.platform == "win32" and 'ipykernel' not in sys.modules:
     import matplotlib
     matplotlib.use('Agg')
