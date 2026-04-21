@@ -21,7 +21,7 @@ CONFIG_SUFFIX = "_extreme"   # "" for baseline, "_extreme" for Seq A
 BASIN = "hopland"  # "calpella", "warm_springs", "hopland", or "guerneville"
 MODE = "mts"           # "mts", "daily", or "hourly"
 GPU_SETTING = -1
-NUM_WORKERS = 50
+NUM_WORKERS = 10
 
 VERBOSE = False
 RUN_NO_PHYSICS_ONLY = False

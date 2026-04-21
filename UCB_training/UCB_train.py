@@ -21,6 +21,11 @@ from UCB_training.UCB_utils import data_dir as _ucb_data_dir, resolve_basin_file
 from UCB_training.UCB_plotting import plot_loss_curves
 
 
+import matplotlib.pyplot as plt
+plt.switch_backend('TkAgg')
+print("matplotlib backend:", plt.get_backend())
+
+
 def _safe_plot_loss_curves(run_dir, save_path=None, timeout=60):
     """On Windows, run plot_loss_curves in an isolated subprocess to survive OpenBLAS segfaults.
     On Mac/Linux, just call it directly."""
