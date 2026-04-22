@@ -75,7 +75,7 @@ output_dropout: 0.5
 
 # --- Training Configuration -------------------------------------------------
 optimizer: Adam
-loss: NSE
+loss: custom_weighted_nse
 learning_rate:
   0: 1e-2
 

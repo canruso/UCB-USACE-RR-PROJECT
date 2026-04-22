@@ -394,10 +394,17 @@ class BaseTrainer(object):
             if self.cfg.loss.lower() == "custom_weighted_nse":
                 import numpy as np
 
+                rel_height = self.cfg._cfg.get("custom_peak_rel_height", 0.8)
+                peak_smooth_window = self.cfg._cfg.get("custom_peak_smooth_window", 15)
+                peak_prominence = self.cfg._cfg.get("custom_peak_prominence", 1)
+                peak_distance = self.cfg._cfg.get("custom_peak_distance", 7)
+                peak_padding = self.cfg._cfg.get("custom_peak_padding", 10)
+
                 if not getattr(self, "peaks_cached", False):
                     import matplotlib.dates as mdates
                     from scipy.signal import find_peaks, peak_widths
                     import matplotlib.pyplot as plt
+                    import pandas as pd
 
                     ds = self.loader.dataset
                     ys, dates = [], []
@@ -405,8 +412,10 @@ class BaseTrainer(object):
                         s = ds[i]
                         y = next((s[k] for k in s if k.startswith("y") and s[k] is not None), None)
                         d = next((s[k] for k in s if k.startswith("date")), None)
-                        if y is None or d is None: continue
-                        if isinstance(y, torch.Tensor): y = y.detach().cpu().numpy()
+                        if y is None or d is None:
+                            continue
+                        if isinstance(y, torch.Tensor):
+                            y = y.detach().cpu().numpy()
                         ys.append(y.squeeze())
                         dates.append(d)
 
@@ -415,36 +424,55 @@ class BaseTrainer(object):
                     idx = np.argsort(dates_full)
                     y_full, dates_full = y_full[idx], dates_full[idx]
 
-                    y_smooth = np.convolve(y_full, np.ones(15)/15, mode="same")
-                    peaks, _ = find_peaks(y_smooth, prominence=0.5, distance=7)
-                    _, _, left_ips, right_ips = peak_widths(y_smooth, peaks, rel_height=0.5)
+                    window = peak_smooth_window
+                    y_smooth = np.convolve(y_full, np.ones(window) / window, mode="same")
+
+                    peaks, _ = find_peaks(
+                        y_smooth,
+                        prominence=peak_prominence,
+                        distance=peak_distance
+                    )
+
+                    _, _, left_ips, right_ips = peak_widths(
+                        y_smooth,
+                        peaks,
+                        rel_height=rel_height
+                    )
 
                     peak_mask = np.zeros(len(y_full), dtype=np.float32)
+                    pad = peak_padding
                     for l, r in zip(left_ips, right_ips):
-                        s, e = max(0, int(l)-10), min(len(y_full)-1, int(r)+10)
-                        peak_mask[s:e+1] = 1.0
+                        s, e = max(0, int(l) - pad), min(len(y_full) - 1, int(r) + pad)
+                        peak_mask[s:e + 1] = 1.0
 
                     self.date_to_peak = dict(zip(dates_full, peak_mask))
-
                     self.peaks_cached = True
 
-                    if True:
-                        m = ~np.isnan(y_full)
-                        plt.figure(figsize=(14,5))
-                        plt.plot(dates_full[m], y_full[m], lw=0.5)
-                        ax = plt.gca()
-                        ax.xaxis.set_major_locator(mdates.MonthLocator(interval=1))
-                        ax.xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m'))
-                        for l, r in zip(left_ips, right_ips):
-                            s, e = max(0, int(l)-10), min(len(dates_full)-1, int(r)+10)
-                            plt.axvspan(dates_full[s], dates_full[e], color='red', alpha=0.2)
-                        plt.xticks(rotation=45)
-                        plt.tight_layout()
-                        plt.show()
+                    m = ~np.isnan(y_full)
+                    plt.figure(figsize=(14, 5))
+                    plt.plot(dates_full[m], y_full[m], lw=0.5)
+                    ax = plt.gca()
+                    ax.xaxis.set_major_locator(mdates.MonthLocator(interval=1))
+                    ax.xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m'))
+                    for l, r in zip(left_ips, right_ips):
+                        s, e = max(0, int(l) - pad), min(len(dates_full) - 1, int(r) + pad)
+                        plt.axvspan(dates_full[s], dates_full[e], color='red', alpha=0.2)
+                    plt.xticks(rotation=45)
+                    plt.tight_layout()
+                    plt.show()
+
+                    df = pd.DataFrame({
+                        "date": dates_full,
+                        "flow": y_full,
+                        "is_peak": peak_mask
+                    })
+                    df = df.sort_values("date")
+                    csv_path = "peak_detection_debug.csv"
+                    df.to_csv(csv_path, index=False)
 
                 batch_dates = next(data[k] for k in data if k.startswith("date"))
                 bd = batch_dates.detach().cpu().numpy() if isinstance(batch_dates, torch.Tensor) else batch_dates
-                
+
                 B, T = bd.shape
                 is_peak = np.zeros((B, T, 1), dtype=np.float32)
 
