@@ -11,8 +11,14 @@ HYPERPARAM_SPACE = {
     "num_layers": [1],
     "epochs": [300],
     "batch_size": [64],
-    "custom_peak_penalty": (10.0, 250.0),
+    "custom_peak_penalty": (5.0, 30.0),
+    "custom_peak_smooth_window": [5, 10, 15, 30],
+    "custom_peak_prominence": (0.2, 1.0),
+    "custom_peak_distance": [3, 7, 14],
+    "custom_peak_rel_height": (0.6, 0.9),
+    "custom_peak_padding": [5, 10, 20],
 }
+
 hyperparam_names = list(HYPERPARAM_SPACE.keys())
 
 CONFIG_SUFFIX = ""   # "" for baseline, "_extreme" for Seq A
