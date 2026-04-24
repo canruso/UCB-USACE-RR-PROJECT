@@ -11,21 +11,16 @@ HYPERPARAM_SPACE = {
     "num_layers": [1],
     "epochs": [300],
     "batch_size": [64],
-    "custom_peak_penalty": (5.0, 30.0),
-    "custom_peak_smooth_window": [5, 10, 15, 30],
-    "custom_peak_prominence": (0.2, 1.0),
-    "custom_peak_distance": [3, 7, 14],
-    "custom_peak_rel_height": (0.6, 0.9),
-    "custom_peak_padding": [5, 10, 20],
+    "custom_peak_penalty": (10.0, 250.0),
 }
 hyperparam_names = list(HYPERPARAM_SPACE.keys())
 
-CONFIG_SUFFIX = "_extreme"   # "" for baseline, "_extreme" for Seq A
+CONFIG_SUFFIX = ""   # "" for baseline, "_extreme" for Seq A
 
-BASIN = "hopland"  # "calpella", "warm_springs", "hopland", or "guerneville"
+BASIN = "guerneville"  # "calpella", "warm_springs", "hopland", or "guerneville"
 MODE = "mts"           # "mts", "daily", or "hourly"
 GPU_SETTING = -1
-NUM_WORKERS = 10
+NUM_WORKERS = 50
 
 VERBOSE = False
 RUN_NO_PHYSICS_ONLY = False
@@ -35,7 +30,7 @@ USE_BAYES = True
 N_BAYES_TRIALS = 48
 BAYES_JOURNAL_DIR = ""
 
-RUN_LABEL = "PEAK_NSE_PENALTY_V2"
+RUN_LABEL = "EXTREME_WEIGHT"
 READ_STAMP = ""
 
 USE_CV = True
