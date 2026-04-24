@@ -385,6 +385,10 @@ class BaseTrainer(object):
             # get predictions
             predictions = self.model(data)
 
+            # softplus all negative prediction values, so all prediction values are positive.
+            for k in predictions:
+                predictions[k] = torch.nn.functional.softplus(predictions[k])
+
             if self.noise_sampler_y is not None:
                 for key in filter(lambda k: 'y' in k, data.keys()):
                     noise = self.noise_sampler_y.sample(data[key].shape)
