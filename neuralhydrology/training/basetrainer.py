@@ -385,10 +385,6 @@ class BaseTrainer(object):
             # get predictions
             predictions = self.model(data)
 
-            # softplus all negative prediction values, so all prediction values are positive.
-            for k in predictions:
-                predictions[k] = torch.nn.functional.softplus(predictions[k])
-
             if self.noise_sampler_y is not None:
                 for key in filter(lambda k: 'y' in k, data.keys()):
                     noise = self.noise_sampler_y.sample(data[key].shape)
@@ -452,19 +448,18 @@ class BaseTrainer(object):
                     self.date_to_peak = dict(zip(dates_full, peak_mask))
                     self.peaks_cached = True
 
-                    if False:  # disabled: plt.show() blocks headless training
-                        m = ~np.isnan(y_full)
-                        plt.figure(figsize=(14, 5))
-                        plt.plot(dates_full[m], y_full[m], lw=0.5)
-                        ax = plt.gca()
-                        ax.xaxis.set_major_locator(mdates.MonthLocator(interval=1))
-                        ax.xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m'))
-                        for l, r in zip(left_ips, right_ips):
-                            s, e = max(0, int(l) - pad), min(len(dates_full) - 1, int(r) + pad)
-                            plt.axvspan(dates_full[s], dates_full[e], color='red', alpha=0.2)
-                        plt.xticks(rotation=45)
-                        plt.tight_layout()
-                        plt.show()
+                    m = ~np.isnan(y_full)
+                    plt.figure(figsize=(14, 5))
+                    plt.plot(dates_full[m], y_full[m], lw=0.5)
+                    ax = plt.gca()
+                    ax.xaxis.set_major_locator(mdates.MonthLocator(interval=1))
+                    ax.xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m'))
+                    for l, r in zip(left_ips, right_ips):
+                        s, e = max(0, int(l) - pad), min(len(dates_full) - 1, int(r) + pad)
+                        plt.axvspan(dates_full[s], dates_full[e], color='red', alpha=0.2)
+                    plt.xticks(rotation=45)
+                    plt.tight_layout()
+                    plt.show()
 
                     df = pd.DataFrame({
                         "date": dates_full,
