@@ -719,6 +719,9 @@ class BaseDataset(Dataset):
 
         xr = self._load_or_create_xarray_dataset()
 
+        if self.cfg.target_transform != "none":
+            xr = self._apply_target_transform(xr)
+
         if self.cfg.loss.lower() in ['nse', 'weightednse', 'custom_weighted_nse']:
             # get the std of the discharge for each basin, which is needed for the (weighted) NSE loss.
             self._calculate_per_basin_std(xr)
@@ -769,6 +772,21 @@ class BaseDataset(Dataset):
                 else:
                     # raise ValueError to point to the correct argument names
                     raise ValueError("Unknown dict key. Use 'centering' and/or 'scaling' for each feature.")
+
+    def _apply_target_transform(self, xr: xarray.Dataset) -> xarray.Dataset:
+        transform = self.cfg.target_transform
+        offset = self.cfg.target_transform_offset
+        for var in self.cfg.target_variables:
+            if var not in xr.data_vars:
+                continue
+            vals = xr[var].values.astype(np.float64)
+            shifted = vals + offset
+            if transform == "log1p":
+                transformed = np.log1p(np.maximum(shifted, 0.0))
+            elif transform == "sqrt":
+                transformed = np.sqrt(np.maximum(shifted, 0.0))
+            xr[var] = xr[var].copy(data=transformed.astype(np.float32))
+        return xr
 
     def get_period_start(self, basin: str) -> pd.Timestamp:
         """Return the first date in the period for a given basin

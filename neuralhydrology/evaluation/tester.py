@@ -264,6 +264,17 @@ class BaseTester(object):
                 else:
                     raise RuntimeError(f"Simulations have {y_hat[freq].ndim} dimension. Only 3 and 4 are supported.")
 
+                # invert target transform so metrics are computed in original units
+                target_transform = self.cfg.target_transform
+                if target_transform != "none":
+                    offset = self.cfg.target_transform_offset
+                    if target_transform == "log1p":
+                        y_freq = np.expm1(y_freq) - offset
+                        y_hat_freq = np.expm1(y_hat_freq) - offset
+                    elif target_transform == "sqrt":
+                        y_freq = np.square(np.maximum(y_freq, 0.0)) - offset
+                        y_hat_freq = np.square(np.maximum(y_hat_freq, 0.0)) - offset
+
                 # Arman's change starts
                 if (dates.get(lowest_freq, None) is None or
                     dates[lowest_freq].size == 0 or

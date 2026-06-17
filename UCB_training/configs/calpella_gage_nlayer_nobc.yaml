@@ -1,5 +1,8 @@
 # --- Experiment configurations --------------------------------------------------------------------
 
+target_transform: log1p
+target_transform_offset: 0.0
+
 # experiment name, used as folder name
 experiment_name: testing_run
 

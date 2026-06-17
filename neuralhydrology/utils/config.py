@@ -246,6 +246,13 @@ class Config(object):
             if not cfg['autoregressive_inputs'][0].startswith(cfg['target_variables'][0]):
                 raise ValueError('Autoregressive input must be a lagged version of the target variable.')
 
+        # Validate target_transform value.
+        if 'target_transform' in cfg:
+            valid_transforms = {'none', 'log1p', 'sqrt'}
+            if cfg['target_transform'] not in valid_transforms:
+                raise ValueError(
+                    f"'target_transform' must be one of {sorted(valid_transforms)}, got '{cfg['target_transform']}'.")
+
         # Add more config parsing if necessary
         return cfg
 
@@ -886,6 +893,14 @@ class Config(object):
             return None
         else:
             return self._cfg["target_noise_std"]
+
+    @property
+    def target_transform(self) -> str:
+        return self._cfg.get("target_transform", "none")
+
+    @property
+    def target_transform_offset(self) -> float:
+        return float(self._cfg.get("target_transform_offset", 0.0))
 
     @property
     def target_variables(self) -> List[str]:
